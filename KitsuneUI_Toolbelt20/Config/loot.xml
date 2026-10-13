@@ -1,0 +1,25 @@
+<configs>
+
+	<!-- With drop-on-death set to everything, the bag, the toolbelt and the equipment (up to 13) -->
+	<!-- go into one dropped bag, and whatever doesn't fit is lost. Ten more belt slots need ten  -->
+	<!-- more death-bag slots, so each bag size we know gets two more 8-wide rows (16 slots).     -->
+	<!-- The Kitsune ones are guarded by mod_loaded so nothing logs a failed patch without them;  -->
+	<!-- this folder sorts after KitsuneBackpack, so its size is already set when this runs.      -->
+
+	<!-- Vanilla: 96 bag + 10 belt + 13 = 119 in 8x15. Now 129, so 8x17 (136). -->
+	<conditional>
+		<if cond="mod_loaded('KitsuneBackpack200')">
+			<!-- KitsuneBackpack200: 200 + 10 + 13 = 223 in 8x28. Now 233, so 8x30 (240). -->
+			<set xpath="/lootcontainers/lootcontainer[@name='playerBackpack'][@size='8,28']/@size">8,30</set>
+		</if>
+		<!-- A conditional takes the first <if> that matches, so this one is the "else if". -->
+		<if cond="mod_loaded('KitsuneBackpack')">
+			<!-- KitsuneBackpack: 136 + 10 + 13 = 159 in 8x20. Now 169, so 8x22 (176). -->
+			<set xpath="/lootcontainers/lootcontainer[@name='playerBackpack'][@size='8,20']/@size">8,22</set>
+		</if>
+		<else>
+			<set xpath="/lootcontainers/lootcontainer[@name='playerBackpack'][@size='8,15']/@size">8,17</set>
+		</else>
+	</conditional>
+
+</configs>

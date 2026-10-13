@@ -1,0 +1,12 @@
+<configs>
+
+	<!-- In-game toolbelt size. The game clamps these to 1-10 slots per bar, 1-2 bars per page -->
+	<!-- and 1-10 pages. Vanilla only ever reads <editorconfig>; the DLL makes it read this too. -->
+	<!-- Bar 2 is shift + 1..0. More than one page shows the vanilla page arrows.             -->
+	<append xpath="/toolbelt">
+		<gameconfig>
+			<slots slot_per_bar="10" bar_per_page="2" page_count="1" />
+		</gameconfig>
+	</append>
+
+</configs>

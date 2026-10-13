@@ -1,0 +1,16 @@
+<configs>
+
+	<!-- The loot window builds one pool of item-stack controllers from its grid's rows x cols  -->
+	<!-- and never shows slots past it, so the pool has to cover the biggest death bag in      -->
+	<!-- loot.xml. Vanilla is 9 wide: 9x16 = 144 covers 136. KitsuneBackpack(200) and          -->
+	<!-- KitsuneStorage make it 12 wide: 12x20 = 240 covers 240. Rows only ever go up.         -->
+	<conditional>
+		<if cond="mod_loaded('KitsuneBackpack') || mod_loaded('KitsuneBackpack200') || mod_loaded('KitsuneStorage')">
+			<set xpath="/windows/window[@name='windowLooting']//grid[@name='queue'][@cols='12'][@rows &lt; 20]/@rows">20</set>
+		</if>
+		<else>
+			<set xpath="/windows/window[@name='windowLooting']//grid[@name='queue'][@cols='9'][@rows &lt; 16]/@rows">16</set>
+		</else>
+	</conditional>
+
+</configs>

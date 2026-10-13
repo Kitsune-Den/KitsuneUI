@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xml>
+	<Name value="KitsuneUI_Toolbelt20" />
+	<DisplayName value="KitsuneUI Toolbelt 20" />
+	<Description value="Two toolbelt bars of 10. Hold shift with a number key to use the second bar. Turns on the toolbelt size setting the game already has but only reads in the prefab editor. Works with or without KitsuneUI. Contains a DLL: play with EAC off, and install on the server and every client." />
+	<Author value="AdaInTheLab" />
+	<Version value="0.1.0" />
+</xml>
