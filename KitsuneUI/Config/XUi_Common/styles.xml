@@ -16,12 +16,17 @@
 		<style_entry name="kuTextMid"      value="195,202,224,255" />
 		<style_entry name="kuTextMuted"    value="154,163,191,255" />
 		<style_entry name="kuIcon"         value="201,211,238,255" />
-		<style_entry name="kuEdge"         value="150,175,255,34" />   <!-- slot and button outlines -->
+		<style_entry name="kuEdge"         value="150,175,255,70" />   <!-- slot and button outlines -->
+		<style_entry name="kuSlotWell"     value="6,8,20,96" />        <!-- empty-slot fill: a dark well that reads over day and night -->
+		<style_entry name="kuSlotLocked"   value="70,16,24,150" />     <!-- slots past carry capacity -->
 		<style_entry name="kuEdgeFaint"    value="150,175,255,20" />
 		<style_entry name="kuFill"         value="255,255,255,12" />   <!-- slot and button fill -->
 		<style_entry name="kuFillEmpty"    value="255,255,255,5" />
 		<style_entry name="kuFillHover"    value="255,255,255,26" />
 		<style_entry name="kuTrack"        value="255,255,255,20" />   <!-- empty part of bars -->
+		<style_entry name="kuBtn"          value="18,22,44,200" />     <!-- button fill -->
+		<style_entry name="kuBtnHover"     value="40,92,112,220" />    <!-- button fill on hover: fox-fire over indigo -->
+		<style_entry name="kuBtnDisabled"  value="18,22,44,110" />
 		<style_entry name="kuHealth"       value="255,107,90,255" />
 		<style_entry name="kuStamina"      value="242,181,68,255" />
 		<style_entry name="kuFood"         value="155,211,106,255" />
@@ -54,6 +59,10 @@
 	<set xpath="/styles/style[@name='itemStack' or @name='signStack' or @name='vehicleStack' or @name='itemPartStack']/style_entry[@name='select_color']/@value">[kuAccent]</set>
 	<set xpath="/styles/style[@name='itemStack' or @name='signStack' or @name='vehicleStack' or @name='itemPartStack']/style_entry[@name='highlight_color']/@value">[kuGold]</set>
 	<set xpath="/styles/style[@name='itemStack' or @name='signStack' or @name='vehicleStack' or @name='itemPartStack']/style_entry[@name='holding_color']/@value">[kuAccent]</set>
-	<set xpath="/styles/style[@name='itemStack' or @name='signStack' or @name='vehicleStack' or @name='itemPartStack']/style_entry[@name='background_color']/@value">[kuFill]</set>
+	<set xpath="/styles/style[@name='itemStack' or @name='signStack' or @name='vehicleStack' or @name='itemPartStack']/style_entry[@name='background_color']/@value">[kuSlotWell]</set>
+	<!-- Locked slots (vanilla: flat 48,48,48 grey) get a dark red tint. -->
+	<append xpath="/styles/style[@name='itemStack' or @name='signStack' or @name='vehicleStack' or @name='itemPartStack']">
+		<style_entry name="attribute_lock_color" value="[kuSlotLocked]" />
+	</append>
 
 </configs>
