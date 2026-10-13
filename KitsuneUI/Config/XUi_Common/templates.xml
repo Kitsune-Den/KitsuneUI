@@ -49,6 +49,18 @@
 	<set xpath="/templates/labeledglyphbutton/@font_color_hovered">[kuTextBright]</set>
 	<set xpath="/templates/labeledglyphbutton/@font_color_selected">[kuTextBright]</set>
 	<set xpath="/templates/labeledglyphbutton/@font_color_disabled">[kuTextMuted]</set>
+	<!-- simplebutton (Apply / Remove All in the cosmetics screen, and many others):    -->
+	<!-- vanilla flat grey with a black edge, and tan (ui_game_select_row) on hover.    -->
+	<set xpath="/templates/simplebutton/@bordersprite">ku_round_md_ring</set>
+	<set xpath="/templates/simplebutton/@bordercolor">[kuEdge]</set>
+	<set xpath="/templates/simplebutton/@defaultsprite">ku_round_md</set>
+	<set xpath="/templates/simplebutton/@defaultcolor">[kuBtn]</set>
+	<set xpath="/templates/simplebutton/@hoversprite">ku_round_md</set>
+	<set xpath="/templates/simplebutton/@hovercolor">[kuBtnHover]</set>
+	<set xpath="/templates/simplebutton/@selectedsprite">ku_round_md</set>
+	<set xpath="/templates/simplebutton/@selectedcolor">[kuBtnHover]</set>
+	<set xpath="/templates/simplebutton/rect/button[@name='clickable']/@disabledcolor">[kuBtnDisabled]</set>
+
 	<!-- Hold-to-activate progress fill -->
 	<set xpath="/templates/labeledglyphbutton/rect/sprite[@name='fill']/@sprite">ku_round_md</set>
 	<set xpath="/templates/labeledglyphbutton/rect/sprite[@name='fill']/@color">[kuAccentSoft]</set>

@@ -169,6 +169,24 @@
 	</prepend>
 
 	<!-- ================================================================ -->
+	<!-- Cosmetics (character preview + cosmetics list)                   -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='CharacterCosmeticWindow' or @name='windowCharacterCosmeticsList']//sprite[@sprite='menu_empty3px' and @color='[black]']/@color">[transparent]</set>
+	<!-- The flat navy behind the character becomes the glass body. -->
+	<setattribute xpath="/windows/window[@name='CharacterCosmeticWindow']//rect[@name='previewFrameSDCS']//sprite[not(@sprite)][@color='[darkGrey]']" name="sprite">ku_panel_body</setattribute>
+	<set xpath="/windows/window[@name='CharacterCosmeticWindow']//rect[@name='previewFrameSDCS']//sprite[@sprite='ku_panel_body']/@color">[white]</set>
+	<setattribute xpath="/windows/window[@name='CharacterCosmeticWindow']//rect[@name='previewFrameSDCS']//sprite[@sprite='ku_panel_body']" name="pos">0,3</setattribute>
+	<!-- Category bar as a soft cell; a glass body behind the list (vanilla has none). -->
+	<setattribute xpath="/windows/window[@name='windowCharacterCosmeticsList']/rect[@name='categoryHeader']/sprite[@name='background']" name="sprite">ku_round_sm</setattribute>
+	<set xpath="/windows/window[@name='windowCharacterCosmeticsList']/rect[@name='categoryHeader']/sprite[@name='background']/@color">[kuCell]</set>
+	<prepend xpath="/windows/window[@name='windowCharacterCosmeticsList']">
+		<sprite depth="-1" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,-40" width="606" height="652" />
+	</prepend>
+	<setattribute xpath="/windows/window[@name='CharacterCosmeticWindow']/rect[@name='header']/label[@name='characterName']" name="color">[kuGold]</setattribute>
+	<setattribute xpath="/windows/window[@name='CharacterCosmeticWindow' or @name='windowCharacterCosmeticsList']/rect[@name='header']/sprite[@name='windowIcon']" name="color">[kuAccent]</setattribute>
+	<setattribute xpath="/windows/window[@name='windowCharacterCosmeticsList']/rect[@name='header']/label[@name='windowName']" name="color">[kuGold]</setattribute>
+
+	<!-- ================================================================ -->
 	<!-- Creative menu (windowCreative2)                                  -->
 	<!-- Vanilla: grey category columns and search bar boxed in black,    -->
 	<!-- and no background at all behind the item grid.                   -->

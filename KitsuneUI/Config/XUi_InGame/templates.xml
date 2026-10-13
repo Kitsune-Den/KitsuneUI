@@ -43,6 +43,31 @@
 	<set xpath="/templates/item_stack/rect/*[@name='durabilityBackground' or @name='durability']/@height">5</set>
 
 	<!-- ================================================================ -->
+	<!-- Cosmetic and material slots: the same three layers as item_stack -->
+	<!-- (frame / selection ring / fill), at fixed sizes. Same treatment. -->
+	<!-- ================================================================ -->
+	<set xpath="/templates/*[self::cosmetic_item_stack or self::material_stack]/rect/sprite[@name='backgroundMain']/@sprite">ku_slot_ring</set>
+	<set xpath="/templates/*[self::cosmetic_item_stack or self::material_stack]/rect/sprite[@name='backgroundMain']/@color">[kuEdge]</set>
+	<set xpath="/templates/*[self::cosmetic_item_stack or self::material_stack]/rect/sprite[@name='backgroundMain']/@pos">0,0</set>
+	<set xpath="/templates/cosmetic_item_stack/rect/sprite[@name='backgroundMain']/@width">65</set>
+	<set xpath="/templates/cosmetic_item_stack/rect/sprite[@name='backgroundMain']/@height">65</set>
+	<set xpath="/templates/material_stack/rect/sprite[@name='backgroundMain']/@width">73</set>
+	<set xpath="/templates/material_stack/rect/sprite[@name='backgroundMain']/@height">73</set>
+	<set xpath="/templates/*[self::cosmetic_item_stack or self::material_stack]/rect/sprite[@name='background']/@sprite">ku_slot_ring2</set>
+	<setattribute xpath="/templates/*[self::cosmetic_item_stack or self::material_stack]/rect/sprite[@name='highlightOverlay']" name="sprite">ku_slot_fill</setattribute>
+	<set xpath="/templates/material_stack/rect/sprite[@name='highlightOverlay']/@color">[kuSlotWell]</set>
+
+	<!-- Owned vs locked cosmetics. The game tells them apart only by the slot fill:     -->
+	<!-- locked = a fixed 48 grey (not settable: the locked_background_color attribute -->
+	<!-- writes the OWNED colour, a game bug), owned = background_color, which for     -->
+	<!-- every other slot is our dark well, so the two were nearly the same. Owned gets -->
+	<!-- a fox-fire teal well, and locked ones get a dark veil over the icon.          -->
+	<setattribute xpath="/templates/cosmetic_item_stack/rect" name="background_color">[kuCosmeticOwned]</setattribute>
+	<append xpath="/templates/cosmetic_item_stack/rect">
+		<sprite depth="7" name="kuLockedVeil" sprite="ku_slot_fill" width="65" height="65" color="[kuCosmeticVeil]" foregroundlayer="true" visible="{islocked}" />
+	</append>
+
+	<!-- ================================================================ -->
 	<!-- Crafting queue cell (recipe_stack)                               -->
 	<!-- Vanilla: black 3px frame over a solid [mediumGrey] square, which -->
 	<!-- the palette turns into an opaque indigo block. Give it the same  -->

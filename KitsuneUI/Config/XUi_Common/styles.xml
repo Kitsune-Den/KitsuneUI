@@ -19,6 +19,8 @@
 		<style_entry name="kuEdge"         value="150,175,255,70" />   <!-- slot and button outlines -->
 		<style_entry name="kuSlotWell"     value="6,8,20,150" />       <!-- empty-slot fill: a dark well that reads over day and night -->
 		<style_entry name="kuSlotLocked"   value="80,18,28,190" />     <!-- slots past carry capacity -->
+		<style_entry name="kuCosmeticOwned" value="34,104,132,215" />  <!-- cosmetics you own: fox-fire teal well -->
+		<style_entry name="kuCosmeticVeil"  value="6,8,20,170" />      <!-- dims a locked cosmetic's icon -->
 		<style_entry name="kuEdgeFaint"    value="150,175,255,20" />
 		<style_entry name="kuFill"         value="255,255,255,12" />   <!-- slot and button fill -->
 		<style_entry name="kuFillEmpty"    value="255,255,255,5" />
