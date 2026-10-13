@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Trader job list with preview</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#6FE3FF}a:hover{color:#B5F1FF}
+button{font-family:inherit}
+</style>
+</helmet>
+<div style="width: 1200px; height: 760px; position: relative; overflow: hidden; font-family: 'Barlow Semi Condensed', sans-serif; color: #E8ECF7; background: radial-gradient(ellipse at 30% 45%, #3A2A1E 0%, #22180F 45%, #0E0A08 100%)">
+
+<div aria-hidden="true" style="position: absolute; left: 0; top: 0; right: 0; height: 120px; background: repeating-linear-gradient(90deg, rgba(90,62,40,0.35) 0 140px, rgba(60,40,26,0.35) 140px 146px)"></div>
+<div aria-hidden="true" style="position: absolute; left: 160px; top: 140px; width: 300px; height: 620px; border-radius: 150px 150px 0 0; background: linear-gradient(180deg, rgba(120,70,52,0.35), rgba(60,40,30,0.15))"></div>
+
+<section aria-label="Trader Rekt: jobs" style="position: absolute; right: 40px; top: 40px; width: 600px; border-radius: 16px; background: linear-gradient(180deg, rgba(28,33,62,{{gA}}) 0%, rgba(12,14,30,{{gB}}) 100%); border: 1px solid rgba(150,175,255,0.16); box-shadow: 0 26px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(217,184,115,0.35); overflow: hidden">
+
+<header style="height: 50px; box-sizing: border-box; padding: 0 16px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(217,184,115,0.45)">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="{{accent}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v10H9l-5 4z"></path></svg>
+<h2 style="margin: 0; font-size: 24px; font-weight: 700; color: #D9B873">Trader Rekt</h2>
+</header>
+
+<ul style="list-style: none; margin: 0; padding: 8px; display: flex; flex-direction: column; gap: 2px">
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="8">
+<li style="height: 38px; box-sizing: border-box; padding: 0 10px; display: flex; align-items: center; gap: 10px; border-radius: 8px; background: {{r.bg}}; font-size: 17px; white-space: nowrap; overflow: hidden">
+<span style="width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; background: {{r.dot}}"></span>
+<span style="color: {{r.fg}}">{{r.head}}</span>
+<span style="color: {{r.nameColor}}; font-weight: 600">{{r.name}}</span>
+</li>
+</sc-for>
+</ul>
+
+<div style="height: 1px; margin: 4px 16px 0; background: linear-gradient(90deg, rgba(217,184,115,0.45), rgba(217,184,115,0))"></div>
+
+<figure style="margin: 0; padding: 14px 16px 16px; display: flex; gap: 14px">
+<div style="width: 256px; height: 192px; flex-shrink: 0; border-radius: 10px; overflow: hidden; border: 1px solid {{accentEdge}}; box-shadow: 0 0 16px {{accentGlow}}">
+<img src="/_blob/1ca564888c61bc5c60764bdf26090fff" alt="Preview of Hook, Line, &amp; Sinker" style="width: 256px; height: 192px; object-fit: cover; display: block">
+</div>
+<figcaption style="flex: 1; display: flex; flex-direction: column; gap: 10px; min-width: 0">
+<span style="font-size: 13px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #9AA3BF">Clear zombies</span>
+<span style="font-size: 24px; font-weight: 700; line-height: 1.1; color: #D9B873">Hook, Line, &amp; Sinker</span>
+<span style="display: flex; align-items: center; gap: 8px; font-size: 17px; color: #C3CAE0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF8A7A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a7 7 0 0 0-7 7v3l2 2v3h3v-2h4v2h3v-3l2-2v-3a7 7 0 0 0-7-7z M9 11h.01 M15 11h.01"></path></svg>Tier 1</span>
+<span style="display: flex; align-items: center; gap: 8px; font-size: 17px; color: #C3CAE0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="{{accent}}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l4 9h-8z M12 21v-9"></path></svg>399 m West</span>
+<span style="display: flex; align-items: center; gap: 8px; font-size: 17px; color: #C3CAE0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9BD36A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l6 9h-4l4 6H6l4-6H6z M12 18v3"></path></svg>Pine Forest</span>
+</figcaption>
+</figure>
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#6FE3FF","options":["#6FE3FF","#FF7A59","#D9B873","#B48CFF"]},"glassOpacity":{"editor":"range","default":0.94,"min":0.6,"max":0.99,"step":0.01},"$preview":{"width":1200,"height":760}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const accent = this.props.accent ?? '#6FE3FF';
+    const op = this.props.glassOpacity ?? 0.94;
+    const rgba = (hex, a) => {
+      const n = parseInt(hex.slice(1), 16);
+      return 'rgba(' + ((n >> 16) & 255) + ',' + ((n >> 8) & 255) + ',' + (n & 255) + ',' + a + ')';
+    };
+    const jobs = [
+      ['[TIER I] Fetch (317 m SE)', 'Mercy Point Camp'],
+      ['[TIER I] Clear Zombies (399 m W)', 'Hook, Line, & Sinker'],
+      ['[TIER I] Clear Zombies (428 m W)', "Skeeter's Place"],
+      ['[TIER I] Clear Zombies (1.0 km W)', 'Abandoned Shady Shed Farms'],
+      ['[TIER I] Fetch (2.1 km W)', 'New Life Hope Cabin'],
+      ['[TIER I] Fetch (2.1 km W)', 'Camp Carwhal'],
+      ['[TIER I] Fetch (2.1 km W)', 'Ranger Station Delta'],
+      ['Nevermind.', '']
+    ];
+    const hovered = 1;
+    const rows = jobs.map((j, i) => ({
+      head: j[0],
+      name: j[1],
+      bg: i === hovered ? 'rgba(30,84,118,0.92)' : 'transparent',
+      fg: i === hovered ? '#D9B873' : '#C9D3EE',
+      nameColor: i === hovered ? '#F2F5FC' : '#E8B04A',
+      dot: i === hovered ? accent : 'rgba(201,211,238,0.7)'
+    }));
+    return {
+      accent, rows,
+      accentEdge: rgba(accent, 0.55),
+      accentGlow: rgba(accent, 0.22),
+      gA: op.toFixed(2),
+      gB: Math.min(1, op - 0.03).toFixed(2)
+    };
+  }
+}
+</script>
+</body>
+</html>
