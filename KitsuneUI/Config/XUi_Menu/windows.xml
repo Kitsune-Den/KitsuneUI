@@ -45,6 +45,19 @@
 	</prepend>
 	<set xpath="/windows/window[.//options_descriptions]//sprite[@name='separator']/@color">[kuEdge]</set>
 
+	<!-- ================================================================ -->
+	<!-- Loading screen: night indigo instead of black behind the picture -->
+	<!-- and the tips strip, a gold hairline along the top of the strip,  -->
+	<!-- gold tip title, fox-fire key names in the tip text.              -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='loadingScreen']/fullscreencollider/@color">8,10,24,255</set>
+	<set xpath="/windows/window[@name='loadingScreen']/sprite[@name='backgroundMain']/@color">8,10,24,255</set>
+	<append xpath="/windows/window[@name='loadingScreen']">
+		<sprite depth="5" name="kuRule" sprite="ku_rule" type="sliced" color="[kuGoldSoft]" globalopacitymod="0" anchor_left="#cam,0,20" anchor_right="#cam,1,-20" anchor_bottom="#cam,0,249" anchor_top="#cam,0,251" />
+	</append>
+	<set xpath="/windows/window[@name='loadingScreen']//label[@name='lblTitle']/@color">[kuGold]</set>
+	<set xpath="/windows/window[@name='loadingScreen']//label[@name='lblText']/@actions_default_format">( [6FE3FF]###[-] )</set>
+
 	<!-- Respawn screen: its boxes are boxbg (glass above) and its buttons simplebuttons; -->
 	<!-- the "spawn near a friend" caption goes gold like other titles.                   -->
 	<set xpath="/windows/window[@name='spawnselection']//label[@name='lblCaption']/@color">[kuGold]</set>

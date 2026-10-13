@@ -525,6 +525,18 @@
 	<set xpath="/windows/window[@name!='windowQuestOffer']//rect[starts-with(@name,'btn')][.//button[@name='clickable'][@hoversprite='ku_round_md']]/sprite[@name='background' or @name='backgroundMain']/@color">[transparent]</set>
 
 	<!-- ================================================================ -->
+	<!-- Tutorial tip pop-up: glass body (Continue is an old-style button, -->
+	<!-- themed above). "Entering <place>": gold place name, palette      -->
+	<!-- danger / good colours for the difficulty skulls and biome icon.  -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='windowTip']/rect[@name='content']/sprite[@name='backgroundMain']/@color">[transparent]</set>
+	<setattribute xpath="/windows/window[@name='windowTip']/rect[@name='content']/sprite[@color='[darkGrey]']" name="sprite">ku_panel_body</setattribute>
+	<set xpath="/windows/window[@name='windowTip']/rect[@name='content']/sprite[@sprite='ku_panel_body']/@color">[white]</set>
+	<set xpath="/windows/window[@name='windowEntering']/rect/label[@name='TextContent']/@color">[kuGold]</set>
+	<set xpath="/windows/window[@name='windowEntering']/@difficulty_color">[kuDanger]</set>
+	<set xpath="/windows/window[@name='windowEntering']/@biome_color">[kuGood]</set>
+
+	<!-- ================================================================ -->
 	<!-- Death message: a night band with gold hairlines, in place of the -->
 	<!-- brush-stroke banner.                                             -->
 	<!-- ================================================================ -->

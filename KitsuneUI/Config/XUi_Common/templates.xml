@@ -38,6 +38,32 @@
 	<set xpath="/templates/*[self::headerbox or self::headerboxicon]/@textcolor">[kuGold]</set>
 	<setattribute xpath="/templates/*[self::headerbox or self::headerboxicon]/rect/boxbg" name="backsprite">ui_game_panel_header</setattribute>
 
+	<!-- ================================================================ -->
+	<!-- Hover tooltip: vanilla is a white-edged grey box. Ours: a dark   -->
+	<!-- rounded chip with a faint edge, over a soft shadow.              -->
+	<!-- ================================================================ -->
+	<set xpath="/templates/tooltip/window/rect/sprite[@name='sprBackgroundShadow']/@sprite">ku_round_md</set>
+	<set xpath="/templates/tooltip/window/rect/sprite[@name='sprBackgroundBorder']/@sprite">ku_round_md</set>
+	<set xpath="/templates/tooltip/window/rect/sprite[@name='sprBackgroundBorder']/@color">[kuEdge]</set>
+	<set xpath="/templates/tooltip/window/rect/sprite[@name='sprBackground']/@sprite">ku_round_md</set>
+	<set xpath="/templates/tooltip/window/rect/sprite[@name='sprBackground']/@color">[kuHudTrack]</set>
+
+	<!-- ================================================================ -->
+	<!-- Right-click / context popup menu: a glass panel instead of a     -->
+	<!-- grey outline over near-black rows, a gold title on a gold cell,  -->
+	<!-- rounded rows that light teal on hover. The drop shadow stays.    -->
+	<!-- ================================================================ -->
+	<set xpath="/templates/popupMenu/window/sprite[@name='sprBackgroundBorder']/@sprite">ku_panel</set>
+	<set xpath="/templates/popupMenu/window/sprite[@name='sprBackgroundBorder']/@fillcenter">true</set>
+	<set xpath="/templates/popupMenu/window/sprite[@name='sprBackgroundBorder']/@color">[white]</set>
+	<set xpath="/templates/popupMenu/window/sprite[@name='sprBackgroundBorder']/@depth">1</set>
+	<set xpath="/templates/popupMenu/window/rect[@name='header']/sprite[@name='sprBorder']/@color">[transparent]</set>
+	<set xpath="/templates/popupMenu/window/rect[@name='header']/sprite[@name='sprBackground']/@sprite">ku_round_md</set>
+	<set xpath="/templates/popupMenu/window/rect[@name='header']/sprite[@name='sprBackground']/@color">[kuCellHeader]</set>
+	<set xpath="/templates/popupMenu/window/rect[@name='header']/label/@color">[kuGold]</set>
+	<set xpath="/templates/popupMenu/window/rect[@name='content']/grid/rect/sprite[@name='background']/@sprite">ku_round_md</set>
+	<set xpath="/templates/popupMenu/window/rect[@name='content']/grid/rect/sprite[@name='background']/@color">{# enabled and hovered ? '40,92,112,220' : '255,255,255,10' }</set>
+
 	<!-- Text fields (search boxes, counts): a dark well instead of solid black. -->
 	<set xpath="/templates/textfield/@backgroundcolor">[kuSlotWell]</set>
 
