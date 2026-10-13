@@ -317,6 +317,21 @@ add("ku_fade_r", fade(right=True), (0, 0, 0, 0))
 add("ku_fade_l", fade(right=False), (0, 0, 0, 0))
 
 
+# Vertical fade, clear at the top and opaque at the bottom: the shade behind a
+# place name written over a location picture (job tiles, job offer).
+def fade_up(w=8, h=64):
+    img = Image.new("RGBA", (w, h), (255, 255, 255, 0))
+    px = img.load()
+    for y in range(h):
+        a = round(255 * (y / (h - 1)) ** 1.4)
+        for x in range(w):
+            px[x, y] = (255, 255, 255, a)
+    return img
+
+
+add("ku_fade_up", fade_up(), (0, 0, 0, 0))
+
+
 # Injury hatch: diagonal stripes, tiled across the cut-off part of a stat bar.
 def hatch(size=8):
     img = Image.new("RGBA", (size * SS, size * SS), (255, 255, 255, 0))

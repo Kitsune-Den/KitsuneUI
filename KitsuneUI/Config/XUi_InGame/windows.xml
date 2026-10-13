@@ -187,6 +187,53 @@
 	<setattribute xpath="/windows/window[@name='windowCharacterCosmeticsList']/rect[@name='header']/label[@name='windowName']" name="color">[kuGold]</setattribute>
 
 	<!-- ================================================================ -->
+	<!-- Trader and quest windows                                         -->
+	<!-- Generic pass (frames out, grey blocks to soft cells), then the   -->
+	<!-- full-size fills become glass bodies and the rest gets bodies.    -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='windowTrader' or @name='serviceInfoPanel' or @name='windowQuestOffer' or @name='windowQuestTurnInDescription' or @name='windowQuestTurnInRewards' or @name='windowQuestList' or @name='windowQuestSharedList' or @name='windowQuestDescription' or @name='windowQuestObjectives' or @name='windowQuestRewards']//sprite[@sprite='menu_empty3px' and @color='[black]']/@color">[transparent]</set>
+	<setattribute xpath="/windows/window[@name='windowTrader' or @name='serviceInfoPanel' or @name='windowQuestTurnInDescription' or @name='windowQuestTurnInRewards' or @name='windowQuestList' or @name='windowQuestSharedList' or @name='windowQuestDescription' or @name='windowQuestObjectives' or @name='windowQuestRewards']//sprite[not(@sprite)][@color='[darkGrey]' or @color='[mediumGrey]' or @color='[lightGrey]' or @color='[darkestGrey]']" name="sprite">ku_round_sm</setattribute>
+	<set xpath="/windows/window[@name='windowTrader' or @name='serviceInfoPanel' or @name='windowQuestTurnInDescription' or @name='windowQuestTurnInRewards' or @name='windowQuestList' or @name='windowQuestSharedList' or @name='windowQuestDescription' or @name='windowQuestObjectives' or @name='windowQuestRewards']//sprite[@sprite='ku_round_sm'][@color='[darkGrey]' or @color='[mediumGrey]' or @color='[darkestGrey]']/@color">[kuCell]</set>
+	<set xpath="/windows/window[@name='windowTrader' or @name='windowQuestTurnInRewards']//sprite[@sprite='ku_round_sm'][@color='[lightGrey]']/@color">[kuCellHeader]</set>
+
+	<!-- Single-panel quest windows: their one full-size fill becomes the glass body. -->
+	<set xpath="/windows/window[@name='windowQuestDescription' or @name='windowQuestObjectives' or @name='windowQuestRewards' or @name='windowQuestTurnInDescription']/rect[@name='content']/sprite[@sprite='ku_round_sm']/@sprite">ku_panel_body</set>
+	<set xpath="/windows/window[@name='windowQuestDescription' or @name='windowQuestObjectives' or @name='windowQuestRewards' or @name='windowQuestTurnInDescription']/rect[@name='content']/sprite[@sprite='ku_panel_body']/@color">[white]</set>
+	<setattribute xpath="/windows/window[@name='windowQuestDescription' or @name='windowQuestObjectives' or @name='windowQuestRewards' or @name='windowQuestTurnInDescription']/rect[@name='content']/sprite[@sprite='ku_panel_body']" name="pos">0,3</setattribute>
+
+	<!-- Windows whose content is several blocks: one glass body behind the lot. -->
+	<prepend xpath="/windows/window[@name='windowTrader']">
+		<sprite depth="-1" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,-40" width="645" height="653" />
+	</prepend>
+	<prepend xpath="/windows/window[@name='windowQuestTurnInRewards']">
+		<sprite depth="-1" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,-40" width="653" height="427" />
+	</prepend>
+	<prepend xpath="/windows/window[@name='windowQuestList']">
+		<sprite depth="-1" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,-40" width="453" height="{# questsautoaccept ? 698 : 468 }" />
+	</prepend>
+	<prepend xpath="/windows/window[@name='serviceInfoPanel']/rect[@name='contentInfo']">
+		<sprite depth="-1" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,3" width="603" height="349" />
+	</prepend>
+	<set xpath="/windows/window[@name='serviceInfoPanel']//rect[@name='preview']/sprite[@sprite='ku_round_sm']/@color">[kuSlotWell]</set>
+
+	<!-- Job offer: glass body, and Accept / Decline as green / red glass buttons. -->
+	<setattribute xpath="/windows/window[@name='windowQuestOffer']/rect[@name='content']/boxbg" name="backsprite">ku_panel_body</setattribute>
+	<setattribute xpath="/windows/window[@name='windowQuestOffer']/rect[@name='content']/boxbg" name="backcolor">[white]</setattribute>
+	<setattribute xpath="/windows/window[@name='windowQuestOffer']/rect[@name='content']/boxbg" name="bordercolor">[transparent]</setattribute>
+	<set xpath="/windows/window[@name='windowQuestOffer']/rect[@name='btnAccept' or @name='btnDecline']/sprite[@name='background']/@color">[transparent]</set>
+	<set xpath="/windows/window[@name='windowQuestOffer']/rect[@name='btnAccept' or @name='btnDecline']//button[@name='clickable']/@sprite">ku_round_md</set>
+	<set xpath="/windows/window[@name='windowQuestOffer']/rect[@name='btnAccept' or @name='btnDecline']//button[@name='clickable']/@hoversprite">ku_round_md</set>
+	<set xpath="/windows/window[@name='windowQuestOffer']/rect[@name='btnAccept']//button[@name='clickable']/@defaultcolor">[kuBtnGood]</set>
+	<set xpath="/windows/window[@name='windowQuestOffer']/rect[@name='btnAccept']//button[@name='clickable']/@hovercolor">[kuBtnGoodHover]</set>
+	<set xpath="/windows/window[@name='windowQuestOffer']/rect[@name='btnDecline']//button[@name='clickable']/@defaultcolor">[kuBtnBad]</set>
+	<set xpath="/windows/window[@name='windowQuestOffer']/rect[@name='btnDecline']//button[@name='clickable']/@hovercolor">[kuBtnBadHover]</set>
+	<set xpath="/windows/window[@name='windowQuestOffer']/rect[@name='header']/sprite[@sprite='ui_game_symbol_quest_limited']/@color">[kuDanger]</set>
+
+	<!-- Gold titles on the windows that set their own header label. -->
+	<setattribute xpath="/windows/window[@name='windowTrader' or @name='serviceInfoPanel' or @name='windowQuestTurnInDescription' or @name='windowQuestTurnInRewards' or @name='windowQuestList' or @name='windowQuestSharedList' or @name='windowQuestDescription' or @name='windowQuestObjectives' or @name='windowQuestRewards']/rect[@name='header']/label[not(@style)][not(@color)]" name="color">[kuGold]</setattribute>
+	<setattribute xpath="/windows/window[@name='windowTrader' or @name='serviceInfoPanel' or @name='windowQuestTurnInDescription' or @name='windowQuestTurnInRewards' or @name='windowQuestList' or @name='windowQuestSharedList' or @name='windowQuestDescription' or @name='windowQuestObjectives' or @name='windowQuestRewards']/rect[@name='header']/sprite[@name='windowIcon'][not(@color)]" name="color">[kuAccent]</setattribute>
+
+	<!-- ================================================================ -->
 	<!-- Dialog (trader / NPC responses)                                  -->
 	<!-- Vanilla: a wide text-body box. Ours: a narrower glass panel on   -->
 	<!-- the right with a glass header (name in gold, talk icon), so more -->

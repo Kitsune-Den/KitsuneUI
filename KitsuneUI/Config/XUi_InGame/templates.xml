@@ -89,6 +89,34 @@
 	<setattribute xpath="/templates/*[self::party_entry or self::companion_entry]/rect/label[@name='TextContent'][@text='{name}']" name="effect">outline</setattribute>
 
 	<!-- ================================================================ -->
+	<!-- Trader item rows, quest reward choices, quest list rows          -->
+	<!-- Coloured by game code like the recipe rows (64 grey + menu_empty -->
+	<!-- idle, 96 hover, white + ui_game_select_row selected), so they    -->
+	<!-- point at the KitsuneRows atlas too.                              -->
+	<!-- ================================================================ -->
+	<set xpath="/templates/*[self::trader_item or self::quest_turnin_entry or self::quest_entry]/rect/sprite[@name='backgroundMain']/@color">[transparent]</set>
+	<setattribute xpath="/templates/*[self::trader_item or self::quest_turnin_entry or self::quest_entry]/rect/sprite[@name='background']" name="atlas">KitsuneRows</setattribute>
+	<setattribute xpath="/templates/*[self::trader_item or self::quest_turnin_entry]/rect/sprite[@name='background']" name="sprite">menu_empty</setattribute>
+	<set xpath="/templates/*[self::trader_item or self::quest_turnin_entry]/rect/sprite[@name='background']/@color">[kuRowGrey]</set>
+	<!-- Quest rows take their colour from these (rowstatecolor), same greys as the code rows. -->
+	<!-- Idle rows very faint: vanilla draws all 12 rows even when empty, and the game gives no -->
+	<!-- "row is empty" flag, so empty ones should nearly vanish; text still marks real quests. -->
+	<set xpath="/templates/quest_entry/rect/@row_color">64,64,64,70</set>
+	<set xpath="/templates/quest_entry/rect/@hover_color">96,96,96,255</set>
+	<set xpath="/templates/quest_entry/rect/@failed_color">[kuDanger]</set>
+	<set xpath="/templates/quest_entry/rect/@finished_color">[kuGood]</set>
+	<set xpath="/templates/quest_turnin_entry/rect/@selected_color">[kuGood]</set>
+	<set xpath="/templates/quest_objective_entry/rect/@complete_color">[kuGood]</set>
+	<!-- Not done yet is muted grey, not red (red reads as failed). -->
+	<set xpath="/templates/quest_objective_entry/rect/@incomplete_color">[kuTextMuted]</set>
+
+	<!-- Trader / reward durability: thin rounded bars. -->
+	<set xpath="/templates/*[self::trader_item or self::quest_turnin_entry]/rect/sprite[@name='durabilityBackground']/@sprite">ku_bar</set>
+	<set xpath="/templates/*[self::trader_item or self::quest_turnin_entry]/rect/sprite[@name='durabilityBackground']/@color">255,107,90,150</set>
+	<setattribute xpath="/templates/*[self::trader_item or self::quest_turnin_entry]/rect/sprite[@name='durabilityBar']" name="sprite">ku_bar</setattribute>
+	<set xpath="/templates/trader_item/rect/sprite[@name='durabilityBar'][@color='[darkestGrey]']/@color">[kuTrack]</set>
+
+	<!-- ================================================================ -->
 	<!-- Dialog response rows (trader / NPC options)                      -->
 	<!-- The row text takes {rowstatecolor}: hover_color on hover, white  -->
 	<!-- when selected, enabled_color otherwise. A teal highlight behind  -->
