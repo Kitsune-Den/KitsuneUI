@@ -332,6 +332,24 @@ def fade_up(w=8, h=64):
 add("ku_fade_up", fade_up(), (0, 0, 0, 0))
 
 
+# Soft band, clear at both ends and feathered top and bottom: the night strip
+# behind the death message (drawn stretched, so no borders).
+def band(w=256, h=64):
+    img = Image.new("RGBA", (w, h), (255, 255, 255, 0))
+    px = img.load()
+    for x in range(w):
+        tx = min(1.0, min(x, w - 1 - x) / (w * 0.3))
+        tx = tx * tx * (3 - 2 * tx)
+        for y in range(h):
+            ty = min(1.0, min(y, h - 1 - y) / (h * 0.22))
+            ty = ty * ty * (3 - 2 * ty)
+            px[x, y] = (255, 255, 255, round(255 * tx * ty))
+    return img
+
+
+add("ku_band", band(), 0)
+
+
 # Injury hatch: diagonal stripes, tiled across the cut-off part of a stat bar.
 def hatch(size=8):
     img = Image.new("RGBA", (size * SS, size * SS), (255, 255, 255, 0))

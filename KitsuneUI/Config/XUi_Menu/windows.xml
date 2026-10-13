@@ -44,4 +44,8 @@
 		<sprite depth="-1" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" anchor_left="#parent,0,-14" anchor_right="#parent,0,1809" anchor_top="#parent,1,10" anchor_bottom="buttons,1,4" />
 	</prepend>
 	<set xpath="/windows/window[.//options_descriptions]//sprite[@name='separator']/@color">[kuEdge]</set>
+
+	<!-- Respawn screen: its boxes are boxbg (glass above) and its buttons simplebuttons; -->
+	<!-- the "spawn near a friend" caption goes gold like other titles.                   -->
+	<set xpath="/windows/window[@name='spawnselection']//label[@name='lblCaption']/@color">[kuGold]</set>
 </configs>

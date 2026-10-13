@@ -117,6 +117,10 @@
 	<set xpath="/templates/players_entry/rect/sprite[@name='background']/@color">[kuCell]</set>
 	<set xpath="/templates/players_entry/rect/@alternating_color">[kuCellAlt]</set>
 
+	<!-- Vehicle and drone part slots: rounded wells, no black frame. -->
+	<set xpath="/templates/*[self::vehicle_part_slot or self::item_part_slot]/rect/sprite[@name='backgroundMain']/@color">[transparent]</set>
+	<setattribute xpath="/templates/*[self::vehicle_part_slot or self::item_part_slot]/rect/sprite[@name='background']" name="sprite">ku_round_sm</setattribute>
+
 	<!-- Waypoint and shared-waypoint rows, and the waypoint icon picker: same row code. -->
 	<set xpath="/templates/*[self::waypoint_entry or self::invites_entry]/rect/sprite[@name='backgroundMain']/@color">[transparent]</set>
 	<setattribute xpath="/templates/*[self::waypoint_entry or self::invites_entry]/rect/sprite[@name='background']" name="atlas">KitsuneRows</setattribute>

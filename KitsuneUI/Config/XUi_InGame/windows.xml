@@ -26,17 +26,17 @@
 	<set xpath="/windows/window[@name='windowBackpack']/rect[@name='content']/defaultscrollbar/@background_color_inactive">[kuTrack]</set>
 
 	<!-- ================================================================ -->
-	<!-- Loot containers                                                  -->
+	<!-- Loot containers (and bag storage, a copy of the loot window)     -->
 	<!-- ================================================================ -->
 
 	<!-- Vanilla draws the header sprite unsliced (stretched); slice it so the corners stay round. -->
-	<setattribute xpath="/windows/window[@name='windowLooting']/rect[@name='header']/sprite[@name='headerbackground']" name="type">sliced</setattribute>
-	<setattribute xpath="/windows/window[@name='windowLooting']/rect[@name='header']/label[@name='lootName']" name="color">[kuGold]</setattribute>
-	<setattribute xpath="/windows/window[@name='windowLooting']/rect[@name='header']/sprite[@name='windowIcon']" name="color">[kuAccent]</setattribute>
+	<setattribute xpath="/windows/window[@name='windowLooting' or @name='windowBagStorage']/rect[@name='header']/sprite[@name='headerbackground']" name="type">sliced</setattribute>
+	<setattribute xpath="/windows/window[@name='windowLooting' or @name='windowBagStorage']/rect[@name='header']/label[@name='lootName']" name="color">[kuGold]</setattribute>
+	<setattribute xpath="/windows/window[@name='windowLooting' or @name='windowBagStorage']/rect[@name='header']/sprite[@name='windowIcon']" name="color">[kuAccent]</setattribute>
 
 	<!-- Vanilla has no background behind the loot grid. Ours spans the header's width      -->
 	<!-- (grid + scrollbar) and the visible rows, and starts 6px up so it meets the header. -->
-	<prepend xpath="/windows/window[@name='windowLooting']/rect[@name='content']">
+	<prepend xpath="/windows/window[@name='windowLooting' or @name='windowBagStorage']/rect[@name='content']">
 		<sprite depth="0" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,6"
 			width="{% v2i_x(gridDimensions) * 75 + 19 }"
 			height="{% Min( v2i_y(gridDimensions) * 75 + 3, 753 ) + 12 }" />
@@ -45,14 +45,14 @@
 	<!-- Vanilla's loot scrollview has no depth, which ties with kuBody (depth 0), and the body -->
 	<!-- then draws over the slots: only foreground-layer item icons showed. The backpack gives -->
 	<!-- its scrollview depth 2 over a depth-0 background; do the same here.                   -->
-	<setattribute xpath="/windows/window[@name='windowLooting']/rect[@name='content']/scrollview" name="depth">2</setattribute>
+	<setattribute xpath="/windows/window[@name='windowLooting' or @name='windowBagStorage']/rect[@name='content']/scrollview" name="depth">2</setattribute>
 
-	<set xpath="/windows/window[@name='windowLooting']/rect[@name='content']/defaultscrollbar/@thumb_color_active">[kuAccent]</set>
-	<set xpath="/windows/window[@name='windowLooting']/rect[@name='content']/defaultscrollbar/@thumb_color_inactive">[kuTextMuted]</set>
-	<set xpath="/windows/window[@name='windowLooting']/rect[@name='content']/defaultscrollbar/@border_color_active">[transparent]</set>
-	<set xpath="/windows/window[@name='windowLooting']/rect[@name='content']/defaultscrollbar/@border_color_inactive">[transparent]</set>
-	<set xpath="/windows/window[@name='windowLooting']/rect[@name='content']/defaultscrollbar/@background_color_active">[kuTrack]</set>
-	<set xpath="/windows/window[@name='windowLooting']/rect[@name='content']/defaultscrollbar/@background_color_inactive">[kuTrack]</set>
+	<set xpath="/windows/window[@name='windowLooting' or @name='windowBagStorage']/rect[@name='content']/defaultscrollbar/@thumb_color_active">[kuAccent]</set>
+	<set xpath="/windows/window[@name='windowLooting' or @name='windowBagStorage']/rect[@name='content']/defaultscrollbar/@thumb_color_inactive">[kuTextMuted]</set>
+	<set xpath="/windows/window[@name='windowLooting' or @name='windowBagStorage']/rect[@name='content']/defaultscrollbar/@border_color_active">[transparent]</set>
+	<set xpath="/windows/window[@name='windowLooting' or @name='windowBagStorage']/rect[@name='content']/defaultscrollbar/@border_color_inactive">[transparent]</set>
+	<set xpath="/windows/window[@name='windowLooting' or @name='windowBagStorage']/rect[@name='content']/defaultscrollbar/@background_color_active">[kuTrack]</set>
+	<set xpath="/windows/window[@name='windowLooting' or @name='windowBagStorage']/rect[@name='content']/defaultscrollbar/@background_color_inactive">[kuTrack]</set>
 
 	<!-- ================================================================ -->
 	<!-- Crafting list, recipe info, item info, empty "Inspect" panel     -->
@@ -510,6 +510,83 @@
 	<prepend xpath="/windows/window[@name='ingameMenu']">
 		<sprite depth="0" name="kuShade" sprite="ku_fade_l" type="simple" color="[kuHudFade]" pos="0,0" width="640" height="1080" />
 	</prepend>
+
+	<!-- ================================================================ -->
+	<!-- Old-style buttons (Turn On, Refuel, Repair, Close...): a grey    -->
+	<!-- "clickable" that swaps to ui_game_select_row on hover, over a    -->
+	<!-- grey block in a black frame. Glass button instead, like          -->
+	<!-- simplebutton. The job offer's Accept / Decline keep their green  -->
+	<!-- and red (Trader and quest windows, above).                       -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name!='windowQuestOffer']//button[@name='clickable'][@hoversprite='ui_game_select_row']/@sprite">ku_round_md</set>
+	<set xpath="/windows/window[@name!='windowQuestOffer']//button[@name='clickable'][@hoversprite='ui_game_select_row']/@defaultcolor">[kuBtn]</set>
+	<set xpath="/windows/window[@name!='windowQuestOffer']//button[@name='clickable'][@hoversprite='ui_game_select_row']/@hovercolor">[kuBtnHover]</set>
+	<set xpath="/windows/window[@name!='windowQuestOffer']//button[@name='clickable'][@hoversprite='ui_game_select_row']/@hoversprite">ku_round_md</set>
+	<set xpath="/windows/window[@name!='windowQuestOffer']//rect[starts-with(@name,'btn')][.//button[@name='clickable'][@hoversprite='ku_round_md']]/sprite[@name='background' or @name='backgroundMain']/@color">[transparent]</set>
+
+	<!-- ================================================================ -->
+	<!-- Death message: a night band with gold hairlines, in place of the -->
+	<!-- brush-stroke banner.                                             -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='windowDeathBar']/rect/sprite[@name='backgroundMain']/@sprite">ku_band</set>
+	<set xpath="/windows/window[@name='windowDeathBar']/rect/sprite[@name='backgroundMain']/@width">1300</set>
+	<set xpath="/windows/window[@name='windowDeathBar']/rect/sprite[@name='backgroundMain']/@height">120</set>
+	<setattribute xpath="/windows/window[@name='windowDeathBar']/rect/sprite[@name='backgroundMain']" name="color">12,14,30,235</setattribute>
+	<setattribute xpath="/windows/window[@name='windowDeathBar']/rect/sprite[@name='backgroundMain']" name="type">simple</setattribute>
+	<append xpath="/windows/window[@name='windowDeathBar']/rect">
+		<sprite depth="2" name="kuRuleTop" sprite="ku_rule" type="sliced" color="[kuGoldSoft]" pos="0,46" width="820" height="2" pivot="center" />
+		<sprite depth="2" name="kuRuleBottom" sprite="ku_rule" type="sliced" color="[kuGoldSoft]" pos="0,-48" width="820" height="2" pivot="center" />
+	</append>
+	<setattribute xpath="/windows/window[@name='windowDeathBar']/rect/label[@name='TextContent']" name="effect">outline</setattribute>
+	<setattribute xpath="/windows/window[@name='windowDeathBar']/rect/label[@name='TextContent']" name="effect_color">0,0,0,200</setattribute>
+
+	<!-- ================================================================ -->
+	<!-- Vehicle and drone: stat rows as soft cells on a glass body (the  -->
+	<!-- body covers stats + Refuel / Repair; the cosmetic and part slots -->
+	<!-- below are self-backed rows, see templates.xml).                  -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='windowVehicle' or @name='windowAssembleDrone']//sprite[@sprite='menu_empty3px' and @color='[black]']/@color">[transparent]</set>
+	<setattribute xpath="/windows/window[@name='windowVehicle' or @name='windowAssembleDrone']//rect[@name='stats']//sprite[not(@sprite)][@color='[darkGrey]' or @color='[darkestGrey]']" name="sprite">ku_round_sm</setattribute>
+	<set xpath="/windows/window[@name='windowVehicle' or @name='windowAssembleDrone']//rect[@name='stats']//sprite[@sprite='ku_round_sm'][@color='[darkGrey]']/@color">[kuCell]</set>
+	<set xpath="/windows/window[@name='windowVehicle' or @name='windowAssembleDrone']//rect[@name='stats']//sprite[@sprite='ku_round_sm'][@color='[darkestGrey]']/@color">[kuCellAlt]</set>
+	<prepend xpath="/windows/window[@name='windowVehicle']">
+		<sprite depth="-1" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,-40" width="386" height="290" />
+	</prepend>
+	<prepend xpath="/windows/window[@name='windowAssembleDrone']">
+		<sprite depth="-1" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,-40" width="386" height="258" />
+	</prepend>
+	<set xpath="/windows/window[@name='windowBagStorage']/@backgroundcolor">[transparent]</set>
+
+	<!-- ================================================================ -->
+	<!-- Power: generators, batteries, solar banks, triggers, turrets,    -->
+	<!-- camera. The one full-size grey fill per window becomes glass.    -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='windowPowerSourceStats' or @name='windowPowerSourceSlots' or @name='windowPowerTriggerOptions' or @name='windowPowerRangedTrapOptions' or @name='windowPowerTrapSlots']//sprite[@sprite='menu_empty3px' and @color='[black]']/@color">[transparent]</set>
+	<setattribute xpath="/windows/window[@name='windowPowerSourceStats' or @name='windowPowerSourceSlots' or @name='windowPowerTriggerOptions' or @name='windowPowerRangedTrapOptions' or @name='windowPowerTrapSlots']/rect[@name='content']/sprite[@color='[darkGrey]']" name="sprite">ku_panel_body</setattribute>
+	<set xpath="/windows/window[@name='windowPowerSourceStats' or @name='windowPowerSourceSlots' or @name='windowPowerTriggerOptions' or @name='windowPowerRangedTrapOptions' or @name='windowPowerTrapSlots']/rect[@name='content']/sprite[@sprite='ku_panel_body']/@color">[white]</set>
+	<setattribute xpath="/windows/window[@name='windowPowerTriggerOptions' or @name='windowPowerRangedTrapOptions']//rect[@name='pnlTargeting']/sprite[@color='[mediumGrey]']" name="sprite">ku_round_sm</setattribute>
+	<set xpath="/windows/window[@name='windowPowerTriggerOptions' or @name='windowPowerRangedTrapOptions']//rect[@name='pnlTargeting']/sprite[@sprite='ku_round_sm']/@color">[kuCell]</set>
+	<setattribute xpath="/windows/window[@name='windowPowerCameraControlPreview' or @name='windowPowerCameraControl']//boxbg" name="backsprite">ku_panel_body</setattribute>
+	<setattribute xpath="/windows/window[@name='windowPowerCameraControlPreview' or @name='windowPowerCameraControl']//boxbg" name="backcolor">[white]</setattribute>
+	<setattribute xpath="/windows/window[@name='windowPowerCameraControlPreview' or @name='windowPowerCameraControl']//boxbg" name="bordercolor">[transparent]</setattribute>
+
+	<!-- ================================================================ -->
+	<!-- Signs (text signs, keypad) and the sign editor / gallery.        -->
+	<!-- Each panel's grey fill becomes a glass body; frames out.         -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='windowSignEditSeparateLines' or @name='windowSignEditMultiline' or @name='windowKeypadEdit']/rect[@name='content']/sprite[@sprite='menu_empty3px' and @color='[black]']/@color">[transparent]</set>
+	<setattribute xpath="/windows/window[@name='windowSignEditSeparateLines' or @name='windowSignEditMultiline' or @name='windowKeypadEdit']/rect[@name='content']/sprite[@color='[darkGrey]']" name="sprite">ku_panel_body</setattribute>
+	<set xpath="/windows/window[@name='windowSignEditSeparateLines' or @name='windowSignEditMultiline' or @name='windowKeypadEdit']/rect[@name='content']/sprite[@sprite='ku_panel_body']/@color">[white]</set>
+	<!-- The gallery's tile area is a FILLED black block: glass body. Then every remaining black frame goes. -->
+	<set xpath="/windows/window[@name='windowSignGallery']//sprite[@name='backgroundMain'][@disablefallthrough='true']/@sprite">ku_panel_body</set>
+	<set xpath="/windows/window[@name='windowSignGallery']//sprite[@name='backgroundMain'][@disablefallthrough='true']/@color">[white]</set>
+	<set xpath="/windows/window[@name='windowSignGallery' or @name='windowSignInfo' or @name='windowSignInstance' or @name='windowSignEditor']//sprite[@sprite='menu_empty3px' or @sprite='menu_empty2px'][@color='[black]']/@color">[transparent]</set>
+	<setattribute xpath="/windows/window[@name='windowSignGallery' or @name='windowSignInfo' or @name='windowSignInstance' or @name='windowSignEditor']//sprite[@name='background'][@color='[mediumGrey]' or @color='[darkGrey]']" name="sprite">ku_panel_body</setattribute>
+	<set xpath="/windows/window[@name='windowSignGallery' or @name='windowSignInfo' or @name='windowSignInstance' or @name='windowSignEditor']//sprite[@sprite='ku_panel_body'][@color='[mediumGrey]' or @color='[darkGrey]']/@color">[white]</set>
+	<set xpath="/windows/window[@name='windowSignInfo']//panel[@name='sharingPrompt']//sprite[@name='backgroundMain']/@sprite">ku_panel_body</set>
+	<set xpath="/windows/window[@name='windowSignInfo']//panel[@name='sharingPrompt']//sprite[@name='backgroundMain']/@color">[white]</set>
+	<setattribute xpath="/windows/window[@name='windowSignGallery' or @name='windowSignInfo' or @name='windowSignInstance' or @name='windowSignEditor']//sprite[@name='headerbackground']" name="type">sliced</setattribute>
+	<set xpath="/windows/window[@name='windowSignEditor']//sprite[@sprite='menu_empty'][@color='[darkestGrey]']/@color">[kuEdge]</set>
 
 	<!-- ================================================================ -->
 	<!-- Chat: while typing, the grey box becomes glass and the input     -->

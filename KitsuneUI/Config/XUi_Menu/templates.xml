@@ -46,6 +46,10 @@
 	<set xpath="/templates/options_scrollbar/scrollbar/@border_color_active">[kuEdge]</set>
 	<set xpath="/templates/options_scrollbar/scrollbar/@border_color_inactive">[kuEdge]</set>
 
+	<!-- Respawn screen, "spawn near friend" rows: no black frame; why a spot can't be used in danger red. -->
+	<set xpath="/templates/spawnnearfriends_list_entry/rect/sprite[@name='backgroundMain']/@color">[transparent]</set>
+	<set xpath="/templates/spawnnearfriends_list_entry/rect/label[@name='NotValidReason']/@color">[kuDanger]</set>
+
 	<!-- Paging header (OPTIONS and its tabs): gold page name, fox-fire line under the open tab. -->
 	<setattribute xpath="/templates/menu_paging_header/rect/label[@name='menuName']" name="color">[kuGold]</setattribute>
 	<set xpath="/templates/pagingheader_subheaderline/sprite[@name='subheader_line']/@color">[kuAccentGlow]</set>
