@@ -25,6 +25,15 @@ Done so far:
 - **Item slots.** Rounded slots with a faint edge, a ring and glow that turn cyan when selected or held and gold on hover, and a thin durability bar.
 - **Backpack and loot windows.** A glass body under the header. The loot window had no background at all before.
 - **Toolbelt.** A glass tray that grows to fit 1 or 2 bars, and the XP bar moved underneath.
+- **Crafting.** Recipe list, recipe and item details, the empty Inspect panel and the crafting queue: glass bodies, soft table cells with a gold header row, and navy recipe rows that turn deep teal with a fox-fire edge when selected.
+- **Creative menu.** Glass body, soft category columns and search bar.
+- **Workstations.** Tools, Fuel, Smelting, Output, Combine and the collectors get glass bodies and a glass Turn On button.
+- **Popups and buttons.** Message boxes and header boxes use the glass header with a gold title; buttons everywhere are rounded glass with a fox-fire hover.
+- **Window titles** are gold and window icons fox-fire, for every window built on the standard header styles.
+
+Built to survive other mods: bodies around grids that mods resize (forge input, workstation output, crafting queue) are anchored to the grid rather than sized with fixed numbers, so they fit KitsuneMoreSloots' bigger grids or anyone else's.
+
+Recipe rows and the Craft / Track / Favorite buttons are coloured by game code, which swaps their sprite between `menu_empty` and `ui_game_select_row`. Those rows point at a separate atlas, `KitsuneRows`, holding our own versions of both names, so nothing else in the game changes.
 
 ### Art
 

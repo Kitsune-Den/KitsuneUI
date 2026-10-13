@@ -55,6 +55,35 @@
 	<set xpath="/templates/recipe_stack/rect/sprite[@name='backgroundMain']/@height">72</set>
 	<setattribute xpath="/templates/recipe_stack/rect/sprite[@name='background']" name="sprite">ku_slot_fill</setattribute>
 	<set xpath="/templates/recipe_stack/rect/sprite[@name='background']/@color">[kuSlotWell]</set>
+	<!-- ================================================================ -->
+	<!-- Recipe rows and item-action buttons                              -->
+	<!-- Game code drives the background: 64 grey + "menu_empty" idle, 96 -->
+	<!-- grey on hover, white + "ui_game_select_row" when selected (action -->
+	<!-- buttons: on hover). It swaps sprite NAMES but never the atlas, so -->
+	<!-- these sprites point at our KitsuneRows atlas, where both names    -->
+	<!-- are baked to land as navy / lighter navy / steel-cyan.            -->
+	<!-- ================================================================ -->
+	<set xpath="/templates/recipe_entry/rect/sprite[@name='backgroundMain']/@color">[transparent]</set>
+	<setattribute xpath="/templates/recipe_entry/rect/sprite[@name='background']" name="atlas">KitsuneRows</setattribute>
+	<setattribute xpath="/templates/recipe_entry/rect/sprite[@name='background']" name="sprite">menu_empty</setattribute>
+	<set xpath="/templates/recipe_entry/rect/sprite[@name='background']/@color">[kuRowGrey]</set>
+
+	<setattribute xpath="/templates/*[self::item_action_entry or self::skill_action_entry]/rect/sprite[@name='background']" name="atlas">KitsuneRows</setattribute>
+	<setattribute xpath="/templates/*[self::item_action_entry or self::skill_action_entry]/rect/sprite[@name='background']" name="sprite">menu_empty</setattribute>
+	<set xpath="/templates/*[self::item_action_entry or self::skill_action_entry]/rect/sprite[@name='background']/@color">[kuRowGrey]</set>
+	<set xpath="/templates/*[self::item_action_entry or self::skill_action_entry]/rect/@default_background_color">[kuRowGrey]</set>
+
+	<!-- ================================================================ -->
+	<!-- Ingredient / unlocked-by tables (recipe and item info panels)    -->
+	<!-- Vanilla: opaque grey cells boxed in black 3px frames. Ours:      -->
+	<!-- soft rounded cells, gold header row, no frames.                  -->
+	<!-- ================================================================ -->
+	<set xpath="/templates/*[self::ingredient_header or self::ingredient_row or self::unlocked_by_header or self::unlocked_by_row]//sprite[@name='backgroundMain']/@color">[transparent]</set>
+	<setattribute xpath="/templates/*[self::ingredient_header or self::ingredient_row or self::unlocked_by_header or self::unlocked_by_row]//sprite[not(@sprite)][not(@name)]" name="sprite">ku_round_sm</setattribute>
+	<set xpath="/templates/*[self::ingredient_header or self::unlocked_by_header]//sprite[not(@name)]/@color">[kuCellHeader]</set>
+	<set xpath="/templates/*[self::ingredient_row or self::unlocked_by_row]//sprite[not(@name)]/@color">[kuCell]</set>
+	<setattribute xpath="/templates/*[self::ingredient_header or self::unlocked_by_header]//label" name="color">[kuGold]</setattribute>
+
 	<!-- The dimming overlay over a queued item: rounded, in the glass's own dark. -->
 	<setattribute xpath="/templates/recipe_stack/rect/sprite[@name='overlay']" name="sprite">ku_slot_fill</setattribute>
 	<set xpath="/templates/recipe_stack/rect/sprite[@name='overlay']/@color">6,8,20,128</set>

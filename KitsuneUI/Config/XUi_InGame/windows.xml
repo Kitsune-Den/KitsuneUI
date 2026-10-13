@@ -55,6 +55,137 @@
 	<set xpath="/windows/window[@name='windowLooting']/rect[@name='content']/defaultscrollbar/@background_color_inactive">[kuTrack]</set>
 
 	<!-- ================================================================ -->
+	<!-- Crafting list, recipe info, item info, empty "Inspect" panel     -->
+	<!-- Vanilla builds these from opaque grey blocks boxed in black 3px  -->
+	<!-- frames, with no window background. Generic pass first, then the  -->
+	<!-- pieces that need something else.                                 -->
+	<!-- ================================================================ -->
+
+	<!-- Black 3px frames go. -->
+	<set xpath="/windows/window[@name='windowCraftingList' or @name='craftingInfoPanel' or @name='emptyInfoPanel' or @name='itemInfoPanel']//sprite[@sprite='menu_empty3px' and @color='[black]']/@color">[transparent]</set>
+	<!-- Plain grey blocks become soft rounded cells (darkestGrey: the alternate stat rows). -->
+	<setattribute xpath="/windows/window[@name='windowCraftingList' or @name='craftingInfoPanel' or @name='emptyInfoPanel' or @name='itemInfoPanel']//sprite[not(@sprite)][not(@name)][@color='[darkGrey]' or @color='[mediumGrey]' or @color='[lightGrey]' or @color='[darkestGrey]']" name="sprite">ku_round_sm</setattribute>
+	<set xpath="/windows/window[@name='windowCraftingList' or @name='craftingInfoPanel' or @name='emptyInfoPanel' or @name='itemInfoPanel']//sprite[@sprite='ku_round_sm'][@color='[darkGrey]' or @color='[mediumGrey]' or @color='[lightGrey]']/@color">[kuCell]</set>
+	<set xpath="/windows/window[@name='windowCraftingList' or @name='craftingInfoPanel' or @name='emptyInfoPanel' or @name='itemInfoPanel']//sprite[@sprite='ku_round_sm'][@color='[darkestGrey]']/@color">[kuCellAlt]</set>
+
+	<!-- Glass bodies under the glass headers (depth -1: below everything in the content). -->
+	<prepend xpath="/windows/window[@name='windowCraftingList']/rect[@name='content']">
+		<sprite depth="-1" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,3" width="397" height="656" />
+	</prepend>
+	<prepend xpath="/windows/window[@name='craftingInfoPanel']/rect[@name='contentCraftingInfo']">
+		<sprite depth="-1" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,3" width="603" height="351" />
+	</prepend>
+	<prepend xpath="/windows/window[@name='itemInfoPanel']/rect[@name='contentInfo']">
+		<sprite depth="-1" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,3" width="603" height="350" />
+	</prepend>
+	<!-- The empty Inspect panel already has one full-size fill: make that the body. -->
+	<set xpath="/windows/window[@name='emptyInfoPanel']/rect[@name='contentCraftingInfo']/sprite[@sprite='ku_round_sm']/@sprite">ku_panel_body</set>
+	<set xpath="/windows/window[@name='emptyInfoPanel']/rect[@name='contentCraftingInfo']/sprite[@sprite='ku_panel_body']/@color">[white]</set>
+	<setattribute xpath="/windows/window[@name='emptyInfoPanel']/rect[@name='contentCraftingInfo']/sprite[@sprite='ku_panel_body']" name="pos">0,3</setattribute>
+
+	<!-- Item preview: a dark well like a slot. -->
+	<set xpath="/windows/window[@name='craftingInfoPanel' or @name='itemInfoPanel']//rect[@name='preview']/sprite[@sprite='ku_round_sm']/@sprite">ku_round_md</set>
+	<set xpath="/windows/window[@name='craftingInfoPanel' or @name='itemInfoPanel']//rect[@name='preview']/sprite[@sprite='ku_round_md']/@color">[kuSlotWell]</set>
+
+	<!-- Durability: thin rounded bars. -->
+	<setattribute xpath="/windows/window[@name='craftingInfoPanel' or @name='itemInfoPanel']//*[@name='durabilityBackground' or @name='removedurabilityBar' or @name='durabilityBar']" name="sprite">ku_bar</setattribute>
+	<set xpath="/windows/window[@name='craftingInfoPanel']//sprite[@name='durabilityBackground']/@color">[kuTrack]</set>
+	<set xpath="/windows/window[@name='itemInfoPanel']//sprite[@name='durabilityBackground']/@color">255,107,90,150</set>
+	<set xpath="/windows/window[@name='itemInfoPanel']//filledsprite[@name='removedurabilityBar']/@color">[kuTrack]</set>
+
+	<!-- Labels and icons that used vanilla red/beige/white. -->
+	<set xpath="/windows/window[@name='craftingInfoPanel']//sprite[@name='requiredToolCheckmark']/@color">[kuDanger]</set>
+	<set xpath="/windows/window[@name='craftingInfoPanel']//label[@name='craftingTime']/@color">[kuGold]</set>
+	<set xpath="/windows/window[@name='itemInfoPanel']/rect[@name='header']/sprite[@name='costIcon']/@color">[kuGold]</set>
+	<setattribute xpath="/windows/window[@name='windowCraftingList' or @name='craftingInfoPanel' or @name='emptyInfoPanel' or @name='itemInfoPanel']/rect[@name='header']/label" name="color">[kuGold]</setattribute>
+	<setattribute xpath="/windows/window[@name='windowCraftingList' or @name='craftingInfoPanel' or @name='emptyInfoPanel' or @name='itemInfoPanel']/rect[@name='header']/sprite[@name='windowIcon']" name="color">[kuAccent]</setattribute>
+
+	<!-- ================================================================ -->
+	<!-- Workstation side panels (forge, campfire, workbench, collectors) -->
+	<!-- Tools / Fuel / Smelting / Output / Combine: glass headers come   -->
+	<!-- from headerbg already; vanilla gives them no body at all.        -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='windowToolsForge' or @name='windowToolsCampfire' or @name='windowDewCollectorMods' or @name='windowFuel' or @name='windowForgeInput' or @name='windowOutput' or @name='windowCombine' or @name='windowCollectorFuel' or @name='windowCollectorCatalyst']//sprite[@sprite='menu_empty3px' and @color='[black]']/@color">[transparent]</set>
+	<setattribute xpath="/windows/window[@name='windowForgeInput' or @name='windowCombine']//sprite[not(@sprite)][@color='[darkGrey]' or @color='[mediumGrey]' or @color='[lightGrey]']" name="sprite">ku_round_sm</setattribute>
+	<set xpath="/windows/window[@name='windowForgeInput' or @name='windowCombine']//sprite[@sprite='ku_round_sm'][@color='[darkGrey]' or @color='[mediumGrey]' or @color='[lightGrey]']/@color">[kuCell]</set>
+
+	<!-- Bodies: from just under the 43px header to the bottom of the slots / button. -->
+	<prepend xpath="/windows/window[@name='windowToolsForge' or @name='windowToolsCampfire' or @name='windowDewCollectorMods']">
+		<sprite depth="-1" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,-40" width="228" height="85" />
+	</prepend>
+	<prepend xpath="/windows/window[@name='windowFuel']">
+		<sprite depth="-1" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,-40" width="228" height="124" />
+	</prepend>
+	<!-- Smelting input and Output are sized by their grids, which other mods resize -->
+	<!-- (KitsuneMoreSloots: input 2 -> 3 rows, output 2x3 -> 3x3). Anchor the body to -->
+	<!-- the grid instead of fixed numbers, the way vanilla's dew collector does: 6px -->
+	<!-- above the grid (meeting the header), 3px past it on the other sides.          -->
+	<setattribute xpath="/windows/window[@name='windowForgeInput']/rect[@name='content']/grid" name="name">kuInputGrid</setattribute>
+	<prepend xpath="/windows/window[@name='windowForgeInput']/rect[@name='content']">
+		<sprite depth="-1" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]"
+			anchor_left="kuInputGrid,0,-3" anchor_right="kuInputGrid,1,150" anchor_top="kuInputGrid,1,6" anchor_bottom="kuInputGrid,0,-3" />
+	</prepend>
+	<prepend xpath="/windows/window[@name='windowOutput']/rect[@name='content']">
+		<sprite depth="-1" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]"
+			anchor_left="inventory,0,-3" anchor_right="inventory,1,0" anchor_top="inventory,1,6" anchor_bottom="inventory,0,-3" />
+	</prepend>
+	<prepend xpath="/windows/window[@name='windowCollectorFuel']">
+		<sprite depth="-1" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,-40" width="228" height="238" />
+	</prepend>
+	<prepend xpath="/windows/window[@name='windowCollectorCatalyst']">
+		<sprite depth="-1" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,-40" width="228" height="{# fuel_row_count * 75 + 9 }" />
+	</prepend>
+	<prepend xpath="/windows/window[@name='windowCombine']">
+		<sprite depth="-1" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,-40" width="610" height="429" />
+	</prepend>
+
+	<!-- Turn On / Turn Off: a glass button like the rest. -->
+	<set xpath="/windows/window[@name='windowFuel']//button[@name='button']/@sprite">ku_round_md</set>
+	<set xpath="/windows/window[@name='windowFuel']//button[@name='button']/@hoversprite">ku_round_md</set>
+	<set xpath="/windows/window[@name='windowFuel']//button[@name='button']/@defaultcolor">[kuBtn]</set>
+	<set xpath="/windows/window[@name='windowFuel']//button[@name='button']/@disabledcolor">[kuBtnDisabled]</set>
+	<set xpath="/windows/window[@name='windowFuel']//button[@name='button']/@hovercolor">[kuBtnHover]</set>
+
+	<!-- Smelting reserves: materials the forge accepts in green, others in red. -->
+	<set xpath="/windows/window[@name='windowForgeInput']/@valid_materials_color">[kuGood]</set>
+	<set xpath="/windows/window[@name='windowForgeInput']/@invalid_materials_color">[kuDanger]</set>
+
+	<!-- Dew collector: its own raw header sprite (tinted grey) and a near-invisible bg. -->
+	<set xpath="/windows/window[@name='windowDewCollector']/rect[@name='header']/sprite[@name='sprBackground']/@color">[white]</set>
+	<set xpath="/windows/window[@name='windowDewCollector']/rect[@name='content']/sprite[@name='bg']/@sprite">ku_panel_body</set>
+	<set xpath="/windows/window[@name='windowDewCollector']/rect[@name='content']/sprite[@name='bg']/@color">[white]</set>
+	<set xpath="/windows/window[@name='windowDewCollector']/rect[@name='content']/sprite[@name='bg']/@anchor_top">queue,1,6</set>
+
+	<!-- ================================================================ -->
+	<!-- Crafting queue                                                   -->
+	<!-- Vanilla has no background (it's commented out), so the cells    -->
+	<!-- float over the world. A glass tray anchored to the queue grid,   -->
+	<!-- so it fits vanilla's 4x1 or a mod's 2x5 (KitsuneMoreSloots).     -->
+	<!-- Cells are 72px on a 75px pitch, hence the uneven right/bottom.   -->
+	<!-- ================================================================ -->
+	<prepend xpath="/windows/window[@name='windowCraftingQueue']/rect[@controller='CraftingQueue']">
+		<sprite depth="-1" name="kuTray" sprite="ku_panel" type="sliced" color="[white]"
+			anchor_left="queue,0,-9" anchor_right="queue,1,6" anchor_top="queue,1,9" anchor_bottom="queue,0,-6" />
+	</prepend>
+
+	<!-- ================================================================ -->
+	<!-- Creative menu (windowCreative2)                                  -->
+	<!-- Vanilla: grey category columns and search bar boxed in black,    -->
+	<!-- and no background at all behind the item grid.                   -->
+	<!-- ================================================================ -->
+	<prepend xpath="/windows/window[@name='windowCreative2']/rect[@name='content']">
+		<sprite depth="-1" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,-40" width="629" height="738" />
+	</prepend>
+	<set xpath="/windows/window[@name='windowCreative2']//sprite[@sprite='menu_empty3px' and @color='[black]']/@color">[transparent]</set>
+	<setattribute xpath="/windows/window[@name='windowCreative2']//rect[@name='searchControls' or @name='categoryBar' or @name='categoryBar2']/sprite[@name='background']" name="sprite">ku_round_sm</setattribute>
+	<set xpath="/windows/window[@name='windowCreative2']//rect[@name='searchControls' or @name='categoryBar' or @name='categoryBar2']/sprite[@name='background']/@color">[kuCell]</set>
+	<!-- Separators between category groups: black bars -> soft gold. -->
+	<set xpath="/windows/window[@name='windowCreative2']//sprite[@sprite='ui_game_symbol_subtract']/@color">[kuGoldSoft]</set>
+	<setattribute xpath="/windows/window[@name='windowCreative2']/rect[@name='content']/rect[@name='header']/label[@style='header.name']" name="color">[kuGold]</setattribute>
+	<setattribute xpath="/windows/window[@name='windowCreative2']/rect[@name='content']/rect[@name='header']/label[not(@style)]" name="color">[kuTextMid]</setattribute>
+	<setattribute xpath="/windows/window[@name='windowCreative2']/rect[@name='content']/rect[@name='header']/sprite[@name='windowicon']" name="color">[kuAccent]</setattribute>
+
+	<!-- ================================================================ -->
 	<!-- Toolbelt                                                         -->
 	<!-- ================================================================ -->
 
