@@ -186,6 +186,112 @@
 	<setattribute xpath="/windows/window[@name='windowCreative2']/rect[@name='content']/rect[@name='header']/sprite[@name='windowicon']" name="color">[kuAccent]</setattribute>
 
 	<!-- ================================================================ -->
+	<!-- HUD: player stat bars (health, stamina, food, water)             -->
+	<!-- Vanilla layers per bar, kept by name:                            -->
+	<!--   border (d1, d8) + black filledsprite outlines -> gone          -->
+	<!--   background d2 (full width)          -> injury hatch pill       -->
+	<!--   background d3 (fill statmodifiedmax) -> dark track pill        -->
+	<!--   BarContent d5 (fill statfill)        -> colour pill            -->
+	<!-- The track covers the hatch up to the injury-reduced max, so the  -->
+	<!-- stripes only show on the part an injury has cut off.             -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@controller='HUDStatBar']/sprite[@name='border']/@color">[transparent]</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@controller='HUDStatBar']/filledsprite[@name='background']/@color">[transparent]</set>
+
+	<setattribute xpath="/windows/window[@name='HUDLeftStatBars']//rect[@stat_type='Health' or @stat_type='Stamina']/sprite[@name='background' and @depth='2']" name="sprite">ku_hudhatch_lg</setattribute>
+	<setattribute xpath="/windows/window[@name='HUDLeftStatBars']//rect[@stat_type='Food' or @stat_type='Water']/sprite[@name='background' and @depth='2']" name="sprite">ku_hudhatch_sm</setattribute>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@stat_type='Health' or @stat_type='Stamina' or @stat_type='Food' or @stat_type='Water']/sprite[@name='background' and @depth='2']/@type">simple</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@stat_type='Health' or @stat_type='Stamina' or @stat_type='Food' or @stat_type='Water']/sprite[@name='background' and @depth='2']/@color">[kuHatch]</set>
+
+	<setattribute xpath="/windows/window[@name='HUDLeftStatBars']//rect[@stat_type='Health' or @stat_type='Stamina' or @stat_type='Stealth']/sprite[(@name='background' and @depth='3') or @name='BarContent']" name="sprite">ku_hudbar_lg</setattribute>
+	<setattribute xpath="/windows/window[@name='HUDLeftStatBars']//rect[@stat_type='Food' or @stat_type='Water']/sprite[(@name='background' and @depth='3') or @name='BarContent']" name="sprite">ku_hudbar_sm</setattribute>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@controller='HUDStatBar']/sprite[@name='background' and @depth='3']/@color">[kuHudTrack]</set>
+
+	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@stat_type='Health']/sprite[@name='BarContent']/@color">[kuHealth]</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@stat_type='Stamina']/sprite[@name='BarContent']/@color">[kuStamina]</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@stat_type='Food']/sprite[@name='BarContent']/@color">[kuFood]</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@stat_type='Water']/sprite[@name='BarContent']/@color">[kuWater]</set>
+
+	<!-- Wider than vanilla (~18%): bars 171 -> 201, food/water 83 -> 97 each with water  -->
+	<!-- moved to keep the gap, labels widened to match. Left edge stays put. Values are -->
+	<!-- matched exactly so a mod that already resized a bar is left alone.              -->
+	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@name='hud' and @width='168']/@width">198</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@stat_type='Health' or @stat_type='Stamina' or @stat_type='Stealth'][@width='171']/@width">201</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@stat_type='Health' or @stat_type='Stamina' or @stat_type='Stealth']/*[@width='171']/@width">201</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@stat_type='Health' or @stat_type='Stamina' or @stat_type='Stealth']/*[@width='170']/@width">200</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@stat_type='Health' or @stat_type='Stamina' or @stat_type='Stealth']/*[@width='169']/@width">199</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@stat_type='Health' or @stat_type='Stamina' or @stat_type='Stealth']/label[@width='125']/@width">155</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@stat_type='Stamina']/sprite[@name='sprint']/@pos">200,-23</set>
+
+	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@stat_type='Food' or @stat_type='Water'][@width='83']/@width">97</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@stat_type='Food' or @stat_type='Water']/*[@width='84']/@width">98</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@stat_type='Food' or @stat_type='Water']/*[@width='83']/@width">97</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@stat_type='Food' or @stat_type='Water']/*[@width='82']/@width">96</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@stat_type='Food' or @stat_type='Water']/label[@width='45']/@width">59</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@stat_type='Water'][@pos='87,-120']/@pos">104,-120</set>
+
+	<!-- Buff pop-outs above the bars, widened to match (168 -> 198, left edge kept). -->
+	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/@width">198</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/@pos">85, 0</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/sprite[@name='Background']/@width">192</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/filledsprite[@name='BarContent']/@pos">-95,0</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/filledsprite[@name='BarContent']/@size">190,40</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/sprite[@name='Icon']/@pos">-69,0</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/label[@name='TextContent']/@pos">-52,0</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/label[@name='TextContent']/@size">148,40</set>
+	<!-- The pop-up chip (ui_game_popup, ours) is 9-sliced so it takes any width cleanly. -->
+	<setattribute xpath="/windows/window[@name='HUDLeftStatBars' or @name='HUDRightStatBars']//sprite[@sprite='ui_game_popup']" name="type">sliced</setattribute>
+
+	<!-- Stealth (only while crouched): no hatch, the colour comes from code. -->
+	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@stat_type='Stealth']/sprite[@name='background' and @depth='2']/@color">[transparent]</set>
+
+	<!-- Text on the brighter fills: a dark outline keeps it readable. -->
+	<setattribute xpath="/windows/window[@name='HUDLeftStatBars' or @name='HUDRightStatBars' or @name='windowTargetBar']//label[@name='TextContent']" name="effect">outline</setattribute>
+	<setattribute xpath="/windows/window[@name='HUDLeftStatBars' or @name='HUDRightStatBars' or @name='windowTargetBar']//label[@name='TextContent']" name="effect_color">0,0,0,200</setattribute>
+
+	<!-- ================================================================ -->
+	<!-- HUD: vehicle fuel and health (bottom right while driving)        -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='HUDRightStatBars']//rect[@stat_type='VehicleFuel' or @stat_type='VehicleHealth']/sprite[@name='border']/@color">[transparent]</set>
+	<set xpath="/windows/window[@name='HUDRightStatBars']//rect[@stat_type='VehicleFuel' or @stat_type='VehicleHealth']/sprite[@name='background'][@pos]/@color">[transparent]</set>
+	<set xpath="/windows/window[@name='HUDRightStatBars']//rect[@stat_type='VehicleFuel' or @stat_type='VehicleHealth']/sprite[@name='background'][not(@pos)]/@color">[kuHudTrack]</set>
+	<setattribute xpath="/windows/window[@name='HUDRightStatBars']//rect[@stat_type='VehicleFuel' or @stat_type='VehicleHealth']/sprite[@name='background'][not(@pos)]" name="sprite">ku_round_md</setattribute>
+	<setattribute xpath="/windows/window[@name='HUDRightStatBars']//rect[@stat_type='VehicleFuel' or @stat_type='VehicleHealth']/sprite[@name='BarContent']" name="sprite">ku_hudbar_lg</setattribute>
+	<set xpath="/windows/window[@name='HUDRightStatBars']//rect[@stat_type='VehicleFuel']/sprite[@name='BarContent']/@color">[kuStamina]</set>
+	<set xpath="/windows/window[@name='HUDRightStatBars']//rect[@stat_type='VehicleHealth']/sprite[@name='BarContent']/@color">[kuHealth]</set>
+
+	<!-- ================================================================ -->
+	<!-- HUD: enemy health bar                                            -->
+	<!-- Vanilla shows it in god mode only (visibility never / godmode /  -->
+	<!-- always). KitsuneUI shows it always: Ada's call, 2026-10-13.      -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='windowTargetBar']/@visibility">always</set>
+	<setattribute xpath="/windows/window[@name='windowTargetBar']/rect[@visible='{isnotboss}']/sprite[@name='border' or @name='BarContent']" name="sprite">ku_hudbar_xl</setattribute>
+	<set xpath="/windows/window[@name='windowTargetBar']/rect[@visible='{isnotboss}']/sprite[@name='border']/@type">simple</set>
+	<set xpath="/windows/window[@name='windowTargetBar']/rect[@visible='{isnotboss}']/sprite[@name='border']/@color">[kuHudTrack]</set>
+	<set xpath="/windows/window[@name='windowTargetBar']/rect[@visible='{isnotboss}']/sprite[@name='BarContent']/@color">[kuHealth]</set>
+
+	<!-- ================================================================ -->
+	<!-- HUD: compass                                                     -->
+	<!-- Two grey header-fill boxes -> one glass strip, plus a fox-fire   -->
+	<!-- tick at the centre where you're facing.                          -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='windowCompass']/sprite[@sprite='ui_game_header_fill' and @depth='0']/@color">[white]</set>
+	<set xpath="/windows/window[@name='windowCompass']/sprite[@sprite='ui_game_header_fill' and @depth='0']/@sprite">ku_panel_sm</set>
+	<set xpath="/windows/window[@name='windowCompass']/sprite[@sprite='ui_game_header_fill' and @depth='1']/@color">[transparent]</set>
+	<append xpath="/windows/window[@name='windowCompass']">
+		<sprite depth="9" name="kuNeedle" sprite="ku_pill" pos="238,-2" width="4" height="12" color="[kuAccent]" visible="{show_compass}" />
+	</append>
+
+	<!-- ================================================================ -->
+	<!-- HUD: block health under the crosshair                            -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='focusedBlockHealth']/sprite[@name='background']/@sprite">ku_bar</set>
+	<set xpath="/windows/window[@name='focusedBlockHealth']/sprite[@name='background']/@color">[kuHudTrack]</set>
+	<setattribute xpath="/windows/window[@name='focusedBlockHealth']/sprite[@name='bar']" name="sprite">ku_hudbar_thin</setattribute>
+	<set xpath="/windows/window[@name='focusedBlockHealth']/sprite[@name='bar']/@color">[kuIcon]</set>
+
+	<!-- ================================================================ -->
 	<!-- Toolbelt                                                         -->
 	<!-- ================================================================ -->
 

@@ -31,6 +31,8 @@
 		<style_entry name="kuBtn"          value="18,22,44,200" />     <!-- button fill -->
 		<style_entry name="kuBtnHover"     value="40,92,112,220" />    <!-- button fill on hover: fox-fire over indigo -->
 		<style_entry name="kuBtnDisabled"  value="18,22,44,110" />
+		<style_entry name="kuHudTrack"     value="14,16,32,252" />     <!-- HUD bar track: near-solid, so the injury hatch under it never leaks through -->
+		<style_entry name="kuHatch"        value="255,107,90,190" />   <!-- injury hatch on stat bars -->
 		<style_entry name="kuHealth"       value="255,107,90,255" />
 		<style_entry name="kuStamina"      value="242,181,68,255" />
 		<style_entry name="kuFood"         value="155,211,106,255" />
