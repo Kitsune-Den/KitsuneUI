@@ -108,6 +108,15 @@
 	<set xpath="/templates/quest_turnin_entry/rect/@selected_color">[kuGood]</set>
 	<set xpath="/templates/quest_objective_entry/rect/@complete_color">[kuGood]</set>
 
+	<!-- Player list (Tab): column header a gold cell, rows soft cells, every other row -->
+	<!-- fainter (the code paints alternating_color onto the row background).          -->
+	<set xpath="/templates/*[self::players_header or self::players_entry]/rect/sprite[@name='backgroundMain']/@color">[transparent]</set>
+	<setattribute xpath="/templates/players_header/rect/sprite[@color='[mediumGrey]']" name="sprite">ku_round_sm</setattribute>
+	<set xpath="/templates/players_header/rect/sprite[@sprite='ku_round_sm']/@color">[kuCellHeader]</set>
+	<setattribute xpath="/templates/players_entry/rect/sprite[@name='background']" name="sprite">ku_round_sm</setattribute>
+	<set xpath="/templates/players_entry/rect/sprite[@name='background']/@color">[kuCell]</set>
+	<set xpath="/templates/players_entry/rect/@alternating_color">[kuCellAlt]</set>
+
 	<!-- Waypoint and shared-waypoint rows, and the waypoint icon picker: same row code. -->
 	<set xpath="/templates/*[self::waypoint_entry or self::invites_entry]/rect/sprite[@name='backgroundMain']/@color">[transparent]</set>
 	<setattribute xpath="/templates/*[self::waypoint_entry or self::invites_entry]/rect/sprite[@name='background']" name="atlas">KitsuneRows</setattribute>

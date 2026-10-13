@@ -512,6 +512,38 @@
 	</prepend>
 
 	<!-- ================================================================ -->
+	<!-- Chat: while typing, the grey box becomes glass and the input     -->
+	<!-- line a soft ring. (The chat history, chatoutput, stays bare text -->
+	<!-- that fades out, as vanilla.)                                     -->
+	<!-- ================================================================ -->
+	<setattribute xpath="/windows/window[@name='chat']/rect[@name='frame']/sprite[@color='[darkGrey]']" name="sprite">ku_panel_body</setattribute>
+	<set xpath="/windows/window[@name='chat']/rect[@name='frame']/sprite[@color='[darkGrey]']/@globalopacitymod">1</set>
+	<set xpath="/windows/window[@name='chat']/rect[@name='frame']/sprite[@sprite='ku_panel_body']/@color">[white]</set>
+	<set xpath="/windows/window[@name='chat']/rect[@name='frame']/sprite[@name='border']/@color">[transparent]</set>
+	<set xpath="/windows/window[@name='chat']/rect[@name='frame']/rect[@name='input']/sprite[@name='border']/@sprite">ku_round_md_ring</set>
+	<set xpath="/windows/window[@name='chat']/rect[@name='frame']/rect[@name='input']/sprite[@name='border']/@color">[kuEdge]</set>
+	<setattribute xpath="/windows/window[@name='chat']//label[@name='toLabel']" name="color">[kuTextMid]</setattribute>
+
+	<!-- ================================================================ -->
+	<!-- Players (Tab): one glass body, tabs as glass buttons, column     -->
+	<!-- header a gold cell, rows soft cells (rows in templates.xml).     -->
+	<!-- The Discord tab's three columns get soft cells too.              -->
+	<!-- ================================================================ -->
+	<prepend xpath="/windows/window[@name='players']">
+		<sprite depth="-1" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,-40" width="1320" height="792" />
+	</prepend>
+	<set xpath="/windows/window[@name='players']//sprite[@sprite='menu_empty3px' and @color='[black]']/@color">[transparent]</set>
+	<set xpath="/windows/window[@name='players']//sprite[@sprite='menu_empty3px' and @color='[darkGrey]']/@sprite">ku_round_sm</set>
+	<set xpath="/windows/window[@name='players']//sprite[@sprite='ku_round_sm' and @color='[darkGrey]']/@color">[kuCell]</set>
+	<setattribute xpath="/windows/window[@name='players']//sprite[@name='pagingControls']" name="sprite">ku_round_sm</setattribute>
+	<set xpath="/windows/window[@name='players']//sprite[@name='pagingControls']/@color">[kuCell]</set>
+	<!-- The tab buttons override simplebutton's colours; hand them back to the theme. -->
+	<set xpath="/windows/window[@name='players']//simplebutton[@name='tabButton']/@bordercolor">[kuEdge]</set>
+	<set xpath="/windows/window[@name='players']//simplebutton[@name='tabButton']/@defaultcolor">[kuBtn]</set>
+	<set xpath="/windows/window[@name='players']//simplebutton[@name='tabButton']/@selectedsprite">ku_round_md</set>
+	<set xpath="/windows/window[@name='players']//simplebutton[@name='tabButton']/@selectedcolor">[kuBtnHover]</set>
+
+	<!-- ================================================================ -->
 	<!-- Map, waypoints, shared waypoints and the map's pop-ups           -->
 	<!-- Same treatment as the quest windows: frames out, toolbars and    -->
 	<!-- search bars become soft cells, one glass body per window. The    -->
