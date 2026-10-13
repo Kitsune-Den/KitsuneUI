@@ -1,0 +1,77 @@
+<configs>
+
+	<!-- Windows are restyled in place: elements keep their vanilla names, paths and grid  -->
+	<!-- sizes, so mods that resize bags, containers and the toolbelt still patch them.    -->
+
+	<!-- ================================================================ -->
+	<!-- Backpack                                                         -->
+	<!-- ================================================================ -->
+
+	<!-- Glass body under the glass header; pulled up 3px so the two meet at the divider. -->
+	<set xpath="/windows/window[@name='windowBackpack']/rect[@name='content']/sprite[@name='sprBackground']/@sprite">ku_panel_body</set>
+	<set xpath="/windows/window[@name='windowBackpack']/rect[@name='content']/sprite[@name='sprBackground']/@color">[white]</set>
+	<set xpath="/windows/window[@name='windowBackpack']/rect[@name='content']/sprite[@name='sprBackground']/@globalopacitymod">1</set>
+	<setattribute xpath="/windows/window[@name='windowBackpack']/rect[@name='content']/sprite[@name='sprBackground']" name="pos">0,3</setattribute>
+	<set xpath="/windows/window[@name='windowBackpack']/rect[@name='content']/sprite[@name='sprBorder']/@color">[transparent]</set>
+
+	<setattribute xpath="/windows/window[@name='windowBackpack']/rect[@name='header']/label[@name='windowName']" name="color">[kuGold]</setattribute>
+	<setattribute xpath="/windows/window[@name='windowBackpack']/rect[@name='header']/sprite[@name='windowIcon']" name="color">[kuAccent]</setattribute>
+	<set xpath="/windows/window[@name='windowBackpack']/rect[@name='header']/sprite[@name='costIcon']/@color">[kuGold]</set>
+
+	<set xpath="/windows/window[@name='windowBackpack']/rect[@name='content']/defaultscrollbar/@thumb_color_active">[kuAccent]</set>
+	<set xpath="/windows/window[@name='windowBackpack']/rect[@name='content']/defaultscrollbar/@thumb_color_inactive">[kuTextMuted]</set>
+	<set xpath="/windows/window[@name='windowBackpack']/rect[@name='content']/defaultscrollbar/@border_color_active">[transparent]</set>
+	<set xpath="/windows/window[@name='windowBackpack']/rect[@name='content']/defaultscrollbar/@border_color_inactive">[transparent]</set>
+	<set xpath="/windows/window[@name='windowBackpack']/rect[@name='content']/defaultscrollbar/@background_color_active">[kuTrack]</set>
+	<set xpath="/windows/window[@name='windowBackpack']/rect[@name='content']/defaultscrollbar/@background_color_inactive">[kuTrack]</set>
+
+	<!-- ================================================================ -->
+	<!-- Loot containers                                                  -->
+	<!-- ================================================================ -->
+
+	<!-- Vanilla draws the header sprite unsliced (stretched); slice it so the corners stay round. -->
+	<setattribute xpath="/windows/window[@name='windowLooting']/rect[@name='header']/sprite[@name='headerbackground']" name="type">sliced</setattribute>
+	<setattribute xpath="/windows/window[@name='windowLooting']/rect[@name='header']/label[@name='lootName']" name="color">[kuGold]</setattribute>
+	<setattribute xpath="/windows/window[@name='windowLooting']/rect[@name='header']/sprite[@name='windowIcon']" name="color">[kuAccent]</setattribute>
+
+	<!-- Vanilla has no background behind the loot grid. Ours spans the header's width      -->
+	<!-- (grid + scrollbar) and the visible rows, and starts 6px up so it meets the header. -->
+	<prepend xpath="/windows/window[@name='windowLooting']/rect[@name='content']">
+		<sprite depth="0" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,6"
+			width="{% v2i_x(gridDimensions) * 75 + 19 }"
+			height="{% Min( v2i_y(gridDimensions) * 75 + 3, 753 ) + 12 }" />
+	</prepend>
+
+	<set xpath="/windows/window[@name='windowLooting']/rect[@name='content']/defaultscrollbar/@thumb_color_active">[kuAccent]</set>
+	<set xpath="/windows/window[@name='windowLooting']/rect[@name='content']/defaultscrollbar/@thumb_color_inactive">[kuTextMuted]</set>
+	<set xpath="/windows/window[@name='windowLooting']/rect[@name='content']/defaultscrollbar/@border_color_active">[transparent]</set>
+	<set xpath="/windows/window[@name='windowLooting']/rect[@name='content']/defaultscrollbar/@border_color_inactive">[transparent]</set>
+	<set xpath="/windows/window[@name='windowLooting']/rect[@name='content']/defaultscrollbar/@background_color_active">[kuTrack]</set>
+	<set xpath="/windows/window[@name='windowLooting']/rect[@name='content']/defaultscrollbar/@background_color_inactive">[kuTrack]</set>
+
+	<!-- ================================================================ -->
+	<!-- Toolbelt                                                         -->
+	<!-- ================================================================ -->
+
+	<!-- A glass tray that grows with the number of bars (1, or 2 with KitsuneUI_Toolbelt20). -->
+	<!-- Bars stack upward 82px apart, so the tray's top follows beltCount; it sits inside  -->
+	<!-- the Toolbelt controller, which is what provides beltCount.                         -->
+	<set xpath="/windows/window[@name='windowToolbelt']/rect/sprite[@name='backgroundMain']/@color">[transparent]</set>
+	<prepend xpath="/windows/window[@name='windowToolbelt']/rect/rect[@controller='Toolbelt']">
+		<sprite depth="0" name="kuTray" sprite="ku_panel" type="sliced" color="[white]"
+			pos="{%'-9, ' + ((beltCount - 1) * 82 + 9)}" width="768" height="{%beltCount * 82 + 11}" />
+	</prepend>
+
+	<!-- XP bar: vanilla sits on the toolbelt's top edge, which with two bars is between them. -->
+	<!-- Move it under the tray as a thin rounded bar in the XP colour.                       -->
+	<set xpath="/windows/window[@name='windowToolbelt']/rect/sprite[@visible='{showxp}']/@pos">3,-92</set>
+	<set xpath="/windows/window[@name='windowToolbelt']/rect/sprite[@visible='{showxp}']/@height">5</set>
+	<set xpath="/windows/window[@name='windowToolbelt']/rect/sprite[@visible='{showxp}']/@sprite">ku_bar</set>
+	<setattribute xpath="/windows/window[@name='windowToolbelt']/rect/sprite[@visible='{showxp}' and @depth='1']" name="width">750</setattribute>
+	<set xpath="/windows/window[@name='windowToolbelt']/rect/sprite[@visible='{showxp}' and @depth='1']/@color">[kuTrack]</set>
+	<set xpath="/windows/window[@name='windowToolbelt']/rect/sprite[@visible='{showxp}' and @depth='9']/@color">[transparent]</set>
+	<setattribute xpath="/windows/window[@name='windowToolbelt']" name="standard_xp_color">180,140,255,255</setattribute>
+	<setattribute xpath="/windows/window[@name='windowToolbelt']" name="updating_xp_color">212,186,255,255</setattribute>
+	<setattribute xpath="/windows/window[@name='windowToolbelt']" name="deficit_xp_color">255,107,90,255</setattribute>
+
+</configs>

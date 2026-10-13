@@ -1,0 +1,59 @@
+<configs>
+
+	<!-- ================================================================ -->
+	<!-- Kitsunebi palette                                                -->
+	<!-- The ku* entries are ours; windows we restyle use them. Change    -->
+	<!-- kuAccent to recolour every selection, glow and active tab.       -->
+	<!-- ================================================================ -->
+	<append xpath="/styles/global">
+		<style_entry name="kuAccent"       value="111,227,255,255" />  <!-- fox-fire cyan -->
+		<style_entry name="kuAccentSoft"   value="111,227,255,64" />
+		<style_entry name="kuAccentGlow"   value="111,227,255,140" />
+		<style_entry name="kuGold"         value="217,184,115,255" />  <!-- titles, hairlines -->
+		<style_entry name="kuGoldSoft"     value="217,184,115,90" />
+		<style_entry name="kuText"         value="232,236,247,255" />
+		<style_entry name="kuTextBright"   value="242,245,252,255" />
+		<style_entry name="kuTextMid"      value="195,202,224,255" />
+		<style_entry name="kuTextMuted"    value="154,163,191,255" />
+		<style_entry name="kuIcon"         value="201,211,238,255" />
+		<style_entry name="kuEdge"         value="150,175,255,34" />   <!-- slot and button outlines -->
+		<style_entry name="kuEdgeFaint"    value="150,175,255,20" />
+		<style_entry name="kuFill"         value="255,255,255,12" />   <!-- slot and button fill -->
+		<style_entry name="kuFillEmpty"    value="255,255,255,5" />
+		<style_entry name="kuFillHover"    value="255,255,255,26" />
+		<style_entry name="kuTrack"        value="255,255,255,20" />   <!-- empty part of bars -->
+		<style_entry name="kuHealth"       value="255,107,90,255" />
+		<style_entry name="kuStamina"      value="242,181,68,255" />
+		<style_entry name="kuFood"         value="155,211,106,255" />
+		<style_entry name="kuWater"        value="89,180,255,255" />
+		<style_entry name="kuXP"           value="180,140,255,255" />
+		<style_entry name="kuGood"         value="111,210,102,255" />
+		<style_entry name="kuDanger"       value="255,107,90,255" />
+	</append>
+
+	<!-- Vanilla globals that most windows (and other mods' windows) draw with. Moving them -->
+	<!-- onto the indigo/cyan palette makes windows we haven't rebuilt sit in the theme too. -->
+	<set xpath="/styles/global/style_entry[@name='darkestGrey']/@value">10,12,24,255</set>
+	<set xpath="/styles/global/style_entry[@name='darkGrey']/@value">22,26,48,255</set>
+	<set xpath="/styles/global/style_entry[@name='mediumGrey']/@value">40,46,78,255</set>
+	<set xpath="/styles/global/style_entry[@name='lightGrey']/@value">110,118,150,255</set>
+	<set xpath="/styles/global/style_entry[@name='lightestGrey']/@value">154,163,191,255</set>
+	<set xpath="/styles/global/style_entry[@name='borderColor']/@value">6,8,16,255</set>
+	<set xpath="/styles/global/style_entry[@name='mediumGrey_half_alpha']/@value">40,46,78,128</set>
+	<set xpath="/styles/global/style_entry[@name='darkGrey_half_alpha']/@value">22,26,48,128</set>
+	<set xpath="/styles/global/style_entry[@name='labelColor']/@value">232,236,247,255</set>
+	<set xpath="/styles/global/style_entry[@name='iconColor']/@value">201,211,238,255</set>
+	<set xpath="/styles/global/style_entry[@name='selectedColor']/@value">111,227,255,255</set>
+	<set xpath="/styles/global/style_entry[@name='hoverColor']/@value">217,184,115,255</set>
+	<set xpath="/styles/global/style_entry[@name='disabledColor']/@value">110,118,150,255</set>
+	<set xpath="/styles/global/style_entry[@name='disabledLabelColor']/@value">110,118,150,255</set>
+
+	<!-- Item slot colours. The slot ring and glow take select_color when selected,  -->
+	<!-- highlight_color on hover, holding_color for the held toolbelt slot and      -->
+	<!-- background_color otherwise; the fill is always background_color.            -->
+	<set xpath="/styles/style[@name='itemStack' or @name='signStack' or @name='vehicleStack' or @name='itemPartStack']/style_entry[@name='select_color']/@value">[kuAccent]</set>
+	<set xpath="/styles/style[@name='itemStack' or @name='signStack' or @name='vehicleStack' or @name='itemPartStack']/style_entry[@name='highlight_color']/@value">[kuGold]</set>
+	<set xpath="/styles/style[@name='itemStack' or @name='signStack' or @name='vehicleStack' or @name='itemPartStack']/style_entry[@name='holding_color']/@value">[kuAccent]</set>
+	<set xpath="/styles/style[@name='itemStack' or @name='signStack' or @name='vehicleStack' or @name='itemPartStack']/style_entry[@name='background_color']/@value">[kuFill]</set>
+
+</configs>

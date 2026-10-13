@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xml>
+	<Name value="KitsuneUI" />
+	<DisplayName value="KitsuneUI" />
+	<Description value="Kitsunebi, a night glass interface: deep indigo panels, fox-fire accents and gold hairlines. XML and images only, so it works with EAC on. Restyles windows in place so mods that resize bags, containers and the toolbelt keep working. Install on the server and every client." />
+	<Website value="https://github.com/Kitsune-Den/KitsuneUI" />
+	<Author value="AdaInTheLab" />
+	<Version value="0.1.0" />
+</xml>

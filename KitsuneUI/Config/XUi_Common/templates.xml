@@ -1,0 +1,9 @@
+<configs>
+
+	<!-- Window headers. headerbg draws ui_game_panel_header, which this mod replaces with -->
+	<!-- a glass header (rounded top, gold divider). The colour is baked into the image, so -->
+	<!-- draw it untinted, and let it follow the Background Opacity setting like the body.  -->
+	<set xpath="/templates/headerbg/@backcolor">[white]</set>
+	<set xpath="/templates/headerbg/@globalopacitymod">1</set>
+
+</configs>

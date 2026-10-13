@@ -1,0 +1,45 @@
+<configs>
+
+	<!-- ================================================================ -->
+	<!-- Item slot (every backpack, loot, toolbelt and storage cell)      -->
+	<!-- Vanilla layers, kept by name so other mods' patches still land:  -->
+	<!--   backgroundMain   black 3px frame  -> faint rounded edge        -->
+	<!--   background       {selectionbordercolor} frame -> rounded ring  -->
+	<!--   highlightOverlay {backgroundcolor} fill -> rounded fill        -->
+	<!-- The ring colour comes from the itemStack style: select_color     -->
+	<!-- when selected, highlight_color on hover, holding_color for the   -->
+	<!-- held toolbelt slot, background_color otherwise.                  -->
+	<!-- ================================================================ -->
+
+	<set xpath="/templates/item_stack/rect/sprite[@name='backgroundMain']/@sprite">ku_slot_ring</set>
+	<set xpath="/templates/item_stack/rect/sprite[@name='backgroundMain']/@color">[kuEdge]</set>
+	<set xpath="/templates/item_stack/rect/sprite[@name='backgroundMain']/@pos">1,-1</set>
+	<set xpath="/templates/item_stack/rect/sprite[@name='backgroundMain']/@width">${-2+cell_size}</set>
+	<set xpath="/templates/item_stack/rect/sprite[@name='backgroundMain']/@height">${-2+cell_size}</set>
+
+	<set xpath="/templates/item_stack/rect/sprite[@name='background']/@sprite">ku_slot_ring2</set>
+	<setattribute xpath="/templates/item_stack/rect/sprite[@name='background']" name="pos">1,-1</setattribute>
+
+	<setattribute xpath="/templates/item_stack/rect/sprite[@name='highlightOverlay']" name="sprite">ku_slot_fill</setattribute>
+	<setattribute xpath="/templates/item_stack/rect/sprite[@name='highlightOverlay']" name="pos">1,-1</setattribute>
+	<set xpath="/templates/item_stack/rect/sprite[@name='highlightOverlay']/@width">${-2+cell_size}</set>
+	<set xpath="/templates/item_stack/rect/sprite[@name='highlightOverlay']/@height">${-2+cell_size}</set>
+
+	<!-- Fox-fire glow behind the slot, in the ring's colour: nearly invisible for a plain -->
+	<!-- slot (background_color is 5% white), cyan when selected or held, gold on hover.   -->
+	<insertBefore xpath="/templates/item_stack/rect/sprite[@name='backgroundMain']">
+		<sprite depth="1" name="kuGlow" sprite="ku_glow" type="sliced" color="{selectionbordercolor}"
+			pos="-7,7" width="${14+cell_size}" height="${14+cell_size}" />
+	</insertBefore>
+
+	<!-- Durability: a thin rounded bar inset from the slot edge instead of a 10px block. -->
+	<set xpath="/templates/item_stack/rect/sprite[@name='durabilityBackground']/@sprite">ku_bar</set>
+	<set xpath="/templates/item_stack/rect/sprite[@name='durabilityBackground']/@color">255,107,90,150</set>
+	<set xpath="/templates/item_stack/rect/sprite[@name='durability']/@sprite">ku_bar</set>
+	<set xpath="/templates/item_stack/rect/sprite[@name='durability']/@color">[kuTrack]</set>
+	<set xpath="/templates/item_stack/rect/filledsprite[@name='durability']/@sprite">ku_bar</set>
+	<set xpath="/templates/item_stack/rect/*[@name='durabilityBackground' or @name='durability']/@pos">6,${-Floor(4*cell_size/5)-3}</set>
+	<set xpath="/templates/item_stack/rect/*[@name='durabilityBackground' or @name='durability']/@width">${-12+cell_size}</set>
+	<set xpath="/templates/item_stack/rect/*[@name='durabilityBackground' or @name='durability']/@height">5</set>
+
+</configs>
