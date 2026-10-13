@@ -19,7 +19,7 @@
 	<set xpath="/windows/window[@name='windowBackpack']/rect[@name='header']/sprite[@name='costIcon']/@color">[kuGold]</set>
 
 	<set xpath="/windows/window[@name='windowBackpack']/rect[@name='content']/defaultscrollbar/@thumb_color_active">[kuAccent]</set>
-	<set xpath="/windows/window[@name='windowBackpack']/rect[@name='content']/defaultscrollbar/@thumb_color_inactive">[kuTextMuted]</set>
+	<set xpath="/windows/window[@name='windowBackpack']/rect[@name='content']/defaultscrollbar/@thumb_color_inactive">[kuEdge]</set>
 	<set xpath="/windows/window[@name='windowBackpack']/rect[@name='content']/defaultscrollbar/@border_color_active">[transparent]</set>
 	<set xpath="/windows/window[@name='windowBackpack']/rect[@name='content']/defaultscrollbar/@border_color_inactive">[transparent]</set>
 	<set xpath="/windows/window[@name='windowBackpack']/rect[@name='content']/defaultscrollbar/@background_color_active">[kuTrack]</set>
@@ -48,7 +48,7 @@
 	<setattribute xpath="/windows/window[@name='windowLooting' or @name='windowBagStorage']/rect[@name='content']/scrollview" name="depth">2</setattribute>
 
 	<set xpath="/windows/window[@name='windowLooting' or @name='windowBagStorage']/rect[@name='content']/defaultscrollbar/@thumb_color_active">[kuAccent]</set>
-	<set xpath="/windows/window[@name='windowLooting' or @name='windowBagStorage']/rect[@name='content']/defaultscrollbar/@thumb_color_inactive">[kuTextMuted]</set>
+	<set xpath="/windows/window[@name='windowLooting' or @name='windowBagStorage']/rect[@name='content']/defaultscrollbar/@thumb_color_inactive">[kuEdge]</set>
 	<set xpath="/windows/window[@name='windowLooting' or @name='windowBagStorage']/rect[@name='content']/defaultscrollbar/@border_color_active">[transparent]</set>
 	<set xpath="/windows/window[@name='windowLooting' or @name='windowBagStorage']/rect[@name='content']/defaultscrollbar/@border_color_inactive">[transparent]</set>
 	<set xpath="/windows/window[@name='windowLooting' or @name='windowBagStorage']/rect[@name='content']/defaultscrollbar/@background_color_active">[kuTrack]</set>
