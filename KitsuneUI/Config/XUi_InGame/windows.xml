@@ -234,6 +234,42 @@
 	<setattribute xpath="/windows/window[@name='windowTrader' or @name='serviceInfoPanel' or @name='windowQuestTurnInDescription' or @name='windowQuestTurnInRewards' or @name='windowQuestList' or @name='windowQuestSharedList' or @name='windowQuestDescription' or @name='windowQuestObjectives' or @name='windowQuestRewards']/rect[@name='header']/sprite[@name='windowIcon'][not(@color)]" name="color">[kuAccent]</setattribute>
 
 	<!-- ================================================================ -->
+	<!-- Character, buffs, skills, challenges                             -->
+	<!-- One glass body per window, sized to where the lists really end   -->
+	<!-- (vanilla content runs past the declared window height, e.g. the -->
+	<!-- skill lists end at -776 in a 730 window); frames out; every grey -->
+	<!-- block a soft                                                     -->
+	<!-- cell (stats rows alternate cell / faint cell).                   -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='CharacterFrameWindow' or @name='ActiveBuffsWindow' or @name='buffInfoPanel' or @name='windowSkillList' or @name='windowSkillAttributeInfo' or @name='windowSkillSkillInfo' or @name='windowSkillPerkInfo' or @name='windowSkillBookInfo' or @name='windowSkillCraftingInfo' or @name='windowChallengeList' or @name='windowChallengeEntryDescription']//sprite[@color='[black]'][@fillcenter='false']/@color">[transparent]</set>
+	<setattribute xpath="/windows/window[@name='CharacterFrameWindow' or @name='ActiveBuffsWindow' or @name='buffInfoPanel' or @name='windowSkillList' or @name='windowSkillAttributeInfo' or @name='windowSkillSkillInfo' or @name='windowSkillPerkInfo' or @name='windowSkillBookInfo' or @name='windowSkillCraftingInfo' or @name='windowChallengeList' or @name='windowChallengeEntryDescription']//sprite[not(@fillcenter='false')][@color='[darkGrey]' or @color='[mediumGrey]' or @color='[lightGrey]' or @color='[darkestGrey]']" name="sprite">ku_round_sm</setattribute>
+	<set xpath="/windows/window[@name='CharacterFrameWindow' or @name='ActiveBuffsWindow' or @name='buffInfoPanel' or @name='windowSkillList' or @name='windowSkillAttributeInfo' or @name='windowSkillSkillInfo' or @name='windowSkillPerkInfo' or @name='windowSkillBookInfo' or @name='windowSkillCraftingInfo' or @name='windowChallengeList' or @name='windowChallengeEntryDescription']//sprite[@sprite='ku_round_sm'][@color='[darkGrey]' or @color='[mediumGrey]' or @color='[lightGrey]']/@color">[kuCell]</set>
+	<set xpath="/windows/window[@name='CharacterFrameWindow']//*[@backgroundcolor='[darkGrey]']/@backgroundcolor">[kuCell]</set>
+	<set xpath="/windows/window[@name='CharacterFrameWindow']//*[@backgroundcolor='[darkestGrey]']/@backgroundcolor">[kuCellAlt]</set>
+	<setattribute xpath="/windows/window[@name='CharacterFrameWindow']//boxbg" name="backsprite">ku_round_sm</setattribute>
+	<setattribute xpath="/windows/window[@name='CharacterFrameWindow']//boxbg" name="backcolor">[kuCell]</setattribute>
+	<setattribute xpath="/windows/window[@name='CharacterFrameWindow']//boxbg" name="bordercolor">[transparent]</setattribute>
+
+	<prepend xpath="/windows/window[@name='CharacterFrameWindow']">
+		<sprite depth="-1" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,-40" width="340" height="745" />
+	</prepend>
+	<prepend xpath="/windows/window[@name='ActiveBuffsWindow']">
+		<sprite depth="-1" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,-40" width="320" height="732" />
+	</prepend>
+	<prepend xpath="/windows/window[@name='buffInfoPanel']">
+		<sprite depth="-1" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,-40" width="603" height="355" />
+	</prepend>
+	<prepend xpath="/windows/window[@name='windowSkillList' or @name='windowSkillAttributeInfo' or @name='windowSkillSkillInfo' or @name='windowSkillPerkInfo' or @name='windowSkillBookInfo' or @name='windowSkillCraftingInfo']">
+		<sprite depth="-1" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,-40" width="647" height="744" />
+	</prepend>
+	<prepend xpath="/windows/window[@name='windowChallengeList']">
+		<sprite depth="-1" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,-40" width="653" height="726" />
+	</prepend>
+	<prepend xpath="/windows/window[@name='windowChallengeEntryDescription']">
+		<sprite depth="-1" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,-40" width="553" height="563" />
+	</prepend>
+
+	<!-- ================================================================ -->
 	<!-- Admin / debug windows (debug menu, POI teleport, spawn menu,     -->
 	<!-- prefab editor panels)                                            -->
 	<!-- ================================================================ -->
@@ -350,15 +386,15 @@
 	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@stat_type='Food' or @stat_type='Water']/label[@width='45']/@width">59</set>
 	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@stat_type='Water'][@pos='87,-120']/@pos">104,-120</set>
 
-	<!-- Buff pop-outs above the bars, widened to match (168 -> 198, left edge kept). -->
-	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/@width">198</set>
-	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/@pos">85, 0</set>
-	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/sprite[@name='Background']/@width">192</set>
-	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/filledsprite[@name='BarContent']/@pos">-95,0</set>
-	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/filledsprite[@name='BarContent']/@size">190,40</set>
-	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/sprite[@name='Icon']/@pos">-69,0</set>
-	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/label[@name='TextContent']/@pos">-52,0</set>
-	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/label[@name='TextContent']/@size">148,40</set>
+	<!-- Buff pop-outs above the bars: same 201 width and same left and right edges as the bars. -->
+	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/@width">201</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/@pos">95, 0</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/sprite[@name='Background']/@width">201</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/filledsprite[@name='BarContent']/@pos">-99,0</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/filledsprite[@name='BarContent']/@size">198,40</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/sprite[@name='Icon']/@pos">-73,0</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/label[@name='TextContent']/@pos">-56,0</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/label[@name='TextContent']/@size">152,40</set>
 	<!-- The pop-up chip (ui_game_popup, ours) is 9-sliced so it takes any width cleanly. -->
 	<setattribute xpath="/windows/window[@name='HUDLeftStatBars' or @name='HUDRightStatBars']//sprite[@sprite='ui_game_popup']" name="type">sliced</setattribute>
 
@@ -466,5 +502,33 @@
 	<setattribute xpath="/windows/window[@name='windowToolbelt']" name="standard_xp_color">180,140,255,255</setattribute>
 	<setattribute xpath="/windows/window[@name='windowToolbelt']" name="updating_xp_color">212,186,255,255</setattribute>
 	<setattribute xpath="/windows/window[@name='windowToolbelt']" name="deficit_xp_color">255,107,90,255</setattribute>
+
+	<!-- ================================================================ -->
+	<!-- Map, waypoints, shared waypoints and the map's pop-ups           -->
+	<!-- Same treatment as the quest windows: frames out, toolbars and    -->
+	<!-- search bars become soft cells, one glass body per window. The    -->
+	<!-- waypoint rows are in templates.xml (KitsuneRows atlas).          -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='mapArea' or @name='mapTracking' or @name='mapInvites' or @name='mapTrackingPopup' or @name='mapAreaSetWaypoint' or @name='mapAreaChooseWaypoint' or @name='mapAreaEnterWaypointName']//sprite[@sprite='menu_empty3px' and @color='[black]']/@color">[transparent]</set>
+	<setattribute xpath="/windows/window[@name='mapArea' or @name='mapTracking' or @name='mapInvites']//sprite[not(@sprite)][@color='[darkGrey]' or @color='[mediumGrey]' or @color='[lightGrey]']" name="sprite">ku_round_sm</setattribute>
+	<set xpath="/windows/window[@name='mapArea' or @name='mapTracking' or @name='mapInvites']//sprite[@sprite='ku_round_sm'][@color='[darkGrey]' or @color='[mediumGrey]' or @color='[lightGrey]']/@color">[kuCell]</set>
+	<!-- The map content runs 3 px past the declared 770 (frame at -46, 761 tall). -->
+	<prepend xpath="/windows/window[@name='mapArea']">
+		<sprite depth="-1" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,-40" width="724" height="770" />
+	</prepend>
+	<prepend xpath="/windows/window[@name='mapTracking']">
+		<sprite depth="-1" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,-40" width="357" height="473" />
+	</prepend>
+	<prepend xpath="/windows/window[@name='mapInvites']">
+		<sprite depth="-1" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,-40" width="357" height="242" />
+	</prepend>
+	<!-- Right-click pop-ups (quick / save waypoint, icon picker, name field, share). -->
+	<setattribute xpath="/windows/window[@name='mapTrackingPopup' or @name='mapAreaSetWaypoint' or @name='mapAreaChooseWaypoint' or @name='mapAreaEnterWaypointName']//boxbg" name="backsprite">ku_panel</setattribute>
+	<setattribute xpath="/windows/window[@name='mapTrackingPopup' or @name='mapAreaSetWaypoint' or @name='mapAreaChooseWaypoint' or @name='mapAreaEnterWaypointName']//boxbg" name="backcolor">[white]</setattribute>
+	<setattribute xpath="/windows/window[@name='mapTrackingPopup' or @name='mapAreaSetWaypoint' or @name='mapAreaChooseWaypoint' or @name='mapAreaEnterWaypointName']//boxbg" name="bordercolor">[transparent]</setattribute>
+	<!-- Pop-up options swap menu_empty / ui_game_select_row on hover: KitsuneRows. -->
+	<setattribute xpath="/windows/window[@name='mapTrackingPopup' or @name='mapAreaSetWaypoint']//rect[@controller='MapPopupEntry']/sprite[@name='background']" name="atlas">KitsuneRows</setattribute>
+	<setattribute xpath="/windows/window[@name='mapTrackingPopup' or @name='mapAreaSetWaypoint']//rect[@controller='MapPopupEntry']/sprite[@name='background']" name="sprite">menu_empty</setattribute>
+	<set xpath="/windows/window[@name='mapTrackingPopup' or @name='mapAreaSetWaypoint']//rect[@controller='MapPopupEntry']/sprite[@name='background']/@color">[kuRowGrey]</set>
 
 </configs>

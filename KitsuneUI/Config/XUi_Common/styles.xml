@@ -105,6 +105,19 @@
 	<set xpath="/styles/style[@name='listentry.border']/style_entry[@name='sprite']/@value">ku_round_md_ring</set>
 	<set xpath="/styles/style[@name='listentry.border']/style_entry[@name='color']/@value">{% !hasentry ? color(0,0,0,0) : (isselected ? color(111,227,255,255) : (hovered ? color(217,184,115,200) : color(150,175,255,40) ) ) }</set>
 
+	<!-- ================================================================ -->
+	<!-- Top tab bar (paging header over the character / crafting / map  -->
+	<!-- windows) and the workstation title bar (nonpaging header).       -->
+	<!-- Vanilla: grey header fill in a black border, black name inset.   -->
+	<!-- Ours: a glass strip, the window name on a soft cell.             -->
+	<!-- ================================================================ -->
+	<set xpath="/styles/style[@name='paging.window.background.border' or @name='nonpaging.window.background.border' or @name='twitch.paging.window.background.border']/style_entry[@name='color']/@value">[transparent]</set>
+	<set xpath="/styles/style[@name='paging.window.background' or @name='nonpaging.window.background' or @name='twitch.paging.window.background']/style_entry[@name='sprite']/@value">ku_panel</set>
+	<set xpath="/styles/style[@name='paging.window.background' or @name='nonpaging.window.background' or @name='twitch.paging.window.background']/style_entry[@name='color']/@value">[white]</set>
+	<set xpath="/styles/style[@name='paging.window.name.background' or @name='nonpaging.window.name.background' or @name='twitch.paging.window.name.background']/style_entry[@name='sprite']/@value">ku_round_md</set>
+	<set xpath="/styles/style[@name='paging.window.name.background' or @name='nonpaging.window.name.background' or @name='twitch.paging.window.name.background']/style_entry[@name='color']/@value">[kuCell]</set>
+	<set xpath="/styles/style[@name='paging.window.name.foreground' or @name='nonpaging.window.name.foreground' or @name='twitch.paging.window.name.foreground']/style_entry[@name='color']/@value">[transparent]</set>
+
 	<!-- Item slot colours. The slot ring and glow take select_color when selected,  -->
 	<!-- highlight_color on hover, holding_color for the held toolbelt slot and      -->
 	<!-- background_color otherwise; the fill is always background_color.            -->

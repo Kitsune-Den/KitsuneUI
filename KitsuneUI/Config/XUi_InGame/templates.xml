@@ -107,6 +107,15 @@
 	<set xpath="/templates/quest_entry/rect/@finished_color">[kuGood]</set>
 	<set xpath="/templates/quest_turnin_entry/rect/@selected_color">[kuGood]</set>
 	<set xpath="/templates/quest_objective_entry/rect/@complete_color">[kuGood]</set>
+
+	<!-- Waypoint and shared-waypoint rows, and the waypoint icon picker: same row code. -->
+	<set xpath="/templates/*[self::waypoint_entry or self::invites_entry]/rect/sprite[@name='backgroundMain']/@color">[transparent]</set>
+	<setattribute xpath="/templates/*[self::waypoint_entry or self::invites_entry]/rect/sprite[@name='background']" name="atlas">KitsuneRows</setattribute>
+	<setattribute xpath="/templates/*[self::waypoint_entry or self::invites_entry]/rect/sprite[@name='background']" name="sprite">menu_empty</setattribute>
+	<set xpath="/templates/*[self::waypoint_entry or self::invites_entry]/rect/sprite[@name='background']/@color">[kuRowGrey]</set>
+	<setattribute xpath="/templates/map_popup_sub_line/rect/sprite[@controller='MapSubPopupEntry']" name="atlas">KitsuneRows</setattribute>
+	<setattribute xpath="/templates/map_popup_sub_line/rect/sprite[@controller='MapSubPopupEntry']" name="sprite">menu_empty</setattribute>
+	<set xpath="/templates/map_popup_sub_line/rect/sprite[@controller='MapSubPopupEntry']/@color">[kuRowGrey]</set>
 	<!-- Not done yet is muted grey, not red (red reads as failed). -->
 	<set xpath="/templates/quest_objective_entry/rect/@incomplete_color">[kuTextMuted]</set>
 
@@ -119,6 +128,62 @@
 	<!-- Admin list rows (POI teleport, spawn menu, prefab lists): the black outline goes; -->
 	<!-- the row colour comes from listentry.background_old, now on the KitsuneRows atlas. -->
 	<set xpath="/templates/*[self::poi_teleport_list_entry or self::entity_entry or self::prefab_file_entry or self::prefab_group_entry]/rect/sprite[@name='backgroundMain']/@color">[transparent]</set>
+
+	<!-- ================================================================ -->
+	<!-- Character, skills, buffs, challenges                             -->
+	<!-- ================================================================ -->
+	<!-- Skill list rows: {rowstatesprite} swaps menu_empty / ui_game_select_row like the  -->
+	<!-- quest rows; {rowstatecolor} from row_color / hover_color. KitsuneRows atlas.       -->
+	<set xpath="/templates/skill_entry/rect/sprite[@name='backgroundMain']/@color">[transparent]</set>
+	<setattribute xpath="/templates/skill_entry/rect/sprite[@sprite='{rowstatesprite}']" name="atlas">KitsuneRows</setattribute>
+	<set xpath="/templates/skill_entry/rect/@row_color">64,64,64,255</set>
+	<set xpath="/templates/skill_entry/rect/@hover_color">96,96,96,255</set>
+
+	<!-- Active buff rows: colour and sprite set in code (64 / 96 / white + select_row). -->
+	<set xpath="/templates/active_buff_entry/rect/sprite[@name='backgroundMain']/@color">[transparent]</set>
+	<setattribute xpath="/templates/active_buff_entry/rect/sprite[@name='background']" name="atlas">KitsuneRows</setattribute>
+	<setattribute xpath="/templates/active_buff_entry/rect/sprite[@name='background']" name="sprite">menu_empty</setattribute>
+	<set xpath="/templates/active_buff_entry/rect/sprite[@name='background']/@color">[kuRowGrey]</set>
+
+	<!-- Skill levels (perks, attributes, books, crafting): bought / available / locked.  -->
+	<!-- Vanilla tan / light grey / dark grey -> deep green / lighter navy / faint cell.   -->
+	<set xpath="/templates/*[self::skill_perk_level or self::skill_attribute_level or self::skill_book_level or self::skill_crafting_entry]/rect/@color_bg_bought">34,92,72,235</set>
+	<set xpath="/templates/*[self::skill_perk_level or self::skill_attribute_level or self::skill_book_level or self::skill_crafting_entry]/rect/@color_bg_available">40,60,96,225</set>
+	<set xpath="/templates/*[self::skill_perk_level or self::skill_attribute_level or self::skill_book_level or self::skill_crafting_entry]/rect/@color_bg_locked">[kuCell]</set>
+	<set xpath="/templates/*[self::skill_perk_level or self::skill_attribute_level or self::skill_book_level or self::skill_crafting_entry]/rect/sprite[@name='backgroundMainColor']/@sprite">ku_round_sm</set>
+	<set xpath="/templates/*[self::skill_perk_level or self::skill_attribute_level or self::skill_book_level or self::skill_crafting_entry]/rect/sprite[@name='backgroundMain']/@color">[transparent]</set>
+	<set xpath="/templates/skill_crafting_entry/rect/sprite[@name='durabilityBackground' or @name='durability']/@sprite">ku_bar</set>
+	<set xpath="/templates/skill_crafting_entry/rect/sprite[@name='durabilityBackground']/@color">[kuTrack]</set>
+
+	<!-- Challenge groups: soft cells. Challenge entries: rounded rows, teal when selected. -->
+	<set xpath="/templates/challenge_list_entry//sprite[@name='backgroundMain'][@color='[black]']/@color">[transparent]</set>
+	<setattribute xpath="/templates/challenge_list_entry//sprite[@name='background'][@color='[darkGrey]']" name="sprite">ku_round_sm</setattribute>
+	<set xpath="/templates/challenge_list_entry//sprite[@name='background'][@color='[darkGrey]']/@color">[kuCell]</set>
+	<!-- Challenge tiles (challenge_entry, weather_challenge_entry) are built like item -->
+	<!-- slots: frame, fill and a {rowstatecolor} ring. Same treatment as item slots:   -->
+	<!-- dark rounded well, faint edge, ring gold on hover and fox-fire when selected.  -->
+	<set xpath="/templates/*[self::challenge_entry or self::weather_challenge_entry]/rect/@row_color">150,175,255,40</set>
+	<setattribute xpath="/templates/*[self::challenge_entry or self::weather_challenge_entry]/rect" name="hover_color">[kuGold]</setattribute>
+	<setattribute xpath="/templates/*[self::challenge_entry or self::weather_challenge_entry]/rect" name="selected_color">[kuAccent]</setattribute>
+	<set xpath="/templates/*[self::challenge_entry or self::weather_challenge_entry]/rect/sprite[@name='backgroundMain']/@sprite">ku_slot_ring</set>
+	<set xpath="/templates/*[self::challenge_entry or self::weather_challenge_entry]/rect/sprite[@name='backgroundMain']/@color">[kuEdge]</set>
+	<set xpath="/templates/*[self::challenge_entry or self::weather_challenge_entry]/rect/sprite[@name='backgroundMain']/@pos">2,-2</set>
+	<set xpath="/templates/challenge_entry/rect/sprite[@name='backgroundMain']/@width">54</set>
+	<set xpath="/templates/challenge_entry/rect/sprite[@name='backgroundMain']/@height">54</set>
+	<set xpath="/templates/weather_challenge_entry/rect/sprite[@name='backgroundMain']/@width">64</set>
+	<set xpath="/templates/weather_challenge_entry/rect/sprite[@name='backgroundMain']/@height">64</set>
+	<setattribute xpath="/templates/*[self::challenge_entry or self::weather_challenge_entry]/rect/sprite[@name='highlightOverlay']" name="sprite">ku_slot_fill</setattribute>
+	<set xpath="/templates/*[self::challenge_entry or self::weather_challenge_entry]/rect/sprite[@name='highlightOverlay']/@color">[kuSlotWell]</set>
+	<set xpath="/templates/*[self::challenge_entry or self::weather_challenge_entry]/rect/sprite[@name='background'][@color='{rowstatecolor}']/@sprite">ku_slot_ring2</set>
+	<!-- Progress bar under a tile: teal on black -> fox-fire on a faint track. -->
+	<set xpath="/templates/*[self::challenge_entry or self::weather_challenge_entry]/rect/rect/sprite[@name='border']/@color">[transparent]</set>
+	<setattribute xpath="/templates/*[self::challenge_entry or self::weather_challenge_entry]/rect/rect/sprite[@name='background' or @name='BarContent']" name="sprite">ku_bar</setattribute>
+	<set xpath="/templates/*[self::challenge_entry or self::weather_challenge_entry]/rect/rect/sprite[@name='background']/@color">[kuTrack]</set>
+	<set xpath="/templates/*[self::challenge_entry or self::weather_challenge_entry]/rect/rect/sprite[@name='BarContent']/@color">[kuAccent]</set>
+
+	<!-- Character stats rows: frame out, rounded cells (colour comes from the caller). -->
+	<set xpath="/templates/player_stats_entry/rect/sprite[@color='[black]']/@color">[transparent]</set>
+	<setattribute xpath="/templates/player_stats_entry/rect/sprite[@color='${backgroundcolor}']" name="sprite">ku_round_sm</setattribute>
 
 	<!-- ================================================================ -->
 	<!-- Dialog response rows (trader / NPC options)                      -->
