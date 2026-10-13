@@ -68,6 +68,41 @@
 	</append>
 
 	<!-- ================================================================ -->
+	<!-- Party and companion health bars (HUD, top left)                  -->
+	<!-- Same three layers as the stat bars: hatch pill under a dark     -->
+	<!-- track filled to the injury-reduced max, under the health fill.   -->
+	<!-- ================================================================ -->
+	<set xpath="/templates/*[self::party_entry or self::companion_entry]/rect/sprite[@name='border']/@color">[transparent]</set>
+	<set xpath="/templates/*[self::party_entry or self::companion_entry]/rect/filledsprite[@name='BarHealthModifiedMax']/@color">[transparent]</set>
+
+	<setattribute xpath="/templates/party_entry/rect/sprite[@name='background']" name="sprite">ku_partyhatch</setattribute>
+	<setattribute xpath="/templates/party_entry/rect/sprite[@name='BarHealthModifiedMax' or @name='BarHealth']" name="sprite">ku_partybar</setattribute>
+	<setattribute xpath="/templates/companion_entry/rect/sprite[@name='background']" name="sprite">ku_companionhatch</setattribute>
+	<setattribute xpath="/templates/companion_entry/rect/sprite[@name='BarHealthModifiedMax' or @name='BarHealth']" name="sprite">ku_companionbar</setattribute>
+
+	<set xpath="/templates/*[self::party_entry or self::companion_entry]/rect/sprite[@name='background']/@type">simple</set>
+	<set xpath="/templates/*[self::party_entry or self::companion_entry]/rect/sprite[@name='background']/@color">[kuHatch]</set>
+	<set xpath="/templates/*[self::party_entry or self::companion_entry]/rect/sprite[@name='BarHealthModifiedMax']/@color">[kuHudTrack]</set>
+	<!-- Party health colour comes from the controller's attribute; the companion's is inline. -->
+	<set xpath="/templates/party_entry/rect/@default_health_color">255,107,90,235</set>
+	<set xpath="/templates/companion_entry/rect/sprite[@name='BarHealth']/@color">255,107,90,235</set>
+	<setattribute xpath="/templates/*[self::party_entry or self::companion_entry]/rect/label[@name='TextContent'][@text='{name}']" name="effect">outline</setattribute>
+
+	<!-- ================================================================ -->
+	<!-- Dialog response rows (trader / NPC options)                      -->
+	<!-- The row text takes {rowstatecolor}: hover_color on hover, white  -->
+	<!-- when selected, enabled_color otherwise. A teal highlight behind  -->
+	<!-- the row keys off that same value, so it shows on hover/select.   -->
+	<!-- ================================================================ -->
+	<set xpath="/templates/response_entry/rect/@width">630</set>
+	<set xpath="/templates/response_entry/rect/label[@name='Text']/@width">575</set>
+	<setattribute xpath="/templates/response_entry/rect/label[@name='Text']" name="overflow">shrinkcontent</setattribute>
+	<prepend xpath="/templates/response_entry/rect">
+		<sprite depth="1" name="kuRowBg" sprite="ku_round_sm" type="sliced" pos="2,-3" width="624" height="37"
+			color="{% rowstatecolor = '217,184,115,255' or rowstatecolor = '255,255,255,255' ? color(30,84,118,235) : color(0,0,0,0) }" />
+	</prepend>
+
+	<!-- ================================================================ -->
 	<!-- Crafting queue cell (recipe_stack)                               -->
 	<!-- Vanilla: black 3px frame over a solid [mediumGrey] square, which -->
 	<!-- the palette turns into an opaque indigo block. Give it the same  -->

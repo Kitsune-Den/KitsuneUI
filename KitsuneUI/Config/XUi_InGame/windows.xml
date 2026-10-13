@@ -187,6 +187,42 @@
 	<setattribute xpath="/windows/window[@name='windowCharacterCosmeticsList']/rect[@name='header']/label[@name='windowName']" name="color">[kuGold]</setattribute>
 
 	<!-- ================================================================ -->
+	<!-- Dialog (trader / NPC responses)                                  -->
+	<!-- Vanilla: a wide text-body box. Ours: a narrower glass panel on   -->
+	<!-- the right with a glass header (name in gold, talk icon), so more -->
+	<!-- of the trader stays visible.                                     -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='windowResponses']/@pos">-680,40</set>
+	<set xpath="/windows/window[@name='windowResponses']/@width">640</set>
+	<set xpath="/windows/window[@name='windowResponses']/sprite[@name='background']/@sprite">ku_panel_body</set>
+	<setattribute xpath="/windows/window[@name='windowResponses']/sprite[@name='background']" name="type">sliced</setattribute>
+	<setattribute xpath="/windows/window[@name='windowResponses']/sprite[@name='background']" name="pos">0,-40</setattribute>
+	<setattribute xpath="/windows/window[@name='windowResponses']/sprite[@name='background']" name="width">640</setattribute>
+	<setattribute xpath="/windows/window[@name='windowResponses']/sprite[@name='background']" name="height">420</setattribute>
+	<prepend xpath="/windows/window[@name='windowResponses']">
+		<sprite depth="1" name="kuHeader" sprite="ui_game_panel_header" type="sliced" pos="0,0" width="640" height="43" />
+		<sprite depth="3" name="kuIcon" sprite="ui_game_symbol_talk" pos="8,-6" width="30" height="30" color="[kuAccent]" />
+	</prepend>
+	<set xpath="/windows/window[@name='windowResponses']/label[@name='lblName']/@color">[kuGold]</set>
+	<set xpath="/windows/window[@name='windowResponses']/label[@name='lblName']/@pos">46,-6</set>
+	<set xpath="/windows/window[@name='windowResponses']/grid[@name='items']/@width">634</set>
+	<set xpath="/windows/window[@name='windowResponses']/grid[@name='items']/@cell_width">634</set>
+
+	<!-- ================================================================ -->
+	<!-- Subtitles (NPC speech, e.g. a trader's greeting)                 -->
+	<!-- Vanilla sits at 155 from the bottom, just above a one-row        -->
+	<!-- toolbelt; our tray with two bars (KitsuneUI_Toolbelt20) reaches  -->
+	<!-- ~175, so the subtitle landed on the top row. 245 clears both.    -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='subtitlesDisplay'][@pos='-376,155']/@pos">-376,245</set>
+	<setattribute xpath="/windows/window[@name='subtitlesDisplay']//label[@name='lblSpeaker']" name="color">[kuGold]</setattribute>
+
+	<!-- On-screen popups ("The Duke left you a note..."): the game already lifts them 75px -->
+	<!-- when the toolbelt has a second bar, which puts them right on the tray's top edge.  -->
+	<!-- 10px more clears the tray with one bar or two.                                      -->
+	<set xpath="/windows/window[@name='toolTipPopups'][@pos='0,100']/@pos">0,110</set>
+
+	<!-- ================================================================ -->
 	<!-- Creative menu (windowCreative2)                                  -->
 	<!-- Vanilla: grey category columns and search bar boxed in black,    -->
 	<!-- and no background at all behind the item grid.                   -->
@@ -288,6 +324,37 @@
 	<set xpath="/windows/window[@name='windowTargetBar']/rect[@visible='{isnotboss}']/sprite[@name='border']/@type">simple</set>
 	<set xpath="/windows/window[@name='windowTargetBar']/rect[@visible='{isnotboss}']/sprite[@name='border']/@color">[kuHudTrack]</set>
 	<set xpath="/windows/window[@name='windowTargetBar']/rect[@visible='{isnotboss}']/sprite[@name='BarContent']/@color">[kuHealth]</set>
+
+	<!-- ================================================================ -->
+	<!-- HUD: location box (place name + difficulty skulls, top right)    -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='windowLocation']/sprite[@name='Background']/@sprite">ku_panel_sm</set>
+	<set xpath="/windows/window[@name='windowLocation']/sprite[@name='Background']/@color">[white]</set>
+	<set xpath="/windows/window[@name='windowLocation']/sprite[@name='backgroundMain']/@color">[transparent]</set>
+	<setattribute xpath="/windows/window[@name='windowLocation']/label" name="color">[kuGold]</setattribute>
+	<!-- Chonkier (box 250x46 -> 262x56, name 20 -> 24) and 12px lower, clear of the version -->
+	<!-- label above it. The right edge stays put (-259+250 = -271+262 = -9).                  -->
+	<set xpath="/windows/window[@name='windowLocation']/@pos">-271, -52</set>
+	<set xpath="/windows/window[@name='windowLocation']/@width">262</set>
+	<set xpath="/windows/window[@name='windowLocation']/sprite[@name='Background' or @name='backgroundMain']/@width">262</set>
+	<set xpath="/windows/window[@name='windowLocation']/sprite[@name='Background' or @name='backgroundMain']/@height">56</set>
+	<set xpath="/windows/window[@name='windowLocation']/label/@font_size">24</set>
+	<set xpath="/windows/window[@name='windowLocation']/label/@pos">6,0</set>
+	<set xpath="/windows/window[@name='windowLocation']/label/@height">30</set>
+	<set xpath="/windows/window[@name='windowLocation']/grid/@pos">131, -34</set>
+
+	<!-- ================================================================ -->
+	<!-- HUD: quest / challenge tracker and recipe tracker (top right)    -->
+	<!-- Vanilla stretches the pop-up chip behind them. The text is right -->
+	<!-- aligned, so they sit on fading glass: solid on the right, gone   -->
+	<!-- on the left.                                                     -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='windowQuestTracker' or @name='windowRecipeTracker']/sprite[@name='Background']/@sprite">ku_fade_r</set>
+	<setattribute xpath="/windows/window[@name='windowQuestTracker' or @name='windowRecipeTracker']/sprite[@name='Background']" name="color">[kuHudFade]</setattribute>
+	<setattribute xpath="/windows/window[@name='windowQuestTracker' or @name='windowRecipeTracker']/label[@text='{questtitle}' or @text='{recipetitle}']" name="color">[kuGold]</setattribute>
+	<set xpath="/windows/window[@name='windowQuestTracker' or @name='windowRecipeTracker']/grid/@complete_color">[kuGood]</set>
+	<!-- Moved down 22px to stay clear of the bigger, lower location box above them. -->
+	<set xpath="/windows/window[@name='windowQuestTracker' or @name='windowRecipeTracker'][@pos='-255, -88']/@pos">-255, -110</set>
 
 	<!-- ================================================================ -->
 	<!-- HUD: compass                                                     -->
