@@ -42,4 +42,21 @@
 	<set xpath="/templates/item_stack/rect/*[@name='durabilityBackground' or @name='durability']/@width">${-12+cell_size}</set>
 	<set xpath="/templates/item_stack/rect/*[@name='durabilityBackground' or @name='durability']/@height">5</set>
 
+	<!-- ================================================================ -->
+	<!-- Crafting queue cell (recipe_stack)                               -->
+	<!-- Vanilla: black 3px frame over a solid [mediumGrey] square, which -->
+	<!-- the palette turns into an opaque indigo block. Give it the same  -->
+	<!-- dark well and edge as an item slot.                              -->
+	<!-- ================================================================ -->
+	<set xpath="/templates/recipe_stack/rect/sprite[@name='backgroundMain']/@sprite">ku_slot_ring</set>
+	<set xpath="/templates/recipe_stack/rect/sprite[@name='backgroundMain']/@color">[kuEdge]</set>
+	<set xpath="/templates/recipe_stack/rect/sprite[@name='backgroundMain']/@pos">0,0</set>
+	<set xpath="/templates/recipe_stack/rect/sprite[@name='backgroundMain']/@width">72</set>
+	<set xpath="/templates/recipe_stack/rect/sprite[@name='backgroundMain']/@height">72</set>
+	<setattribute xpath="/templates/recipe_stack/rect/sprite[@name='background']" name="sprite">ku_slot_fill</setattribute>
+	<set xpath="/templates/recipe_stack/rect/sprite[@name='background']/@color">[kuSlotWell]</set>
+	<!-- The dimming overlay over a queued item: rounded, in the glass's own dark. -->
+	<setattribute xpath="/templates/recipe_stack/rect/sprite[@name='overlay']" name="sprite">ku_slot_fill</setattribute>
+	<set xpath="/templates/recipe_stack/rect/sprite[@name='overlay']/@color">6,8,20,128</set>
+
 </configs>

@@ -6,4 +6,48 @@
 	<set xpath="/templates/headerbg/@backcolor">[white]</set>
 	<set xpath="/templates/headerbg/@globalopacitymod">1</set>
 
+	<!-- ================================================================ -->
+	<!-- Header boxes (popup titles, many menu section titles)           -->
+	<!-- Vanilla: black box, red 2px border, red text. Ours: the glass    -->
+	<!-- header with a gold title. Callers that pass their own colours    -->
+	<!-- keep them, drawn over the glass.                                 -->
+	<!-- ================================================================ -->
+	<set xpath="/templates/*[self::headerbox or self::headerboxicon]/@backcolor">[white]</set>
+	<set xpath="/templates/*[self::headerbox or self::headerboxicon]/@bordercolor">[transparent]</set>
+	<set xpath="/templates/*[self::headerbox or self::headerboxicon]/@textcolor">[kuGold]</set>
+	<setattribute xpath="/templates/*[self::headerbox or self::headerboxicon]/rect/boxbg" name="backsprite">ui_game_panel_header</setattribute>
+
+	<!-- ================================================================ -->
+	<!-- Message box (notes, confirmations, warnings)                     -->
+	<!-- ================================================================ -->
+	<!-- Red glow around the box -> a soft fox-fire glow. -->
+	<set xpath="/templates/messagebox/window/boxshadow_new/@color">111,227,255,70</set>
+	<!-- Near-black body with a grey border -> the glass body under the glass header. -->
+	<setattribute xpath="/templates/messagebox/window/rect[@name='content']/boxbg" name="backsprite">ku_panel_body</setattribute>
+	<set xpath="/templates/messagebox/window/rect[@name='content']/boxbg/@backcolor">[white]</set>
+	<set xpath="/templates/messagebox/window/rect[@name='content']/boxbg/@bordercolor">[transparent]</set>
+
+	<!-- ================================================================ -->
+	<!-- Buttons (labeledglyphbutton: popups, menus, dialogs)             -->
+	<!-- Vanilla: black box with a white 2px border, grey on hover.       -->
+	<!-- Ours: a rounded glass button with a cool edge, fox-fire on hover. -->
+	<!-- ================================================================ -->
+	<set xpath="/templates/labeledglyphbutton/@border_sprite">ku_round_md_ring</set>
+	<set xpath="/templates/labeledglyphbutton/@border_color">[kuEdge]</set>
+	<set xpath="/templates/labeledglyphbutton/@bg_sprite_default">ku_round_md</set>
+	<set xpath="/templates/labeledglyphbutton/@bg_sprite_hovered">ku_round_md</set>
+	<set xpath="/templates/labeledglyphbutton/@bg_sprite_selected">ku_round_md</set>
+	<set xpath="/templates/labeledglyphbutton/@bg_sprite_disabled">ku_round_md</set>
+	<set xpath="/templates/labeledglyphbutton/@bg_color_default">[kuBtn]</set>
+	<set xpath="/templates/labeledglyphbutton/@bg_color_hovered">[kuBtnHover]</set>
+	<set xpath="/templates/labeledglyphbutton/@bg_color_selected">[kuBtnHover]</set>
+	<set xpath="/templates/labeledglyphbutton/@bg_color_disabled">[kuBtnDisabled]</set>
+	<set xpath="/templates/labeledglyphbutton/@font_color_default">[kuText]</set>
+	<set xpath="/templates/labeledglyphbutton/@font_color_hovered">[kuTextBright]</set>
+	<set xpath="/templates/labeledglyphbutton/@font_color_selected">[kuTextBright]</set>
+	<set xpath="/templates/labeledglyphbutton/@font_color_disabled">[kuTextMuted]</set>
+	<!-- Hold-to-activate progress fill -->
+	<set xpath="/templates/labeledglyphbutton/rect/sprite[@name='fill']/@sprite">ku_round_md</set>
+	<set xpath="/templates/labeledglyphbutton/rect/sprite[@name='fill']/@color">[kuAccentSoft]</set>
+
 </configs>
