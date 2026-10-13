@@ -31,4 +31,17 @@
 	<set xpath="/windows/window[@name='newContinueGameSettings']//sprite[@name='sprBackground']/@sprite">ku_panel</set>
 	<set xpath="/windows/window[@name='newContinueGameSettings']//sprite[@name='sprBackground']/@color">[white]</set>
 	<set xpath="/windows/window[@name='newContinueGameSettings']//sprite[@name='sprBorder']/@color">[transparent]</set>
+
+	<!-- ================================================================ -->
+	<!-- Options pages: night-indigo backdrop instead of black, and one   -->
+	<!-- glass body behind the option list and the description column.    -->
+	<!-- The list runs down to the Back / Defaults / Apply buttons, which -->
+	<!-- are anchored to the screen bottom, so the body is anchored to    -->
+	<!-- them too (as vanilla's scroll view is).                          -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='optionsPaging']/fullscreencollider/@color">8,10,24,250</set>
+	<prepend xpath="/windows/window[.//options_descriptions]//rect[options_descriptions]">
+		<sprite depth="-1" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" anchor_left="#parent,0,-14" anchor_right="#parent,0,1809" anchor_top="#parent,1,10" anchor_bottom="buttons,1,4" />
+	</prepend>
+	<set xpath="/windows/window[.//options_descriptions]//sprite[@name='separator']/@color">[kuEdge]</set>
 </configs>

@@ -504,6 +504,14 @@
 	<setattribute xpath="/windows/window[@name='windowToolbelt']" name="deficit_xp_color">255,107,90,255</setattribute>
 
 	<!-- ================================================================ -->
+	<!-- Esc menu: the buttons are glass already (simplebutton); a night- -->
+	<!-- indigo shade fades in from the left edge behind them.            -->
+	<!-- ================================================================ -->
+	<prepend xpath="/windows/window[@name='ingameMenu']">
+		<sprite depth="0" name="kuShade" sprite="ku_fade_l" type="simple" color="[kuHudFade]" pos="0,0" width="640" height="1080" />
+	</prepend>
+
+	<!-- ================================================================ -->
 	<!-- Map, waypoints, shared waypoints and the map's pop-ups           -->
 	<!-- Same treatment as the quest windows: frames out, toolbars and    -->
 	<!-- search bars become soft cells, one glass body per window. The    -->

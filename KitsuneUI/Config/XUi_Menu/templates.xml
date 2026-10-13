@@ -23,4 +23,31 @@
 	<set xpath="//sprite[@color=&quot;{% option_hovered ? '228, 18, 21, 255' : '64,64,64,255' }&quot;]/@color">{% option_hovered ? '111,227,255,255' : '64,64,64,255' }</set>
 	<!-- ===== END GENERATED ===== -->
 
+
+	<!-- ================================================================ -->
+	<!-- Options screens (also opened from the in-game Esc menu)          -->
+	<!-- Rows: rounded, a faint edge idle, fox-fire ring + teal on hover. -->
+	<!-- Key bindings: the binding field is a dark well.                  -->
+	<!-- ================================================================ -->
+	<set xpath="/templates/options_combo/rect/sprite[@name='border']/@sprite">ku_round_md_ring</set>
+	<set xpath="/templates/options_combo/rect/sprite[@name='border']/@color">{% option_hovered ? '111,227,255,255' : '150,175,255,28' }</set>
+	<set xpath="/templates/options_combo/rect/sprite[@name='background']/@sprite">ku_round_md</set>
+	<set xpath="/templates/options_combo/rect/sprite[@name='background']/@color">{% option_hovered ? '30,84,118,200' : '255,255,255,8' }</set>
+	<set xpath="/templates/keyboard_binding_entry/rect/sprite[@name='border']/@sprite">ku_round_md_ring</set>
+	<set xpath="/templates/keyboard_binding_entry/rect/sprite[@name='border']/@color">{% defined('option_hovered') and option_hovered ? '111,227,255,255' : '150,175,255,28' }</set>
+	<set xpath="/templates/keyboard_binding_entry/rect/iconbutton[@name='background']/@sprite">ku_round_sm</set>
+	<set xpath="/templates/keyboard_binding_entry/rect/iconbutton[@name='background']/@color_default">[kuSlotWell]</set>
+	<set xpath="/templates/keyboard_binding_entry/rect/iconbutton[@name='background']/@color_hovered">[kuBtnHover]</set>
+
+	<!-- Description column: gold caption, and the 2 px separator becomes a faint edge  -->
+	<!-- (the glass body behind list and description is in windows.xml).              -->
+	<set xpath="/templates/options_descriptions/rect/label[@name='caption']/@color">[kuGold]</set>
+	<set xpath="/templates/options_separator/sprite[@name='separator']/@color">[kuEdge]</set>
+	<set xpath="/templates/options_scrollbar/scrollbar/@border_color_active">[kuEdge]</set>
+	<set xpath="/templates/options_scrollbar/scrollbar/@border_color_inactive">[kuEdge]</set>
+
+	<!-- Paging header (OPTIONS and its tabs): gold page name, fox-fire line under the open tab. -->
+	<setattribute xpath="/templates/menu_paging_header/rect/label[@name='menuName']" name="color">[kuGold]</setattribute>
+	<set xpath="/templates/pagingheader_subheaderline/sprite[@name='subheader_line']/@color">[kuAccentGlow]</set>
+
 </configs>
