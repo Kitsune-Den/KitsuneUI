@@ -264,6 +264,12 @@ def hatch_pill(w, h, r, pitch=7):
 add("ku_hudhatch_lg", hatch_pill(201, 30, 9), 0)
 add("ku_hudhatch_sm", hatch_pill(97, 30, 9), 0)
 
+# Party (200x37) and companion (168x37) health bars, same three layers.
+add("ku_partybar", solid_round(200, 37, 10), 0)
+add("ku_partyhatch", hatch_pill(200, 37, 10), 0)
+add("ku_companionbar", solid_round(168, 37, 10), 0)
+add("ku_companionhatch", hatch_pill(168, 37, 10), 0)
+
 
 # HUD pop-up chip (overrides vanilla ui_game_popup: item pickups and buff pop-outs).
 # Vanilla draws it unsliced; KitsuneUI slices it (border 12) so it takes any width.
