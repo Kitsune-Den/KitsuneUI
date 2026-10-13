@@ -17,13 +17,17 @@
 		<style_entry name="kuTextMuted"    value="154,163,191,255" />
 		<style_entry name="kuIcon"         value="201,211,238,255" />
 		<style_entry name="kuEdge"         value="150,175,255,70" />   <!-- slot and button outlines -->
-		<style_entry name="kuSlotWell"     value="6,8,20,96" />        <!-- empty-slot fill: a dark well that reads over day and night -->
-		<style_entry name="kuSlotLocked"   value="70,16,24,150" />     <!-- slots past carry capacity -->
+		<style_entry name="kuSlotWell"     value="6,8,20,150" />       <!-- empty-slot fill: a dark well that reads over day and night -->
+		<style_entry name="kuSlotLocked"   value="80,18,28,190" />     <!-- slots past carry capacity -->
 		<style_entry name="kuEdgeFaint"    value="150,175,255,20" />
 		<style_entry name="kuFill"         value="255,255,255,12" />   <!-- slot and button fill -->
 		<style_entry name="kuFillEmpty"    value="255,255,255,5" />
 		<style_entry name="kuFillHover"    value="255,255,255,26" />
 		<style_entry name="kuTrack"        value="255,255,255,20" />   <!-- empty part of bars -->
+		<style_entry name="kuCell"         value="255,255,255,14" />   <!-- table cells, info blocks -->
+		<style_entry name="kuCellAlt"      value="255,255,255,7" />    <!-- alternate stat rows -->
+		<style_entry name="kuCellHeader"   value="217,184,115,36" />   <!-- table header cells (gold) -->
+		<style_entry name="kuRowGrey"      value="64,64,64,255" />     <!-- the grey code uses for an idle row; times ku_row = navy -->
 		<style_entry name="kuBtn"          value="18,22,44,200" />     <!-- button fill -->
 		<style_entry name="kuBtnHover"     value="40,92,112,220" />    <!-- button fill on hover: fox-fire over indigo -->
 		<style_entry name="kuBtnDisabled"  value="18,22,44,110" />
@@ -51,7 +55,24 @@
 	<set xpath="/styles/global/style_entry[@name='selectedColor']/@value">111,227,255,255</set>
 	<set xpath="/styles/global/style_entry[@name='hoverColor']/@value">217,184,115,255</set>
 	<set xpath="/styles/global/style_entry[@name='disabledColor']/@value">110,118,150,255</set>
-	<set xpath="/styles/global/style_entry[@name='disabledLabelColor']/@value">110,118,150,255</set>
+	<!-- Lighter than the other greys so it still reads on the deep-teal selected row. -->
+	<set xpath="/styles/global/style_entry[@name='disabledLabelColor']/@value">160,168,196,255</set>
+
+	<!-- Window titles gold, window icons fox-fire, for every window built on the standard   -->
+	<!-- header styles (vanilla sets no colour, so titles were plain white). A label or icon -->
+	<!-- with its own color attribute keeps it.                                             -->
+	<append xpath="/styles/style[@name='header.name' or @name='header.name.shrink' or @name='header.name.iconright']">
+		<style_entry name="color" value="[kuGold]" />
+	</append>
+	<append xpath="/styles/style[@name='header.icon']">
+		<style_entry name="color" value="[kuAccent]" />
+	</append>
+	<append xpath="/styles/style[@name='header.timer']">
+		<style_entry name="color" value="[kuTextMid]" />
+	</append>
+	<set xpath="/styles/style[@name='workstation.reserve.weight']/style_entry[@name='color']/@value">[kuTextMid]</set>
+	<set xpath="/styles/style[@name='crafting.info.window']/style_entry[@name='valid_color']/@value">[kuGood]</set>
+	<set xpath="/styles/style[@name='crafting.info.window']/style_entry[@name='invalid_color']/@value">[kuDanger]</set>
 
 	<!-- Item slot colours. The slot ring and glow take select_color when selected,  -->
 	<!-- highlight_color on hover, holding_color for the held toolbelt slot and      -->

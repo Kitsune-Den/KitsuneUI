@@ -17,6 +17,9 @@
 	<set xpath="/templates/*[self::headerbox or self::headerboxicon]/@textcolor">[kuGold]</set>
 	<setattribute xpath="/templates/*[self::headerbox or self::headerboxicon]/rect/boxbg" name="backsprite">ui_game_panel_header</setattribute>
 
+	<!-- Text fields (search boxes, counts): a dark well instead of solid black. -->
+	<set xpath="/templates/textfield/@backgroundcolor">[kuSlotWell]</set>
+
 	<!-- ================================================================ -->
 	<!-- Message box (notes, confirmations, warnings)                     -->
 	<!-- ================================================================ -->
