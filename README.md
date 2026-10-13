@@ -2,11 +2,13 @@
 
 **Kitsunebi**, a night glass interface for 7 Days to Die V3.x: deep indigo glass panels, fox-fire cyan accents and gold titles, across every screen in the game.
 
-![Skills](docs/screenshots/skills.webp)
+![Crafting, inventory, toolbelt and HUD](docs/screenshots/crafting.webp)
 
 | | |
 |---|---|
+| ![Forge](docs/screenshots/forge.webp) | ![Skills](docs/screenshots/skills.webp) |
 | ![Challenges](docs/screenshots/challenges.webp) | ![Loading screen and respawn](docs/screenshots/loading-respawn.webp) |
+| ![Trader jobs as picture tiles (KitsuneUI_JobPreview)](docs/screenshots/job-tiles.webp) | ![Job offer with the location's picture (KitsuneUI_JobPreview)](docs/screenshots/job-offer.webp) |
 
 The theme is XML and images only. It changes how the game looks, never how it plays, and it runs with EAC on.
 
@@ -46,6 +48,8 @@ Other mods that rebuild the same windows from scratch (full UI overhauls) will c
 Delete the folders. The theme stores nothing in your save. For the toolbelt add-on, see [Removing it](#removing-it-1) below.
 
 ## KitsuneUI_JobPreview
+
+(Screenshots in the gallery at the top.)
 
 Talking to a trader shows the options as a strip of tiles under the trader, above the toolbelt. A job tile shows the job ("Clear Zombies") over the location's preview picture, with the place name across the bottom, a tier badge in the corner and the distance and direction in a badge. Other options (Let's trade, Nevermind) are text-only tiles. The job offer window shows the location's picture with its name, tier, distance and biome, the description and objectives, and wide Accept / Decline buttons.
 
