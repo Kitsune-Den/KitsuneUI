@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>KitsuneUI Kitsunebi</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#6FE3FF}a:hover{color:#B5F1FF}
+button{font-family:inherit}
+</style>
+</helmet>
+<div style="width: 1600px; height: 900px; position: relative; overflow: hidden; font-family: 'Barlow Semi Condensed', sans-serif; color: #E8ECF7; background: #070A16">
+
+<div aria-hidden="true" style="position: absolute; inset: 0; background: linear-gradient(180deg, #050713 0%, #0D1430 42%, #1B2647 60%, #141B33 61%, #070A14 100%)"></div>
+<div aria-hidden="true" style="position: absolute; left: 1150px; top: 50px; width: 200px; height: 200px; border-radius: 50%; background: radial-gradient(circle, #EEF2FB 0%, #DDE5F5 17%, rgba(170,190,240,0.22) 24%, rgba(170,190,240,0) 60%)"></div>
+<svg aria-hidden="true" width="1600" height="900" viewBox="0 0 1600 900" style="position: absolute; left: 0; top: 0">
+<defs><filter id="kbBlur" x="-1" y="-1" width="3" height="3"><feGaussianBlur stdDeviation="7"></feGaussianBlur></filter></defs>
+<circle cx="140" cy="90" r="1.4" fill="#C9D3EE"></circle>
+<circle cx="420" cy="160" r="1.1" fill="#C9D3EE"></circle>
+<circle cx="610" cy="70" r="1.6" fill="#C9D3EE"></circle>
+<circle cx="880" cy="140" r="1.2" fill="#C9D3EE"></circle>
+<circle cx="980" cy="40" r="1.3" fill="#C9D3EE"></circle>
+<circle cx="1460" cy="110" r="1.5" fill="#C9D3EE"></circle>
+<circle cx="1530" cy="260" r="1.1" fill="#C9D3EE"></circle>
+<circle cx="300" cy="300" r="1.2" fill="#C9D3EE"></circle>
+<path d="M0 520 L120 482 L260 506 L420 456 L560 500 L700 470 L860 512 L1000 462 L1160 496 L1320 452 L1460 492 L1600 470 L1600 900 L0 900 Z" fill="#121A33"></path>
+<rect x="1010" y="452" width="84" height="120" fill="#0D1328"></rect>
+<rect x="1100" y="488" width="46" height="84" fill="#0D1328"></rect>
+<path d="M1010 452 L1030 436 L1050 452 L1072 440 L1094 452 Z" fill="#0D1328"></path>
+<rect x="1030" y="480" width="8" height="10" fill="#F2B544" opacity="0.75"></rect>
+<rect x="1062" y="506" width="8" height="10" fill="#F2B544" opacity="0.45"></rect>
+<path d="M0 604 C200 562 360 592 520 572 S860 542 1040 582 S1380 562 1600 592 L1600 900 L0 900 Z" fill="#0B1022"></path>
+<path d="M300 610 L300 520 M286 530 L314 530" stroke="#1C2440" stroke-width="4"></path>
+<path d="M300 528 C420 548 520 552 640 540" stroke="#1C2440" stroke-width="1.5" fill="none"></path>
+<path d="M0 724 C300 692 600 742 900 712 S1400 692 1600 722 L1600 900 L0 900 Z" fill="#060913"></path>
+<path d="M210 724 L215 600 M213 642 L180 612 M214 626 L250 590 M214 662 L240 646" stroke="#141A2E" stroke-width="6" stroke-linecap="round"></path>
+<circle cx="250" cy="684" r="9" fill="#6FE3FF" opacity="0.55" filter="url(#kbBlur)"></circle>
+<circle cx="250" cy="684" r="2.5" fill="#D8F8FF"></circle>
+<circle cx="290" cy="660" r="7" fill="#6FE3FF" opacity="0.45" filter="url(#kbBlur)"></circle>
+<circle cx="290" cy="660" r="2" fill="#D8F8FF"></circle>
+<circle cx="1470" cy="676" r="8" fill="#6FE3FF" opacity="0.5" filter="url(#kbBlur)"></circle>
+<circle cx="1470" cy="676" r="2.2" fill="#D8F8FF"></circle>
+</svg>
+
+<header style="position: absolute; left: 32px; top: 20px; width: 1536px; height: 52px; box-sizing: border-box; padding: 0 10px 0 20px; display: flex; align-items: center; gap: 16px; border-radius: 14px; background: linear-gradient(180deg, rgba(28,33,62,{{gA}}) 0%, rgba(12,14,30,{{gB}}) 100%); border: 1px solid rgba(150,175,255,0.16); box-shadow: 0 16px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(217,184,115,0.35)">
+<div style="width: 240px; display: flex; align-items: baseline; gap: 10px">
+<span style="font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #D9B873">Day</span>
+<span style="font-size: 24px; font-weight: 700; color: #F2F5FC">14</span>
+<span style="font-size: 19px; font-weight: 500; color: #C3CAE0; font-variant-numeric: tabular-nums">21:37</span>
+</div>
+<nav aria-label="Windows" style="flex: 1; display: flex; justify-content: center; gap: 4px">
+<sc-for list="{{tabs}}" as="t" hint-placeholder-count="8">
+<button style="height: 36px; padding: 0 16px; border-radius: 10px; border: 1px solid {{t.bc}}; background: {{t.bg}}; color: {{t.fg}}; box-shadow: {{t.glow}}; font-size: 15px; font-weight: 600; letter-spacing: 0.04em; cursor: pointer">{{t.label}}</button>
+</sc-for>
+</nav>
+<div style="width: 240px; display: flex; justify-content: flex-end; align-items: center; gap: 10px">
+<span style="font-size: 16px; font-weight: 600; color: #F2F5FC">Diersville</span>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF8A7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Danger 2 of 5"><path d="M12 3a7 7 0 0 0-7 7v3l2 2v3h3v-2h4v2h3v-3l2-2v-3a7 7 0 0 0-7-7z M9 11h.01 M15 11h.01"></path></svg>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF8A7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a7 7 0 0 0-7 7v3l2 2v3h3v-2h4v2h3v-3l2-2v-3a7 7 0 0 0-7-7z M9 11h.01 M15 11h.01"></path></svg>
+<span style="height: 30px; padding: 0 10px; display: inline-flex; align-items: center; border-radius: 8px; border: 1px solid rgba(217,184,115,0.35); font-size: 14px; font-weight: 700; color: #D9B873; font-variant-numeric: tabular-nums">GS 142</span>
+</div>
+</header>
+
+<section aria-label="Wooden Chest" style="position: absolute; left: 32px; top: 92px; width: 742px; height: 186px; box-sizing: border-box; padding: 14px; border-radius: 14px; background: linear-gradient(180deg, rgba(28,33,62,{{gA}}) 0%, rgba(12,14,30,{{gB}}) 100%); border: 1px solid rgba(150,175,255,0.16); box-shadow: 0 22px 50px rgba(0,0,0,0.55), inset 0 1px 0 rgba(217,184,115,0.35)">
+<div style="display: flex; align-items: center; gap: 10px; height: 30px; margin-bottom: 14px">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="{{accentSoft}}" stroke="{{accent}}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{flame}}"></path></svg>
+<h2 style="margin: 0; font-size: 15px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D9B873">Wooden Chest</h2>
+<span style="font-size: 14px; color: #9AA3BF; font-variant-numeric: tabular-nums">{{chestCount}} / 24</span>
+<div style="flex: 1"></div>
+<button style="height: 30px; padding: 0 12px; border-radius: 8px; border: 1px solid rgba(150,175,255,0.18); background: rgba(255,255,255,0.05); color: #DCE2F2; font-size: 14px; font-weight: 600; cursor: pointer">Take all</button>
+<button style="height: 30px; padding: 0 12px; border-radius: 8px; border: 1px solid rgba(150,175,255,0.18); background: rgba(255,255,255,0.05); color: #DCE2F2; font-size: 14px; font-weight: 600; cursor: pointer">Stash</button>
+<button style="height: 30px; padding: 0 12px; border-radius: 8px; border: 1px solid rgba(150,175,255,0.18); background: rgba(255,255,255,0.05); color: #DCE2F2; font-size: 14px; font-weight: 600; cursor: pointer">Sort</button>
+</div>
+<div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 6px">
+<sc-for list="{{chest}}" as="s" hint-placeholder-count="24">
+<div style="width: 54px; height: 54px; box-sizing: border-box; position: relative; display: flex; align-items: center; justify-content: center; border-radius: 9px; border: 1px solid {{s.bc}}; background: {{s.bg}}; box-shadow: {{s.ring}}">
+<sc-if value="{{s.has}}" hint-placeholder-val="{{true}}">
+<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#C9D3EE" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{s.d}}"></path></svg>
+<span style="position: absolute; right: 6px; bottom: 3px; font-size: 12px; font-weight: 700; color: #F2F5FC; font-variant-numeric: tabular-nums">{{s.n}}</span>
+<sc-if value="{{s.q}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; left: 7px; right: 7px; bottom: 5px; height: 3px; border-radius: 2px; background: rgba(255,255,255,0.10)"><div style="width: {{s.qw}}; height: 3px; border-radius: 2px; background: {{s.qc}}"></div></div>
+</sc-if>
+</sc-if>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section aria-label="Backpack" style="position: absolute; left: 32px; top: 294px; width: 742px; height: 342px; box-sizing: border-box; padding: 14px; border-radius: 14px; background: linear-gradient(180deg, rgba(28,33,62,{{gA}}) 0%, rgba(12,14,30,{{gB}}) 100%); border: 1px solid rgba(150,175,255,0.16); box-shadow: 0 22px 50px rgba(0,0,0,0.55), inset 0 1px 0 rgba(217,184,115,0.35)">
+<div style="display: flex; align-items: center; gap: 10px; height: 30px; margin-bottom: 14px">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="{{accentSoft}}" stroke="{{accent}}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{flame}}"></path></svg>
+<h2 style="margin: 0; font-size: 15px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D9B873">Backpack</h2>
+<span style="font-size: 14px; color: #9AA3BF; font-variant-numeric: tabular-nums">{{packCount}} / 48</span>
+<div style="flex: 1"></div>
+<button style="height: 30px; padding: 0 12px; border-radius: 8px; border: 1px solid rgba(150,175,255,0.18); background: rgba(255,255,255,0.05); color: #DCE2F2; font-size: 14px; font-weight: 600; cursor: pointer">Sort</button>
+<button style="height: 30px; padding: 0 12px; border-radius: 8px; border: 1px solid rgba(150,175,255,0.18); background: rgba(255,255,255,0.05); color: #DCE2F2; font-size: 14px; font-weight: 600; cursor: pointer">Stack to chest</button>
+<button style="height: 30px; padding: 0 12px; border-radius: 8px; border: 1px solid rgba(150,175,255,0.18); background: rgba(255,255,255,0.05); color: #DCE2F2; font-size: 14px; font-weight: 600; cursor: pointer">Lock slots</button>
+</div>
+<div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 6px">
+<sc-for list="{{pack}}" as="s" hint-placeholder-count="48">
+<div style="width: 54px; height: 54px; box-sizing: border-box; position: relative; display: flex; align-items: center; justify-content: center; border-radius: 9px; border: 1px solid {{s.bc}}; background: {{s.bg}}; box-shadow: {{s.ring}}">
+<sc-if value="{{s.has}}" hint-placeholder-val="{{true}}">
+<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#C9D3EE" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{s.d}}"></path></svg>
+<span style="position: absolute; right: 6px; bottom: 3px; font-size: 12px; font-weight: 700; color: #F2F5FC; font-variant-numeric: tabular-nums">{{s.n}}</span>
+<sc-if value="{{s.q}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; left: 7px; right: 7px; bottom: 5px; height: 3px; border-radius: 2px; background: rgba(255,255,255,0.10)"><div style="width: {{s.qw}}; height: 3px; border-radius: 2px; background: {{s.qc}}"></div></div>
+</sc-if>
+</sc-if>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; align-items: center; gap: 12px; margin-top: 12px; height: 24px">
+<span style="font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #9AA3BF">Carry</span>
+<div style="width: 220px; height: 8px; border-radius: 4px; background: rgba(255,255,255,0.08); overflow: hidden"><div style="width: 94%; height: 8px; border-radius: 4px; background: #F2B544"></div></div>
+<span style="font-size: 14px; font-weight: 600; color: #F2F5FC; font-variant-numeric: tabular-nums">30 / 32</span>
+<div style="flex: 1"></div>
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D9B873" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 4a8 8 0 1 0 0 16a8 8 0 1 0 0-16z M12 8v8"></path></svg>
+<span style="font-size: 15px; font-weight: 700; color: #F2F5FC; font-variant-numeric: tabular-nums">2,418</span>
+<span style="font-size: 13px; color: #9AA3BF">Dukes</span>
+</div>
+</section>
+
+<section aria-label="Item info" style="position: absolute; left: 790px; top: 92px; width: 778px; height: 544px; box-sizing: border-box; padding: 20px; display: flex; flex-direction: column; gap: 18px; border-radius: 14px; background: linear-gradient(180deg, rgba(28,33,62,{{gA}}) 0%, rgba(12,14,30,{{gB}}) 100%); border: 1px solid rgba(150,175,255,0.16); box-shadow: 0 22px 50px rgba(0,0,0,0.55), inset 0 1px 0 rgba(217,184,115,0.35)">
+<div style="display: flex; gap: 18px; align-items: center">
+<div style="width: 96px; height: 96px; flex-shrink: 0; box-sizing: border-box; position: relative; display: flex; align-items: center; justify-content: center; border-radius: 14px; border: 1px solid {{accent}}; background: {{accentFaint}}; box-shadow: 0 0 22px {{accentGlow}}, inset 0 0 18px {{accentFaint}}">
+<svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#E8ECF7" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{gun}}"></path></svg>
+</div>
+<div style="flex: 1; display: flex; flex-direction: column; gap: 6px">
+<h2 style="margin: 0; font-size: 30px; font-weight: 700; line-height: 1; color: #F2F5FC">Pistol</h2>
+<div style="display: flex; align-items: center; gap: 10px">
+<span style="font-size: 15px; color: #9AA3BF">Handgun</span>
+<span style="font-size: 15px; font-weight: 700; color: #6FD266">Quality 4</span>
+<div style="display: flex; gap: 4px">
+<sc-for list="{{pips}}" as="p" hint-placeholder-count="6">
+<span style="width: 14px; height: 6px; border-radius: 3px; background: {{p.c}}"></span>
+</sc-for>
+</div>
+</div>
+<div style="display: flex; align-items: center; gap: 10px">
+<div style="width: 260px; height: 8px; border-radius: 4px; background: rgba(255,255,255,0.08); overflow: hidden"><div style="width: 69%; height: 8px; border-radius: 4px; background: #6FD266"></div></div>
+<span style="font-size: 14px; color: #C3CAE0; font-variant-numeric: tabular-nums">412 / 600</span>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px">
+<span style="font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #9AA3BF">Value</span>
+<span style="font-size: 22px; font-weight: 700; color: #D9B873; font-variant-numeric: tabular-nums">1,240</span>
+</div>
+</div>
+
+<div style="flex: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px">
+<div style="display: flex; flex-direction: column">
+<h3 style="margin: 0 0 8px; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D9B873">Stats</h3>
+<sc-for list="{{stats}}" as="r" hint-placeholder-count="7">
+<div style="display: flex; justify-content: space-between; align-items: center; height: 34px; border-bottom: 1px solid rgba(150,175,255,0.10)">
+<span style="font-size: 16px; color: #C3CAE0">{{r.l}}</span>
+<span style="font-size: 16px; font-weight: 700; color: #F2F5FC; font-variant-numeric: tabular-nums">{{r.v}}</span>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px">
+<h3 style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D9B873">Mods 2 / 6</h3>
+<div style="display: flex; gap: 6px">
+<sc-for list="{{mods}}" as="m" hint-placeholder-count="7">
+<div style="width: 46px; height: 46px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border-radius: 9px; border: 1px {{m.line}} rgba(150,175,255,0.24); background: {{m.bg}}">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="{{m.stroke}}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{m.d}}"></path></svg>
+</div>
+</sc-for>
+</div>
+<p style="margin: 6px 0 0; font-size: 16px; line-height: 1.45; color: #C3CAE0">A reliable 9mm sidearm. Light, quick to reload and forgiving of a shaky hand. Takes barrel, sight and magazine mods.</p>
+<p style="margin: 0; font-size: 14px; color: #9AA3BF">Ammo: 9mm Round · Scrap to Forged Iron ×6</p>
+</div>
+</div>
+
+<div style="display: flex; gap: 8px">
+<button style="height: 44px; padding: 0 26px; border-radius: 10px; border: 1px solid {{accent}}; background: {{accent}}; color: #071A22; box-shadow: 0 0 18px {{accentGlow}}; font-size: 16px; font-weight: 700; letter-spacing: 0.04em; cursor: pointer">Equip</button>
+<button style="height: 44px; padding: 0 20px; border-radius: 10px; border: 1px solid rgba(150,175,255,0.18); background: rgba(255,255,255,0.05); color: #DCE2F2; font-size: 16px; font-weight: 600; cursor: pointer">Assemble</button>
+<button style="height: 44px; padding: 0 20px; border-radius: 10px; border: 1px solid rgba(150,175,255,0.18); background: rgba(255,255,255,0.05); color: #DCE2F2; font-size: 16px; font-weight: 600; cursor: pointer">Scrap</button>
+<div style="flex: 1"></div>
+<button style="height: 44px; padding: 0 20px; border-radius: 10px; border: 1px solid rgba(255,107,90,0.35); background: rgba(255,107,90,0.08); color: #FFB0A5; font-size: 16px; font-weight: 600; cursor: pointer">Drop</button>
+</div>
+</section>
+
+<section aria-label="Player status" style="position: absolute; left: 32px; top: 676px; width: 370px; box-sizing: border-box; padding: 14px 16px; display: flex; flex-direction: column; gap: 9px; border-radius: 14px; background: linear-gradient(180deg, rgba(28,33,62,{{gA}}) 0%, rgba(12,14,30,{{gB}}) 100%); border: 1px solid rgba(150,175,255,0.16); box-shadow: 0 18px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(217,184,115,0.35)">
+<div style="display: flex; gap: 6px">
+<span style="height: 22px; padding: 0 9px; display: inline-flex; align-items: center; gap: 5px; border-radius: 11px; background: rgba(111,210,102,0.14); font-size: 13px; font-weight: 600; color: #A6E69B"><span style="width: 6px; height: 6px; border-radius: 50%; background: #6FD266"></span>Well fed</span>
+<span style="height: 22px; padding: 0 9px; display: inline-flex; align-items: center; gap: 5px; border-radius: 11px; background: rgba(89,180,255,0.14); font-size: 13px; font-weight: 600; color: #A8D6FF"><span style="width: 6px; height: 6px; border-radius: 50%; background: #59B4FF"></span>Hydrated</span>
+<span style="height: 22px; padding: 0 9px; display: inline-flex; align-items: center; gap: 5px; border-radius: 11px; background: rgba(255,107,90,0.16); font-size: 13px; font-weight: 600; color: #FFA89C"><span style="width: 6px; height: 6px; border-radius: 50%; background: #FF6B5A"></span>Sprained arm</span>
+</div>
+<div style="display: flex; align-items: center; gap: 10px">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF6B5A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Health"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"></path></svg>
+<div style="flex: 1; height: 14px; border-radius: 7px; background: rgba(255,255,255,0.08); overflow: hidden"><div style="width: 86%; height: 14px; border-radius: 7px; background: linear-gradient(180deg, #FF7D6D, #E0483A)"></div></div>
+<span style="width: 70px; text-align: right; font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums">112 / 130</span>
+</div>
+<div style="display: flex; align-items: center; gap: 10px">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F2B544" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Stamina"><path d="M13 3L5 14h6l-1 7 8-11h-6z"></path></svg>
+<div style="flex: 1; height: 14px; border-radius: 7px; background: rgba(255,255,255,0.08); overflow: hidden"><div style="width: 68%; height: 14px; border-radius: 7px; background: linear-gradient(180deg, #F7C764, #E0A030)"></div></div>
+<span style="width: 70px; text-align: right; font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums">88 / 130</span>
+</div>
+<div style="display: flex; align-items: center; gap: 18px; font-size: 15px; font-variant-numeric: tabular-nums">
+<span style="display: inline-flex; align-items: center; gap: 6px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9BD36A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 14c-3-3-2-9 4-9s8 6 5 9-6 3-9 0z M8 14l-3 4"></path></svg><b>62%</b><span style="color: #9AA3BF">food</span><span style="color: #A6E69B">(+8)</span></span>
+<span style="display: inline-flex; align-items: center; gap: 6px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#59B4FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c3 4 6 7 6 11a6 6 0 0 1-12 0c0-4 3-7 6-11z"></path></svg><b>74%</b><span style="color: #9AA3BF">water</span></span>
+</div>
+<div style="display: flex; align-items: center; gap: 10px">
+<span style="height: 24px; min-width: 44px; padding: 0 8px; box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center; border-radius: 7px; background: #B48CFF; color: #170B2E; font-size: 14px; font-weight: 700">Lv 31</span>
+<div style="flex: 1; height: 8px; border-radius: 4px; background: rgba(255,255,255,0.08); overflow: hidden"><div style="width: 38%; height: 8px; border-radius: 4px; background: #B48CFF"></div></div>
+<span style="font-size: 13px; color: #C3CAE0; font-variant-numeric: tabular-nums">2,140 / 5,600 XP</span>
+</div>
+</section>
+
+<section aria-label="Toolbelt" style="position: absolute; left: 471px; top: 790px; width: 658px; height: 82px; box-sizing: border-box; padding: 12px; display: flex; gap: 6px; border-radius: 14px; background: linear-gradient(180deg, rgba(28,33,62,{{gA}}) 0%, rgba(12,14,30,{{gB}}) 100%); border: 1px solid rgba(150,175,255,0.16); box-shadow: 0 18px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(217,184,115,0.35)">
+<sc-for list="{{belt}}" as="s" hint-placeholder-count="10">
+<div style="width: 58px; height: 58px; box-sizing: border-box; position: relative; display: flex; align-items: center; justify-content: center; border-radius: 10px; border: 1px solid {{s.bc}}; background: {{s.bg}}; box-shadow: {{s.ring}}">
+<span style="position: absolute; left: 6px; top: 3px; font-size: 11px; font-weight: 700; color: #9AA3BF">{{s.k}}</span>
+<sc-if value="{{s.has}}" hint-placeholder-val="{{true}}">
+<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#C9D3EE" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{s.d}}"></path></svg>
+<span style="position: absolute; right: 6px; bottom: 3px; font-size: 12px; font-weight: 700; color: #F2F5FC; font-variant-numeric: tabular-nums">{{s.n}}</span>
+<sc-if value="{{s.q}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; left: 8px; right: 8px; bottom: 5px; height: 3px; border-radius: 2px; background: rgba(255,255,255,0.10)"><div style="width: {{s.qw}}; height: 3px; border-radius: 2px; background: {{s.qc}}"></div></div>
+</sc-if>
+</sc-if>
+</div>
+</sc-for>
+</section>
+
+<section aria-label="Held item" style="position: absolute; left: 1288px; top: 790px; width: 280px; height: 82px; box-sizing: border-box; padding: 0 18px; display: flex; align-items: center; gap: 14px; border-radius: 14px; background: linear-gradient(180deg, rgba(28,33,62,{{gA}}) 0%, rgba(12,14,30,{{gB}}) 100%); border: 1px solid rgba(150,175,255,0.16); box-shadow: 0 18px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(217,184,115,0.35)">
+<svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#E8ECF7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{gun}}"></path></svg>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<div style="display: flex; align-items: baseline; gap: 4px; font-variant-numeric: tabular-nums"><span style="font-size: 34px; font-weight: 700; line-height: 1; color: #F2F5FC">13</span><span style="font-size: 18px; font-weight: 600; color: #9AA3BF">/ 15</span></div>
+<span style="font-size: 14px; color: #C3CAE0">9mm Round ×184</span>
+</div>
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#6FE3FF","options":["#6FE3FF","#FF7A59","#D9B873","#B48CFF"]},"glassOpacity":{"editor":"range","default":0.86,"min":0.5,"max":0.98,"step":0.01},"$preview":{"width":1600,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const accent = this.props.accent ?? '#6FE3FF';
+    const op = this.props.glassOpacity ?? 0.86;
+    const rgba = (hex, a) => {
+      const n = parseInt(hex.slice(1), 16);
+      return 'rgba(' + ((n >> 16) & 255) + ',' + ((n >> 8) & 255) + ',' + (n & 255) + ',' + a + ')';
+    };
+    const I = {
+      log: 'M3 9h14a3 3 0 0 1 0 6H3z M3 9a3 3 0 0 0 0 6 M8 9v6 M13 11h2',
+      stone: 'M4 16l3-7 6-3 6 5-2 7H7z M9 10l3 3',
+      water: 'M10 3h4v3l2 3v11a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V9l2-3z M8 13h8',
+      can: 'M6 7h12v12H6z M6 7c0-1.5 12-1.5 12 0 M6 11h12',
+      med: 'M4 8h16v11H4z M9 8V5h6v3 M12 11v5 M9.5 13.5h5',
+      ammo: 'M7 20v-9l2-5 2 5v9z M13 20v-9l2-5 2 5v9z M7 15h4 M13 15h4',
+      gun: 'M3 8h15v4h-7l-1 6H6l1-6H3z M18 9h3',
+      nail: 'M7 4h8 M11 4v13l-1 3 M8 9h6',
+      herb: 'M12 21V11 M12 13c-4 0-6-3-6-7 4 0 6 3 6 7z M12 11c3 0 6-2 6-6-3 0-6 2-6 6z',
+      book: 'M5 4h11a2 2 0 0 1 2 2v14H7a2 2 0 0 1-2-2z M5 18a2 2 0 0 1 2-2h11 M9 8h6',
+      fire: 'M12 3c3 4 5 6 5 10a5 5 0 0 1-10 0c0-2 1-4 2-5 0 2 1 3 2 3 0-3-1-5 1-8z',
+      axe: 'M13 3l7 7-4 4-3-3 M13 3l-2 2 3 3 M10 9L3 21',
+      cloth: 'M5 6l4-2 3 2 3-2 4 2-2 4v10H7V10z',
+      seed: 'M12 4c4 3 5 7 3 11s-6 5-6 5-2-6 0-10 3-6 3-6z',
+      battery: 'M4 8h14v8H4z M18 11h2v2h-2 M7 10v4 M10 10v4',
+      knife: 'M4 20l9-9 M13 11l6-7c1 3 0 6-3 9z',
+      meat: 'M8 14c-3-3-2-9 4-9s8 6 5 9-6 3-9 0z M8 14l-3 4 M6 16l-2 1',
+      scope: 'M3 10h14v4H3z M17 11h4v2h-4 M7 10V7h6v3',
+      mag: 'M9 4h6v16H9z M9 9h6 M9 14h6',
+      plus: 'M12 8v8 M8 12h8',
+      shirt: 'M8 4l4 2 4-2 4 4-3 3v9H7v-9L4 8z'
+    };
+    const Q = { 1: '#C08A58', 2: '#F29A3A', 3: '#F0D04A', 4: '#6FD266', 5: '#5AA8FF', 6: '#B67CFF' };
+    const mk = (k, n, q, dur, sel) => ({
+      has: true, d: I[k], n: n ? String(n) : '', q: !!q, qc: q ? Q[q] : '', qw: (dur ?? 100) + '%',
+      bc: sel ? accent : 'rgba(150,175,255,0.13)',
+      bg: sel ? rgba(accent, 0.12) : 'rgba(255,255,255,0.045)',
+      ring: sel ? '0 0 0 1px ' + accent + ', 0 0 16px ' + rgba(accent, 0.45) : 'inset 0 1px 0 rgba(255,255,255,0.04)'
+    });
+    const empty = () => ({ has: false, d: '', n: '', q: false, qc: '', qw: '0%', bc: 'rgba(150,175,255,0.08)', bg: 'rgba(255,255,255,0.02)', ring: 'none' });
+    const fill = (arr, len) => {
+      const out = arr.map((x) => x || empty());
+      while (out.length < len) out.push(empty());
+      return out;
+    };
+    const chest = fill([
+      mk('log', 412), mk('stone', 1350), mk('nail', 96), mk('cloth', 38), mk('can', 3), mk('water', 2),
+      mk('ammo', 60), mk('herb', 14), null, mk('seed', 6), mk('battery', 1), mk('book', 1),
+      mk('knife', 0, 2, 64), mk('axe', 0, 1, 40), mk('meat', 4), mk('med', 2), mk('fire', 5)
+    ], 24);
+    const pack = fill([
+      mk('axe', 0, 3, 78), mk('knife', 0, 2, 64), mk('log', 250), mk('stone', 830), mk('nail', 212), mk('gun', 0, 4, 69, true),
+      mk('ammo', 184), mk('med', 3), mk('water', 4), mk('can', 6), mk('meat', 2), mk('herb', 22),
+      mk('cloth', 57), mk('seed', 12), null, mk('fire', 8), mk('book', 1), mk('battery', 2),
+      null, mk('stone', 1000), mk('log', 500), mk('shirt', 0, 5, 91), null, mk('nail', 64),
+      mk('water', 1), null, mk('can', 2), mk('herb', 7), null, null,
+      mk('ammo', 40), mk('cloth', 12)
+    ], 48);
+    const belt = fill([
+      mk('axe', 0, 3, 78), mk('gun', 0, 4, 69, true), mk('knife', 0, 2, 64), mk('fire', 4), mk('med', 2),
+      mk('water', 3), mk('can', 2), mk('meat', 5)
+    ], 10).map((s, i) => Object.assign({}, s, { k: String((i + 1) % 10) }));
+    const tabs = ['Backpack', 'Crafting', 'Character', 'Map', 'Quests', 'Skills', 'Challenges', 'Players'].map((label, i) => ({
+      label,
+      bg: i === 0 ? rgba(accent, 0.16) : 'transparent',
+      bc: i === 0 ? accent : 'transparent',
+      fg: i === 0 ? '#F2FBFF' : '#9AA3BF',
+      glow: i === 0 ? '0 0 14px ' + rgba(accent, 0.35) : 'none'
+    }));
+    const stats = [
+      { l: 'Entity damage', v: '36' }, { l: 'Block damage', v: '9' }, { l: 'Rate of fire', v: '5.5 / s' },
+      { l: 'Magazine', v: '15' }, { l: 'Reload time', v: '2.4 s' }, { l: 'Effective range', v: '40 m' },
+      { l: 'Durability', v: '412 / 600' }
+    ];
+    const modSlot = (k, cos) => ({
+      d: k ? I[k] : (cos ? I.shirt : I.plus),
+      stroke: k ? '#E8ECF7' : 'rgba(150,175,255,0.35)',
+      bg: k ? 'rgba(255,255,255,0.07)' : 'rgba(255,255,255,0.02)',
+      line: cos ? 'dashed' : 'solid'
+    });
+    const mods = [modSlot('scope'), modSlot('mag'), modSlot(), modSlot(), modSlot(), modSlot(), modSlot(null, true)];
+    const pips = [1, 2, 3, 4, 5, 6].map((i) => ({ c: i <= 4 ? Q[4] : 'rgba(255,255,255,0.10)' }));
+    return {
+      accent,
+      accentSoft: rgba(accent, 0.25),
+      accentFaint: rgba(accent, 0.08),
+      accentGlow: rgba(accent, 0.40),
+      gA: op.toFixed(2),
+      gB: Math.min(1, op - 0.04).toFixed(2),
+      chest, pack, belt, tabs, stats, mods, pips,
+      gun: I.gun,
+      flame: I.fire,
+      chestCount: chest.filter((s) => s.has).length,
+      packCount: pack.filter((s) => s.has).length
+    };
+  }
+}
+</script>
+</body>
+</html>
