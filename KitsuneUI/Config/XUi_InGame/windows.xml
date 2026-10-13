@@ -387,8 +387,11 @@
 	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@stat_type='Water'][@pos='87,-120']/@pos">104,-120</set>
 
 	<!-- Buff pop-outs above the bars: same 201 width and same left and right edges as the bars. -->
+	<!-- The game clones each pop-out with NGUITools.AddChild, which zeroes its position, so -->
+	<!-- the item's own pos is ignored: every pop-out is centred on the list rect's x. The   -->
+	<!-- bars run 9..210 (centre 109.5), so the list moves from vanilla 90 to 110.          -->
+	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/@pos">110,132</set>
 	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/@width">201</set>
-	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/@pos">95, 0</set>
 	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/sprite[@name='Background']/@width">201</set>
 	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/filledsprite[@name='BarContent']/@pos">-99,0</set>
 	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/filledsprite[@name='BarContent']/@size">198,40</set>
