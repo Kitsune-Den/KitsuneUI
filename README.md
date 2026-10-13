@@ -6,7 +6,7 @@ This repo holds more than one mod folder. Install the ones you want.
 
 | Folder | What it does | Code |
 |---|---|---|
-| `KitsuneUI` | The theme (not built yet) | XML only, works with EAC on |
+| `KitsuneUI` | The theme (in progress) | XML only, works with EAC on |
 | `KitsuneUI_Toolbelt20` | Two toolbelt bars of 10 | Small DLL, EAC off |
 
 ## Ground rules
@@ -15,6 +15,24 @@ This repo holds more than one mod folder. Install the ones you want.
 - **The theme is UI only.** No gameplay changes. Bag sizes belong in KitsuneBackpack, container sizes in KitsuneStorage.
 - **Works with mods that resize things.** Windows that other mods resize (backpack, loot, vehicle storage, toolbelt) are restyled in place, keep their vanilla names and paths, and grid rows only ever go up. The toolbelt follows the game's own bar and page settings.
 - **Our own art and code.** Terminal UI is the reference for what to cover, not a source to copy.
+
+## KitsuneUI
+
+Done so far:
+
+- **Palette.** The Kitsunebi colours are `ku*` style entries in `Config/XUi_Common/styles.xml`. `kuAccent` drives every selection, glow and active state. The vanilla greys and selection colours are moved onto the palette, so windows not rebuilt yet still fit.
+- **Window headers.** `ui_game_panel_header` is replaced with a glass header, so every window that uses the standard header gets it.
+- **Item slots.** Rounded slots with a faint edge, a ring and glow that turn cyan when selected or held and gold on hover, and a thin durability bar.
+- **Backpack and loot windows.** A glass body under the header. The loot window had no background at all before.
+- **Toolbelt.** A glass tray that grows to fit 1 or 2 bars, and the XP bar moved underneath.
+
+### Art
+
+Every sprite is drawn by `tools/gen_sprites.py` (Python 3 + Pillow), which writes the PNGs and their 9-slice borders (`settings.xml`) into `KitsuneUI/UIAtlases/UIAtlas/`, and a preview sheet to `docs/sprites.png`. Change the script, not the PNGs:
+
+```
+python tools/gen_sprites.py
+```
 
 ## KitsuneUI_Toolbelt20
 
