@@ -1,56 +1,57 @@
 # KitsuneUI
 
-A glass UI theme for 7 Days to Die 3.x, inspired by Terminal UI (Nexus mod 12967), built from scratch.
+**Kitsunebi**, a night glass interface for 7 Days to Die V3.x: deep indigo glass panels, fox-fire cyan accents and gold titles, across every screen in the game.
 
-This repo holds more than one mod folder. Install the ones you want.
+![Skills](docs/screenshots/skills.webp)
 
-| Folder | What it does | Code |
+| | |
+|---|---|
+| ![Challenges](docs/screenshots/challenges.webp) | ![Loading screen and respawn](docs/screenshots/loading-respawn.webp) |
+
+The theme is XML and images only. It changes how the game looks, never how it plays, and it runs with EAC on.
+
+## What it covers
+
+- **HUD:** health, stamina, food and water bars with an injury hatch, buff pop-outs lined up with the bars, compass, location box, quest and recipe trackers, party bars, enemy health bar.
+- **Toolbelt:** a glass tray that grows to fit one or two bars.
+- **Inventory:** backpack, loot, vehicle and drone storage, with rounded slots that glow fox-fire when selected and gold on hover.
+- **Crafting:** recipe list, recipe and item details, crafting queue, the creative menu, every workstation (workbench, forge, campfire, chemistry station, cement mixer, dew collector).
+- **Trader and quests:** trader stock, services, job offer, quest journal, turn-in rewards.
+- **Character:** character sheet, buffs, skills and perks, challenges, cosmetics.
+- **Map:** map, waypoints, shared waypoints and the right-click menus.
+- **Menus:** main menu, Play Game, the in-game Esc menu, every Options page, the loading screen, death message and respawn screen.
+- **Everything else:** chat, the player list, power and trap windows, cameras, signs and the sign editor, keypads, tooltips, context menus, tips, message boxes, admin and debug panels.
+
+## Install
+
+1. Download the zips you want from the [Releases](https://github.com/Kitsune-Den/KitsuneUI/releases) page.
+2. Unzip each one into your `Mods` folder, so you end up with `Mods/KitsuneUI/ModInfo.xml`. The `Mods` folder is in your game folder, or at `%APPDATA%\7DaysToDie\Mods`.
+
+**Playing on a server:** install it on the **server and on every player's game**. The server sends its UI layout to everyone who joins, so a player without KitsuneUI sees blank spots where the theme's images go. Tell your players before you add it.
+
+| Mod | What it does | EAC |
 |---|---|---|
-| `KitsuneUI` | The theme (in progress) | XML only, works with EAC on |
-| `KitsuneUI_Toolbelt20` | Two toolbelt bars of 10 | Small DLL, EAC off |
-| `KitsuneUI_JobPreview` | Trader jobs as picture tiles; job offer with the location's picture | Small DLL, EAC off, needs `KitsuneUI` |
+| `KitsuneUI` | The theme | Works with EAC on |
+| `KitsuneUI_Toolbelt20` (optional) | Two toolbelt bars of 10 | Small DLL, needs EAC off |
+| `KitsuneUI_JobPreview` (optional) | Trader jobs as picture tiles, and a job offer with the location's picture | Small DLL, needs EAC off, needs `KitsuneUI` |
 
-## Ground rules
+### Works with mods that resize things
 
-- **The theme has no dependencies.** No DLL, no Harmony, no custom XPath ops, no other mods. Only XML (XUi) and UIAtlas sprites, so it runs with EAC on.
-- **The theme is UI only.** No gameplay changes. Bag sizes belong in KitsuneBackpack, container sizes in KitsuneStorage.
-- **Works with mods that resize things.** Windows that other mods resize (backpack, loot, vehicle storage, toolbelt) are restyled in place, keep their vanilla names and paths, and grid rows only ever go up. The toolbelt follows the game's own bar and page settings.
-- **Our own art and code.** Terminal UI is the reference for what to cover, not a source to copy.
+Windows that other mods resize are restyled in place. They keep their vanilla names, and their glass panels are anchored to the grids rather than sized with fixed numbers, so bigger bags, containers, toolbelts and workstation grids still fit. Tested with KitsuneBackpack, KitsuneStorage and KitsuneMoreSloots.
 
-## KitsuneUI
+Other mods that rebuild the same windows from scratch (full UI overhauls) will clash with it. Use one UI theme at a time.
 
-Done so far:
+### Removing it
 
-- **Palette.** The Kitsunebi colours are `ku*` style entries in `Config/XUi_Common/styles.xml`. `kuAccent` drives every selection, glow and active state. The vanilla greys and selection colours are moved onto the palette, so windows not rebuilt yet still fit.
-- **Window headers.** `ui_game_panel_header` is replaced with a glass header, so every window that uses the standard header gets it.
-- **Item slots.** Rounded slots with a faint edge, a ring and glow that turn cyan when selected or held and gold on hover, and a thin durability bar.
-- **Backpack and loot windows.** A glass body under the header. The loot window had no background at all before.
-- **Toolbelt.** A glass tray that grows to fit 1 or 2 bars, and the XP bar moved underneath.
-- **Crafting.** Recipe list, recipe and item details, the empty Inspect panel and the crafting queue: glass bodies, soft table cells with a gold header row, and navy recipe rows that turn deep teal with a fox-fire edge when selected.
-- **Creative menu.** Glass body, soft category columns and search bar.
-- **Workstations.** Tools, Fuel, Smelting, Output, Combine and the collectors get glass bodies and a glass Turn On button.
-- **Popups and buttons.** Message boxes and header boxes use the glass header with a gold title; buttons everywhere are rounded glass with a fox-fire hover.
-- **Window titles** are gold and window icons fox-fire, for every window built on the standard header styles.
-
-Built to survive other mods: bodies around grids that mods resize (forge input, workstation output, crafting queue) are anchored to the grid rather than sized with fixed numbers, so they fit KitsuneMoreSloots' bigger grids or anyone else's.
-
-Recipe rows and the Craft / Track / Favorite buttons are coloured by game code, which swaps their sprite between `menu_empty` and `ui_game_select_row`. Those rows point at a separate atlas, `KitsuneRows`, holding our own versions of both names, so nothing else in the game changes.
-
-### Art
-
-Every sprite is drawn by `tools/gen_sprites.py` (Python 3 + Pillow), which writes the PNGs and their 9-slice borders (`settings.xml`) into `KitsuneUI/UIAtlases/UIAtlas/`, and a preview sheet to `docs/sprites.png`. Change the script, not the PNGs:
-
-```
-python tools/gen_sprites.py
-```
+Delete the folders. The theme stores nothing in your save. For the toolbelt add-on, see [Removing it](#removing-it-1) below.
 
 ## KitsuneUI_JobPreview
 
-Talking to a trader shows the options as a strip of tiles under the trader, above the toolbelt. A job tile has a one-line text window ("Clear Zombies (399 m W)") over the location's preview picture, with the place name across the bottom of the picture and a tier badge in the corner. Other options (Let's trade, Nevermind) are text-only tiles. The job offer window shows the location's picture with its name, tier, distance and biome, the description and objectives, and wide Accept / Decline buttons.
+Talking to a trader shows the options as a strip of tiles under the trader, above the toolbelt. A job tile shows the job ("Clear Zombies") over the location's preview picture, with the place name across the bottom, a tier badge in the corner and the distance and direction in a badge. Other options (Let's trade, Nevermind) are text-only tiles. The job offer window shows the location's picture with its name, tier, distance and biome, the description and objectives, and wide Accept / Decline buttons.
 
 The pictures are the preview images the game already ships with every POI (`Data/Prefabs/POIs/<name>.jpg`; modded POIs use the image next to their prefab). Two small XUi controllers in the DLL read the job behind each dialog row and behind the offer window, and hand the window XML the picture path, name, tier, distance, direction, biome and objectives. Distance and direction use the game's own formatting.
 
-Needs `KitsuneUI` (it uses its glass sprites). Install on the **server and every client**, with EAC off.
+Needs `KitsuneUI`. Install on the **server and every client**, with EAC off.
 
 ## KitsuneUI_Toolbelt20
 
@@ -68,26 +69,67 @@ It also makes room for the extra slots when you die. With drop-on-death set to e
 | KitsuneBackpack | 8x20 to 8x22 | 12x14 to 12x20 |
 | KitsuneBackpack200 | 8x28 to 8x30 | 12x19 to 12x20 |
 
-**Removing it** is safe for items: when the game loads a 20-slot belt into a 10-slot one, the extra items go into your backpack, and anything that doesn't fit drops at your feet.
+### Removing it
+
+Safe for items: when the game loads a 20-slot belt into a 10-slot one, the extra items go into your backpack, and anything that doesn't fit drops at your feet.
 
 ### Changing the size
 
 Edit `KitsuneUI_Toolbelt20/Config/toolbelt.xml`. The game clamps `slot_per_bar` to 1-10, `bar_per_page` to 1-2 and `page_count` to 1-10. More than one page shows the vanilla page arrows. The death bag sizes above assume 20 slots.
 
-### Building
+## For modders
 
-The project references the game's DLLs from `7dtd-binaries/` (not committed). Copy these into it from your game install: `Assembly-CSharp.dll` and `LogLibrary.dll` from `7DaysToDie_Data/Managed`, and `0Harmony.dll` from `Mods/0_TFP_Harmony`. Then:
+### Ground rules
+
+- **The theme has no dependencies.** No DLL, no Harmony, no custom XPath ops, no other mods. Only XML (XUi) and UIAtlas sprites, so it runs with EAC on.
+- **The theme is UI only.** No gameplay changes. Bag sizes belong in KitsuneBackpack, container sizes in KitsuneStorage.
+- **Never size around a grid with fixed numbers.** Anchor to the grid (`anchor_bottom="grid,0,-6"`) so other mods can resize it.
+- **Our own art and code.** Terminal UI was the reference for what to cover, not a source to copy.
+
+### How it's built
+
+- **Palette.** The Kitsunebi colours are `ku*` style entries in `Config/XUi_Common/styles.xml`. `kuAccent` drives every selection, glow and active state. The vanilla greys and selection colours are moved onto the palette too, so windows from other mods fit in.
+- **Vanilla red.** `tools/gen_menu_recolor.py` finds every vanilla red (228,18,21 and friends) and writes a GENERATED block at the top of each patch file that recolours it. Hand-written patches come after it, so they win.
+- **Rows coloured by game code.** Recipe rows, waypoint rows and several buttons are coloured by code that swaps their sprite between `menu_empty` and `ui_game_select_row`. Those sprites point at a separate atlas, `KitsuneRows`, holding our own versions of both names, so nothing else in the game changes.
+- **Art.** Every sprite is drawn by `tools/gen_sprites.py` (Python 3 + Pillow), which writes the PNGs and their 9-slice borders (`settings.xml`) into `KitsuneUI/UIAtlases/`, and a preview sheet to `docs/sprites.png`. Change the script, not the PNGs.
+
+```
+python tools/gen_sprites.py
+```
+
+### Checking patches
+
+`tools/check_patches.py` (Python 3 + lxml) applies every patch to the vanilla XUi files in load order and lists any XPath that matches nothing. A dedicated server never loads the menu XUi or the atlases, so this is the only check that covers everything:
+
+```
+python tools/check_patches.py "<game>/Data/Config" KitsuneUI/Config KitsuneUI_JobPreview/Config
+```
+
+### Building the DLLs
+
+The projects reference the game's DLLs from `7dtd-binaries/` (not committed). Copy these into it from your game install: `Assembly-CSharp.dll`, `LogLibrary.dll` and `UnityEngine.CoreModule.dll` from `7DaysToDie_Data/Managed`, and `0Harmony.dll` from `Mods/0_TFP_Harmony`. Then:
 
 ```
 dotnet build src/KitsuneUI.Toolbelt20 -c Release
+dotnet build src/KitsuneUI.JobPreview -c Release
 ```
 
-The DLL is copied into `KitsuneUI_Toolbelt20/`.
+Each DLL is copied into its mod folder.
 
-## Status
+### Release zips
 
-Direction: **Kitsunebi** (chosen 2026-10-13). Design mocks, including the gameplay HUD: https://claude.ai/artifact/PVRYUgSEenPaMqcEsPLSh2
-- Light Glass: frosted white panels, vermilion accent
-- Kitsunebi: night indigo glass, fox-fire cyan accent, gold hairlines
+```
+python tools/package.py
+```
 
-The mock sources are in `docs/mocks/`.
+writes `dist/<Folder>-<Version>.zip` for each mod, with the mod folder at the zip's root. The version comes from each `ModInfo.xml`.
+
+### Design
+
+The mocks behind the Kitsunebi direction (night indigo glass, fox-fire cyan accent, gold hairlines), including the gameplay HUD, job tiles and job offer layouts, are in `docs/mocks/`.
+
+## Credits
+
+Inspired by [Terminal UI](https://www.nexusmods.com/7daystodie/mods/12967) by SkyLett. All art and code here is our own.
+
+MIT licensed, see `LICENSE`.
