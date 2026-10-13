@@ -29,6 +29,13 @@ SS = 4  # supersampling factor
 GLASS_TOP = (28, 33, 62)
 GLASS_BOTTOM = (12, 14, 30)
 EDGE = (150, 175, 255)
+
+# Glass opacity, top and bottom of the gradient. The game blends UI in linear
+# colour space, so translucent dark glass looks far thinner over bright daytime
+# scenes than its alpha says (0.84-0.90 here read as ~0.5 in daylight). These
+# are high on purpose; the Background Opacity setting still thins them.
+GLASS_A_TOP = 250
+GLASS_A_BOTTOM = 240
 GOLD = (217, 184, 115)
 
 sprites = {}   # name -> Image
@@ -94,7 +101,7 @@ def vgradient(w, h, top, bottom):
 # --- glass panel (baked) -------------------------------------------------------
 # 64x64, radius 14. Gradient glass, 1px cool edge, gold hairline along the top.
 def glass_panel(size=64, r=14):
-    body = vgradient(size, size, GLASS_TOP + (230,), GLASS_BOTTOM + (214,))
+    body = vgradient(size, size, GLASS_TOP + (GLASS_A_TOP,), GLASS_BOTTOM + (GLASS_A_BOTTOM,))
     # gradient alpha times the rounded-rect mask, so the edge stays anti-aliased
     body.putalpha(ImageChops.multiply(body.getchannel("A"), mask_round(size, size, r)))
 
@@ -155,10 +162,10 @@ def glass_part(w, h, r, top, bottom, round_top, round_bottom, divider=False, hai
 
 # Overrides the vanilla header sprite, so every window using <headerbg/> picks it up.
 add("ui_game_panel_header",
-    glass_part(64, 48, 14, GLASS_TOP + (236,), (24, 28, 54, 228), True, False, divider=True, hairline=True),
+    glass_part(64, 48, 14, GLASS_TOP + (GLASS_A_TOP,), (24, 28, 54, GLASS_A_TOP), True, False, divider=True, hairline=True),
     (16, 16, 16, 4))
 add("ku_panel_body",
-    glass_part(64, 48, 14, (20, 24, 46, 226), GLASS_BOTTOM + (214,), False, True),
+    glass_part(64, 48, 14, (20, 24, 46, GLASS_A_TOP), GLASS_BOTTOM + (GLASS_A_BOTTOM,), False, True),
     (16, 16, 4, 16))
 
 
@@ -192,6 +199,35 @@ def glow(size=48, pad=8, r=10, blur=5):
 
 
 add("ku_glow", glow(), 18)
+
+
+# --- list rows (baked, in their own atlas) ---------------------------------------
+# Recipe rows and item-action buttons are driven by game code, not XML. The code
+# sets the colour (64 grey idle, 96 grey on hover, white when selected / action
+# hovered) AND swaps the sprite name: "menu_empty" idle, "ui_game_select_row"
+# selected. Overriding those names in UIAtlas would change every window, so they
+# live in a separate atlas, KitsuneRows, and only these rows point at it
+# (atlas="KitsuneRows"; the code swaps names, not atlases).
+# Each is multiplied by the code's grey, so they are baked to land right:
+#   menu_empty         x0.25 -> deep navy row, x0.38 -> lighter navy on hover
+#   ui_game_select_row x1.0  -> steel-cyan highlight that still carries white text
+rows = {}
+rows["menu_empty"] = (solid_round(32, 32, 7, (80, 104, 184, 235)), 8)
+
+
+def selected_row(size=32, r=7, fill=(30, 84, 118, 245), bar=(111, 227, 255)):
+    """Deep teal (dark enough for white and the lightened disabled grey to read)
+    with a fox-fire bar down the left edge, inside the 8px left border so the
+    9-slice keeps it at the edge."""
+    img = solid_round(size, size, r, fill)
+    m = Image.new("L", (size * SS, size * SS), 0)
+    ImageDraw.Draw(m).rounded_rectangle((2 * SS, 6 * SS, 5 * SS, (size - 6) * SS), radius=1.5 * SS, fill=255)
+    accent = Image.new("RGBA", m.size, bar + (0,))
+    accent.putalpha(m)
+    return Image.alpha_composite(img, down(accent))
+
+
+rows["ui_game_select_row"] = (selected_row(), 8)
 
 
 # --- buttons, chips, bars (tinted) ----------------------------------------------
@@ -279,28 +315,44 @@ add("ku_icon_flame", flame(), 0)
 
 
 # --- write -----------------------------------------------------------------------
-def main():
-    OUT.mkdir(parents=True, exist_ok=True)
-    for name, img in sprites.items():
-        img.save(OUT / f"{name}.png")
-
+def write_atlas(folder, items):
+    """items: name -> (image, border). Writes the PNGs and settings.xml."""
+    folder.mkdir(parents=True, exist_ok=True)
     lines = ["<settings>"]
-    for name, (l, r, t, b) in borders.items():
-        if (l, r, t, b) == (0, 0, 0, 0):
-            continue
-        lines.append(f'\t<sprite name="{name}" borderleft="{l}" borderright="{r}" bordertop="{t}" borderbottom="{b}" />')
+    for name, (img, border) in items.items():
+        img.save(folder / f"{name}.png")
+        if isinstance(border, int):
+            border = (border,) * 4
+        if border != (0, 0, 0, 0):
+            l, r, t, b = border
+            lines.append(f'\t<sprite name="{name}" borderleft="{l}" borderright="{r}" bordertop="{t}" borderbottom="{b}" />')
     lines.append("</settings>")
-    (OUT / "settings.xml").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    (folder / "settings.xml").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
-    # Contact sheet: each sprite on the night background, tinted sprites in the accent.
+
+def main():
+    write_atlas(OUT, {name: (img, borders[name]) for name, img in sprites.items()})
+    write_atlas(OUT.parent / "KitsuneRows", rows)
+
+    # Contact sheet on the night background. Tinted sprites are shown in the accent;
+    # the KitsuneRows sprites are shown the way the game's code greys them.
+    def grey(img, g):
+        r, gr, b, a = img.split()
+        return Image.merge("RGBA", [Image.eval(c, lambda v: v * g // 255) for c in (r, gr, b)] + [a])
+
+    preview = dict(sprites)
+    preview["rows: idle"] = grey(rows["menu_empty"][0], 64)
+    preview["rows: hover"] = grey(rows["menu_empty"][0], 96)
+    preview["rows: selected"] = rows["ui_game_select_row"][0]
+    baked = {"ku_panel", "ku_panel_sm", "ku_shadow", "ui_game_panel_header", "ku_panel_body",
+             "rows: idle", "rows: hover", "rows: selected"}
+
     accent = (111, 227, 255)
     cell = 140
     cols = 6
-    rows = (len(sprites) + cols - 1) // cols
-    sheet = Image.new("RGBA", (cols * cell, rows * cell), (7, 10, 22, 255))
+    sheet = Image.new("RGBA", (cols * cell, -(-len(preview) // cols) * cell), (7, 10, 22, 255))
     d = ImageDraw.Draw(sheet)
-    baked = {"ku_panel", "ku_panel_sm", "ku_shadow", "ui_game_panel_header", "ku_panel_body"}
-    for i, (name, img) in enumerate(sprites.items()):
+    for i, (name, img) in enumerate(preview.items()):
         x, y = (i % cols) * cell, (i // cols) * cell
         show = img
         if name not in baked:
@@ -314,6 +366,7 @@ def main():
     SHEET.parent.mkdir(parents=True, exist_ok=True)
     sheet.save(SHEET)
     print(f"{len(sprites)} sprites -> {OUT}")
+    print(f"{len(rows)} row sprites -> {OUT.parent / 'KitsuneRows'}")
     print(f"contact sheet -> {SHEET}")
 
 
