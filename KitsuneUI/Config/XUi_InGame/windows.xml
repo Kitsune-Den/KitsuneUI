@@ -42,6 +42,11 @@
 			height="{% Min( v2i_y(gridDimensions) * 75 + 3, 753 ) + 12 }" />
 	</prepend>
 
+	<!-- Vanilla's loot scrollview has no depth, which ties with kuBody (depth 0), and the body -->
+	<!-- then draws over the slots: only foreground-layer item icons showed. The backpack gives -->
+	<!-- its scrollview depth 2 over a depth-0 background; do the same here.                   -->
+	<setattribute xpath="/windows/window[@name='windowLooting']/rect[@name='content']/scrollview" name="depth">2</setattribute>
+
 	<set xpath="/windows/window[@name='windowLooting']/rect[@name='content']/defaultscrollbar/@thumb_color_active">[kuAccent]</set>
 	<set xpath="/windows/window[@name='windowLooting']/rect[@name='content']/defaultscrollbar/@thumb_color_inactive">[kuTextMuted]</set>
 	<set xpath="/windows/window[@name='windowLooting']/rect[@name='content']/defaultscrollbar/@border_color_active">[transparent]</set>
