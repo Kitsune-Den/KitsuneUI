@@ -115,6 +115,19 @@
 	<set xpath="/templates/combobox/@bg_color">[kuSlotWell]</set>
 	<setattribute xpath="/templates/combobox/rect/rect[@name='fills']/rect[@name='regularFill']/sprite[@name='background']" name="sprite">ku_round_sm</setattribute>
 	<set xpath="/templates/combobox/rect/rect[@name='fills']/rect[@name='regularFill']/sprite[@name='fillBg']/@color">[kuTrack]</set>
+	<!-- Toggle buttons (Filter small POIs, debug toggles, ...): glass button, dark-well -->
+	<!-- tick box with a fox-fire tick. Vanilla: grey box, tan on hover, black edge.     -->
+	<set xpath="/templates/togglebutton/rect/button[@name='clickable']/@sprite">ku_round_md</set>
+	<set xpath="/templates/togglebutton/rect/button[@name='clickable']/@defaultcolor">[kuBtn]</set>
+	<set xpath="/templates/togglebutton/rect/button[@name='clickable']/@disabledcolor">[kuBtnDisabled]</set>
+	<set xpath="/templates/togglebutton/rect/button[@name='clickable']/@hoversprite">ku_round_md</set>
+	<set xpath="/templates/togglebutton/rect/button[@name='clickable']/@hovercolor">[kuBtnHover]</set>
+	<set xpath="/templates/togglebutton/rect/sprite[@name='border']/@sprite">ku_round_md_ring</set>
+	<set xpath="/templates/togglebutton/rect/sprite[@name='border']/@color">[kuEdge]</set>
+	<set xpath="/templates/togglebutton/rect/sprite[@name='tickbox']/@sprite">ku_round_sm</set>
+	<set xpath="/templates/togglebutton/rect/sprite[@name='tickbox']/@color">[kuSlotWell]</set>
+	<set xpath="/templates/togglebutton/rect/sprite[@name='tickmark']/@color">[kuAccent]</set>
+
 	<!-- Hold-to-activate progress fill -->
 	<set xpath="/templates/labeledglyphbutton/rect/sprite[@name='fill']/@sprite">ku_round_md</set>
 	<set xpath="/templates/labeledglyphbutton/rect/sprite[@name='fill']/@color">[kuAccentSoft]</set>

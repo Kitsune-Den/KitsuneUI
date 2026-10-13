@@ -89,6 +89,22 @@
 	<set xpath="/styles/style[@name='crafting.info.window']/style_entry[@name='valid_color']/@value">[kuGood]</set>
 	<set xpath="/styles/style[@name='crafting.info.window']/style_entry[@name='invalid_color']/@value">[kuDanger]</set>
 
+	<!-- ================================================================ -->
+	<!-- List rows                                                        -->
+	<!-- listentry.background_old (admin lists: POI teleport, spawn,      -->
+	<!-- prefabs) swaps menu_empty / ui_game_select_row with 64 / 96 /    -->
+	<!-- white greys, like the recipe rows: point it at KitsuneRows.      -->
+	<!-- listentry.background / .border (save list, server browser...):   -->
+	<!-- rounded, teal when selected, faint edge otherwise.               -->
+	<!-- ================================================================ -->
+	<append xpath="/styles/style[@name='listentry.background_old']">
+		<style_entry name="atlas" value="KitsuneRows" />
+	</append>
+	<set xpath="/styles/style[@name='listentry.background']/style_entry[@name='sprite']/@value">ku_round_sm</set>
+	<set xpath="/styles/style[@name='listentry.background']/style_entry[@name='color']/@value">{% !hasentry ? color(0,0,0,0) : (isselected ? color(30,84,118,235) : (hovered ? color(40,60,96,200) : color(0,0,0,0) ) ) }</set>
+	<set xpath="/styles/style[@name='listentry.border']/style_entry[@name='sprite']/@value">ku_round_md_ring</set>
+	<set xpath="/styles/style[@name='listentry.border']/style_entry[@name='color']/@value">{% !hasentry ? color(0,0,0,0) : (isselected ? color(111,227,255,255) : (hovered ? color(217,184,115,200) : color(150,175,255,40) ) ) }</set>
+
 	<!-- Item slot colours. The slot ring and glow take select_color when selected,  -->
 	<!-- highlight_color on hover, holding_color for the held toolbelt slot and      -->
 	<!-- background_color otherwise; the fill is always background_color.            -->

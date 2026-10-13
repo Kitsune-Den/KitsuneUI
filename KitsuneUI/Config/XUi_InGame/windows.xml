@@ -234,6 +234,25 @@
 	<setattribute xpath="/windows/window[@name='windowTrader' or @name='serviceInfoPanel' or @name='windowQuestTurnInDescription' or @name='windowQuestTurnInRewards' or @name='windowQuestList' or @name='windowQuestSharedList' or @name='windowQuestDescription' or @name='windowQuestObjectives' or @name='windowQuestRewards']/rect[@name='header']/sprite[@name='windowIcon'][not(@color)]" name="color">[kuAccent]</setattribute>
 
 	<!-- ================================================================ -->
+	<!-- Admin / debug windows (debug menu, POI teleport, spawn menu,     -->
+	<!-- prefab editor panels)                                            -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='ingameDebugMenu' or @name='poiTeleportMenu' or @name='spawnMenu' or @name='prefabList' or @name='editorPanelSelector' or @name='editorInfo' or @name='exportPrefab' or @name='createPoi' or @name='prefabPropertiesEditor' or @name='prefabMarkers' or @name='startPointEditor' or @name='saveDirtyPrefab' or @name='spawnBlockProperties' or @name='prefabeditorhelp']//sprite[@sprite='menu_empty3px' and @color='[black]']/@color">[transparent]</set>
+	<!-- POI teleport and spawn menu: their full-size grey background becomes the glass body. -->
+	<set xpath="/windows/window[@name='poiTeleportMenu' or @name='spawnMenu']/rect[@name='content']/sprite[@name='backgroundMain'][@color='[darkGrey]']/@sprite">ku_panel_body</set>
+	<set xpath="/windows/window[@name='poiTeleportMenu' or @name='spawnMenu']/rect[@name='content']/sprite[@name='backgroundMain'][@sprite='ku_panel_body']/@color">[white]</set>
+	<!-- Search bars (black fills / outlines) become soft cells. -->
+	<set xpath="/windows/window[@name='poiTeleportMenu' or @name='spawnMenu' or @name='ingameDebugMenu' or @name='prefabList']//rect[@name='searchControls']/sprite[@name='backgroundMain']/@sprite">ku_round_sm</set>
+	<set xpath="/windows/window[@name='poiTeleportMenu' or @name='spawnMenu' or @name='ingameDebugMenu' or @name='prefabList']//rect[@name='searchControls']/sprite[@name='backgroundMain']/@color">[kuCell]</set>
+	<!-- Prefab-editor panel selector strip: glass. -->
+	<set xpath="/windows/window[@name='editorPanelSelector']/sprite[@name='backgroundMain']/@sprite">ku_panel_sm</set>
+	<set xpath="/windows/window[@name='editorPanelSelector']/sprite[@name='backgroundMain']/@color">[white]</set>
+	<!-- Panels built from boxbg (debug menu, camera positions, prefab list): glass. -->
+	<setattribute xpath="/windows/window[@name='ingameDebugMenu' or @name='prefabList' or @name='exportPrefab' or @name='createPoi' or @name='prefabPropertiesEditor' or @name='prefabMarkers' or @name='startPointEditor' or @name='saveDirtyPrefab' or @name='spawnBlockProperties' or @name='prefabeditorhelp']//boxbg" name="backsprite">ku_panel</setattribute>
+	<setattribute xpath="/windows/window[@name='ingameDebugMenu' or @name='prefabList' or @name='exportPrefab' or @name='createPoi' or @name='prefabPropertiesEditor' or @name='prefabMarkers' or @name='startPointEditor' or @name='saveDirtyPrefab' or @name='spawnBlockProperties' or @name='prefabeditorhelp']//boxbg" name="backcolor">[white]</setattribute>
+	<setattribute xpath="/windows/window[@name='ingameDebugMenu' or @name='prefabList' or @name='exportPrefab' or @name='createPoi' or @name='prefabPropertiesEditor' or @name='prefabMarkers' or @name='startPointEditor' or @name='saveDirtyPrefab' or @name='spawnBlockProperties' or @name='prefabeditorhelp']//boxbg" name="bordercolor">[transparent]</setattribute>
+
+	<!-- ================================================================ -->
 	<!-- Dialog (trader / NPC responses)                                  -->
 	<!-- Vanilla: a wide text-body box. Ours: a narrower glass panel on   -->
 	<!-- the right with a glass header (name in gold, talk icon), so more -->

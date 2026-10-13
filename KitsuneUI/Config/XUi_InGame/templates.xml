@@ -116,6 +116,10 @@
 	<setattribute xpath="/templates/*[self::trader_item or self::quest_turnin_entry]/rect/sprite[@name='durabilityBar']" name="sprite">ku_bar</setattribute>
 	<set xpath="/templates/trader_item/rect/sprite[@name='durabilityBar'][@color='[darkestGrey]']/@color">[kuTrack]</set>
 
+	<!-- Admin list rows (POI teleport, spawn menu, prefab lists): the black outline goes; -->
+	<!-- the row colour comes from listentry.background_old, now on the KitsuneRows atlas. -->
+	<set xpath="/templates/*[self::poi_teleport_list_entry or self::entity_entry or self::prefab_file_entry or self::prefab_group_entry]/rect/sprite[@name='backgroundMain']/@color">[transparent]</set>
+
 	<!-- ================================================================ -->
 	<!-- Dialog response rows (trader / NPC options)                      -->
 	<!-- The row text takes {rowstatecolor}: hover_color on hover, white  -->
