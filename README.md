@@ -8,6 +8,7 @@ This repo holds more than one mod folder. Install the ones you want.
 |---|---|---|
 | `KitsuneUI` | The theme (in progress) | XML only, works with EAC on |
 | `KitsuneUI_Toolbelt20` | Two toolbelt bars of 10 | Small DLL, EAC off |
+| `KitsuneUI_JobPreview` | Trader jobs as picture tiles; job offer with the location's picture | Small DLL, EAC off, needs `KitsuneUI` |
 
 ## Ground rules
 
@@ -42,6 +43,14 @@ Every sprite is drawn by `tools/gen_sprites.py` (Python 3 + Pillow), which write
 ```
 python tools/gen_sprites.py
 ```
+
+## KitsuneUI_JobPreview
+
+Talking to a trader shows the options as a strip of tiles under the trader, above the toolbelt. A job tile has a one-line text window ("Clear Zombies (399 m W)") over the location's preview picture, with the place name across the bottom of the picture and a tier badge in the corner. Other options (Let's trade, Nevermind) are text-only tiles. The job offer window shows the location's picture with its name, tier, distance and biome, the description and objectives, and wide Accept / Decline buttons.
+
+The pictures are the preview images the game already ships with every POI (`Data/Prefabs/POIs/<name>.jpg`; modded POIs use the image next to their prefab). Two small XUi controllers in the DLL read the job behind each dialog row and behind the offer window, and hand the window XML the picture path, name, tier, distance, direction, biome and objectives. Distance and direction use the game's own formatting.
+
+Needs `KitsuneUI` (it uses its glass sprites). Install on the **server and every client**, with EAC off.
 
 ## KitsuneUI_Toolbelt20
 

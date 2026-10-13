@@ -71,21 +71,29 @@ def apply(target_root, patch_root, label):
 
 
 def main():
+    """Usage: check_patches.py <vanilla Config> [mod Config dir ...]
+    Several mod dirs are applied in the order given (the game's load order), so an
+    add-on's patches can target what the core theme added."""
     vanilla = Path(sys.argv[1])
-    mod = Path(sys.argv[2]) if len(sys.argv) > 2 else ROOT / "KitsuneUI" / "Config"
+    mods = [Path(p) for p in sys.argv[2:]] or [ROOT / "KitsuneUI" / "Config"]
     parser = etree.XMLParser(remove_comments=False)
     total_misses = []
-    for patch_file in sorted(mod.rglob("*.xml")):
-        rel = patch_file.relative_to(mod)
+    rels = sorted({f.relative_to(m) for m in mods for f in m.rglob("*.xml")})
+    for rel in rels:
         target = vanilla / rel
         if not target.exists():
             print(f"{rel}: no vanilla file, skipped")
             continue
-        applied, misses, skipped = apply(etree.parse(str(target), parser).getroot(),
-                                         etree.parse(str(patch_file), parser).getroot(), str(rel))
-        note = f", {skipped} conditional skipped" if skipped else ""
-        print(f"{rel}: {applied} applied, {len(misses)} missed{note}")
-        total_misses += misses
+        root = etree.parse(str(target), parser).getroot()
+        for mod in mods:
+            patch_file = mod / rel
+            if not patch_file.exists():
+                continue
+            label = f"{mod.parent.name}/{rel}"
+            applied, misses, skipped = apply(root, etree.parse(str(patch_file), parser).getroot(), label)
+            note = f", {skipped} conditional skipped" if skipped else ""
+            print(f"{label}: {applied} applied, {len(misses)} missed{note}")
+            total_misses += misses
     for m in total_misses:
         print("  " + m)
     sys.exit(1 if total_misses else 0)
