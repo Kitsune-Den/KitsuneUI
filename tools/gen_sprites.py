@@ -238,6 +238,47 @@ add("ku_pill", solid_round(16, 16, 8), (8, 8, 8, 8))
 add("ku_bar", solid_round(16, 8, 4), (5, 5, 4, 4))
 
 
+# HUD stat bars. These are drawn type="filled" (cropped to the stat), which does not
+# 9-slice, so each bar gets a pill at its own native size and nothing stretches.
+#   lg: health / stamina / stealth / vehicle (201x30)   sm: food / water (97x30)
+#   xl: enemy health (400x36)
+add("ku_hudbar_lg", solid_round(201, 30, 9), 0)
+add("ku_hudbar_sm", solid_round(97, 30, 9), 0)
+add("ku_hudbar_xl", solid_round(400, 36, 10), 0)
+add("ku_hudbar_thin", solid_round(150, 8, 4), 0)   # block health under the crosshair
+
+
+# Injury hatch for the stat bars: diagonal stripes in the same pill shape. It sits
+# under the bar's track, which is filled to the injury-reduced max, so the stripes
+# only show on the part of the bar an injury has cut off.
+def hatch_pill(w, h, r, pitch=7):
+    stripes = Image.new("L", (w * SS, h * SS), 0)
+    d = ImageDraw.Draw(stripes)
+    for x in range(-h, w + h, pitch):
+        d.line(((x) * SS, h * SS, (x + h) * SS, 0), fill=200, width=int(2.2 * SS))
+    img = Image.new("RGBA", stripes.size, (255, 255, 255, 0))
+    img.putalpha(ImageChops.multiply(stripes, mask_round(w, h, r)))
+    return down(img)
+
+
+add("ku_hudhatch_lg", hatch_pill(201, 30, 9), 0)
+add("ku_hudhatch_sm", hatch_pill(97, 30, 9), 0)
+
+
+# HUD pop-up chip (overrides vanilla ui_game_popup: item pickups and buff pop-outs).
+# Vanilla draws it unsliced; KitsuneUI slices it (border 12) so it takes any width.
+def popup_chip(w=162, h=44, r=12):
+    m = mask_round(w, h, r)
+    body = vgradient(w, h, GLASS_TOP + (GLASS_A_TOP,), GLASS_BOTTOM + (GLASS_A_BOTTOM,))
+    body.putalpha(ImageChops.multiply(body.getchannel("A"), m))
+    edge = Image.new("RGBA", body.size, EDGE + (0,))
+    edge.putalpha(Image.eval(ring_mask(w, h, r, 1), lambda v: v * 60 // 255))
+    return down(Image.alpha_composite(body, edge))
+
+
+add("ui_game_popup", popup_chip(), 12)
+
+
 # Thin horizontal rule that fades out at both ends (gold hairline under headers).
 def rule(w=64, h=2):
     img = Image.new("RGBA", (w, h), (255, 255, 255, 0))
@@ -344,7 +385,7 @@ def main():
     preview["rows: idle"] = grey(rows["menu_empty"][0], 64)
     preview["rows: hover"] = grey(rows["menu_empty"][0], 96)
     preview["rows: selected"] = rows["ui_game_select_row"][0]
-    baked = {"ku_panel", "ku_panel_sm", "ku_shadow", "ui_game_panel_header", "ku_panel_body",
+    baked = {"ku_panel", "ku_panel_sm", "ku_shadow", "ui_game_panel_header", "ku_panel_body", "ui_game_popup",
              "rows: idle", "rows: hover", "rows: selected"}
 
     accent = (111, 227, 255)
@@ -359,8 +400,13 @@ def main():
             tint = Image.new("RGBA", img.size, accent + (255,))
             tint.putalpha(img.getchannel("A"))
             show = tint
-        scale = max(1, min(4, (cell - 30) // max(show.width, show.height)))
-        show = show.resize((show.width * scale, show.height * scale), Image.NEAREST)
+        biggest = max(show.width, show.height)
+        if biggest > cell - 30:   # wide HUD bars: shrink to fit the cell
+            f = (cell - 30) / biggest
+            show = show.resize((max(1, round(show.width * f)), max(1, round(show.height * f))), Image.LANCZOS)
+        else:
+            scale = max(1, min(4, (cell - 30) // biggest))
+            show = show.resize((show.width * scale, show.height * scale), Image.NEAREST)
         sheet.alpha_composite(show, (x + (cell - show.width) // 2, y + (cell - 24 - show.height) // 2))
         d.text((x + 6, y + cell - 18), name, fill=(201, 211, 238, 255))
     SHEET.parent.mkdir(parents=True, exist_ok=True)
