@@ -1,0 +1,1 @@
+Kitsunebi, a night glass theme for every screen in 7 Days to Die V3.x: deep indigo glass, fox-fire cyan accents and gold titles. XML and images only, works with EAC on, and stretches to fit mods that resize bags, containers, the toolbelt and workstation grids.
