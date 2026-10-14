@@ -70,7 +70,7 @@ Needs `KitsuneUI`. Install on the **server and every client**, with EAC off.
 
 ## KitsuneUI_Loading
 
-Six night paintings in the Kitsunebi colours replace the vanilla loading pictures: a hilltop den ringed by fox-fire, a ghost town with a spirit fox, a burnt forest with a lantern trail, a desert gas station, a frozen radio tower under an aurora, and horde night under a blood moon. Each one keeps its subject to the left, so the tip column never covers it.
+Six night paintings in the Kitsunebi colours replace the vanilla loading pictures: a hilltop den ringed by fox-fire, a ghost town with a spirit fox, a burnt forest with a lantern trail, a desert gas station, a frozen radio tower under an aurora, and horde night under a blood moon. Each one keeps its subject to the left, so the tip column never covers it. Four KitsuneUI tips (Move HUD, sharing profiles, the backpack search and the horde countdown) join the game's loading tips, in all 13 languages.
 
 It is XML and images only (EAC on). The server sends its list of loading pictures to everyone who joins, so on a server install it on the **server and every client**; a player without it sees an empty background instead of a picture. To mix the paintings in with the vanilla ones rather than replace them, delete the `remove` line in `Config/loadingscreen.xml`.
 
@@ -78,7 +78,7 @@ The game picks a loading picture at random, but it seeds that pick from the fram
 
 ## KitsuneUI_Settings
 
-Adds a **KitsuneUI** button to the Esc menu, under Options. It opens a settings window in three tabs, **HUD**, **Windows** and **Look**:
+Adds a **KitsuneUI** button to the Esc menu, under Options. It opens a settings window in four tabs, **HUD**, **Map**, **Windows** and **Look**:
 
 | Setting | Off means |
 |---|---|
@@ -87,7 +87,10 @@ Adds a **KitsuneUI** button to the Esc menu, under Options. It opens a settings 
 | Trader jobs as picture tiles | The game's dialog list (needs `KitsuneUI_JobPreview` for the tiles) |
 | Show the whole backpack | The bag scrolls as usual. On, the bag gets more columns of smaller slots so every slot fits without scrolling |
 | Fade the toolbelt and stat bars when idle | They stay solid. On, they fade after a few quiet seconds and come straight back when you switch or use an item, take damage, run, get hungry or thirsty, crouch or open a menu |
-| Show the minimap | No minimap. On, a north-up glass minimap sits in the top right, drawn from your own explored map, with an arrow that turns with you and the map's markers (quest targets, waypoints, bed, backpack, vehicles, party); markers out of view sit on its edge |
+| Show the minimap | No minimap. On, a glass minimap sits in the top right, drawn from your own explored map, with the map's markers (quest targets, waypoints, bed, backpack, vehicles, party); markers out of view sit on its edge. **Zoom** shows 64, 128 or 256 blocks across; **View** is North up (the arrow turns) or Turn with me (the map turns, the N circles the edge); **Names** labels players and named waypoints |
+| Search box in the backpack | No search. On, a search field in the backpack header dims every slot whose item name doesn't match what you type |
+| Time left beside buffs | Icon-only buffs show just the icon. On, buffs with an end show their time left (4:32) |
+| Warn when a toolbelt item is nearly worn out | No warning. On, a toolbelt slot gets an amber ring under 20% durability and a red one under 5% |
 | Glass | 100%, 85%, 70% or 55% strength for the glass panels |
 | Colours | Kitsunebi, Ember (amber), Moss (green) or Sakura (pink): swaps the fox-fire, gold, selection and outline colours; the game's own colours (rarity, health) stay |
 | Bar text | How the health, stamina, food and water bars write their value: 100/100, 100%, the value only, or no text |
