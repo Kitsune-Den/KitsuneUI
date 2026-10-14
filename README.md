@@ -38,6 +38,7 @@ The theme is XML and images only. It changes how the game looks, never how it pl
 | `KitsuneUI` | The theme | Works with EAC on |
 | `KitsuneUI_Toolbelt20` (optional) | Two toolbelt bars of 10 | Small DLL, needs EAC off |
 | `KitsuneUI_JobPreview` (optional) | Trader jobs as picture tiles, and a job offer with the location's picture | Small DLL, needs EAC off, needs `KitsuneUI` |
+| `KitsuneUI_Settings` (optional) | An in-game settings window (Esc menu > KitsuneUI), saved per player | Small DLL, needs EAC off, needs `KitsuneUI` |
 
 ### Works with mods that resize things
 
@@ -47,7 +48,7 @@ Other mods that rebuild the same windows from scratch (full UI overhauls) will c
 
 ### Removing it
 
-Delete the folders. The theme stores nothing in your save. For the toolbelt add-on, see [Removing it](#removing-it-1) below.
+Delete the folders. The theme stores nothing in your save (the Settings add-on keeps one small file, `%APPDATA%\7DaysToDie\KitsuneUI\settings.txt`). For the toolbelt add-on, see [Removing it](#removing-it-1) below.
 
 ## KitsuneUI_JobPreview
 
@@ -57,7 +58,24 @@ Talking to a trader shows the options as a strip of tiles under the trader, abov
 
 The pictures are the preview images the game already ships with every POI (`Data/Prefabs/POIs/<name>.jpg`; modded POIs use the image next to their prefab). Two small XUi controllers in the DLL read the job behind each dialog row and behind the offer window, and hand the window XML the picture path, name, tier, distance, direction, biome and objectives. Distance and direction use the game's own formatting.
 
+With `KitsuneUI_Settings`, each player can switch the tiles off ("Trader jobs as picture tiles") and get the game's normal dialog list, in KitsuneUI's glass. The strip is its own window next to the game's list, and the choice is read each time a dialog opens. The job offer keeps its picture layout either way.
+
 Needs `KitsuneUI`. Install on the **server and every client**, with EAC off.
+
+## KitsuneUI_Settings
+
+Adds a **KitsuneUI** button to the Esc menu, under Options. It opens a settings window:
+
+| Setting | Off means |
+|---|---|
+| Toolbelt slot numbers and SHIFT tag | No key numbers on the toolbelt |
+| Enemy health bar always shown | The game's default: the bar only shows in god mode |
+| Trader jobs as picture tiles | The game's dialog list (needs `KitsuneUI_JobPreview` for the tiles) |
+| Glass | 100%, 85%, 70% or 55% strength for the glass panels |
+
+Changes apply straight away. They are saved per player in `%APPDATA%\7DaysToDie\KitsuneUI\settings.txt`, so on a server every player picks their own. The defaults match KitsuneUI without the add-on, so nothing changes until someone flips a switch.
+
+Needs `KitsuneUI`. Install on the **server and every client**, with EAC off (the server sends the window's layout; the DLL does the work on each player's game).
 
 ## KitsuneUI_Toolbelt20
 
@@ -108,7 +126,7 @@ python tools/gen_sprites.py
 `tools/check_patches.py` (Python 3 + lxml) applies every patch to the vanilla XUi files in load order and lists any XPath that matches nothing. A dedicated server never loads the menu XUi or the atlases, so this is the only check that covers everything:
 
 ```
-python tools/check_patches.py "<game>/Data/Config" KitsuneUI/Config KitsuneUI_JobPreview/Config
+python tools/check_patches.py "<game>/Data/Config" KitsuneUI/Config KitsuneUI_JobPreview/Config KitsuneUI_Settings/Config KitsuneUI_Toolbelt20/Config
 ```
 
 ### Building the DLLs
@@ -118,7 +136,10 @@ The projects reference the game's DLLs from `7dtd-binaries/` (not committed). Co
 ```
 dotnet build src/KitsuneUI.Toolbelt20 -c Release
 dotnet build src/KitsuneUI.JobPreview -c Release
+dotnet build src/KitsuneUI.Settings -c Release
 ```
+
+`src/Shared/KitsuneSettingsFile.cs` (the settings file) is compiled into both JobPreview and Settings, so neither DLL needs the other.
 
 Each DLL is copied into its mod folder.
 
