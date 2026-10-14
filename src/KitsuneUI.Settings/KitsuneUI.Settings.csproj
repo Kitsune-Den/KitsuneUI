@@ -23,6 +23,10 @@
       <HintPath>$(GameBinaries)\LogLibrary.dll</HintPath>
       <Private>false</Private>
     </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>$(GameBinaries)\UnityEngine.IMGUIModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>$(GameBinaries)\UnityEngine.CoreModule.dll</HintPath>
       <Private>false</Private>

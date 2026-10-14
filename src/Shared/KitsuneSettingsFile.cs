@@ -16,6 +16,7 @@ public static class KitsuneSettingsFile
     public const string JobTiles = "jobTiles";            // trader options as picture tiles
     public const string Glass = "glass";                  // glass panel strength, percent
     public const string MoveSnap = "moveSnap";            // HUD move mode: snap pieces to the grid
+    public const string Palette = "palette";              // colour preset: kitsunebi, ember, moss, sakura
 
     static readonly Dictionary<string, string> Defaults = new Dictionary<string, string>
     {
@@ -24,6 +25,7 @@ public static class KitsuneSettingsFile
         { JobTiles, "true" },
         { Glass, "100" },
         { MoveSnap, "true" },
+        { Palette, "kitsunebi" },
     };
 
     static Dictionary<string, string> values;
@@ -64,6 +66,25 @@ public static class KitsuneSettingsFile
             return;
         }
         values[key] = value;
+        Version++;
+        Save();
+    }
+
+    /// <summary>Every stored key and value (for profiles).</summary>
+    public static Dictionary<string, string> Snapshot()
+    {
+        Load();
+        return new Dictionary<string, string>(values, StringComparer.OrdinalIgnoreCase);
+    }
+
+    /// <summary>Sets many keys at once and saves once (for loading a profile).</summary>
+    public static void SetMany(IDictionary<string, string> changes)
+    {
+        Load();
+        foreach (KeyValuePair<string, string> kv in changes)
+        {
+            values[kv.Key] = kv.Value;
+        }
         Version++;
         Save();
     }

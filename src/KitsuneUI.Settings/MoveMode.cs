@@ -17,7 +17,7 @@ public static class KitsuneLayout
 
     sealed class Member
     {
-        public XUiV_Window Window;
+        public XUiView View;   // a whole window, or one element inside a window
         public Vector2i Base;
     }
 
@@ -66,6 +66,19 @@ public static class KitsuneLayout
         }
     }
 
+    /// <summary>Re-reads every piece's position, size and hidden state (after a profile loads).</summary>
+    public static void ReloadFromSettings()
+    {
+        foreach (KeyValuePair<string, Group> kv in groups)
+        {
+            kv.Value.Offset = Load(kv.Key);
+            kv.Value.Scale = LoadScale(kv.Key);
+            kv.Value.Hidden = KitsuneSettingsFile.Get("hide." + kv.Key) == "true";
+            Apply(kv.Value);
+        }
+        RefreshHandles();
+    }
+
     public static float GetScale(string group) => groups.TryGetValue(group, out Group g) ? g.Scale : 1f;
 
     public static bool IsHidden(string group) => groups.TryGetValue(group, out Group g) && g.Hidden;
@@ -103,7 +116,7 @@ public static class KitsuneLayout
 
     static string Key(string group) => "move." + group;
 
-    public static void Register(string group, XUiV_Window window)
+    public static void Register(string group, XUiView window)
     {
         if (window == null || string.IsNullOrEmpty(group))
         {
@@ -119,11 +132,11 @@ public static class KitsuneLayout
             };
             groups[group] = g;
         }
-        if (g.Members.Exists(m => m.Window == window))
+        if (g.Members.Exists(m => m.View == window))
         {
             return;
         }
-        g.Members.Add(new Member { Window = window, Base = window.Position });
+        g.Members.Add(new Member { View = window, Base = window.Position });
     }
 
     public static void RegisterHandle(XUiView handle)
@@ -239,11 +252,11 @@ public static class KitsuneLayout
         foreach (Member m in g.Members)
         {
             var want = new Vector2i(m.Base.x + dx, m.Base.y + dy);
-            if (m.Window.Position != want)
+            if (m.View.Position != want)
             {
-                m.Window.Position = want;
+                m.View.Position = want;
             }
-            Transform t = m.Window.UiTransform;
+            Transform t = m.View.UiTransform;
             if (t != null)
             {
                 float s = !Active && g.Hidden ? 0.0001f : g.Scale;
@@ -263,28 +276,48 @@ public static class KitsuneLayout
 /// </summary>
 public class XUiC_KitsuneMoveHandle : XUiController
 {
-    XUiV_Window window;
+    XUiView window;   // what this handle moves: its window, or (target="...") an element in it
     string group;
+    string target = "window";
 
     public override bool ParseAttribute(string _name, string _value)
     {
-        if (_name == "group")
+        switch (_name)
         {
-            group = _value;
-            return true;
+            case "group":
+                group = _value;
+                return true;
+            // "window" (default): the whole window. "parent" / "grandparent": the element the
+            // handle sits in, or the one above that (e.g. the ammo bar's grid), for windows
+            // that hold several HUD pieces (HUDRightStatBars: loot list, ammo, vehicle bars).
+            case "target":
+                target = _value;
+                return true;
+            default:
+                return base.ParseAttribute(_name, _value);
         }
-        return base.ParseAttribute(_name, _value);
     }
 
     public override void Init()
     {
         base.Init();
-        for (XUiController p = Parent; p != null; p = p.Parent)
+        if (target == "parent")
         {
-            if (p.ViewComponent is XUiV_Window w)
+            window = Parent?.ViewComponent;
+        }
+        else if (target == "grandparent")
+        {
+            window = Parent?.Parent?.ViewComponent;
+        }
+        else
+        {
+            for (XUiController p = Parent; p != null; p = p.Parent)
             {
-                window = w;
-                break;
+                if (p.ViewComponent is XUiV_Window w)
+                {
+                    window = w;
+                    break;
+                }
             }
         }
         if (window != null && string.IsNullOrEmpty(group))

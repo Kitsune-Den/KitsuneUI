@@ -22,13 +22,13 @@
 	<!-- Changes save and apply straight away.                            -->
 	<!-- ================================================================ -->
 	<append xpath="/windows">
-		<window name="kuSettingsWindow" width="560" height="330" pos="-280,220" anchor="Center" depth="40" cursor_area="true" controller="KitsuneSettingsWindow, KitsuneUI_Settings">
+		<window name="kuSettingsWindow" width="560" height="380" pos="-280,240" anchor="Center" depth="40" cursor_area="true" controller="KitsuneSettingsWindow, KitsuneUI_Settings">
 			<rect name="header" height="43" depth="1">
 				<headerbg />
 				<sprite depth="2" name="windowIcon" pos="6,-6" width="30" height="30" sprite="ku_icon_flame" color="[kuAccent]" />
 				<label style="header.name" pos="44,-6" width="400" text="KitsuneUI" />
 			</rect>
-			<sprite depth="0" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,-40" width="560" height="290" />
+			<sprite depth="0" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,-40" width="560" height="340" />
 
 			<togglebutton name="tglSlotNumbers" depth="3" pos="20,-60" width="520" height="40" font_size="26" caption="" />
 			<label depth="4" name="tglSlotNumbersText" pos="66,-80" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetSlotNumbers" />
@@ -43,8 +43,85 @@
 			<simplebutton name="btnGlass70" depth="3" pos="348,-222" width="88" height="36" font_size="24" caption="70%" />
 			<simplebutton name="btnGlass55" depth="3" pos="442,-222" width="88" height="36" font_size="24" caption="55%" />
 
-			<simplebutton name="btnMoveHUD" depth="3" pos="30,-290" width="240" height="40" font_size="26" caption_key="kuSetMoveHUD" />
-			<simplebutton name="btnClose" depth="3" pos="290,-290" width="240" height="40" font_size="26" caption_key="xuiClose" />
+			<label depth="3" name="lblColours" pos="22,-288" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetColours" />
+			<simplebutton name="btnPalette_kitsunebi" depth="3" pos="160,-270" width="88" height="36" font_size="20" caption="Kitsunebi" />
+			<simplebutton name="btnPalette_ember" depth="3" pos="254,-270" width="88" height="36" font_size="20" caption_key="kuPaletteEmber" />
+			<simplebutton name="btnPalette_moss" depth="3" pos="348,-270" width="88" height="36" font_size="20" caption_key="kuPaletteMoss" />
+			<simplebutton name="btnPalette_sakura" depth="3" pos="442,-270" width="88" height="36" font_size="20" caption_key="kuPaletteSakura" />
+
+			<simplebutton name="btnMoveHUD" depth="3" pos="20,-340" width="168" height="40" font_size="24" caption_key="kuSetMoveHUD" />
+			<simplebutton name="btnProfiles" depth="3" pos="196,-340" width="168" height="40" font_size="24" caption_key="kuSetProfiles" />
+			<simplebutton name="btnClose" depth="3" pos="372,-340" width="168" height="40" font_size="24" caption_key="xuiClose" />
+		</window>
+	</append>
+
+	<!-- ================================================================ -->
+	<!-- Profiles (Settings > Profiles): save the current layout under a  -->
+	<!-- name, load or delete saved ones (up to 8), and export / import a -->
+	<!-- layout as one line of text through the clipboard.               -->
+	<!-- ================================================================ -->
+	<append xpath="/windows">
+		<window name="kuProfilesWindow" width="560" height="560" pos="-280,280" anchor="Center" depth="40" cursor_area="true" controller="KitsuneProfilesWindow, KitsuneUI_Settings">
+			<rect name="header" height="43" depth="1">
+				<headerbg />
+				<sprite depth="2" name="windowIcon" pos="6,-6" width="30" height="30" sprite="ku_icon_flame" color="[kuAccent]" />
+				<label style="header.name" pos="44,-6" width="400" text_key="kuSetProfiles" />
+			</rect>
+			<sprite depth="0" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,-40" width="560" height="520" />
+			<textfield name="txtProfileName" depth="3" pos="20,-60" width="370" height="36" font_size="24" character_limit="24" />
+			<simplebutton name="btnProfileSave" depth="3" pos="400,-58" width="140" height="36" font_size="24" caption_key="xuiSave" />
+			<rect name="kuProfRow0" depth="3" pos="20,-112" width="520" height="40">
+				<sprite depth="3" name="kuProfRowBg" sprite="ku_round_sm" type="sliced" color="[kuCell]" />
+				<label depth="4" name="lblProfileName0" pos="12,-20" width="300" height="30" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuTextBright]" text="" />
+				<simplebutton name="btnProfileLoad0" depth="5" pos="320,-4" width="96" height="32" font_size="22" caption_key="kuProfLoad" />
+				<simplebutton name="btnProfileDelete0" depth="5" pos="422,-4" width="94" height="32" font_size="22" caption_key="xuiDelete" />
+			</rect>
+			<rect name="kuProfRow1" depth="3" pos="20,-156" width="520" height="40">
+				<sprite depth="3" name="kuProfRowBg" sprite="ku_round_sm" type="sliced" color="[kuCell]" />
+				<label depth="4" name="lblProfileName1" pos="12,-20" width="300" height="30" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuTextBright]" text="" />
+				<simplebutton name="btnProfileLoad1" depth="5" pos="320,-4" width="96" height="32" font_size="22" caption_key="kuProfLoad" />
+				<simplebutton name="btnProfileDelete1" depth="5" pos="422,-4" width="94" height="32" font_size="22" caption_key="xuiDelete" />
+			</rect>
+			<rect name="kuProfRow2" depth="3" pos="20,-200" width="520" height="40">
+				<sprite depth="3" name="kuProfRowBg" sprite="ku_round_sm" type="sliced" color="[kuCell]" />
+				<label depth="4" name="lblProfileName2" pos="12,-20" width="300" height="30" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuTextBright]" text="" />
+				<simplebutton name="btnProfileLoad2" depth="5" pos="320,-4" width="96" height="32" font_size="22" caption_key="kuProfLoad" />
+				<simplebutton name="btnProfileDelete2" depth="5" pos="422,-4" width="94" height="32" font_size="22" caption_key="xuiDelete" />
+			</rect>
+			<rect name="kuProfRow3" depth="3" pos="20,-244" width="520" height="40">
+				<sprite depth="3" name="kuProfRowBg" sprite="ku_round_sm" type="sliced" color="[kuCell]" />
+				<label depth="4" name="lblProfileName3" pos="12,-20" width="300" height="30" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuTextBright]" text="" />
+				<simplebutton name="btnProfileLoad3" depth="5" pos="320,-4" width="96" height="32" font_size="22" caption_key="kuProfLoad" />
+				<simplebutton name="btnProfileDelete3" depth="5" pos="422,-4" width="94" height="32" font_size="22" caption_key="xuiDelete" />
+			</rect>
+			<rect name="kuProfRow4" depth="3" pos="20,-288" width="520" height="40">
+				<sprite depth="3" name="kuProfRowBg" sprite="ku_round_sm" type="sliced" color="[kuCell]" />
+				<label depth="4" name="lblProfileName4" pos="12,-20" width="300" height="30" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuTextBright]" text="" />
+				<simplebutton name="btnProfileLoad4" depth="5" pos="320,-4" width="96" height="32" font_size="22" caption_key="kuProfLoad" />
+				<simplebutton name="btnProfileDelete4" depth="5" pos="422,-4" width="94" height="32" font_size="22" caption_key="xuiDelete" />
+			</rect>
+			<rect name="kuProfRow5" depth="3" pos="20,-332" width="520" height="40">
+				<sprite depth="3" name="kuProfRowBg" sprite="ku_round_sm" type="sliced" color="[kuCell]" />
+				<label depth="4" name="lblProfileName5" pos="12,-20" width="300" height="30" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuTextBright]" text="" />
+				<simplebutton name="btnProfileLoad5" depth="5" pos="320,-4" width="96" height="32" font_size="22" caption_key="kuProfLoad" />
+				<simplebutton name="btnProfileDelete5" depth="5" pos="422,-4" width="94" height="32" font_size="22" caption_key="xuiDelete" />
+			</rect>
+			<rect name="kuProfRow6" depth="3" pos="20,-376" width="520" height="40">
+				<sprite depth="3" name="kuProfRowBg" sprite="ku_round_sm" type="sliced" color="[kuCell]" />
+				<label depth="4" name="lblProfileName6" pos="12,-20" width="300" height="30" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuTextBright]" text="" />
+				<simplebutton name="btnProfileLoad6" depth="5" pos="320,-4" width="96" height="32" font_size="22" caption_key="kuProfLoad" />
+				<simplebutton name="btnProfileDelete6" depth="5" pos="422,-4" width="94" height="32" font_size="22" caption_key="xuiDelete" />
+			</rect>
+			<rect name="kuProfRow7" depth="3" pos="20,-420" width="520" height="40">
+				<sprite depth="3" name="kuProfRowBg" sprite="ku_round_sm" type="sliced" color="[kuCell]" />
+				<label depth="4" name="lblProfileName7" pos="12,-20" width="300" height="30" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuTextBright]" text="" />
+				<simplebutton name="btnProfileLoad7" depth="5" pos="320,-4" width="96" height="32" font_size="22" caption_key="kuProfLoad" />
+				<simplebutton name="btnProfileDelete7" depth="5" pos="422,-4" width="94" height="32" font_size="22" caption_key="xuiDelete" />
+			</rect>
+			<label depth="3" name="lblProfileStatus" pos="20,-480" width="520" height="26" pivot="left" font_size="22" overflow="shrinkcontent" color="[kuGold]" text="" />
+			<simplebutton name="btnProfileExport" depth="3" pos="20,-510" width="168" height="40" font_size="24" caption_key="kuProfExport" />
+			<simplebutton name="btnProfileImport" depth="3" pos="196,-510" width="168" height="40" font_size="24" caption_key="kuProfImport" />
+			<simplebutton name="btnProfileClose" depth="3" pos="372,-510" width="168" height="40" font_size="24" caption_key="xuiClose" />
 		</window>
 	</append>
 
@@ -358,20 +435,52 @@
 		</rect>
 	</append>
 
-	<!-- Bottom right: the held item's ammo / durability, the looted-items list and the vehicle bars. -->
-	<append xpath="/windows/window[@name='HUDRightStatBars']">
-		<rect name="kuMoveHandle" depth="50" pos="-236,262" width="232" height="262" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
-			<!-- size readout and the -, +, show/hide buttons (XUiC_KitsuneMoveHandle) -->
-			<label depth="53" name="kuMoveScale" pos="128,-19" width="64" height="24" pivot="right" justify="right" font_size="18" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="100%" />
-			<sprite depth="54" name="kuChipSmaller" pos="132,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
-			<button depth="55" name="kuBtnSmaller" pos="147,-19" sprite="ui_game_symbol_subtract" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
-			<sprite depth="54" name="kuChipBigger" pos="164,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
-			<button depth="55" name="kuBtnBigger" pos="179,-19" sprite="ui_game_symbol_add" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
-			<sprite depth="54" name="kuChipHide" pos="196,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
-			<button depth="55" name="kuBtnHide" pos="211,-19" sprite="ku_icon_eye" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+	<!-- Bottom right, looted items: the list the game adds a row to for every pick-up (rows stack upward from the list's origin). -->
+	<append xpath="/windows/window[@name='HUDRightStatBars']/rect[@controller='CollectedItemList']">
+		<rect name="kuMoveHandle" depth="50" pos="-96,200" width="192" height="236" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings" group="loot" target="parent">
 			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
 			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
-			<label depth="52" name="kuMoveName" pos="12,-50" width="208" height="30" pivot="left" justify="left" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveAmmoLoot" />
+			<label depth="52" name="kuMoveName" pos="12,-50" width="168" height="30" pivot="left" justify="left" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveLoot" />
+			<!-- size readout and the -, +, show/hide buttons (XUiC_KitsuneMoveHandle) -->
+			<label depth="53" name="kuMoveScale" pos="88,-19" width="64" height="24" pivot="right" justify="right" font_size="18" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="100%" />
+			<sprite depth="54" name="kuChipSmaller" pos="92,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnSmaller" pos="107,-19" sprite="ui_game_symbol_subtract" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+			<sprite depth="54" name="kuChipBigger" pos="124,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnBigger" pos="139,-19" sprite="ui_game_symbol_add" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+			<sprite depth="54" name="kuChipHide" pos="156,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnHide" pos="171,-19" sprite="ku_icon_eye" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+		</rect>
+	</append>
+	<!-- Bottom right, the held item's ammo / durability. The handle sits in the bar (shown while you hold something with ammo or durability) and moves its grid. -->
+	<append xpath="/windows/window[@name='HUDRightStatBars']/grid[@name='hud']/rect[@stat_type='ActiveItem']">
+		<rect name="kuMoveHandle" depth="50" pos="-6,6" width="200" height="64" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings" group="ammo" target="grandparent">
+			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
+			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
+			<label depth="52" name="kuMoveName" pos="12,-50" width="176" height="30" pivot="left" justify="left" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveAmmo" />
+			<!-- size readout and the -, +, show/hide buttons (XUiC_KitsuneMoveHandle) -->
+			<label depth="53" name="kuMoveScale" pos="96,-19" width="64" height="24" pivot="right" justify="right" font_size="18" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="100%" />
+			<sprite depth="54" name="kuChipSmaller" pos="100,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnSmaller" pos="115,-19" sprite="ui_game_symbol_subtract" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+			<sprite depth="54" name="kuChipBigger" pos="132,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnBigger" pos="147,-19" sprite="ui_game_symbol_add" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+			<sprite depth="54" name="kuChipHide" pos="164,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnHide" pos="179,-19" sprite="ku_icon_eye" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+		</rect>
+	</append>
+	<!-- Bottom right, vehicle fuel and health bars. -->
+	<append xpath="/windows/window[@name='HUDRightStatBars']/rect[@name='hud'][not(@controller)]">
+		<rect name="kuMoveHandle" depth="50" pos="-6,6" width="180" height="108" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings" group="vehicle" target="parent">
+			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
+			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
+			<label depth="52" name="kuMoveName" pos="12,-50" width="156" height="30" pivot="left" justify="left" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveVehicle" />
+			<!-- size readout and the -, +, show/hide buttons (XUiC_KitsuneMoveHandle) -->
+			<label depth="53" name="kuMoveScale" pos="76,-19" width="64" height="24" pivot="right" justify="right" font_size="18" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="100%" />
+			<sprite depth="54" name="kuChipSmaller" pos="80,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnSmaller" pos="95,-19" sprite="ui_game_symbol_subtract" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+			<sprite depth="54" name="kuChipBigger" pos="112,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnBigger" pos="127,-19" sprite="ui_game_symbol_add" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+			<sprite depth="54" name="kuChipHide" pos="144,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnHide" pos="159,-19" sprite="ku_icon_eye" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
 		</rect>
 	</append>
 

@@ -5,6 +5,10 @@
 		<window_group name="kuSettings">
 			<window name="kuSettingsWindow" />
 		</window_group>
+		<!-- Profiles: named layouts, export / import (Settings > Profiles). -->
+		<window_group name="kuProfiles">
+			<window name="kuProfilesWindow" />
+		</window_group>
 		<!-- HUD move mode: the bar at the top with Reset and Done (Settings > Move HUD). -->
 		<window_group name="kuMove">
 			<window name="kuMoveGrid" />

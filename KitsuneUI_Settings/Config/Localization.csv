@@ -14,9 +14,26 @@ kuMoveCompass,UI,XUi,,,,COMPASS / TIME,,KOMPASS / ZEIT,BRÚJULA / HORA,BOUSSOLE 
 kuMoveLocation,UI,XUi,,,,LOCATION,,ORT,UBICACIÓN,LIEU,LUOGO,現在地,위치,LOKACJA,LOCAL,МЕСТО,KONUM,位置,位置
 kuMoveTrackers,UI,XUi,,,,TRACKERS,,VERFOLGUNG,SEGUIMIENTO,SUIVI,TRACCIAMENTO,トラッカー,추적,ŚLEDZENIE,RASTREADORES,ОТСЛЕЖИВАНИЕ,TAKİP,追踪,追蹤
 kuMoveParty,UI,XUi,,,,PARTY,,GRUPPE,GRUPO,GROUPE,GRUPPO,パーティー,파티,DRUŻYNA,EQUIPE,ГРУППА,GRUP,队伍,隊伍
-kuMoveAmmoLoot,UI,XUi,,,,AMMO / LOOT,,MUNITION / BEUTE,MUNICIÓN / BOTÍN,MUNITIONS / BUTIN,MUNIZIONI / BOTTINO,弾薬 / 略奪品,탄약 / 약탈품,AMUNICJA / ŁUPY,MUNIÇÃO / ESPÓLIOS,ПАТРОНЫ / ДОБЫЧА,MÜHİMMAT / GANİMET,弹药 / 战利品,彈藥 / 戰利品
 kuMoveChat,UI,XUi,,,,CHAT,,CHAT,CHAT,DISCUSSION,CHAT,チャット,채팅,CZAT,BATE-PAPO,ЧАТ,SOHBET,聊天,聊天
 kuMoveSubtitles,UI,XUi,,,,SUBTITLES,,UNTERTITEL,SUBTÍTULOS,SOUS-TITRES,SOTTOTITOLI,字幕,자막,NAPISY,LEGENDAS,СУБТИТРЫ,ALTYAZILAR,字幕,字幕
 kuMovePopups,UI,XUi,,,,POPUPS,,MELDUNGEN,AVISOS,MESSAGES,MESSAGGI,通知,알림,KOMUNIKATY,AVISOS,УВЕДОМЛЕНИЯ,BİLDİRİMLER,提示,提示
 kuMoveEntering,UI,XUi,,,,ENTERING,,BETRETEN,ENTRANDO,ENTRÉE,INGRESSO,進入表示,진입 표시,WEJŚCIE,ENTRANDO,ВХОД,GİRİŞ,进入提示,進入提示
 kuMoveEnemyHealth,UI,XUi,,,,ENEMY HEALTH,,GEGNERGESUNDHEIT,SALUD ENEMIGA,SANTÉ ENNEMIE,SALUTE NEMICA,敵の体力,적 체력,ZDROWIE WROGA,SAÚDE DO INIMIGO,ЗДОРОВЬЕ ВРАГА,DÜŞMAN SAĞLIĞI,敌人生命值,敵人生命值
+kuMoveLoot,UI,XUi,,,,LOOTED ITEMS,,BEUTE,OBJETOS RECOGIDOS,OBJETS RAMASSÉS,OGGETTI RACCOLTI,入手アイテム,획득 아이템,ZEBRANE PRZEDMIOTY,ITENS COLETADOS,ПОДОБРАННОЕ,TOPLANANLAR,拾取物品,拾取物品
+kuMoveAmmo,UI,XUi,,,,AMMO,,MUNITION,MUNICIÓN,MUNITIONS,MUNIZIONI,弾薬,탄약,AMUNICJA,MUNIÇÃO,ПАТРОНЫ,MÜHİMMAT,弹药,彈藥
+kuMoveVehicle,UI,XUi,,,,VEHICLE,,FAHRZEUG,VEHÍCULO,VÉHICULE,VEICOLO,乗り物,차량,POJAZD,VEÍCULO,ТРАНСПОРТ,ARAÇ,载具,載具
+kuSetProfiles,UI,XUi,,,,Profiles,,Profile,Perfiles,Profils,Profili,プロファイル,프로필,Profile,Perfis,Профили,Profiller,配置方案,配置方案
+kuProfLoad,UI,XUi,,,,Load,,Laden,Cargar,Charger,Carica,読み込む,불러오기,Wczytaj,Carregar,Загрузить,Yükle,加载,載入
+kuProfExport,UI,XUi,,,,Export,,Exportieren,Exportar,Exporter,Esporta,エクスポート,내보내기,Eksportuj,Exportar,Экспорт,Dışa aktar,导出,匯出
+kuProfImport,UI,XUi,,,,Import,,Importieren,Importar,Importer,Importa,インポート,가져오기,Importuj,Importar,Импорт,İçe aktar,导入,匯入
+kuProfNeedName,UI,XUi,,,,Type a name for the profile first,,Gib zuerst einen Namen für das Profil ein,Escribe primero un nombre para el perfil,Saisissez d'abord un nom pour le profil,Inserisci prima un nome per il profilo,先にプロファイル名を入力してください,먼저 프로필 이름을 입력하세요,Najpierw wpisz nazwę profilu,Digite primeiro um nome para o perfil,Сначала введите имя профиля,Önce profil için bir ad yazın,请先输入配置方案名称,請先輸入配置方案名稱
+kuProfFull,UI,XUi,,,,Up to 8 profiles: delete one first,,Höchstens 8 Profile: lösche zuerst eins,Máximo 8 perfiles: borra uno primero,8 profils au maximum : supprimez-en un d'abord,Al massimo 8 profili: eliminane prima uno,プロファイルは8個までです。先に1つ削除してください,프로필은 최대 8개입니다. 먼저 하나를 삭제하세요,Maksymalnie 8 profili: najpierw usuń jeden,No máximo 8 perfis: exclua um primeiro,Не больше 8 профилей: сначала удалите один,En fazla 8 profil: önce birini silin,最多 8 个配置方案：请先删除一个,最多 8 個配置方案：請先刪除一個
+kuProfSaved,UI,XUi,,,,Profile saved,,Profil gespeichert,Perfil guardado,Profil enregistré,Profilo salvato,プロファイルを保存しました,프로필을 저장했습니다,Profil zapisany,Perfil salvo,Профиль сохранён,Profil kaydedildi,已保存配置方案,已儲存配置方案
+kuProfLoaded,UI,XUi,,,,Profile loaded,,Profil geladen,Perfil cargado,Profil chargé,Profilo caricato,プロファイルを読み込みました,프로필을 불러왔습니다,Profil wczytany,Perfil carregado,Профиль загружен,Profil yüklendi,已加载配置方案,已載入配置方案
+kuProfCopied,UI,XUi,,,,Layout copied to the clipboard,,Layout in die Zwischenablage kopiert,Diseño copiado al portapapeles,Disposition copiée dans le presse-papiers,Layout copiato negli appunti,レイアウトをクリップボードにコピーしました,레이아웃을 클립보드에 복사했습니다,Układ skopiowany do schowka,Layout copiado para a área de transferência,Раскладка скопирована в буфер обмена,Düzen panoya kopyalandı,布局已复制到剪贴板,版面已複製到剪貼簿
+kuProfImported,UI,XUi,,,,Layout imported from the clipboard,,Layout aus der Zwischenablage importiert,Diseño importado del portapapeles,Disposition importée du presse-papiers,Layout importato dagli appunti,クリップボードからレイアウトを読み込みました,클립보드에서 레이아웃을 가져왔습니다,Układ zaimportowany ze schowka,Layout importado da área de transferência,Раскладка загружена из буфера обмена,Düzen panodan içe aktarıldı,已从剪贴板导入布局,已從剪貼簿匯入版面
+kuProfBadImport,UI,XUi,,,,No KitsuneUI layout in the clipboard,,Kein KitsuneUI-Layout in der Zwischenablage,No hay un diseño de KitsuneUI en el portapapeles,Aucune disposition KitsuneUI dans le presse-papiers,Nessun layout KitsuneUI negli appunti,クリップボードにKitsuneUIのレイアウトがありません,클립보드에 KitsuneUI 레이아웃이 없습니다,W schowku nie ma układu KitsuneUI,Nenhum layout do KitsuneUI na área de transferência,В буфере обмена нет раскладки KitsuneUI,Panoda KitsuneUI düzeni yok,剪贴板中没有 KitsuneUI 布局,剪貼簿中沒有 KitsuneUI 版面
+kuSetColours,UI,XUi,,,,Colours,,Farben,Colores,Couleurs,Colori,カラー,색상,Kolory,Cores,Цвета,Renkler,配色,配色
+kuPaletteEmber,UI,XUi,,,,Ember,,Glut,Brasa,Braise,Brace,残り火,불씨,Żar,Brasa,Угли,Kor,余烬,餘燼
+kuPaletteMoss,UI,XUi,,,,Moss,,Moos,Musgo,Mousse,Muschio,苔,이끼,Mech,Musgo,Мох,Yosun,苔藓,苔蘚
+kuPaletteSakura,UI,XUi,,,,Sakura,,Sakura,Sakura,Sakura,Sakura,桜,벚꽃,Sakura,Sakura,Сакура,Sakura,樱花,櫻花
