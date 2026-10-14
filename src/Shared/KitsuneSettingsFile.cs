@@ -19,6 +19,9 @@ public static class KitsuneSettingsFile
     public const string Palette = "palette";              // colour preset: kitsunebi, ember, moss, sakura
     public const string BackpackAll = "backpackAll";      // show every backpack slot, no scrolling
     public const string AutoFade = "autoFade";            // fade the toolbelt and stat bars when idle
+    public const string BarText = "barText";              // stat bar text: full, percent, current, none
+    public const string TextSize = "textSize";            // in-game text size, percent: 90, 100, 115, 130
+    public const string Minimap = "minimap";              // show the minimap (top right)
 
     static readonly Dictionary<string, string> Defaults = new Dictionary<string, string>
     {
@@ -30,6 +33,9 @@ public static class KitsuneSettingsFile
         { Palette, "kitsunebi" },
         { BackpackAll, "false" },
         { AutoFade, "false" },
+        { BarText, "full" },
+        { TextSize, "100" },
+        { Minimap, "false" },
     };
 
     static Dictionary<string, string> values;

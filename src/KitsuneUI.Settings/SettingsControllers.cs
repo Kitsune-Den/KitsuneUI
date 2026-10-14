@@ -35,9 +35,14 @@ public static class KitsuneSettingsApplier
     sealed class Original
     {
         public Color A, B, C;
+        public int Size;
     }
 
     static readonly ConditionalWeakTable<object, Original> originals = new ConditionalWeakTable<object, Original>();
+
+    // Text size for this walk (1 = as designed). Labels in tight boxes shrink back to fit
+    // (overflow="shrinkcontent"), so it mostly grows descriptions, lists and chat.
+    static float textScale = 1f;
 
     public static void ApplyAll(XUi xui)
     {
@@ -50,6 +55,7 @@ public static class KitsuneSettingsApplier
         float glass = KitsuneSettingsFile.GetInt(KitsuneSettingsFile.Glass, 30, 100) / 100f;
         KitsunePalette palette = KitsunePalette.Get(KitsuneSettingsFile.Get(KitsuneSettingsFile.Palette));
         bool wholeBackpack = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.BackpackAll);
+        textScale = KitsuneSettingsFile.GetInt(KitsuneSettingsFile.TextSize, 80, 150) / 100f;
         foreach (XUiWindowGroup group in xui.WindowGroups)
         {
             if (group?.Controller != null)
@@ -98,10 +104,15 @@ public static class KitsuneSettingsApplier
             }
             else if (view is XUiV_LabelBase label)
             {
-                Original o = originals.GetValue(label, _ => new Original { A = label.Color });
+                Original o = originals.GetValue(label, _ => new Original { A = label.Color, Size = label.FontSize });
                 if (KitsunePalette.IsPalette(o.A))
                 {
                     label.Color = palette.Map(o.A);
+                }
+                int size = Mathf.Max(1, Mathf.RoundToInt(o.Size * textScale));
+                if (o.Size > 0 && label.FontSize != size)
+                {
+                    label.FontSize = size;
                 }
             }
         }
@@ -114,6 +125,10 @@ public static class KitsuneSettingsApplier
             if (KitsunePalette.IsPalette(o.A)) stack.selectColor = palette.Map(o.A);
             if (KitsunePalette.IsPalette(o.B)) stack.highlightColor = palette.Map(o.B);
             if (KitsunePalette.IsPalette(o.C)) stack.holdingColor = palette.Map(o.C);
+        }
+        if (c is XUiC_HUDStatBar statBar)
+        {
+            statBar.RefreshBindings();
         }
         if (c is XUiC_TargetBar bar)
         {
@@ -166,7 +181,7 @@ public class XUiC_KitsuneSettingsOpener : XUiController
 }
 
 /// <summary>
-/// The settings window: five toggles, a four-step glass strength and Close.
+/// The settings window: six toggles, bar text style, text size, a four-step glass strength and Close.
 /// Every change is saved and applied straight away.
 /// </summary>
 public class XUiC_KitsuneSettingsWindow : XUiController
@@ -178,8 +193,12 @@ public class XUiC_KitsuneSettingsWindow : XUiController
     XUiC_ToggleButton jobTiles;
     XUiC_ToggleButton wholeBackpack;
     XUiC_ToggleButton autoFade;
+    XUiC_ToggleButton minimap;
     readonly List<(int percent, XUiC_SimpleButton button)> glassButtons = new List<(int, XUiC_SimpleButton)>();
     readonly List<(string palette, XUiC_SimpleButton button)> paletteButtons = new List<(string, XUiC_SimpleButton)>();
+    readonly List<(string style, XUiC_SimpleButton button)> barTextButtons = new List<(string, XUiC_SimpleButton)>();
+    static readonly int[] TextSizes = { 90, 100, 115, 130 };
+    readonly List<(int percent, XUiC_SimpleButton button)> textSizeButtons = new List<(int, XUiC_SimpleButton)>();
 
     public override void Init()
     {
@@ -189,6 +208,7 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         jobTiles = Toggle("tglJobTiles", KitsuneSettingsFile.JobTiles);
         wholeBackpack = Toggle("tglBackpackAll", KitsuneSettingsFile.BackpackAll);
         autoFade = Toggle("tglAutoFade", KitsuneSettingsFile.AutoFade);
+        minimap = Toggle("tglMinimap", KitsuneSettingsFile.Minimap);
         foreach (int percent in GlassSteps)
         {
             if (FindButton("btnGlass" + percent) is XUiC_SimpleButton b)
@@ -210,6 +230,34 @@ public class XUiC_KitsuneSettingsWindow : XUiController
                     ShowPalette();
                 };
                 paletteButtons.Add((palette.Name, b));
+            }
+        }
+        foreach (string style in KitsuneBarText.Styles)
+        {
+            if (FindButton("btnBarText_" + style) is XUiC_SimpleButton b)
+            {
+                string st = style;
+                b.OnPressed += (_sender, _mouseButton) =>
+                {
+                    KitsuneSettingsFile.Set(KitsuneSettingsFile.BarText, st);
+                    KitsuneSettingsApplier.ApplyAll(xui);
+                    ShowBarText();
+                };
+                barTextButtons.Add((style, b));
+            }
+        }
+        foreach (int percent in TextSizes)
+        {
+            if (FindButton("btnTextSize" + percent) is XUiC_SimpleButton b)
+            {
+                int p = percent;
+                b.OnPressed += (_sender, _mouseButton) =>
+                {
+                    KitsuneSettingsFile.Set(KitsuneSettingsFile.TextSize, p.ToString());
+                    KitsuneSettingsApplier.ApplyAll(xui);
+                    ShowTextSize();
+                };
+                textSizeButtons.Add((percent, b));
             }
         }
         if (FindButton("btnMoveHUD") is XUiC_SimpleButton move)
@@ -287,15 +335,42 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         }
     }
 
+    void ShowBarText()
+    {
+        string current = KitsuneSettingsFile.Get(KitsuneSettingsFile.BarText);
+        foreach ((string style, XUiC_SimpleButton button) in barTextButtons)
+        {
+            if (button.Button != null)
+            {
+                button.Button.Selected = style == current;
+            }
+        }
+    }
+
+    void ShowTextSize()
+    {
+        int current = KitsuneSettingsFile.GetInt(KitsuneSettingsFile.TextSize, 80, 150);
+        foreach ((int percent, XUiC_SimpleButton button) in textSizeButtons)
+        {
+            if (button.Button != null)
+            {
+                button.Button.Selected = percent == current;
+            }
+        }
+    }
+
     public override void OnOpen()
     {
         base.OnOpen();
         ShowPalette();
+        ShowBarText();
+        ShowTextSize();
         if (slotNumbers != null) slotNumbers.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.SlotNumbers);
         if (healthBar != null) healthBar.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.HealthBarAlways);
         if (jobTiles != null) jobTiles.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.JobTiles);
         if (wholeBackpack != null) wholeBackpack.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.BackpackAll);
         if (autoFade != null) autoFade.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.AutoFade);
+        if (minimap != null) minimap.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.Minimap);
         ShowGlass();
     }
 }

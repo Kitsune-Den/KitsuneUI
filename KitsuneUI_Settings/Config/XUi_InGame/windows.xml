@@ -22,13 +22,13 @@
 	<!-- Changes save and apply straight away.                            -->
 	<!-- ================================================================ -->
 	<append xpath="/windows">
-		<window name="kuSettingsWindow" width="560" height="476" pos="-280,288" anchor="Center" depth="40" cursor_area="true" controller="KitsuneSettingsWindow, KitsuneUI_Settings">
+		<window name="kuSettingsWindow" width="560" height="620" pos="-280,360" anchor="Center" depth="40" cursor_area="true" controller="KitsuneSettingsWindow, KitsuneUI_Settings">
 			<rect name="header" height="43" depth="1">
 				<headerbg />
 				<sprite depth="2" name="windowIcon" pos="6,-6" width="30" height="30" sprite="ku_icon_flame" color="[kuAccent]" />
 				<label style="header.name" pos="44,-6" width="400" text="KitsuneUI" />
 			</rect>
-			<sprite depth="0" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,-40" width="560" height="436" />
+			<sprite depth="0" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,-40" width="560" height="580" />
 
 			<togglebutton name="tglSlotNumbers" depth="3" pos="20,-60" width="520" height="40" font_size="26" caption="" />
 			<label depth="4" name="tglSlotNumbersText" pos="66,-80" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetSlotNumbers" />
@@ -40,22 +40,36 @@
 			<label depth="4" name="tglBackpackAllText" pos="66,-224" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetBackpackAll" />
 			<togglebutton name="tglAutoFade" depth="3" pos="20,-252" width="520" height="40" font_size="26" caption="" />
 			<label depth="4" name="tglAutoFadeText" pos="66,-272" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetAutoFade" />
+			<togglebutton name="tglMinimap" depth="3" pos="20,-300" width="520" height="40" font_size="26" caption="" />
+			<label depth="4" name="tglMinimapText" pos="66,-320" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetMinimap" />
 
-			<label depth="3" name="lblGlass" pos="22,-336" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetGlass" />
-			<simplebutton name="btnGlass100" depth="3" pos="160,-318" width="88" height="36" font_size="24" caption="100%" />
-			<simplebutton name="btnGlass85" depth="3" pos="254,-318" width="88" height="36" font_size="24" caption="85%" />
-			<simplebutton name="btnGlass70" depth="3" pos="348,-318" width="88" height="36" font_size="24" caption="70%" />
-			<simplebutton name="btnGlass55" depth="3" pos="442,-318" width="88" height="36" font_size="24" caption="55%" />
+			<label depth="3" name="lblGlass" pos="22,-384" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetGlass" />
+			<simplebutton name="btnGlass100" depth="3" pos="160,-366" width="88" height="36" font_size="24" caption="100%" />
+			<simplebutton name="btnGlass85" depth="3" pos="254,-366" width="88" height="36" font_size="24" caption="85%" />
+			<simplebutton name="btnGlass70" depth="3" pos="348,-366" width="88" height="36" font_size="24" caption="70%" />
+			<simplebutton name="btnGlass55" depth="3" pos="442,-366" width="88" height="36" font_size="24" caption="55%" />
 
-			<label depth="3" name="lblColours" pos="22,-384" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetColours" />
-			<simplebutton name="btnPalette_kitsunebi" depth="3" pos="160,-366" width="88" height="36" font_size="20" caption="Kitsunebi" />
-			<simplebutton name="btnPalette_ember" depth="3" pos="254,-366" width="88" height="36" font_size="20" caption_key="kuPaletteEmber" />
-			<simplebutton name="btnPalette_moss" depth="3" pos="348,-366" width="88" height="36" font_size="20" caption_key="kuPaletteMoss" />
-			<simplebutton name="btnPalette_sakura" depth="3" pos="442,-366" width="88" height="36" font_size="20" caption_key="kuPaletteSakura" />
+			<label depth="3" name="lblColours" pos="22,-432" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetColours" />
+			<simplebutton name="btnPalette_kitsunebi" depth="3" pos="160,-414" width="88" height="36" font_size="20" caption="Kitsunebi" />
+			<simplebutton name="btnPalette_ember" depth="3" pos="254,-414" width="88" height="36" font_size="20" caption_key="kuPaletteEmber" />
+			<simplebutton name="btnPalette_moss" depth="3" pos="348,-414" width="88" height="36" font_size="20" caption_key="kuPaletteMoss" />
+			<simplebutton name="btnPalette_sakura" depth="3" pos="442,-414" width="88" height="36" font_size="20" caption_key="kuPaletteSakura" />
 
-			<simplebutton name="btnMoveHUD" depth="3" pos="20,-436" width="168" height="40" font_size="24" caption_key="kuSetMoveHUD" />
-			<simplebutton name="btnProfiles" depth="3" pos="196,-436" width="168" height="40" font_size="24" caption_key="kuSetProfiles" />
-			<simplebutton name="btnClose" depth="3" pos="372,-436" width="168" height="40" font_size="24" caption_key="xuiClose" />
+			<label depth="3" name="lblBarText" pos="22,-480" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetBarText" />
+			<simplebutton name="btnBarText_full" depth="3" pos="160,-462" width="88" height="36" font_size="22" caption="100/100" />
+			<simplebutton name="btnBarText_percent" depth="3" pos="254,-462" width="88" height="36" font_size="22" caption="100%" />
+			<simplebutton name="btnBarText_current" depth="3" pos="348,-462" width="88" height="36" font_size="22" caption="100" />
+			<simplebutton name="btnBarText_none" depth="3" pos="442,-462" width="88" height="36" font_size="20" caption_key="kuBarTextNone" />
+
+			<label depth="3" name="lblTextSize" pos="22,-528" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetTextSize" />
+			<simplebutton name="btnTextSize90" depth="3" pos="160,-510" width="88" height="36" font_size="22" caption="90%" />
+			<simplebutton name="btnTextSize100" depth="3" pos="254,-510" width="88" height="36" font_size="22" caption="100%" />
+			<simplebutton name="btnTextSize115" depth="3" pos="348,-510" width="88" height="36" font_size="22" caption="115%" />
+			<simplebutton name="btnTextSize130" depth="3" pos="442,-510" width="88" height="36" font_size="22" caption="130%" />
+
+			<simplebutton name="btnMoveHUD" depth="3" pos="20,-580" width="168" height="40" font_size="24" caption_key="kuSetMoveHUD" />
+			<simplebutton name="btnProfiles" depth="3" pos="196,-580" width="168" height="40" font_size="24" caption_key="kuSetProfiles" />
+			<simplebutton name="btnClose" depth="3" pos="372,-580" width="168" height="40" font_size="24" caption_key="xuiClose" />
 		</window>
 	</append>
 
@@ -588,6 +602,37 @@
 			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
 			<label depth="52" name="kuMoveName" pos="12,-19" width="222" height="30" pivot="left" justify="left" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveEnemyHealth" />
 		</rect>
+	</append>
+
+	<!-- ================================================================ -->
+	<!-- Minimap (Settings > Show the minimap): top right, under the      -->
+	<!-- location box. XUiC_KitsuneMinimap draws the explored map around  -->
+	<!-- the player into kuMapTexture and turns the arrow; the window is  -->
+	<!-- in the toolbelt group, so it is up whenever the HUD is.          -->
+	<!-- ================================================================ -->
+	<append xpath="/windows">
+		<window name="kuMinimap" anchor="TopRight" pos="-224,-112" width="200" height="200" depth="-20">
+			<rect name="kuMapBody" width="200" height="200" controller="KitsuneMinimap, KitsuneUI_Settings">
+				<sprite depth="0" name="kuMapGlass" sprite="ku_panel" type="sliced" color="[white]" width="200" height="200" />
+				<texture depth="2" name="kuMapTexture" pos="8,-8" width="184" height="184" color="[white]" />
+				<sprite depth="3" name="kuMapRing" pos="7,-7" width="186" height="186" sprite="ku_round_md_ring" type="sliced" color="[kuEdge]" />
+				<sprite depth="4" name="kuMapArrow" pos="100,-100" width="24" height="24" pivot="center" sprite="ui_game_symbol_map_player_arrow" color="[kuAccent]" />
+				<label depth="4" name="kuMapNorth" pos="100,-9" width="30" height="22" pivot="top" justify="center" font_size="18" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="N" />
+			</rect>
+			<rect name="kuMoveHandle" depth="50" pos="-6,6" width="212" height="212" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
+				<!-- size readout and the -, +, show/hide buttons (XUiC_KitsuneMoveHandle) -->
+				<label depth="53" name="kuMoveScale" pos="108,-19" width="64" height="24" pivot="right" justify="right" font_size="18" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="100%" />
+				<sprite depth="54" name="kuChipSmaller" pos="112,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+				<button depth="55" name="kuBtnSmaller" pos="127,-19" sprite="ui_game_symbol_subtract" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+				<sprite depth="54" name="kuChipBigger" pos="144,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+				<button depth="55" name="kuBtnBigger" pos="159,-19" sprite="ui_game_symbol_add" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+				<sprite depth="54" name="kuChipHide" pos="176,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+				<button depth="55" name="kuBtnHide" pos="191,-19" sprite="ku_icon_eye" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+				<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
+				<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
+				<label depth="52" name="kuMoveName" pos="12,-194" width="190" height="30" pivot="left" justify="left" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveMinimap" />
+			</rect>
+		</window>
 	</append>
 
 </configs>
