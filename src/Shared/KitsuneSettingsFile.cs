@@ -15,6 +15,7 @@ public static class KitsuneSettingsFile
     public const string HealthBarAlways = "healthBarAlways"; // enemy health bar always shown
     public const string JobTiles = "jobTiles";            // trader options as picture tiles
     public const string Glass = "glass";                  // glass panel strength, percent
+    public const string MoveSnap = "moveSnap";            // HUD move mode: snap pieces to the grid
 
     static readonly Dictionary<string, string> Defaults = new Dictionary<string, string>
     {
@@ -22,6 +23,7 @@ public static class KitsuneSettingsFile
         { HealthBarAlways, "true" },
         { JobTiles, "true" },
         { Glass, "100" },
+        { MoveSnap, "true" },
     };
 
     static Dictionary<string, string> values;

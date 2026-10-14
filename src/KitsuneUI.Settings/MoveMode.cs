@@ -25,7 +25,19 @@ public static class KitsuneLayout
     {
         public readonly List<Member> Members = new List<Member>();
         public Vector2 Offset;
+        // While dragging: the unsnapped offset, and the handle's corner (in grid space)
+        // and offset when the drag started, so snapping never fights the mouse.
+        public Vector2 RawOffset;
+        public Vector2 CornerAtStart;
+        public Vector2 OffsetAtStart;
+        public bool HasCorner;
     }
+
+    /// <summary>Grid spacing in UI units (the grid window draws a line every GridStep).</summary>
+    public const int GridStep = 40;
+
+    /// <summary>The grid window; its top-left corner is a grid intersection.</summary>
+    public static Transform GridRoot;
 
     static readonly Dictionary<string, Group> groups = new Dictionary<string, Group>();
     static readonly List<XUiView> handles = new List<XUiView>();
@@ -82,13 +94,43 @@ public static class KitsuneLayout
         return Vector2.zero;
     }
 
+    public static void BeginDrag(string group, XUiView handle)
+    {
+        if (!groups.TryGetValue(group, out Group g))
+        {
+            return;
+        }
+        g.RawOffset = g.Offset;
+        g.OffsetAtStart = g.Offset;
+        g.HasCorner = GridRoot != null && handle?.UiTransform != null;
+        if (g.HasCorner)
+        {
+            Vector3 local = GridRoot.InverseTransformPoint(handle.UiTransform.position);
+            g.CornerAtStart = new Vector2(local.x, local.y);
+        }
+    }
+
+    /// <summary>
+    /// Moves a piece by the mouse delta. With snap on, the handle's top-left corner
+    /// lands on the nearest grid intersection (measured on screen, so it lines up with
+    /// the lines drawn by the grid window).
+    /// </summary>
     public static void Drag(string group, Vector2 uiDelta)
     {
-        if (groups.TryGetValue(group, out Group g))
+        if (!groups.TryGetValue(group, out Group g))
         {
-            g.Offset += uiDelta;
-            Apply(g);
+            return;
         }
+        g.RawOffset += uiDelta;
+        Vector2 offset = g.RawOffset;
+        if (g.HasCorner && KitsuneSettingsFile.GetBool(KitsuneSettingsFile.MoveSnap))
+        {
+            Vector2 corner = g.CornerAtStart + (offset - g.OffsetAtStart);
+            Vector2 snapped = new Vector2(Mathf.Round(corner.x / GridStep) * GridStep, Mathf.Round(corner.y / GridStep) * GridStep);
+            offset += snapped - corner;
+        }
+        g.Offset = offset;
+        Apply(g);
     }
 
     public static void Save(string group)
@@ -186,6 +228,10 @@ public class XUiC_KitsuneMoveHandle : XUiController
             KitsuneLayout.Save(group);
             return;
         }
+        if (_dragType == EDragType.DragStart)
+        {
+            KitsuneLayout.BeginDrag(group, ViewComponent);
+        }
         KitsuneLayout.Drag(group, _mouseDelta * xui.GetPixelRatioFactor());
     }
 
@@ -221,7 +267,15 @@ public class XUiC_KitsuneMoveBar : XUiController
         {
             done.OnPressed += (_s, _m) => xui.playerUI.windowManager.Close("kuMove");
         }
+        XUiController s = GetChildById("tglMoveSnap");
+        snap = s as XUiC_ToggleButton ?? s?.GetChildByType<XUiC_ToggleButton>();
+        if (snap != null)
+        {
+            snap.OnValueChanged += (_s, _v) => KitsuneSettingsFile.Set(KitsuneSettingsFile.MoveSnap, _v ? "true" : "false");
+        }
     }
+
+    XUiC_ToggleButton snap;
 
     XUiC_SimpleButton Button(string id)
     {
@@ -244,6 +298,10 @@ public class XUiC_KitsuneMoveBar : XUiController
         }
         KitsuneLayout.Active = true;
         KitsuneLayout.ShowHandles(true);
+        if (snap != null)
+        {
+            snap.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.MoveSnap);
+        }
     }
 
     public override void OnClose()
@@ -256,5 +314,19 @@ public class XUiC_KitsuneMoveBar : XUiController
             xui.playerUI.windowManager.Close(group);
         }
         openedHere.Clear();
+    }
+}
+
+/// <summary>
+/// The move-mode grid: a full-screen window behind the HUD with a faint line every
+/// GridStep units and a heavier line down the middle. Its top-left corner is a grid
+/// intersection, which is what snapping measures against.
+/// </summary>
+public class XUiC_KitsuneMoveGrid : XUiController
+{
+    public override void Init()
+    {
+        base.Init();
+        KitsuneLayout.GridRoot = ViewComponent?.UiTransform;
     }
 }

@@ -52,12 +52,186 @@
 	<!-- Dragging it moves its window; the offset is saved per player.    -->
 	<!-- ================================================================ -->
 	<append xpath="/windows">
-		<window name="kuMoveBar" width="620" height="64" pos="-310,150" anchor="Center" depth="60" cursor_area="true" controller="KitsuneMoveBar, KitsuneUI_Settings">
+		<window name="kuMoveBar" width="820" height="64" pos="-410,150" anchor="Center" depth="60" cursor_area="true" controller="KitsuneMoveBar, KitsuneUI_Settings">
 			<sprite depth="0" name="kuBody" sprite="ku_panel" type="sliced" color="[white]" />
 			<sprite depth="1" name="kuIcon" sprite="ku_icon_flame" pos="14,-17" width="30" height="30" color="[kuAccent]" />
 			<label depth="2" name="lblMove" pos="52,-32" width="300" height="30" pivot="left" font_size="24" color="[kuTextBright]" text="Drag the outlined HUD pieces" />
-			<simplebutton name="btnMoveReset" depth="3" pos="364,-12" width="116" height="40" font_size="26" caption="Reset" />
-			<simplebutton name="btnMoveDone" depth="3" pos="488,-12" width="116" height="40" font_size="26" caption="Done" />
+			<togglebutton name="tglMoveSnap" depth="3" pos="364,-12" width="190" height="40" font_size="24" caption="Snap to grid" />
+			<simplebutton name="btnMoveReset" depth="3" pos="564,-12" width="116" height="40" font_size="26" caption="Reset" />
+			<simplebutton name="btnMoveDone" depth="3" pos="688,-12" width="116" height="40" font_size="26" caption="Done" />
+		</window>
+	</append>
+
+	<!-- The move-mode grid: a full-screen layer behind the HUD (no colliders, so it never
+	     takes the mouse) with a faint line every 40 units, a slightly stronger one every
+	     160, and a heavier fox-fire line down the centre of the screen. Its top-left
+	     corner is a grid intersection, which snapping measures against. Generated: 101
+	     vertical and 61 horizontal lines. -->
+	<append xpath="/windows">
+		<window name="kuMoveGrid" anchor="Center" pos="-2000,1200" width="4000" height="2400" depth="1" controller="KitsuneMoveGrid, KitsuneUI_Settings">
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,0" width="1" height="2400" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="40,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="80,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="120,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="160,0" width="1" height="2400" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="200,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="240,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="280,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="320,0" width="1" height="2400" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="360,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="400,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="440,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="480,0" width="1" height="2400" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="520,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="560,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="600,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="640,0" width="1" height="2400" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="680,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="720,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="760,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="800,0" width="1" height="2400" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="840,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="880,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="920,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="960,0" width="1" height="2400" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="1000,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="1040,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="1080,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="1120,0" width="1" height="2400" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="1160,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="1200,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="1240,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="1280,0" width="1" height="2400" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="1320,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="1360,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="1400,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="1440,0" width="1" height="2400" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="1480,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="1520,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="1560,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="1600,0" width="1" height="2400" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="1640,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="1680,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="1720,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="1760,0" width="1" height="2400" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="1800,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="1840,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="1880,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="1920,0" width="1" height="2400" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="1960,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="2000,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="2040,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="2080,0" width="1" height="2400" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="2120,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="2160,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="2200,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="2240,0" width="1" height="2400" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="2280,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="2320,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="2360,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="2400,0" width="1" height="2400" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="2440,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="2480,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="2520,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="2560,0" width="1" height="2400" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="2600,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="2640,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="2680,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="2720,0" width="1" height="2400" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="2760,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="2800,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="2840,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="2880,0" width="1" height="2400" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="2920,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="2960,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="3000,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="3040,0" width="1" height="2400" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="3080,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="3120,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="3160,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="3200,0" width="1" height="2400" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="3240,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="3280,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="3320,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="3360,0" width="1" height="2400" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="3400,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="3440,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="3480,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="3520,0" width="1" height="2400" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="3560,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="3600,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="3640,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="3680,0" width="1" height="2400" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="3720,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="3760,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="3800,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="3840,0" width="1" height="2400" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="3880,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="3920,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="3960,0" width="1" height="2400" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="4000,0" width="1" height="2400" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,0" width="4000" height="1" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-40" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-80" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-120" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-160" width="4000" height="1" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-200" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-240" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-280" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-320" width="4000" height="1" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-360" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-400" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-440" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-480" width="4000" height="1" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-520" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-560" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-600" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-640" width="4000" height="1" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-680" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-720" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-760" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-800" width="4000" height="1" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-840" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-880" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-920" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-960" width="4000" height="1" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-1000" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-1040" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-1080" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-1120" width="4000" height="1" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-1160" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-1200" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-1240" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-1280" width="4000" height="1" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-1320" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-1360" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-1400" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-1440" width="4000" height="1" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-1480" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-1520" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-1560" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-1600" width="4000" height="1" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-1640" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-1680" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-1720" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-1760" width="4000" height="1" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-1800" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-1840" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-1880" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-1920" width="4000" height="1" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-1960" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-2000" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-2040" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-2080" width="4000" height="1" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-2120" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-2160" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-2200" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-2240" width="4000" height="1" color="150,175,255,44" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-2280" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-2320" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-2360" width="4000" height="1" color="150,175,255,22" />
+			<sprite depth="1" sprite="ku_px" type="simple" pos="0,-2400" width="4000" height="1" color="150,175,255,44" />
+			<sprite depth="2" name="kuCentreLine" sprite="ku_px" type="simple" pos="1999,0" width="3" height="2400" color="111,227,255,150" />
 		</window>
 	</append>
 

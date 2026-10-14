@@ -350,6 +350,10 @@ def band(w=256, h=64):
 add("ku_band", band(), 0)
 
 
+# A plain white square, stretched into thin lines (the move-mode grid and centre line).
+add("ku_px", Image.new("RGBA", (4, 4), (255, 255, 255, 255)), 0)
+
+
 # Injury hatch: diagonal stripes, tiled across the cut-off part of a stat bar.
 def hatch(size=8):
     img = Image.new("RGBA", (size * SS, size * SS), (255, 255, 255, 0))

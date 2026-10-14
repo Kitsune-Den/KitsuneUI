@@ -7,6 +7,7 @@
 		</window_group>
 		<!-- HUD move mode: the bar at the top with Reset and Done (Settings > Move HUD). -->
 		<window_group name="kuMove">
+			<window name="kuMoveGrid" />
 			<window name="kuMoveBar" />
 		</window_group>
 	</append>
