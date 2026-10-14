@@ -12,6 +12,7 @@ public class KitsuneUISettingsMod : IModApi
     public void InitMod(Mod _modInstance)
     {
         Log.Out($"[KitsuneUI_Settings] Loaded - settings in {KitsuneSettingsFile.Path}");
+        new HarmonyLib.Harmony("com.adainthelab.kitsuneui.settings").PatchAll(typeof(KitsuneUISettingsMod).Assembly);
     }
 }
 
@@ -147,6 +148,7 @@ public class XUiC_KitsuneSettingsHook : XUiController
             KitsuneSettingsApplier.ApplyAll(xui);
         }
         KitsuneLayout.ApplyAll();
+        KitsuneAutoFade.Update(xui, _dt);
     }
 }
 
@@ -164,7 +166,7 @@ public class XUiC_KitsuneSettingsOpener : XUiController
 }
 
 /// <summary>
-/// The settings window: four toggles, a four-step glass strength and Close.
+/// The settings window: five toggles, a four-step glass strength and Close.
 /// Every change is saved and applied straight away.
 /// </summary>
 public class XUiC_KitsuneSettingsWindow : XUiController
@@ -175,6 +177,7 @@ public class XUiC_KitsuneSettingsWindow : XUiController
     XUiC_ToggleButton healthBar;
     XUiC_ToggleButton jobTiles;
     XUiC_ToggleButton wholeBackpack;
+    XUiC_ToggleButton autoFade;
     readonly List<(int percent, XUiC_SimpleButton button)> glassButtons = new List<(int, XUiC_SimpleButton)>();
     readonly List<(string palette, XUiC_SimpleButton button)> paletteButtons = new List<(string, XUiC_SimpleButton)>();
 
@@ -185,6 +188,7 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         healthBar = Toggle("tglHealthBar", KitsuneSettingsFile.HealthBarAlways);
         jobTiles = Toggle("tglJobTiles", KitsuneSettingsFile.JobTiles);
         wholeBackpack = Toggle("tglBackpackAll", KitsuneSettingsFile.BackpackAll);
+        autoFade = Toggle("tglAutoFade", KitsuneSettingsFile.AutoFade);
         foreach (int percent in GlassSteps)
         {
             if (FindButton("btnGlass" + percent) is XUiC_SimpleButton b)
@@ -291,6 +295,7 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         if (healthBar != null) healthBar.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.HealthBarAlways);
         if (jobTiles != null) jobTiles.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.JobTiles);
         if (wholeBackpack != null) wholeBackpack.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.BackpackAll);
+        if (autoFade != null) autoFade.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.AutoFade);
         ShowGlass();
     }
 }

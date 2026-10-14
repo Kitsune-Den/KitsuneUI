@@ -18,6 +18,7 @@ public static class KitsuneSettingsFile
     public const string MoveSnap = "moveSnap";            // HUD move mode: snap pieces to the grid
     public const string Palette = "palette";              // colour preset: kitsunebi, ember, moss, sakura
     public const string BackpackAll = "backpackAll";      // show every backpack slot, no scrolling
+    public const string AutoFade = "autoFade";            // fade the toolbelt and stat bars when idle
 
     static readonly Dictionary<string, string> Defaults = new Dictionary<string, string>
     {
@@ -28,6 +29,7 @@ public static class KitsuneSettingsFile
         { MoveSnap, "true" },
         { Palette, "kitsunebi" },
         { BackpackAll, "false" },
+        { AutoFade, "false" },
     };
 
     static Dictionary<string, string> values;
