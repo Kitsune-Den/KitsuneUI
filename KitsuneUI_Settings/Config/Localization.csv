@@ -1,0 +1,22 @@
+Key,File,Type,UsedInMainMenu,NoTranslate,KeepLoaded,english,Context / Alternate Text,german,spanish,french,italian,japanese,koreana,polish,brazilian,russian,turkish,schinese,tchinese
+kuSetSlotNumbers,UI,XUi,,,,Toolbelt slot numbers and SHIFT tag,,Platznummern und SHIFT-Hinweis am Werkzeuggürtel,Números de casilla y etiqueta MAYÚS en el cinturón,Numéros d'emplacement et repère MAJ sur la ceinture,Numeri degli slot ed etichetta MAIUSC sulla cintura,装備ベルトのスロット番号とSHIFT表示,도구벨트 칸 번호와 SHIFT 표시,Numery miejsc i znacznik SHIFT na pasku narzędzi,Números dos espaços e marcação SHIFT no cinto,Номера ячеек пояса и метка SHIFT,Alet kemeri yuva numaraları ve SHIFT etiketi,工具带格子编号和 SHIFT 标签,工具皮帶格子編號和 SHIFT 標籤
+kuSetHealthBar,UI,XUi,,,,Enemy health bar always shown,,Gesundheitsleiste von Gegnern immer zeigen,Barra de salud del enemigo siempre visible,Barre de santé ennemie toujours visible,Barra della salute nemica sempre visibile,敵の体力バーを常に表示,적 체력 바 항상 표시,Pasek zdrowia wroga zawsze widoczny,Barra de saúde do inimigo sempre visível,Всегда показывать здоровье врага,Düşman sağlık çubuğu her zaman görünsün,始终显示敌人生命值条,始終顯示敵人生命值條
+kuSetJobTiles,UI,XUi,,,,Trader jobs as picture tiles,,Händleraufträge als Bildkacheln,Trabajos del vendedor como fichas con imagen,Missions du marchand en vignettes illustrées,Incarichi del negoziante come riquadri illustrati,トレーダーの依頼を画像タイルで表示,상인 의뢰를 그림 타일로 표시,Zlecenia handlarza jako kafelki z obrazkami,Trabalhos do comerciante como blocos com imagem,Задания торговца в виде карточек с картинками,Tüccar görevleri resimli kutucuklar olarak,以图片卡片显示商人任务,以圖片卡片顯示商人任務
+kuSetGlass,UI,XUi,,,,Glass,,Glas,Cristal,Verre,Vetro,ガラス,유리,Szkło,Vidro,Стекло,Cam,玻璃,玻璃
+kuSetMoveHUD,UI,XUi,,,,Move HUD,,HUD verschieben,Mover HUD,Déplacer le HUD,Sposta HUD,HUDを移動,HUD 이동,Przesuń HUD,Mover HUD,Двигать HUD,HUD'u taşı,移动 HUD,移動 HUD
+kuMoveHint,UI,XUi,,,,Drag the outlined HUD pieces,,Umrandete HUD-Teile ziehen,Arrastra las piezas del HUD marcadas,Faites glisser les éléments encadrés,Trascina gli elementi evidenziati,枠で囲まれたHUDをドラッグ,테두리가 표시된 HUD를 끌어서 이동,Przeciągnij obramowane elementy HUD,Arraste as partes do HUD destacadas,Перетаскивайте выделенные элементы HUD,Çerçeveli HUD parçalarını sürükleyin,拖动带边框的 HUD 元素,拖曳帶邊框的 HUD 元素
+kuMoveSnap,UI,XUi,,,,Snap to grid,,Am Raster ausrichten,Ajustar a la cuadrícula,Aligner sur la grille,Aggancia alla griglia,グリッドに吸着,그리드에 맞추기,Przyciągaj do siatki,Alinhar à grade,Привязка к сетке,Izgaraya hizala,对齐网格,對齊網格
+kuMoveReset,UI,XUi,,,,Reset,,Zurücksetzen,Restablecer,Réinitialiser,Azzera,リセット,초기화,Resetuj,Redefinir,Сброс,Sıfırla,重置,重設
+kuMoveDone,UI,XUi,,,,Done,,Fertig,Listo,Terminé,Fatto,完了,완료,Gotowe,Concluído,Готово,Tamam,完成,完成
+kuMoveStatBars,UI,XUi,,,,STAT BARS,,STATUSLEISTEN,BARRAS DE ESTADO,BARRES D'ÉTAT,BARRE DI STATO,ステータスバー,상태 바,PASKI STANU,BARRAS DE STATUS,ПОЛОСЫ СОСТОЯНИЯ,DURUM ÇUBUKLARI,状态条,狀態條
+kuMoveToolbelt,UI,XUi,,,,TOOLBELT,,WERKZEUGGÜRTEL,CINTURÓN,CEINTURE À OUTILS,CINTURA,装備ベルト,도구벨트,PASEK NARZĘDZI,CINTO,ПОЯС,ALET KEMERİ,工具带,工具皮帶
+kuMoveCompass,UI,XUi,,,,COMPASS / TIME,,KOMPASS / ZEIT,BRÚJULA / HORA,BOUSSOLE / HEURE,BUSSOLA / ORA,コンパス / 時刻,나침반 / 시간,KOMPAS / CZAS,BÚSSOLA / HORA,КОМПАС / ВРЕМЯ,PUSULA / SAAT,指南针 / 时间,指南針 / 時間
+kuMoveLocation,UI,XUi,,,,LOCATION,,ORT,UBICACIÓN,LIEU,LUOGO,現在地,위치,LOKACJA,LOCAL,МЕСТО,KONUM,位置,位置
+kuMoveTrackers,UI,XUi,,,,TRACKERS,,VERFOLGUNG,SEGUIMIENTO,SUIVI,TRACCIAMENTO,トラッカー,추적,ŚLEDZENIE,RASTREADORES,ОТСЛЕЖИВАНИЕ,TAKİP,追踪,追蹤
+kuMoveParty,UI,XUi,,,,PARTY,,GRUPPE,GRUPO,GROUPE,GRUPPO,パーティー,파티,DRUŻYNA,EQUIPE,ГРУППА,GRUP,队伍,隊伍
+kuMoveAmmoLoot,UI,XUi,,,,AMMO / LOOT,,MUNITION / BEUTE,MUNICIÓN / BOTÍN,MUNITIONS / BUTIN,MUNIZIONI / BOTTINO,弾薬 / 略奪品,탄약 / 약탈품,AMUNICJA / ŁUPY,MUNIÇÃO / ESPÓLIOS,ПАТРОНЫ / ДОБЫЧА,MÜHİMMAT / GANİMET,弹药 / 战利品,彈藥 / 戰利品
+kuMoveChat,UI,XUi,,,,CHAT,,CHAT,CHAT,DISCUSSION,CHAT,チャット,채팅,CZAT,BATE-PAPO,ЧАТ,SOHBET,聊天,聊天
+kuMoveSubtitles,UI,XUi,,,,SUBTITLES,,UNTERTITEL,SUBTÍTULOS,SOUS-TITRES,SOTTOTITOLI,字幕,자막,NAPISY,LEGENDAS,СУБТИТРЫ,ALTYAZILAR,字幕,字幕
+kuMovePopups,UI,XUi,,,,POPUPS,,MELDUNGEN,AVISOS,MESSAGES,MESSAGGI,通知,알림,KOMUNIKATY,AVISOS,УВЕДОМЛЕНИЯ,BİLDİRİMLER,提示,提示
+kuMoveEntering,UI,XUi,,,,ENTERING,,BETRETEN,ENTRANDO,ENTRÉE,INGRESSO,進入表示,진입 표시,WEJŚCIE,ENTRANDO,ВХОД,GİRİŞ,进入提示,進入提示
+kuMoveEnemyHealth,UI,XUi,,,,ENEMY HEALTH,,GEGNERGESUNDHEIT,SALUD ENEMIGA,SANTÉ ENNEMIE,SALUTE NEMICA,敵の体力,적 체력,ZDROWIE WROGA,SAÚDE DO INIMIGO,ЗДОРОВЬЕ ВРАГА,DÜŞMAN SAĞLIĞI,敌人生命值,敵人生命值

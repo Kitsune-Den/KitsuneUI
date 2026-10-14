@@ -30,18 +30,21 @@
 			</rect>
 			<sprite depth="0" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,-40" width="560" height="290" />
 
-			<togglebutton name="tglSlotNumbers" depth="3" pos="20,-60" width="520" height="40" font_size="26" caption="Toolbelt slot numbers and SHIFT tag" />
-			<togglebutton name="tglHealthBar" depth="3" pos="20,-108" width="520" height="40" font_size="26" caption="Enemy health bar always shown" />
-			<togglebutton name="tglJobTiles" depth="3" pos="20,-156" width="520" height="40" font_size="26" caption="Trader jobs as picture tiles" />
+			<togglebutton name="tglSlotNumbers" depth="3" pos="20,-60" width="520" height="40" font_size="26" caption="" />
+			<label depth="4" name="tglSlotNumbersText" pos="66,-80" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetSlotNumbers" />
+			<togglebutton name="tglHealthBar" depth="3" pos="20,-108" width="520" height="40" font_size="26" caption="" />
+			<label depth="4" name="tglHealthBarText" pos="66,-128" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetHealthBar" />
+			<togglebutton name="tglJobTiles" depth="3" pos="20,-156" width="520" height="40" font_size="26" caption="" />
+			<label depth="4" name="tglJobTilesText" pos="66,-176" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetJobTiles" />
 
-			<label depth="3" name="lblGlass" pos="22,-208" width="140" height="30" font_size="26" color="[kuTextMid]" text="Glass" />
+			<label depth="3" name="lblGlass" pos="22,-224" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetGlass" />
 			<simplebutton name="btnGlass100" depth="3" pos="160,-222" width="88" height="36" font_size="24" caption="100%" />
 			<simplebutton name="btnGlass85" depth="3" pos="254,-222" width="88" height="36" font_size="24" caption="85%" />
 			<simplebutton name="btnGlass70" depth="3" pos="348,-222" width="88" height="36" font_size="24" caption="70%" />
 			<simplebutton name="btnGlass55" depth="3" pos="442,-222" width="88" height="36" font_size="24" caption="55%" />
 
-			<simplebutton name="btnMoveHUD" depth="3" pos="60,-290" width="200" height="40" font_size="28" caption="Move HUD" />
-			<simplebutton name="btnClose" depth="3" pos="300,-290" width="200" height="40" font_size="28" caption="Close" />
+			<simplebutton name="btnMoveHUD" depth="3" pos="30,-290" width="240" height="40" font_size="26" caption_key="kuSetMoveHUD" />
+			<simplebutton name="btnClose" depth="3" pos="290,-290" width="240" height="40" font_size="26" caption_key="xuiClose" />
 		</window>
 	</append>
 
@@ -52,13 +55,14 @@
 	<!-- Dragging it moves its window; the offset is saved per player.    -->
 	<!-- ================================================================ -->
 	<append xpath="/windows">
-		<window name="kuMoveBar" width="820" height="64" pos="-410,150" anchor="Center" depth="60" cursor_area="true" controller="KitsuneMoveBar, KitsuneUI_Settings">
+		<window name="kuMoveBar" width="900" height="64" pos="-450,150" anchor="Center" depth="60" cursor_area="true" controller="KitsuneMoveBar, KitsuneUI_Settings">
 			<sprite depth="0" name="kuBody" sprite="ku_panel" type="sliced" color="[white]" />
 			<sprite depth="1" name="kuIcon" sprite="ku_icon_flame" pos="14,-17" width="30" height="30" color="[kuAccent]" />
-			<label depth="2" name="lblMove" pos="52,-32" width="300" height="30" pivot="left" font_size="24" color="[kuTextBright]" text="Drag the outlined HUD pieces" />
-			<togglebutton name="tglMoveSnap" depth="3" pos="364,-12" width="190" height="40" font_size="24" caption="Snap to grid" />
-			<simplebutton name="btnMoveReset" depth="3" pos="564,-12" width="116" height="40" font_size="26" caption="Reset" />
-			<simplebutton name="btnMoveDone" depth="3" pos="688,-12" width="116" height="40" font_size="26" caption="Done" />
+			<label depth="2" name="lblMove" pos="52,-32" width="300" height="30" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuTextBright]" text_key="kuMoveHint" />
+			<togglebutton name="tglMoveSnap" depth="3" pos="364,-12" width="210" height="40" font_size="24" caption="" />
+			<label depth="4" name="lblMoveSnap" pos="408,-32" width="160" height="30" pivot="left" font_size="22" overflow="shrinkcontent" color="[kuText]" text_key="kuMoveSnap" />
+			<simplebutton name="btnMoveReset" depth="3" pos="584,-12" width="150" height="40" font_size="24" caption_key="kuMoveReset" />
+			<simplebutton name="btnMoveDone" depth="3" pos="742,-12" width="146" height="40" font_size="24" caption_key="kuMoveDone" />
 		</window>
 	</append>
 
@@ -240,7 +244,7 @@
 		<rect name="kuMoveHandle" depth="50" pos="0,180" width="230" height="186" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
 			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
 			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
-			<label depth="52" name="kuMoveName" pos="115,-93" width="220" height="30" pivot="center" justify="center" font_size="24" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="STAT BARS" />
+			<label depth="52" name="kuMoveName" pos="115,-93" width="220" height="30" pivot="center" justify="center" font_size="24" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveStatBars" />
 		</rect>
 	</append>
 
@@ -249,7 +253,7 @@
 		<rect name="kuMoveHandle" depth="50" pos="{%'-12, ' + ((beltCount - 1) * 82 + 12)}" width="774" height="{%beltCount * 82 + 17}" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
 			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
 			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
-			<label depth="52" name="kuMoveName" pos="387,-40" width="400" height="30" pivot="center" justify="center" font_size="24" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="TOOLBELT" />
+			<label depth="52" name="kuMoveName" pos="387,-40" width="400" height="30" pivot="center" justify="center" font_size="24" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveToolbelt" />
 		</rect>
 	</append>
 
@@ -258,7 +262,7 @@
 		<rect name="kuMoveHandle" depth="50" pos="-8,8" width="496" height="86" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
 			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
 			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
-			<label depth="52" name="kuMoveName" pos="248,-43" width="486" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="COMPASS / TIME" />
+			<label depth="52" name="kuMoveName" pos="248,-43" width="486" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveCompass" />
 		</rect>
 	</append>
 
@@ -267,7 +271,7 @@
 		<rect name="kuMoveHandle" depth="50" pos="-6,6" width="274" height="68" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
 			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
 			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
-			<label depth="52" name="kuMoveName" pos="137,-34" width="264" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="LOCATION" />
+			<label depth="52" name="kuMoveName" pos="137,-34" width="264" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveLocation" />
 		</rect>
 	</append>
 
@@ -276,7 +280,7 @@
 		<rect name="kuMoveHandle" depth="50" pos="-66,6" width="312" height="300" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings" group="trackers">
 			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
 			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
-			<label depth="52" name="kuMoveName" pos="156,-150" width="302" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="TRACKERS" />
+			<label depth="52" name="kuMoveName" pos="156,-150" width="302" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveTrackers" />
 		</rect>
 	</append>
 
@@ -285,7 +289,7 @@
 		<rect name="kuMoveHandle" depth="50" pos="-66,6" width="312" height="300" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings" group="trackers">
 			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
 			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
-			<label depth="52" name="kuMoveName" pos="156,-150" width="302" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="TRACKERS" />
+			<label depth="52" name="kuMoveName" pos="156,-150" width="302" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveTrackers" />
 		</rect>
 	</append>
 
@@ -294,7 +298,7 @@
 		<rect name="kuMoveHandle" depth="50" pos="4,-82" width="178" height="292" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
 			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
 			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
-			<label depth="52" name="kuMoveName" pos="89,-146" width="168" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="PARTY" />
+			<label depth="52" name="kuMoveName" pos="89,-146" width="168" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveParty" />
 		</rect>
 	</append>
 
@@ -303,7 +307,7 @@
 		<rect name="kuMoveHandle" depth="50" pos="-236,262" width="232" height="262" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
 			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
 			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
-			<label depth="52" name="kuMoveName" pos="116,-131" width="222" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="AMMO / LOOT" />
+			<label depth="52" name="kuMoveName" pos="116,-131" width="222" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveAmmoLoot" />
 		</rect>
 	</append>
 
@@ -312,7 +316,7 @@
 		<rect name="kuMoveHandle" depth="50" pos="-6,6" width="512" height="262" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings" group="chat">
 			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
 			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
-			<label depth="52" name="kuMoveName" pos="256,-131" width="502" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="CHAT" />
+			<label depth="52" name="kuMoveName" pos="256,-131" width="502" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveChat" />
 		</rect>
 	</append>
 
@@ -321,7 +325,7 @@
 		<rect name="kuMoveHandle" depth="50" pos="-6,6" width="512" height="262" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings" group="chat">
 			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
 			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
-			<label depth="52" name="kuMoveName" pos="256,-131" width="502" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="CHAT" />
+			<label depth="52" name="kuMoveName" pos="256,-131" width="502" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveChat" />
 		</rect>
 	</append>
 
@@ -330,7 +334,7 @@
 		<rect name="kuMoveHandle" depth="50" pos="-6,6" width="765" height="112" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
 			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
 			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
-			<label depth="52" name="kuMoveName" pos="382,-56" width="755" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="SUBTITLES" />
+			<label depth="52" name="kuMoveName" pos="382,-56" width="755" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveSubtitles" />
 		</rect>
 	</append>
 
@@ -339,7 +343,7 @@
 		<rect name="kuMoveHandle" depth="50" pos="-250,44" width="500" height="64" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
 			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
 			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
-			<label depth="52" name="kuMoveName" pos="250,-32" width="490" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="POPUPS" />
+			<label depth="52" name="kuMoveName" pos="250,-32" width="490" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMovePopups" />
 		</rect>
 	</append>
 
@@ -348,7 +352,7 @@
 		<rect name="kuMoveHandle" depth="50" pos="-176,-79" width="352" height="112" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
 			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
 			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
-			<label depth="52" name="kuMoveName" pos="176,-56" width="342" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="ENTERING" />
+			<label depth="52" name="kuMoveName" pos="176,-56" width="342" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveEntering" />
 		</rect>
 	</append>
 
@@ -357,7 +361,7 @@
 		<rect name="kuMoveHandle" depth="50" pos="-206,-79" width="412" height="48" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
 			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
 			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
-			<label depth="52" name="kuMoveName" pos="206,-24" width="402" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="ENEMY HEALTH" />
+			<label depth="52" name="kuMoveName" pos="206,-24" width="402" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveEnemyHealth" />
 		</rect>
 	</append>
 
