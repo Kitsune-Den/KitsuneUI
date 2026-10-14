@@ -61,7 +61,7 @@ Needs `KitsuneUI`. Install on the **server and every client**, with EAC off.
 
 ## KitsuneUI_Toolbelt20
 
-Two toolbelt bars of 10 slots. Number keys use the bottom bar, shift + number uses the top bar.
+Two toolbelt bars of 10 slots. Number keys use the bottom bar, shift + number uses the top bar (marked with a SHIFT tag, and its slot numbers are gold).
 
 V3.3 already supports up to 2 bars of 10 and up to 10 pages, and the vanilla toolbelt window already draws them. The setting lives in `Data/Config/toolbelt.xml`, but the game only reads its `<editorconfig>` section (the prefab editor). The DLL makes it read a `<gameconfig>` section too, and `Config/toolbelt.xml` adds one with 2 bars of 10.
 
