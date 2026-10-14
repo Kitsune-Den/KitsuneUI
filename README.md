@@ -23,7 +23,8 @@ The theme is XML and images only. It changes how the game looks, never how it pl
 - **Trader and quests:** trader stock, services, job offer, quest journal, turn-in rewards.
 - **Character:** character sheet, buffs, skills and perks, challenges, cosmetics.
 - **Map:** map, waypoints, shared waypoints and the right-click menus.
-- **Menus:** main menu, Play Game, the in-game Esc menu, every Options page, the loading screen, death message and respawn screen.
+- **Menus:** main menu, Play Game, the in-game Esc menu, every Options page, death message and respawn screen.
+- **Loading screen:** the picture fills the screen and the tip sits in a glass column down the right edge, with the spawn buttons docked at its foot.
 - **Everything else:** chat, the player list, power and trap windows, cameras, signs and the sign editor, keypads, tooltips, context menus, tips, message boxes, admin and debug panels.
 
 ## Install
@@ -39,10 +40,11 @@ The theme is XML and images only. It changes how the game looks, never how it pl
 | `KitsuneUI_Toolbelt20` (optional) | Two toolbelt bars of 10 | Small DLL, needs EAC off |
 | `KitsuneUI_JobPreview` (optional) | Trader jobs as picture tiles, and a job offer with the location's picture | Small DLL, needs EAC off, needs `KitsuneUI` |
 | `KitsuneUI_Settings` (optional) | An in-game settings window (Esc menu > KitsuneUI), saved per player | Small DLL, needs EAC off, needs `KitsuneUI` |
+| `KitsuneUI_Loading` (optional) | Six Kitsunebi night paintings for the loading screen | Works with EAC on |
 
 ### Languages
 
-KitsuneUI follows the game's language setting. Most of what you see is the game's own text, already translated; KitsuneUI's own text (the settings window, move mode and the SHIFT tag) is translated into all 13 languages the game supports: English, German, Spanish, French, Italian, Japanese, Korean, Polish, Brazilian Portuguese, Russian, Turkish and Simplified and Traditional Chinese. The translations are ours, not native-reviewed: corrections are welcome (open an issue, or edit `Config/Localization.csv`).
+KitsuneUI follows the game's language setting. Most of what you see is the game's own text, already translated; KitsuneUI's own text (the settings window, move mode, the SHIFT tag and the loading screen's TIP tag) is translated into all 13 languages the game supports: English, German, Spanish, French, Italian, Japanese, Korean, Polish, Brazilian Portuguese, Russian, Turkish and Simplified and Traditional Chinese. The translations are ours, not native-reviewed: corrections are welcome (open an issue, or edit `Config/Localization.csv`).
 
 ### Works with mods that resize things
 
@@ -66,6 +68,14 @@ With `KitsuneUI_Settings`, each player can switch the tiles off ("Trader jobs as
 
 Needs `KitsuneUI`. Install on the **server and every client**, with EAC off.
 
+## KitsuneUI_Loading
+
+Six night paintings in the Kitsunebi colours replace the vanilla loading pictures: a hilltop den ringed by fox-fire, a ghost town with a spirit fox, a burnt forest with a lantern trail, a desert gas station, a frozen radio tower under an aurora, and horde night under a blood moon. Each one keeps its subject to the left, so the tip column never covers it.
+
+It is XML and images only (EAC on). The server sends its list of loading pictures to everyone who joins, so on a server install it on the **server and every client**; a player without it sees an empty background instead of a picture. To mix the paintings in with the vanilla ones rather than replace them, delete the `remove` line in `Config/loadingscreen.xml`.
+
+The game picks a loading picture at random, but it seeds that pick from the frame count, so a launcher that starts the game and connects straight away lands on the same picture every time. With `KitsuneUI_Settings` installed, the pictures take turns instead, so you see every one before any repeats.
+
 ## KitsuneUI_Settings
 
 Adds a **KitsuneUI** button to the Esc menu, under Options. It opens a settings window:
@@ -75,10 +85,15 @@ Adds a **KitsuneUI** button to the Esc menu, under Options. It opens a settings 
 | Toolbelt slot numbers and SHIFT tag | No key numbers on the toolbelt |
 | Enemy health bar always shown | The game's default: the bar only shows in god mode |
 | Trader jobs as picture tiles | The game's dialog list (needs `KitsuneUI_JobPreview` for the tiles) |
+| Show the whole backpack | The bag scrolls as usual. On, the bag gets more columns of smaller slots so every slot fits without scrolling |
+| Fade the toolbelt and stat bars when idle | They stay solid. On, they fade after a few quiet seconds and come straight back when you switch or use an item, take damage, run, get hungry or thirsty, crouch or open a menu |
+| Show the minimap | No minimap. On, a north-up glass minimap sits in the top right, drawn from your own explored map, with an arrow that turns with you and the map's markers (quest targets, waypoints, bed, backpack, vehicles, party); markers out of view sit on its edge |
 | Glass | 100%, 85%, 70% or 55% strength for the glass panels |
 | Colours | Kitsunebi, Ember (amber), Moss (green) or Sakura (pink): swaps the fox-fire, gold, selection and outline colours; the game's own colours (rarity, health) stay |
+| Bar text | How the health, stamina, food and water bars write their value: 100/100, 100%, the value only, or no text |
+| Text size | 90%, 100%, 115% or 130% for in-game text. Text in tight boxes shrinks back to fit, so it mostly grows descriptions, lists and chat |
 
-**Move HUD** (a button in the same window) puts the HUD in move mode: a soft grid with a centre line covers the screen, every HUD piece shows a glass outline with its name, and you drag them where you want them. Pieces: stat bars, toolbelt, compass / time, location, the "Entering" title, quest and recipe trackers, chat, subtitles, ammo, looted items, vehicle bars, pop-ups, enemy health and party bars. Each outline also has a size readout with **-** and **+** buttons (60% to 160%) and an **eye** to hide the piece (a hidden piece shows with a red outline in move mode, so you can bring it back). **Snap to grid** (on by default) lines a piece's corner up with the grid; **Reset** puts every position, size and hidden piece back. Trackers and party bars can be moved while they're showing.
+**Move HUD** (a button in the same window) puts the HUD in move mode: a soft grid with a centre line covers the screen, every HUD piece shows a glass outline with its name, and you drag them where you want them. Pieces: stat bars, toolbelt, compass / time, location, the "Entering" title, quest and recipe trackers, chat, subtitles, ammo, looted items, vehicle bars, pop-ups, enemy health, party bars and the minimap. Each outline also has a size readout with **-** and **+** buttons (60% to 160%) and an **eye** to hide the piece (a hidden piece shows with a red outline in move mode, so you can bring it back). **Snap to grid** (on by default) lines a piece's corner up with the grid; **Reset** puts every position, size and hidden piece back. Trackers and party bars can be moved while they're showing.
 
 **Profiles** save the whole layout (positions, sizes, hidden pieces, glass, toggles, colours) under a name, up to 8, to load or delete later. **Export** copies a layout to the clipboard as one line of text you can paste to other players; **Import** reads one back (only KitsuneUI's own settings are accepted).
 
@@ -135,12 +150,12 @@ python tools/gen_sprites.py
 `tools/check_patches.py` (Python 3 + lxml) applies every patch to the vanilla XUi files in load order and lists any XPath that matches nothing. A dedicated server never loads the menu XUi or the atlases, so this is the only check that covers everything:
 
 ```
-python tools/check_patches.py "<game>/Data/Config" KitsuneUI/Config KitsuneUI_JobPreview/Config KitsuneUI_Settings/Config KitsuneUI_Toolbelt20/Config
+python tools/check_patches.py "<game>/Data/Config" KitsuneUI/Config KitsuneUI_JobPreview/Config KitsuneUI_Settings/Config KitsuneUI_Toolbelt20/Config KitsuneUI_Loading/Config
 ```
 
 ### Building the DLLs
 
-The projects reference the game's DLLs from `7dtd-binaries/` (not committed). Copy these into it from your game install: `Assembly-CSharp.dll`, `LogLibrary.dll`, `UnityEngine.CoreModule.dll` and `UnityEngine.IMGUIModule.dll` from `7DaysToDie_Data/Managed`, and `0Harmony.dll` from `Mods/0_TFP_Harmony`. Then:
+The projects reference the game's DLLs from `7dtd-binaries/` (not committed). Copy these into it from your game install: `Assembly-CSharp.dll`, `LogLibrary.dll`, `NGUI.dll`, `UnityEngine.CoreModule.dll` and `UnityEngine.IMGUIModule.dll` from `7DaysToDie_Data/Managed`, and `0Harmony.dll` from `Mods/0_TFP_Harmony`. Then:
 
 ```
 dotnet build src/KitsuneUI.Toolbelt20 -c Release
@@ -159,6 +174,10 @@ python tools/package.py
 ```
 
 writes `dist/<Folder>-<Version>.zip` for each mod, with the mod folder at the zip's root. The version comes from each `ModInfo.xml`.
+
+### Loading pictures
+
+`tools/gen_loading_art.py` regenerates the KitsuneUI_Loading paintings (Gemini image generation, 21:9). It reads the API key from `GEMINI_API_KEY`, keeps the raw PNGs in `build/` and writes the game's JPEGs into `KitsuneUI_Loading/Textures/`.
 
 ### Design
 
