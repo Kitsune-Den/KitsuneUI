@@ -78,7 +78,7 @@ The game picks a loading picture at random, but it seeds that pick from the fram
 
 ## KitsuneUI_Settings
 
-Adds a **KitsuneUI** button to the Esc menu, under Options. It opens a settings window:
+Adds a **KitsuneUI** button to the Esc menu, under Options. It opens a settings window in three tabs, **HUD**, **Windows** and **Look**:
 
 | Setting | Off means |
 |---|---|
@@ -91,9 +91,11 @@ Adds a **KitsuneUI** button to the Esc menu, under Options. It opens a settings 
 | Glass | 100%, 85%, 70% or 55% strength for the glass panels |
 | Colours | Kitsunebi, Ember (amber), Moss (green) or Sakura (pink): swaps the fox-fire, gold, selection and outline colours; the game's own colours (rarity, health) stay |
 | Bar text | How the health, stamina, food and water bars write their value: 100/100, 100%, the value only, or no text |
+| Horde night countdown | Nothing extra. On, a line under the compass's day and time counts down to the next blood moon ("Horde night in 3 days"), orange the day before and red on the night; it follows the server's blood moon settings |
+| Crafting progress on the HUD | Nothing extra. On, while your own crafting queue is busy, a small glass card shows the item, how many are left, the time left and a bar for the one being made (crafting from your inventory, not workstations) |
 | Text size | 90%, 100%, 115% or 130% for in-game text. Text in tight boxes shrinks back to fit, so it mostly grows descriptions, lists and chat |
 
-**Move HUD** (a button in the same window) puts the HUD in move mode: a soft grid with a centre line covers the screen, every HUD piece shows a glass outline with its name, and you drag them where you want them. Pieces: stat bars, toolbelt, compass / time, location, the "Entering" title, quest and recipe trackers, chat, subtitles, ammo, looted items, vehicle bars, pop-ups, enemy health, party bars and the minimap. Each outline also has a size readout with **-** and **+** buttons (60% to 160%) and an **eye** to hide the piece (a hidden piece shows with a red outline in move mode, so you can bring it back). **Snap to grid** (on by default) lines a piece's corner up with the grid; **Reset** puts every position, size and hidden piece back. Trackers and party bars can be moved while they're showing.
+**Move HUD** (a button in the same window) puts the HUD in move mode: a soft grid with a centre line covers the screen, every HUD piece shows a glass outline with its name, and you drag them where you want them. Pieces: stat bars, toolbelt, compass / time, location, the "Entering" title, quest and recipe trackers, chat, subtitles, ammo, looted items, vehicle bars, pop-ups, enemy health, party bars, the minimap and the crafting card. Each outline also has a size readout with **-** and **+** buttons (60% to 160%) and an **eye** to hide the piece (a hidden piece shows with a red outline in move mode, so you can bring it back). **Snap to grid** (on by default) lines a piece's corner up with the grid; **Reset** puts every position, size and hidden piece back. Trackers and party bars can be moved while they're showing.
 
 **Profiles** save the whole layout (positions, sizes, hidden pieces, glass, toggles, colours) under a name, up to 8, to load or delete later. **Export** copies a layout to the clipboard as one line of text you can paste to other players; **Import** reads one back (only KitsuneUI's own settings are accepted).
 
