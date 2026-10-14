@@ -508,30 +508,45 @@
 
 	<!-- Slot key numbers, 1..9 and 0, small and muted in each slot's top-right corner (top-left -->
 	<!-- holds the favourite / item-type icons). No binding gives a slot its index, so it's a row  -->
-	<!-- of labels laid over each bar (the bar rect is repeated per bar, so both bars get it;     -->
-	<!-- with KitsuneUI_Toolbelt20 the top bar is shift + the same number). Labels past the       -->
-	<!-- bar's slot count hide themselves via the Toolbelt controller's beltslots. Bars stack     -->
-	<!-- upward, so bar 0 is the bottom (number keys, muted kuTextMuted) and bar 1 the top      -->
-	<!-- (shift + number, kuGold). Literal colours, since the [style] lookup may not resolve    -->
-	<!-- inside a ${} template expression.                                                    -->
+	<!-- of labels laid over each bar (the bar rect is repeated per bar, so every bar gets it).   -->
+	<!-- Labels past the bar's slot count hide themselves via the Toolbelt controller's beltslots. -->
 	<append xpath="/windows/window[@name='windowToolbelt']//rect[@name='bars']/rect">
 		<rect name="kuSlotKeys" depth="12" pos="0,0">
-			<!-- Top bar only: a small SHIFT chip just left of the tray (tray edge is x -9), level -->
-			<!-- with the slots (slot centre y -37).                                              -->
-			<rect name="kuShiftHint" depth="12" pos="-72,-25" width="56" height="24" visible="${repeat_i &gt; 0}">
-				<sprite depth="12" name="kuShiftChip" sprite="ku_round_sm" type="sliced" color="14,16,32,235" />
-				<label depth="13" pos="28,-12" pivot="center" width="56" height="20" font_size="16" justify="center" color="217,184,115,255" effect="outline" effect_color="0,0,0,220" text="SHIFT" />
+			<label depth="12" pos="58,-3" width="14" height="18" font_size="18" justify="right" color="[kuTextMuted]" effect="outline" effect_color="0,0,0,220" text="1" visible="{% int(beltslots) &gt;= 1 }" />
+			<label depth="12" pos="133,-3" width="14" height="18" font_size="18" justify="right" color="[kuTextMuted]" effect="outline" effect_color="0,0,0,220" text="2" visible="{% int(beltslots) &gt;= 2 }" />
+			<label depth="12" pos="208,-3" width="14" height="18" font_size="18" justify="right" color="[kuTextMuted]" effect="outline" effect_color="0,0,0,220" text="3" visible="{% int(beltslots) &gt;= 3 }" />
+			<label depth="12" pos="283,-3" width="14" height="18" font_size="18" justify="right" color="[kuTextMuted]" effect="outline" effect_color="0,0,0,220" text="4" visible="{% int(beltslots) &gt;= 4 }" />
+			<label depth="12" pos="358,-3" width="14" height="18" font_size="18" justify="right" color="[kuTextMuted]" effect="outline" effect_color="0,0,0,220" text="5" visible="{% int(beltslots) &gt;= 5 }" />
+			<label depth="12" pos="433,-3" width="14" height="18" font_size="18" justify="right" color="[kuTextMuted]" effect="outline" effect_color="0,0,0,220" text="6" visible="{% int(beltslots) &gt;= 6 }" />
+			<label depth="12" pos="508,-3" width="14" height="18" font_size="18" justify="right" color="[kuTextMuted]" effect="outline" effect_color="0,0,0,220" text="7" visible="{% int(beltslots) &gt;= 7 }" />
+			<label depth="12" pos="583,-3" width="14" height="18" font_size="18" justify="right" color="[kuTextMuted]" effect="outline" effect_color="0,0,0,220" text="8" visible="{% int(beltslots) &gt;= 8 }" />
+			<label depth="12" pos="658,-3" width="14" height="18" font_size="18" justify="right" color="[kuTextMuted]" effect="outline" effect_color="0,0,0,220" text="9" visible="{% int(beltslots) &gt;= 9 }" />
+			<label depth="12" pos="733,-3" width="14" height="18" font_size="18" justify="right" color="[kuTextMuted]" effect="outline" effect_color="0,0,0,220" text="0" visible="{% int(beltslots) &gt;= 10 }" />
+		</rect>
+	</append>
+
+	<!-- Top bar (shift + number, with KitsuneUI_Toolbelt20): a SHIFT chip left of the tray and   -->
+	<!-- gold numbers drawn exactly over that bar's muted ones. ${repeat_i} expressions inside   -->
+	<!-- the repeated bar did not evaluate in game (both bars got the same fallback, twice), so  -->
+	<!-- this overlay sits OUTSIDE the bars and is placed with the {%beltCount} binding, the     -->
+	<!-- same way the tray is: y = top bar = (beltCount - 1) * 82. With one bar it is pushed     -->
+	<!-- 5000px off-screen: x = (beltCount - 2) * 5000 (the game caps bars at 2).                 -->
+	<append xpath="/windows/window[@name='windowToolbelt']/rect/rect[@controller='Toolbelt']">
+		<rect name="kuTopBarKeys" depth="13" pos="{%'' + ((beltCount - 2) * 5000) + ', ' + ((beltCount - 1) * 82)}">
+			<rect name="kuShiftHint" depth="13" pos="-72,-25" width="56" height="24">
+				<sprite depth="13" name="kuShiftChip" sprite="ku_round_sm" type="sliced" color="14,16,32,235" />
+				<label depth="14" pos="28,-12" pivot="center" width="56" height="20" font_size="16" justify="center" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="SHIFT" />
 			</rect>
-			<label depth="12" pos="58,-3" width="14" height="18" font_size="18" justify="right" color="${repeat_i &gt; 0 ? '217,184,115,255' : '154,163,191,255'}" effect="outline" effect_color="0,0,0,220" text="1" visible="{% int(beltslots) &gt;= 1 }" />
-			<label depth="12" pos="133,-3" width="14" height="18" font_size="18" justify="right" color="${repeat_i &gt; 0 ? '217,184,115,255' : '154,163,191,255'}" effect="outline" effect_color="0,0,0,220" text="2" visible="{% int(beltslots) &gt;= 2 }" />
-			<label depth="12" pos="208,-3" width="14" height="18" font_size="18" justify="right" color="${repeat_i &gt; 0 ? '217,184,115,255' : '154,163,191,255'}" effect="outline" effect_color="0,0,0,220" text="3" visible="{% int(beltslots) &gt;= 3 }" />
-			<label depth="12" pos="283,-3" width="14" height="18" font_size="18" justify="right" color="${repeat_i &gt; 0 ? '217,184,115,255' : '154,163,191,255'}" effect="outline" effect_color="0,0,0,220" text="4" visible="{% int(beltslots) &gt;= 4 }" />
-			<label depth="12" pos="358,-3" width="14" height="18" font_size="18" justify="right" color="${repeat_i &gt; 0 ? '217,184,115,255' : '154,163,191,255'}" effect="outline" effect_color="0,0,0,220" text="5" visible="{% int(beltslots) &gt;= 5 }" />
-			<label depth="12" pos="433,-3" width="14" height="18" font_size="18" justify="right" color="${repeat_i &gt; 0 ? '217,184,115,255' : '154,163,191,255'}" effect="outline" effect_color="0,0,0,220" text="6" visible="{% int(beltslots) &gt;= 6 }" />
-			<label depth="12" pos="508,-3" width="14" height="18" font_size="18" justify="right" color="${repeat_i &gt; 0 ? '217,184,115,255' : '154,163,191,255'}" effect="outline" effect_color="0,0,0,220" text="7" visible="{% int(beltslots) &gt;= 7 }" />
-			<label depth="12" pos="583,-3" width="14" height="18" font_size="18" justify="right" color="${repeat_i &gt; 0 ? '217,184,115,255' : '154,163,191,255'}" effect="outline" effect_color="0,0,0,220" text="8" visible="{% int(beltslots) &gt;= 8 }" />
-			<label depth="12" pos="658,-3" width="14" height="18" font_size="18" justify="right" color="${repeat_i &gt; 0 ? '217,184,115,255' : '154,163,191,255'}" effect="outline" effect_color="0,0,0,220" text="9" visible="{% int(beltslots) &gt;= 9 }" />
-			<label depth="12" pos="733,-3" width="14" height="18" font_size="18" justify="right" color="${repeat_i &gt; 0 ? '217,184,115,255' : '154,163,191,255'}" effect="outline" effect_color="0,0,0,220" text="0" visible="{% int(beltslots) &gt;= 10 }" />
+			<label depth="14" pos="58,-3" width="14" height="18" font_size="18" justify="right" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="1" visible="{% int(beltslots) &gt;= 1 }" />
+			<label depth="14" pos="133,-3" width="14" height="18" font_size="18" justify="right" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="2" visible="{% int(beltslots) &gt;= 2 }" />
+			<label depth="14" pos="208,-3" width="14" height="18" font_size="18" justify="right" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="3" visible="{% int(beltslots) &gt;= 3 }" />
+			<label depth="14" pos="283,-3" width="14" height="18" font_size="18" justify="right" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="4" visible="{% int(beltslots) &gt;= 4 }" />
+			<label depth="14" pos="358,-3" width="14" height="18" font_size="18" justify="right" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="5" visible="{% int(beltslots) &gt;= 5 }" />
+			<label depth="14" pos="433,-3" width="14" height="18" font_size="18" justify="right" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="6" visible="{% int(beltslots) &gt;= 6 }" />
+			<label depth="14" pos="508,-3" width="14" height="18" font_size="18" justify="right" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="7" visible="{% int(beltslots) &gt;= 7 }" />
+			<label depth="14" pos="583,-3" width="14" height="18" font_size="18" justify="right" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="8" visible="{% int(beltslots) &gt;= 8 }" />
+			<label depth="14" pos="658,-3" width="14" height="18" font_size="18" justify="right" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="9" visible="{% int(beltslots) &gt;= 9 }" />
+			<label depth="14" pos="733,-3" width="14" height="18" font_size="18" justify="right" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="0" visible="{% int(beltslots) &gt;= 10 }" />
 		</rect>
 	</append>
 
