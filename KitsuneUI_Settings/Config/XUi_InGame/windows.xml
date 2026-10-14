@@ -37,7 +37,7 @@
 			<togglebutton name="tglJobTiles" depth="3" pos="20,-156" width="520" height="40" font_size="26" caption="" />
 			<label depth="4" name="tglJobTilesText" pos="66,-176" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetJobTiles" />
 
-			<label depth="3" name="lblGlass" pos="22,-224" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetGlass" />
+			<label depth="3" name="lblGlass" pos="22,-240" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetGlass" />
 			<simplebutton name="btnGlass100" depth="3" pos="160,-222" width="88" height="36" font_size="24" caption="100%" />
 			<simplebutton name="btnGlass85" depth="3" pos="254,-222" width="88" height="36" font_size="24" caption="85%" />
 			<simplebutton name="btnGlass70" depth="3" pos="348,-222" width="88" height="36" font_size="24" caption="70%" />

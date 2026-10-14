@@ -40,6 +40,10 @@ The theme is XML and images only. It changes how the game looks, never how it pl
 | `KitsuneUI_JobPreview` (optional) | Trader jobs as picture tiles, and a job offer with the location's picture | Small DLL, needs EAC off, needs `KitsuneUI` |
 | `KitsuneUI_Settings` (optional) | An in-game settings window (Esc menu > KitsuneUI), saved per player | Small DLL, needs EAC off, needs `KitsuneUI` |
 
+### Languages
+
+KitsuneUI follows the game's language setting. Most of what you see is the game's own text, already translated; KitsuneUI's own text (the settings window, move mode and the SHIFT tag) is translated into all 13 languages the game supports: English, German, Spanish, French, Italian, Japanese, Korean, Polish, Brazilian Portuguese, Russian, Turkish and Simplified and Traditional Chinese. The translations are ours, not native-reviewed: corrections are welcome (open an issue, or edit `Config/Localization.csv`).
+
 ### Works with mods that resize things
 
 Windows that other mods resize are restyled in place. They keep their vanilla names, and their glass panels are anchored to the grids rather than sized with fixed numbers, so bigger bags, containers, toolbelts and workstation grids still fit. Tested with KitsuneBackpack, KitsuneStorage and KitsuneMoreSloots.
