@@ -73,6 +73,8 @@ Adds a **KitsuneUI** button to the Esc menu, under Options. It opens a settings 
 | Trader jobs as picture tiles | The game's dialog list (needs `KitsuneUI_JobPreview` for the tiles) |
 | Glass | 100%, 85%, 70% or 55% strength for the glass panels |
 
+**Move HUD** (a button in the same window) puts the HUD in move mode: a soft grid with a centre line covers the screen, every HUD piece shows a glass outline with its name, and you drag them where you want them. Pieces: stat bars, toolbelt, compass / time, location, the "Entering" title, quest and recipe trackers, chat, subtitles, ammo and looted items, pop-ups, enemy health and party bars. **Snap to grid** (on by default) lines a piece's corner up with the grid; **Reset** puts everything back. Trackers and party bars can be moved while they're showing.
+
 Changes apply straight away. They are saved per player in `%APPDATA%\7DaysToDie\KitsuneUI\settings.txt`, so on a server every player picks their own. The defaults match KitsuneUI without the add-on, so nothing changes until someone flips a switch.
 
 Needs `KitsuneUI`. Install on the **server and every client**, with EAC off (the server sends the window's layout; the DLL does the work on each player's game).

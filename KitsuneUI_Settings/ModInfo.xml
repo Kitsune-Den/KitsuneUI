@@ -2,8 +2,8 @@
 <xml>
 	<Name value="KitsuneUI_Settings" />
 	<DisplayName value="KitsuneUI Settings" />
-	<Description value="An in-game settings window for KitsuneUI (Esc menu > KitsuneUI): toolbelt slot numbers, enemy health bar, trader job tiles and glass strength, saved per player. Needs KitsuneUI. Contains a DLL: play with EAC off, and install on the server and every client." />
+	<Description value="An in-game settings window for KitsuneUI (Esc menu > KitsuneUI): toolbelt slot numbers, enemy health bar, trader job tiles and glass strength, and Move HUD to drag every HUD piece where you want it (grid, snap, reset). Saved per player. Needs KitsuneUI. Contains a DLL: play with EAC off, and install on the server and every client." />
 	<Website value="https://github.com/Kitsune-Den/KitsuneUI" />
 	<Author value="AdaInTheLab" />
-	<Version value="1.0.0" />
+	<Version value="1.1.0" />
 </xml>
