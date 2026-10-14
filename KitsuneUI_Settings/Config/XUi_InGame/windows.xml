@@ -40,8 +40,151 @@
 			<simplebutton name="btnGlass70" depth="3" pos="348,-222" width="88" height="36" font_size="24" caption="70%" />
 			<simplebutton name="btnGlass55" depth="3" pos="442,-222" width="88" height="36" font_size="24" caption="55%" />
 
-			<simplebutton name="btnClose" depth="3" pos="200,-290" width="160" height="40" font_size="28" caption="Close" />
+			<simplebutton name="btnMoveHUD" depth="3" pos="60,-290" width="200" height="40" font_size="28" caption="Move HUD" />
+			<simplebutton name="btnClose" depth="3" pos="300,-290" width="200" height="40" font_size="28" caption="Close" />
 		</window>
+	</append>
+
+	<!-- ================================================================ -->
+	<!-- HUD move mode                                                    -->
+	<!-- Each movable HUD window carries a drag handle: a glass outline   -->
+	<!-- with the piece's name, shown only while the move bar is open.    -->
+	<!-- Dragging it moves its window; the offset is saved per player.    -->
+	<!-- ================================================================ -->
+	<append xpath="/windows">
+		<window name="kuMoveBar" width="620" height="64" pos="-310,150" anchor="Center" depth="60" cursor_area="true" controller="KitsuneMoveBar, KitsuneUI_Settings">
+			<sprite depth="0" name="kuBody" sprite="ku_panel" type="sliced" color="[white]" />
+			<sprite depth="1" name="kuIcon" sprite="ku_icon_flame" pos="14,-17" width="30" height="30" color="[kuAccent]" />
+			<label depth="2" name="lblMove" pos="52,-32" width="300" height="30" pivot="left" font_size="24" color="[kuTextBright]" text="Drag the outlined HUD pieces" />
+			<simplebutton name="btnMoveReset" depth="3" pos="364,-12" width="116" height="40" font_size="26" caption="Reset" />
+			<simplebutton name="btnMoveDone" depth="3" pos="488,-12" width="116" height="40" font_size="26" caption="Done" />
+		</window>
+	</append>
+
+	<!-- Stat bars (bottom left): the handle covers the bars and the buff pop-outs above them. -->
+	<append xpath="/windows/window[@name='HUDLeftStatBars']">
+		<rect name="kuMoveHandle" depth="50" pos="0,180" width="230" height="186" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
+			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
+			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
+			<label depth="52" name="kuMoveName" pos="115,-93" width="220" height="30" pivot="center" justify="center" font_size="24" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="STAT BARS" />
+		</rect>
+	</append>
+
+	<!-- Toolbelt: the handle follows the tray, which grows with the number of bars. -->
+	<append xpath="/windows/window[@name='windowToolbelt']/rect/rect[@controller='Toolbelt']">
+		<rect name="kuMoveHandle" depth="50" pos="{%'-12, ' + ((beltCount - 1) * 82 + 12)}" width="774" height="{%beltCount * 82 + 17}" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
+			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
+			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
+			<label depth="52" name="kuMoveName" pos="387,-40" width="400" height="30" pivot="center" justify="center" font_size="24" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="TOOLBELT" />
+		</rect>
+	</append>
+
+	<!-- Compass and the day / time line under it (top centre). -->
+	<append xpath="/windows/window[@name='windowCompass']">
+		<rect name="kuMoveHandle" depth="50" pos="-8,8" width="496" height="86" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
+			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
+			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
+			<label depth="52" name="kuMoveName" pos="248,-43" width="486" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="COMPASS / TIME" />
+		</rect>
+	</append>
+
+	<!-- Location box: where you are, the POI name and its difficulty (top right). -->
+	<append xpath="/windows/window[@name='windowLocation']">
+		<rect name="kuMoveHandle" depth="50" pos="-6,6" width="274" height="68" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
+			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
+			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
+			<label depth="52" name="kuMoveName" pos="137,-34" width="264" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="LOCATION" />
+		</rect>
+	</append>
+
+	<!-- Quest tracker. Shares a spot with the recipe tracker, so both move as one piece. -->
+	<append xpath="/windows/window[@name='windowQuestTracker']">
+		<rect name="kuMoveHandle" depth="50" pos="-66,6" width="312" height="300" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings" group="trackers">
+			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
+			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
+			<label depth="52" name="kuMoveName" pos="156,-150" width="302" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="TRACKERS" />
+		</rect>
+	</append>
+
+	<!-- Recipe tracker (same piece as the quest tracker). -->
+	<append xpath="/windows/window[@name='windowRecipeTracker']">
+		<rect name="kuMoveHandle" depth="50" pos="-66,6" width="312" height="300" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings" group="trackers">
+			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
+			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
+			<label depth="52" name="kuMoveName" pos="156,-150" width="302" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="TRACKERS" />
+		</rect>
+	</append>
+
+	<!-- Party and companion bars (top left; only shown in a party). -->
+	<append xpath="/windows/window[@name='windowGroupBars']">
+		<rect name="kuMoveHandle" depth="50" pos="4,-82" width="178" height="292" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
+			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
+			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
+			<label depth="52" name="kuMoveName" pos="89,-146" width="168" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="PARTY" />
+		</rect>
+	</append>
+
+	<!-- Bottom right: the held item's ammo / durability, the looted-items list and the vehicle bars. -->
+	<append xpath="/windows/window[@name='HUDRightStatBars']">
+		<rect name="kuMoveHandle" depth="50" pos="-236,262" width="232" height="262" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
+			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
+			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
+			<label depth="52" name="kuMoveName" pos="116,-131" width="222" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="AMMO / LOOT" />
+		</rect>
+	</append>
+
+	<!-- Chat log. The chat input box sits on top of it, so both move as one piece. -->
+	<append xpath="/windows/window[@name='chatoutput']">
+		<rect name="kuMoveHandle" depth="50" pos="-6,6" width="512" height="262" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings" group="chat">
+			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
+			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
+			<label depth="52" name="kuMoveName" pos="256,-131" width="502" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="CHAT" />
+		</rect>
+	</append>
+
+	<!-- Chat input (same piece as the chat log). -->
+	<append xpath="/windows/window[@name='chat']">
+		<rect name="kuMoveHandle" depth="50" pos="-6,6" width="512" height="262" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings" group="chat">
+			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
+			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
+			<label depth="52" name="kuMoveName" pos="256,-131" width="502" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="CHAT" />
+		</rect>
+	</append>
+
+	<!-- Subtitles (NPC speech); move mode opens the window so there's something to drag. -->
+	<append xpath="/windows/window[@name='subtitlesDisplay']">
+		<rect name="kuMoveHandle" depth="50" pos="-6,6" width="765" height="112" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
+			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
+			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
+			<label depth="52" name="kuMoveName" pos="382,-56" width="755" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="SUBTITLES" />
+		</rect>
+	</append>
+
+	<!-- Pop-up messages above the toolbelt (new recipe, can't place here...). -->
+	<append xpath="/windows/window[@name='toolTipPopups']">
+		<rect name="kuMoveHandle" depth="50" pos="-250,44" width="500" height="64" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
+			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
+			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
+			<label depth="52" name="kuMoveName" pos="250,-32" width="490" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="POPUPS" />
+		</rect>
+	</append>
+
+	<!-- The 'Entering (place)' title (top centre). -->
+	<append xpath="/windows/window[@name='windowEntering']">
+		<rect name="kuMoveHandle" depth="50" pos="-176,-79" width="352" height="112" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
+			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
+			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
+			<label depth="52" name="kuMoveName" pos="176,-56" width="342" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="ENTERING" />
+		</rect>
+	</append>
+
+	<!-- Enemy health bar (top centre). -->
+	<append xpath="/windows/window[@name='windowTargetBar']">
+		<rect name="kuMoveHandle" depth="50" pos="-206,-79" width="412" height="48" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
+			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
+			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
+			<label depth="52" name="kuMoveName" pos="206,-24" width="402" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="ENEMY HEALTH" />
+		</rect>
 	</append>
 
 </configs>

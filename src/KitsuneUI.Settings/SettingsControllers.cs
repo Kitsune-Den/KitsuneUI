@@ -99,6 +99,7 @@ public class XUiC_KitsuneSettingsHook : XUiController
             appliedVersion = KitsuneSettingsFile.Version;
             KitsuneSettingsApplier.ApplyAll(xui);
         }
+        KitsuneLayout.ApplyAll();
     }
 }
 
@@ -142,6 +143,15 @@ public class XUiC_KitsuneSettingsWindow : XUiController
                 b.OnPressed += (_sender, _mouseButton) => SetGlass(p);
                 glassButtons.Add((percent, b));
             }
+        }
+        if (FindButton("btnMoveHUD") is XUiC_SimpleButton move)
+        {
+            move.OnPressed += (_sender, _mouseButton) =>
+            {
+                xui.playerUI.windowManager.Close("kuSettings");
+                xui.playerUI.windowManager.Close("ingameMenu");
+                xui.playerUI.windowManager.Open("kuMove", true);
+            };
         }
         if (FindButton("btnClose") is XUiC_SimpleButton close)
         {
