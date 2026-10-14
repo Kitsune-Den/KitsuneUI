@@ -19,6 +19,7 @@
 	<!-- The minimap rides in the toolbelt group, so it is up whenever the HUD is. -->
 	<append xpath="/xui/window_group[@name='toolbelt']">
 		<window name="kuMinimap" />
+		<window name="kuCraftingHud" />
 	</append>
 
 </configs>

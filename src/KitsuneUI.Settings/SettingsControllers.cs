@@ -181,7 +181,7 @@ public class XUiC_KitsuneSettingsOpener : XUiController
 }
 
 /// <summary>
-/// The settings window: six toggles, bar text style, text size, a four-step glass strength and Close.
+/// The settings window, in three tabs (HUD, Windows, Look): eight toggles, bar text style, text size, a four-step glass strength and Close.
 /// Every change is saved and applied straight away.
 /// </summary>
 public class XUiC_KitsuneSettingsWindow : XUiController
@@ -194,6 +194,13 @@ public class XUiC_KitsuneSettingsWindow : XUiController
     XUiC_ToggleButton wholeBackpack;
     XUiC_ToggleButton autoFade;
     XUiC_ToggleButton minimap;
+    XUiC_ToggleButton horde;
+    XUiC_ToggleButton crafting;
+
+    // Tabs: each shows one rect of rows; the last one picked is shown again next time.
+    static readonly string[] Tabs = { "hud", "windows", "look" };
+    static string currentTab = "hud";
+    readonly List<(string tab, XUiC_SimpleButton button, XUiView page)> tabs = new List<(string, XUiC_SimpleButton, XUiView)>();
     readonly List<(int percent, XUiC_SimpleButton button)> glassButtons = new List<(int, XUiC_SimpleButton)>();
     readonly List<(string palette, XUiC_SimpleButton button)> paletteButtons = new List<(string, XUiC_SimpleButton)>();
     readonly List<(string style, XUiC_SimpleButton button)> barTextButtons = new List<(string, XUiC_SimpleButton)>();
@@ -209,6 +216,19 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         wholeBackpack = Toggle("tglBackpackAll", KitsuneSettingsFile.BackpackAll);
         autoFade = Toggle("tglAutoFade", KitsuneSettingsFile.AutoFade);
         minimap = Toggle("tglMinimap", KitsuneSettingsFile.Minimap);
+        horde = Toggle("tglHorde", KitsuneSettingsFile.HordeCountdown);
+        crafting = Toggle("tglCrafting", KitsuneSettingsFile.CraftingHud);
+        foreach (string tab in Tabs)
+        {
+            XUiC_SimpleButton b = FindButton("btnTab_" + tab);
+            XUiView page = GetChildById("kuTab_" + tab)?.ViewComponent;
+            if (b != null && page != null)
+            {
+                string t = tab;
+                b.OnPressed += (_sender, _mouseButton) => ShowTab(t);
+                tabs.Add((tab, b, page));
+            }
+        }
         foreach (int percent in GlassSteps)
         {
             if (FindButton("btnGlass" + percent) is XUiC_SimpleButton b)
@@ -347,6 +367,19 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         }
     }
 
+    void ShowTab(string tab)
+    {
+        currentTab = tab;
+        foreach ((string t, XUiC_SimpleButton button, XUiView page) in tabs)
+        {
+            page.IsVisible = t == tab;
+            if (button.Button != null)
+            {
+                button.Button.Selected = t == tab;
+            }
+        }
+    }
+
     void ShowTextSize()
     {
         int current = KitsuneSettingsFile.GetInt(KitsuneSettingsFile.TextSize, 80, 150);
@@ -371,6 +404,9 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         if (wholeBackpack != null) wholeBackpack.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.BackpackAll);
         if (autoFade != null) autoFade.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.AutoFade);
         if (minimap != null) minimap.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.Minimap);
+        if (horde != null) horde.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.HordeCountdown);
+        if (crafting != null) crafting.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.CraftingHud);
+        ShowTab(currentTab);
         ShowGlass();
     }
 }

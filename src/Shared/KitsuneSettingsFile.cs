@@ -22,6 +22,8 @@ public static class KitsuneSettingsFile
     public const string BarText = "barText";              // stat bar text: full, percent, current, none
     public const string TextSize = "textSize";            // in-game text size, percent: 90, 100, 115, 130
     public const string Minimap = "minimap";              // show the minimap (top right)
+    public const string HordeCountdown = "hordeCountdown";  // horde night countdown under the compass
+    public const string CraftingHud = "craftingHud";      // crafting progress card on the HUD
 
     static readonly Dictionary<string, string> Defaults = new Dictionary<string, string>
     {
@@ -36,6 +38,8 @@ public static class KitsuneSettingsFile
         { BarText, "full" },
         { TextSize, "100" },
         { Minimap, "false" },
+        { HordeCountdown, "false" },
+        { CraftingHud, "false" },
     };
 
     static Dictionary<string, string> values;

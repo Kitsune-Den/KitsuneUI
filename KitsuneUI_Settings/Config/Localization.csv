@@ -44,3 +44,13 @@ kuBarTextNone,UI,XUi,,,,None,,Keiner,Ninguno,Aucun,Nessuno,なし,없음,Brak,Ne
 kuSetTextSize,UI,XUi,,,,Text size,,Textgröße,Tamaño del texto,Taille du texte,Dimensione testo,文字サイズ,글자 크기,Rozmiar tekstu,Tamanho do texto,Размер текста,Yazı boyutu,文字大小,文字大小
 kuSetMinimap,UI,XUi,,,,Show the minimap,,Minikarte anzeigen,Mostrar el minimapa,Afficher la mini-carte,Mostra la minimappa,ミニマップを表示,미니맵 표시,Pokaż minimapę,Mostrar o minimapa,Показывать миникарту,Mini haritayı göster,显示小地图,顯示小地圖
 kuMoveMinimap,UI,XUi,,,,MINIMAP,,MINIKARTE,MINIMAPA,MINI-CARTE,MINIMAPPA,ミニマップ,미니맵,MINIMAPA,MINIMAPA,МИНИКАРТА,MİNİ HARİTA,小地图,小地圖
+kuTabHud,UI,XUi,,,,HUD,,HUD,HUD,ATH,HUD,HUD,HUD,HUD,HUD,HUD,HUD,HUD,HUD
+kuTabWindows,UI,XUi,,,,Windows,,Fenster,Ventanas,Fenêtres,Finestre,ウィンドウ,창,Okna,Janelas,Окна,Pencereler,窗口,視窗
+kuTabLook,UI,XUi,,,,Look,,Aussehen,Aspecto,Apparence,Aspetto,外観,외형,Wygląd,Aparência,Внешний вид,Görünüm,外观,外觀
+kuSetHorde,UI,XUi,,,,Horde night countdown,,Countdown zur Hordennacht,Cuenta atrás para la noche de la horda,Compte à rebours de la nuit de horde,Conto alla rovescia per la notte dell'orda,ホードナイトまでのカウントダウン,호드 나이트 카운트다운,Odliczanie do nocy hordy,Contagem para a noite da horda,Отсчёт до ночи орды,Sürü gecesi geri sayımı,尸潮之夜倒计时,屍潮之夜倒數
+kuSetCrafting,UI,XUi,,,,Crafting progress on the HUD,,Herstellungsfortschritt im HUD,Progreso de fabricación en el HUD,Progression de fabrication sur l'ATH,Avanzamento della creazione nell'HUD,HUDに製作の進行状況,HUD에 제작 진행도,Postęp wytwarzania na HUD,Progresso de fabricação no HUD,Прогресс изготовления на HUD,HUD'da üretim ilerlemesi,在HUD上显示制作进度,在HUD上顯示製作進度
+kuHordeDays,UI,XUi,,,,Horde night in {0} days,,Hordennacht in {0} Tagen,Noche de la horda en {0} días,Nuit de horde dans {0} jours,Notte dell'orda tra {0} giorni,ホードナイトまであと{0}日,호드 나이트까지 {0}일,Noc hordy za {0} dni,Noite da horda em {0} dias,Ночь орды через {0} дн.,Sürü gecesine {0} gün,尸潮之夜还有{0}天,屍潮之夜還有{0}天
+kuHordeTomorrow,UI,XUi,,,,Horde night tomorrow,,Hordennacht morgen,Noche de la horda mañana,Nuit de horde demain,Notte dell'orda domani,ホードナイトは明日,호드 나이트는 내일,Noc hordy jutro,Noite da horda amanhã,Ночь орды завтра,Sürü gecesi yarın,尸潮之夜在明天,屍潮之夜在明天
+kuHordeTonight,UI,XUi,,,,Horde night tonight,,Hordennacht heute Nacht,Noche de la horda esta noche,Nuit de horde ce soir,Notte dell'orda stanotte,今夜はホードナイト,오늘 밤 호드 나이트,Noc hordy dziś,Noite da horda hoje,Ночь орды сегодня,Sürü gecesi bu gece,今晚是尸潮之夜,今晚是屍潮之夜
+kuHordeNow,UI,XUi,,,,Horde night!,,Hordennacht!,¡Noche de la horda!,Nuit de horde !,Notte dell'orda!,ホードナイト！,호드 나이트!,Noc hordy!,Noite da horda!,Ночь орды!,Sürü gecesi!,尸潮之夜！,屍潮之夜！
+kuMoveCrafting,UI,XUi,,,,CRAFTING,,HERSTELLUNG,FABRICACIÓN,FABRICATION,CREAZIONE,製作,제작,WYTWARZANIE,FABRICAÇÃO,ИЗГОТОВЛЕНИЕ,ÜRETİM,制作,製作
