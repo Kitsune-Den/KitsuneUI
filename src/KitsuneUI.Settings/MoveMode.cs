@@ -31,7 +31,14 @@ public static class KitsuneLayout
         public Vector2 CornerAtStart;
         public Vector2 OffsetAtStart;
         public bool HasCorner;
+        // Size (1 = default) and hidden; a hidden piece is shrunk to nothing outside move
+        // mode, so it never fights the game's own show / hide bindings.
+        public float Scale = 1f;
+        public bool Hidden;
     }
+
+    public const float MinScale = 0.6f;
+    public const float MaxScale = 1.6f;
 
     /// <summary>Grid spacing in UI units (the grid window draws a line every GridStep).</summary>
     public const int GridStep = 40;
@@ -41,6 +48,58 @@ public static class KitsuneLayout
 
     static readonly Dictionary<string, Group> groups = new Dictionary<string, Group>();
     static readonly List<XUiView> handles = new List<XUiView>();
+    static readonly List<XUiC_KitsuneMoveHandle> handleControllers = new List<XUiC_KitsuneMoveHandle>();
+
+    public static void RegisterHandleController(XUiC_KitsuneMoveHandle handle)
+    {
+        if (!handleControllers.Contains(handle))
+        {
+            handleControllers.Add(handle);
+        }
+    }
+
+    static void RefreshHandles()
+    {
+        foreach (XUiC_KitsuneMoveHandle h in handleControllers)
+        {
+            h.RefreshVisual();
+        }
+    }
+
+    public static float GetScale(string group) => groups.TryGetValue(group, out Group g) ? g.Scale : 1f;
+
+    public static bool IsHidden(string group) => groups.TryGetValue(group, out Group g) && g.Hidden;
+
+    public static void StepScale(string group, float step)
+    {
+        if (!groups.TryGetValue(group, out Group g))
+        {
+            return;
+        }
+        g.Scale = Mathf.Clamp(Mathf.Round((g.Scale + step) * 10f) / 10f, MinScale, MaxScale);
+        KitsuneSettingsFile.Set("scale." + group, g.Scale.ToString("0.0", CultureInfo.InvariantCulture));
+        Apply(g);
+        RefreshHandles();
+    }
+
+    public static void ToggleHidden(string group)
+    {
+        if (!groups.TryGetValue(group, out Group g))
+        {
+            return;
+        }
+        g.Hidden = !g.Hidden;
+        KitsuneSettingsFile.Set("hide." + group, g.Hidden ? "true" : "false");
+        Apply(g);
+        RefreshHandles();
+    }
+
+    static float LoadScale(string group)
+    {
+        return float.TryParse(KitsuneSettingsFile.Get("scale." + group), NumberStyles.Float, CultureInfo.InvariantCulture, out float s)
+            ? Mathf.Clamp(s, MinScale, MaxScale)
+            : 1f;
+    }
 
     static string Key(string group) => "move." + group;
 
@@ -52,7 +111,12 @@ public static class KitsuneLayout
         }
         if (!groups.TryGetValue(group, out Group g))
         {
-            g = new Group { Offset = Load(group) };
+            g = new Group
+            {
+                Offset = Load(group),
+                Scale = LoadScale(group),
+                Hidden = KitsuneSettingsFile.Get("hide." + group) == "true",
+            };
             groups[group] = g;
         }
         if (g.Members.Exists(m => m.Window == window))
@@ -80,6 +144,7 @@ public static class KitsuneLayout
         {
             h.IsVisible = show;
         }
+        RefreshHandles();
     }
 
     static Vector2 Load(string group)
@@ -148,9 +213,14 @@ public static class KitsuneLayout
         foreach (KeyValuePair<string, Group> kv in groups)
         {
             kv.Value.Offset = Vector2.zero;
+            kv.Value.Scale = 1f;
+            kv.Value.Hidden = false;
             KitsuneSettingsFile.Set(Key(kv.Key), "0,0");
+            KitsuneSettingsFile.Set("scale." + kv.Key, "1.0");
+            KitsuneSettingsFile.Set("hide." + kv.Key, "false");
             Apply(kv.Value);
         }
+        RefreshHandles();
     }
 
     /// <summary>Called every frame: puts each piece back where the player left it.</summary>
@@ -172,6 +242,15 @@ public static class KitsuneLayout
             if (m.Window.Position != want)
             {
                 m.Window.Position = want;
+            }
+            Transform t = m.Window.UiTransform;
+            if (t != null)
+            {
+                float s = !Active && g.Hidden ? 0.0001f : g.Scale;
+                if (!Mathf.Approximately(t.localScale.x, s))
+                {
+                    t.localScale = new Vector3(s, s, 1f);
+                }
             }
         }
     }
@@ -214,7 +293,57 @@ public class XUiC_KitsuneMoveHandle : XUiController
         }
         KitsuneLayout.Register(group, window);
         KitsuneLayout.RegisterHandle(ViewComponent);
+        KitsuneLayout.RegisterHandleController(this);
         OnDrag += Dragged;
+        Press("kuBtnSmaller", () => KitsuneLayout.StepScale(group, -0.1f));
+        Press("kuBtnBigger", () => KitsuneLayout.StepScale(group, 0.1f));
+        Press("kuBtnHide", () => KitsuneLayout.ToggleHidden(group));
+        scaleLabel = GetChildById("kuMoveScale")?.ViewComponent as XUiV_Label;
+        hideButton = GetChildById("kuBtnHide")?.ViewComponent as XUiV_Button;
+        ring = GetChildById("kuMoveRing")?.ViewComponent as XUiV_Sprite;
+        fill = GetChildById("kuMoveFill")?.ViewComponent as XUiV_Sprite;
+    }
+
+    XUiV_Label scaleLabel;
+    XUiV_Button hideButton;
+    XUiV_Sprite ring;
+    XUiV_Sprite fill;
+
+    void Press(string id, System.Action action)
+    {
+        XUiController c = GetChildById(id);
+        if (c != null)
+        {
+            c.OnPress += (_sender, _mouseButton) =>
+            {
+                if (KitsuneLayout.Active)
+                {
+                    action();
+                }
+            };
+        }
+    }
+
+    /// <summary>Shows the piece's size and whether it's hidden on its outline.</summary>
+    public void RefreshVisual()
+    {
+        bool hidden = KitsuneLayout.IsHidden(group);
+        if (scaleLabel != null)
+        {
+            scaleLabel.Text = Mathf.RoundToInt(KitsuneLayout.GetScale(group) * 100f) + "%";
+        }
+        if (hideButton != null)
+        {
+            hideButton.DefaultSpriteName = hidden ? "ku_icon_eye_off" : "ku_icon_eye";
+        }
+        if (ring != null)
+        {
+            ring.Color = hidden ? new Color32(255, 107, 90, 255) : new Color32(111, 227, 255, 255);
+        }
+        if (fill != null)
+        {
+            fill.Color = hidden ? new Color32(70, 22, 30, 110) : new Color32(30, 84, 118, 120);
+        }
     }
 
     void Dragged(XUiController _sender, EDragType _dragType, Vector2 _mouseDelta)

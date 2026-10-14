@@ -242,126 +242,238 @@
 	<!-- Stat bars (bottom left): the handle covers the bars and the buff pop-outs above them. -->
 	<append xpath="/windows/window[@name='HUDLeftStatBars']">
 		<rect name="kuMoveHandle" depth="50" pos="0,180" width="230" height="186" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
+			<!-- size readout and the -, +, show/hide buttons (XUiC_KitsuneMoveHandle) -->
+			<label depth="53" name="kuMoveScale" pos="126,-19" width="64" height="24" pivot="right" justify="right" font_size="18" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="100%" />
+			<sprite depth="54" name="kuChipSmaller" pos="130,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnSmaller" pos="145,-19" sprite="ui_game_symbol_subtract" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+			<sprite depth="54" name="kuChipBigger" pos="162,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnBigger" pos="177,-19" sprite="ui_game_symbol_add" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+			<sprite depth="54" name="kuChipHide" pos="194,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnHide" pos="209,-19" sprite="ku_icon_eye" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
 			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
 			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
-			<label depth="52" name="kuMoveName" pos="115,-93" width="220" height="30" pivot="center" justify="center" font_size="24" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveStatBars" />
+			<label depth="52" name="kuMoveName" pos="12,-50" width="206" height="30" pivot="left" justify="left" font_size="24" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveStatBars" />
 		</rect>
 	</append>
 
 	<!-- Toolbelt: the handle follows the tray, which grows with the number of bars. -->
 	<append xpath="/windows/window[@name='windowToolbelt']/rect/rect[@controller='Toolbelt']">
 		<rect name="kuMoveHandle" depth="50" pos="{%'-12, ' + ((beltCount - 1) * 82 + 12)}" width="774" height="{%beltCount * 82 + 17}" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
+			<!-- size readout and the -, +, show/hide buttons (XUiC_KitsuneMoveHandle) -->
+			<label depth="53" name="kuMoveScale" pos="670,-19" width="64" height="24" pivot="right" justify="right" font_size="18" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="100%" />
+			<sprite depth="54" name="kuChipSmaller" pos="674,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnSmaller" pos="689,-19" sprite="ui_game_symbol_subtract" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+			<sprite depth="54" name="kuChipBigger" pos="706,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnBigger" pos="721,-19" sprite="ui_game_symbol_add" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+			<sprite depth="54" name="kuChipHide" pos="738,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnHide" pos="753,-19" sprite="ku_icon_eye" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
 			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
 			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
-			<label depth="52" name="kuMoveName" pos="387,-40" width="400" height="30" pivot="center" justify="center" font_size="24" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveToolbelt" />
+			<label depth="52" name="kuMoveName" pos="12,-19" width="584" height="30" pivot="left" justify="left" font_size="24" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveToolbelt" />
 		</rect>
 	</append>
 
 	<!-- Compass and the day / time line under it (top centre). -->
 	<append xpath="/windows/window[@name='windowCompass']">
 		<rect name="kuMoveHandle" depth="50" pos="-8,8" width="496" height="86" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
+			<!-- size readout and the -, +, show/hide buttons (XUiC_KitsuneMoveHandle) -->
+			<label depth="53" name="kuMoveScale" pos="392,-19" width="64" height="24" pivot="right" justify="right" font_size="18" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="100%" />
+			<sprite depth="54" name="kuChipSmaller" pos="396,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnSmaller" pos="411,-19" sprite="ui_game_symbol_subtract" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+			<sprite depth="54" name="kuChipBigger" pos="428,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnBigger" pos="443,-19" sprite="ui_game_symbol_add" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+			<sprite depth="54" name="kuChipHide" pos="460,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnHide" pos="475,-19" sprite="ku_icon_eye" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
 			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
 			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
-			<label depth="52" name="kuMoveName" pos="248,-43" width="486" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveCompass" />
+			<label depth="52" name="kuMoveName" pos="12,-19" width="306" height="30" pivot="left" justify="left" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveCompass" />
 		</rect>
 	</append>
 
 	<!-- Location box: where you are, the POI name and its difficulty (top right). -->
 	<append xpath="/windows/window[@name='windowLocation']">
 		<rect name="kuMoveHandle" depth="50" pos="-6,6" width="274" height="68" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
+			<!-- size readout and the -, +, show/hide buttons (XUiC_KitsuneMoveHandle) -->
+			<label depth="53" name="kuMoveScale" pos="170,-19" width="64" height="24" pivot="right" justify="right" font_size="18" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="100%" />
+			<sprite depth="54" name="kuChipSmaller" pos="174,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnSmaller" pos="189,-19" sprite="ui_game_symbol_subtract" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+			<sprite depth="54" name="kuChipBigger" pos="206,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnBigger" pos="221,-19" sprite="ui_game_symbol_add" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+			<sprite depth="54" name="kuChipHide" pos="238,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnHide" pos="253,-19" sprite="ku_icon_eye" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
 			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
 			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
-			<label depth="52" name="kuMoveName" pos="137,-34" width="264" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveLocation" />
+			<label depth="52" name="kuMoveName" pos="12,-50" width="250" height="30" pivot="left" justify="left" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveLocation" />
 		</rect>
 	</append>
 
 	<!-- Quest tracker. Shares a spot with the recipe tracker, so both move as one piece. -->
 	<append xpath="/windows/window[@name='windowQuestTracker']">
 		<rect name="kuMoveHandle" depth="50" pos="-66,6" width="312" height="300" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings" group="trackers">
+			<!-- size readout and the -, +, show/hide buttons (XUiC_KitsuneMoveHandle) -->
+			<label depth="53" name="kuMoveScale" pos="208,-19" width="64" height="24" pivot="right" justify="right" font_size="18" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="100%" />
+			<sprite depth="54" name="kuChipSmaller" pos="212,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnSmaller" pos="227,-19" sprite="ui_game_symbol_subtract" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+			<sprite depth="54" name="kuChipBigger" pos="244,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnBigger" pos="259,-19" sprite="ui_game_symbol_add" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+			<sprite depth="54" name="kuChipHide" pos="276,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnHide" pos="291,-19" sprite="ku_icon_eye" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
 			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
 			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
-			<label depth="52" name="kuMoveName" pos="156,-150" width="302" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveTrackers" />
+			<label depth="52" name="kuMoveName" pos="12,-50" width="288" height="30" pivot="left" justify="left" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveTrackers" />
 		</rect>
 	</append>
 
 	<!-- Recipe tracker (same piece as the quest tracker). -->
 	<append xpath="/windows/window[@name='windowRecipeTracker']">
 		<rect name="kuMoveHandle" depth="50" pos="-66,6" width="312" height="300" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings" group="trackers">
+			<!-- size readout and the -, +, show/hide buttons (XUiC_KitsuneMoveHandle) -->
+			<label depth="53" name="kuMoveScale" pos="208,-19" width="64" height="24" pivot="right" justify="right" font_size="18" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="100%" />
+			<sprite depth="54" name="kuChipSmaller" pos="212,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnSmaller" pos="227,-19" sprite="ui_game_symbol_subtract" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+			<sprite depth="54" name="kuChipBigger" pos="244,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnBigger" pos="259,-19" sprite="ui_game_symbol_add" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+			<sprite depth="54" name="kuChipHide" pos="276,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnHide" pos="291,-19" sprite="ku_icon_eye" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
 			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
 			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
-			<label depth="52" name="kuMoveName" pos="156,-150" width="302" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveTrackers" />
+			<label depth="52" name="kuMoveName" pos="12,-50" width="288" height="30" pivot="left" justify="left" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveTrackers" />
 		</rect>
 	</append>
 
 	<!-- Party and companion bars (top left; only shown in a party). -->
 	<append xpath="/windows/window[@name='windowGroupBars']">
 		<rect name="kuMoveHandle" depth="50" pos="4,-82" width="178" height="292" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
+			<!-- size readout and the -, +, show/hide buttons (XUiC_KitsuneMoveHandle) -->
+			<label depth="53" name="kuMoveScale" pos="74,-19" width="64" height="24" pivot="right" justify="right" font_size="18" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="100%" />
+			<sprite depth="54" name="kuChipSmaller" pos="78,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnSmaller" pos="93,-19" sprite="ui_game_symbol_subtract" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+			<sprite depth="54" name="kuChipBigger" pos="110,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnBigger" pos="125,-19" sprite="ui_game_symbol_add" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+			<sprite depth="54" name="kuChipHide" pos="142,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnHide" pos="157,-19" sprite="ku_icon_eye" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
 			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
 			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
-			<label depth="52" name="kuMoveName" pos="89,-146" width="168" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveParty" />
+			<label depth="52" name="kuMoveName" pos="12,-50" width="154" height="30" pivot="left" justify="left" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveParty" />
 		</rect>
 	</append>
 
 	<!-- Bottom right: the held item's ammo / durability, the looted-items list and the vehicle bars. -->
 	<append xpath="/windows/window[@name='HUDRightStatBars']">
 		<rect name="kuMoveHandle" depth="50" pos="-236,262" width="232" height="262" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
+			<!-- size readout and the -, +, show/hide buttons (XUiC_KitsuneMoveHandle) -->
+			<label depth="53" name="kuMoveScale" pos="128,-19" width="64" height="24" pivot="right" justify="right" font_size="18" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="100%" />
+			<sprite depth="54" name="kuChipSmaller" pos="132,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnSmaller" pos="147,-19" sprite="ui_game_symbol_subtract" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+			<sprite depth="54" name="kuChipBigger" pos="164,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnBigger" pos="179,-19" sprite="ui_game_symbol_add" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+			<sprite depth="54" name="kuChipHide" pos="196,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnHide" pos="211,-19" sprite="ku_icon_eye" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
 			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
 			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
-			<label depth="52" name="kuMoveName" pos="116,-131" width="222" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveAmmoLoot" />
+			<label depth="52" name="kuMoveName" pos="12,-50" width="208" height="30" pivot="left" justify="left" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveAmmoLoot" />
 		</rect>
 	</append>
 
 	<!-- Chat log. The chat input box sits on top of it, so both move as one piece. -->
 	<append xpath="/windows/window[@name='chatoutput']">
 		<rect name="kuMoveHandle" depth="50" pos="-6,6" width="512" height="262" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings" group="chat">
+			<!-- size readout and the -, +, show/hide buttons (XUiC_KitsuneMoveHandle) -->
+			<label depth="53" name="kuMoveScale" pos="408,-19" width="64" height="24" pivot="right" justify="right" font_size="18" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="100%" />
+			<sprite depth="54" name="kuChipSmaller" pos="412,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnSmaller" pos="427,-19" sprite="ui_game_symbol_subtract" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+			<sprite depth="54" name="kuChipBigger" pos="444,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnBigger" pos="459,-19" sprite="ui_game_symbol_add" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+			<sprite depth="54" name="kuChipHide" pos="476,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnHide" pos="491,-19" sprite="ku_icon_eye" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
 			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
 			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
-			<label depth="52" name="kuMoveName" pos="256,-131" width="502" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveChat" />
+			<label depth="52" name="kuMoveName" pos="12,-19" width="322" height="30" pivot="left" justify="left" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveChat" />
 		</rect>
 	</append>
 
 	<!-- Chat input (same piece as the chat log). -->
 	<append xpath="/windows/window[@name='chat']">
 		<rect name="kuMoveHandle" depth="50" pos="-6,6" width="512" height="262" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings" group="chat">
+			<!-- size readout and the -, +, show/hide buttons (XUiC_KitsuneMoveHandle) -->
+			<label depth="53" name="kuMoveScale" pos="408,-19" width="64" height="24" pivot="right" justify="right" font_size="18" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="100%" />
+			<sprite depth="54" name="kuChipSmaller" pos="412,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnSmaller" pos="427,-19" sprite="ui_game_symbol_subtract" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+			<sprite depth="54" name="kuChipBigger" pos="444,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnBigger" pos="459,-19" sprite="ui_game_symbol_add" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+			<sprite depth="54" name="kuChipHide" pos="476,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnHide" pos="491,-19" sprite="ku_icon_eye" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
 			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
 			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
-			<label depth="52" name="kuMoveName" pos="256,-131" width="502" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveChat" />
+			<label depth="52" name="kuMoveName" pos="12,-19" width="322" height="30" pivot="left" justify="left" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveChat" />
 		</rect>
 	</append>
 
 	<!-- Subtitles (NPC speech); move mode opens the window so there's something to drag. -->
 	<append xpath="/windows/window[@name='subtitlesDisplay']">
 		<rect name="kuMoveHandle" depth="50" pos="-6,6" width="765" height="112" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
+			<!-- size readout and the -, +, show/hide buttons (XUiC_KitsuneMoveHandle) -->
+			<label depth="53" name="kuMoveScale" pos="661,-19" width="64" height="24" pivot="right" justify="right" font_size="18" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="100%" />
+			<sprite depth="54" name="kuChipSmaller" pos="665,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnSmaller" pos="680,-19" sprite="ui_game_symbol_subtract" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+			<sprite depth="54" name="kuChipBigger" pos="697,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnBigger" pos="712,-19" sprite="ui_game_symbol_add" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+			<sprite depth="54" name="kuChipHide" pos="729,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnHide" pos="744,-19" sprite="ku_icon_eye" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
 			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
 			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
-			<label depth="52" name="kuMoveName" pos="382,-56" width="755" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveSubtitles" />
+			<label depth="52" name="kuMoveName" pos="12,-19" width="575" height="30" pivot="left" justify="left" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveSubtitles" />
 		</rect>
 	</append>
 
 	<!-- Pop-up messages above the toolbelt (new recipe, can't place here...). -->
 	<append xpath="/windows/window[@name='toolTipPopups']">
 		<rect name="kuMoveHandle" depth="50" pos="-250,44" width="500" height="64" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
+			<!-- size readout and the -, +, show/hide buttons (XUiC_KitsuneMoveHandle) -->
+			<label depth="53" name="kuMoveScale" pos="396,-19" width="64" height="24" pivot="right" justify="right" font_size="18" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="100%" />
+			<sprite depth="54" name="kuChipSmaller" pos="400,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnSmaller" pos="415,-19" sprite="ui_game_symbol_subtract" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+			<sprite depth="54" name="kuChipBigger" pos="432,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnBigger" pos="447,-19" sprite="ui_game_symbol_add" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+			<sprite depth="54" name="kuChipHide" pos="464,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnHide" pos="479,-19" sprite="ku_icon_eye" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
 			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
 			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
-			<label depth="52" name="kuMoveName" pos="250,-32" width="490" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMovePopups" />
+			<label depth="52" name="kuMoveName" pos="12,-19" width="310" height="30" pivot="left" justify="left" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMovePopups" />
 		</rect>
 	</append>
 
 	<!-- The 'Entering (place)' title (top centre). -->
 	<append xpath="/windows/window[@name='windowEntering']">
 		<rect name="kuMoveHandle" depth="50" pos="-176,-79" width="352" height="112" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
+			<!-- size readout and the -, +, show/hide buttons (XUiC_KitsuneMoveHandle) -->
+			<label depth="53" name="kuMoveScale" pos="248,-19" width="64" height="24" pivot="right" justify="right" font_size="18" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="100%" />
+			<sprite depth="54" name="kuChipSmaller" pos="252,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnSmaller" pos="267,-19" sprite="ui_game_symbol_subtract" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+			<sprite depth="54" name="kuChipBigger" pos="284,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnBigger" pos="299,-19" sprite="ui_game_symbol_add" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+			<sprite depth="54" name="kuChipHide" pos="316,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnHide" pos="331,-19" sprite="ku_icon_eye" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
 			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
 			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
-			<label depth="52" name="kuMoveName" pos="176,-56" width="342" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveEntering" />
+			<label depth="52" name="kuMoveName" pos="12,-19" width="162" height="30" pivot="left" justify="left" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveEntering" />
 		</rect>
 	</append>
 
 	<!-- Enemy health bar (top centre). -->
 	<append xpath="/windows/window[@name='windowTargetBar']">
 		<rect name="kuMoveHandle" depth="50" pos="-206,-79" width="412" height="48" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
+			<!-- size readout and the -, +, show/hide buttons (XUiC_KitsuneMoveHandle) -->
+			<label depth="53" name="kuMoveScale" pos="308,-19" width="64" height="24" pivot="right" justify="right" font_size="18" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="100%" />
+			<sprite depth="54" name="kuChipSmaller" pos="312,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnSmaller" pos="327,-19" sprite="ui_game_symbol_subtract" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+			<sprite depth="54" name="kuChipBigger" pos="344,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnBigger" pos="359,-19" sprite="ui_game_symbol_add" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+			<sprite depth="54" name="kuChipHide" pos="376,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+			<button depth="55" name="kuBtnHide" pos="391,-19" sprite="ku_icon_eye" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
 			<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
 			<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
-			<label depth="52" name="kuMoveName" pos="206,-24" width="402" height="30" pivot="center" justify="center" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveEnemyHealth" />
+			<label depth="52" name="kuMoveName" pos="12,-19" width="222" height="30" pivot="left" justify="left" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveEnemyHealth" />
 		</rect>
 	</append>
 

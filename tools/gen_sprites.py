@@ -398,6 +398,30 @@ def flame():
 add("ku_icon_flame", flame(), 0)
 
 
+def eye(crossed=False):
+    # HUD move mode: show / hide a piece. An almond outline with a round pupil;
+    # the "hidden" version has a slash through it.
+    size = 32
+    s = size * SS / 24
+    img = Image.new("RGBA", (size * SS, size * SS), (255, 255, 255, 0))
+    d = ImageDraw.Draw(img)
+    top = [(2.5, 12), (5.5, 8.2), (9, 6.4), (12, 5.9), (15, 6.4), (18.5, 8.2), (21.5, 12)]
+    bottom = [(21.5, 12), (18.5, 15.8), (15, 17.6), (12, 18.1), (9, 17.6), (5.5, 15.8), (2.5, 12)]
+    pts = [(x * s, y * s) for x, y in top + bottom[1:]]
+    d.line(pts, fill=(255, 255, 255, 255), width=int(1.9 * s), joint="curve")
+    r = 3.2 * s
+    d.ellipse((12 * s - r, 12 * s - r, 12 * s + r, 12 * s + r), fill=(255, 255, 255, 255))
+    if crossed:
+        # cut a gap, then draw the slash, so it reads clearly at 20px
+        d.line(((3.5 * s, 20.5 * s), (20.5 * s, 3.5 * s)), fill=(255, 255, 255, 0), width=int(4.2 * s))
+        d.line(((3.5 * s, 20.5 * s), (20.5 * s, 3.5 * s)), fill=(255, 255, 255, 255), width=int(2 * s))
+    return down(img)
+
+
+add("ku_icon_eye", eye(), 0)
+add("ku_icon_eye_off", eye(crossed=True), 0)
+
+
 # --- write -----------------------------------------------------------------------
 def write_atlas(folder, items):
     """items: name -> (image, border). Writes the PNGs and settings.xml."""
