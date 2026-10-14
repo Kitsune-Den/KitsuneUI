@@ -4,29 +4,23 @@
 	<!-- Trader / NPC dialog: a strip of tiles under the speaker, above   -->
 	<!-- the toolbelt and the subtitle line. Up to 10 options (the game's -->
 	<!-- maximum) in one row; the speaker's name sits above the strip.    -->
-	<!-- KitsuneUI's glass panel for the list is hidden in this layout.   -->
+	<!-- Its own window in the dialog group (xui.xml), next to the game's -->
+	<!-- windowResponses, which is left as it is. The DLL feeds the       -->
+	<!-- dialog to whichever of the two the player's setting picks        -->
+	<!-- (KitsuneUI_Settings: "Trader jobs as picture tiles"; on by       -->
+	<!-- default) and hides the other.                                    -->
 	<!-- ================================================================ -->
-	<set xpath="/windows/window[@name='windowResponses']/@anchor">Bottom</set>
-	<set xpath="/windows/window[@name='windowResponses']/@pos">-760,440</set>
-	<set xpath="/windows/window[@name='windowResponses']/@width">1520</set>
-	<set xpath="/windows/window[@name='windowResponses']/@height">200</set>
-	<setattribute xpath="/windows/window[@name='windowResponses']/sprite[@name='background' or @name='kuHeader']" name="color">[transparent]</setattribute>
-	<set xpath="/windows/window[@name='windowResponses']/sprite[@name='kuIcon']/@pos">2,-4</set>
-	<set xpath="/windows/window[@name='windowResponses']/label[@name='lblName']/@pos">40,-4</set>
-	<setattribute xpath="/windows/window[@name='windowResponses']/label[@name='lblName']" name="effect">outline</setattribute>
-	<setattribute xpath="/windows/window[@name='windowResponses']/label[@name='lblName']" name="effect_color">0,0,0,200</setattribute>
-
-	<set xpath="/windows/window[@name='windowResponses']/grid[@name='items']/@pos">0,-40</set>
-	<set xpath="/windows/window[@name='windowResponses']/grid[@name='items']/@rows">1</set>
-	<setattribute xpath="/windows/window[@name='windowResponses']/grid[@name='items']" name="cols">10</setattribute>
-	<set xpath="/windows/window[@name='windowResponses']/grid[@name='items']/@width">1520</set>
-	<set xpath="/windows/window[@name='windowResponses']/grid[@name='items']/@height">158</set>
-	<set xpath="/windows/window[@name='windowResponses']/grid[@name='items']/@cell_width">152</set>
-	<set xpath="/windows/window[@name='windowResponses']/grid[@name='items']/@cell_height">158</set>
-	<set xpath="/windows/window[@name='windowResponses']/grid[@name='items']/@arrangement">horizontal</set>
-	<!-- Keeps the strip centred under the speaker: with fewer than 10 options the window
-	     shifts right by half the unused width (XUiC_KitsuneDialogStrip). -->
-	<setattribute xpath="/windows/window[@name='windowResponses']/grid[@name='items']" name="controller">KitsuneDialogStrip, KitsuneUI_JobPreview</setattribute>
+	<append xpath="/windows">
+		<window name="kuJobStrip" anchor="Bottom" pos="-760,440" width="1520" height="200" cursor_area="true" controller="DialogResponseList">
+			<sprite depth="3" name="kuIcon" sprite="ui_game_symbol_talk" pos="2,-4" width="30" height="30" color="[kuAccent]" />
+			<label name="lblName" style="subtitle" text="{respondentname}" color="[kuGold]" justify="left" depth="2" pos="40,-4" effect="outline" effect_color="0,0,0,200" />
+			<!-- Keeps the strip centred under the speaker: with fewer than 10 options the window
+			     shifts right by half the unused width (XUiC_KitsuneDialogStrip). -->
+			<grid name="items" pos="0,-40" rows="1" cols="10" width="1520" height="158" cell_width="152" cell_height="158" repeat_content="true" arrangement="horizontal" controller="KitsuneDialogStrip, KitsuneUI_JobPreview">
+				<ku_job_tile id="0" />
+			</grid>
+		</window>
+	</append>
 
 	<!-- ================================================================ -->
 	<!-- Job offer, layout A: the location picture on the left (name over -->

@@ -1,0 +1,9 @@
+<configs>
+
+	<!-- The tile strip is a second window in the trader / NPC dialog group, after the -->
+	<!-- game's windowResponses (which the dialog code finds first and keeps using).   -->
+	<append xpath="/xui/window_group[@name='dialog']">
+		<window name="kuJobStrip" />
+	</append>
+
+</configs>

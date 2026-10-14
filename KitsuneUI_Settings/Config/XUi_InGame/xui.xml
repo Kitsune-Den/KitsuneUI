@@ -1,0 +1,10 @@
+<configs>
+
+	<!-- The KitsuneUI settings window, opened from the Esc menu's KitsuneUI button. -->
+	<append xpath="/xui">
+		<window_group name="kuSettings">
+			<window name="kuSettingsWindow" />
+		</window_group>
+	</append>
+
+</configs>

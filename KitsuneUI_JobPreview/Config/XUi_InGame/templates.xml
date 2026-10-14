@@ -1,45 +1,49 @@
 <configs>
 
 	<!-- ================================================================ -->
-	<!-- Dialog response row -> a tile                                    -->
+	<!-- ku_job_tile: one dialog option as a tile                         -->
+	<!-- Its own template (the vanilla response_entry is left alone, so   -->
+	<!-- the game's dialog list still works when tiles are switched off). -->
 	<!-- The row keeps the game's controller (DialogResponseEntry), so    -->
-	<!-- clicks, hover, keys and gamepad work as before. Its vanilla text -->
-	<!-- and bullet are hidden; the kuTile child (our controller) reads   -->
-	<!-- the row's response and draws the tile: a text window on top and, -->
-	<!-- for a job, the location's picture with the name over it and a    -->
-	<!-- tier badge. Non-job rows (Let's trade, Nevermind...) are text.   -->
+	<!-- clicks, hover, keys and gamepad work as before. The vanilla text -->
+	<!-- and bullet are there for that controller but hidden; the kuTile  -->
+	<!-- child (our controller) reads the row's response and draws the    -->
+	<!-- tile: a text window on top and, for a job, the location's        -->
+	<!-- picture with the name over it and tier / distance badges.        -->
+	<!-- Non-job rows (Let's trade, Nevermind...) are text-only tiles.    -->
 	<!-- ================================================================ -->
-	<set xpath="/templates/response_entry/rect/@width">146</set>
-	<set xpath="/templates/response_entry/rect/@height">154</set>
-	<setattribute xpath="/templates/response_entry/rect/sprite[@name='Icon']" name="visible">false</setattribute>
-	<setattribute xpath="/templates/response_entry/rect/label[@name='Text']" name="visible">false</setattribute>
-	<setattribute xpath="/templates/response_entry/rect/sprite[@name='kuRowBg']" name="visible">false</setattribute>
+	<append xpath="/templates">
+		<ku_job_tile>
+			<rect width="146" height="154" style="press, hover, scroll" enabled_color="[iconColor]" disabled_color="[disabledLabelColor]" row_color="[white]" hover_color="[hoverColor]" sound="[recipe_click]" controller="DialogResponseEntry" visible="{showresponse}" sound_play_on_hover="[default_hover]" use_selection_box="false">
+				<sprite depth="5" name="Icon" style="icon22px" pos="8,-6" foregroundlayer="true" sprite="ui_game_symbol_bullet_point" color="{rowstatecolor}" visible="false" />
+				<label depth="4" name="Text" pos="47,-3" width="100" height="37" text="{response}" effect="outline" color="{rowstatecolor}" visible="false" />
 
-	<append xpath="/templates/response_entry/rect">
-		<rect name="kuTile" controller="KitsuneJobTile, KitsuneUI_JobPreview" pos="0,0" width="146" height="154" visible="{kt_show}">
-			<!-- text window -->
-			<sprite depth="2" name="kuTextBg" sprite="ku_panel_sm" type="sliced" pos="0,0" width="146" height="40" color="[white]" />
-			<sprite depth="3" name="kuTextHot" sprite="ku_round_md" type="sliced" pos="0,0" width="146" height="40" color="30,84,118,245" visible="{kt_hot}" />
-			<!-- job: one line, left aligned; anything else: centred, up to two lines -->
-			<label depth="4" name="kuText" pos="8,-20" width="132" height="30" pivot="left" justify="left" font_size="20" max_line_count="1" overflow="shrinkcontent" text="{kt_text}" color="{kt_textcolor}" effect="outline" effect_color="0,0,0,160" visible="{kt_isjob}" />
-			<label depth="4" name="kuTextPlain" pos="73,-20" width="134" height="36" pivot="center" justify="center" font_size="18" max_line_count="2" overflow="shrinkcontent" spacing_y="0" text="{kt_text}" color="{kt_textcolor}" effect="outline" effect_color="0,0,0,160" visible="{kt_notjob}" />
+				<rect name="kuTile" controller="KitsuneJobTile, KitsuneUI_JobPreview" pos="0,0" width="146" height="154" visible="{kt_show}">
+					<!-- text window -->
+					<sprite depth="2" name="kuTextBg" sprite="ku_panel_sm" type="sliced" pos="0,0" width="146" height="40" color="[white]" />
+					<sprite depth="3" name="kuTextHot" sprite="ku_round_md" type="sliced" pos="0,0" width="146" height="40" color="30,84,118,245" visible="{kt_hot}" />
+					<!-- job: one line, left aligned; anything else: centred, up to two lines -->
+					<label depth="4" name="kuText" pos="8,-20" width="132" height="30" pivot="left" justify="left" font_size="20" max_line_count="1" overflow="shrinkcontent" text="{kt_text}" color="{kt_textcolor}" effect="outline" effect_color="0,0,0,160" visible="{kt_isjob}" />
+					<label depth="4" name="kuTextPlain" pos="73,-20" width="134" height="36" pivot="center" justify="center" font_size="18" max_line_count="2" overflow="shrinkcontent" spacing_y="0" text="{kt_text}" color="{kt_textcolor}" effect="outline" effect_color="0,0,0,160" visible="{kt_notjob}" />
 
-			<!-- location picture -->
-			<rect name="kuPicture" pos="0,-44" width="146" height="110" visible="{kt_isjob}">
-				<sprite depth="1" name="kuGlow" sprite="ku_glow" type="sliced" pos="-9,9" width="164" height="128" color="[kuAccentGlow]" visible="{kt_hot}" />
-				<sprite depth="2" name="kuImageWell" sprite="ku_round_md" type="sliced" width="146" height="110" color="[kuSlotWell]" />
-				<texture depth="3" name="kuImage" pos="1,-1" width="144" height="108" texture="{kt_image}" material="Materials/Transparent Colored" visible="{kt_hasimage}" />
-				<sprite depth="4" name="kuShade" sprite="ku_fade_up" pos="1,-58" width="144" height="51" color="8,10,22,235" />
-				<label depth="5" name="kuName" pos="7,-104" width="132" height="44" pivot="bottomleft" justify="left" font_size="17" max_line_count="2" overflow="shrinkcontent" text="{kt_name}" color="[kuTextBright]" effect="outline" effect_color="0,0,0,200" />
-				<sprite depth="5" name="kuTierBg" sprite="ku_pill" type="sliced" pos="5,-5" width="60" height="22" color="12,14,30,225" />
-				<label depth="6" name="kuTier" pos="35,-16" width="58" height="20" pivot="center" justify="center" font_size="15" text="{kt_tier}" color="[kuGold]" effect="outline" effect_color="0,0,0,160" />
-				<!-- distance + direction, top right (the text window above shows just the job) -->
-				<sprite depth="5" name="kuDistBg" sprite="ku_pill" type="sliced" pos="65,-5" width="76" height="22" color="12,14,30,225" visible="{kt_hasdistance}" />
-				<label depth="6" name="kuDist" pos="103,-16" width="74" height="20" pivot="center" justify="center" font_size="15" overflow="shrinkcontent" text="{kt_distance}" color="[kuAccent]" effect="outline" effect_color="0,0,0,160" visible="{kt_hasdistance}" />
-				<sprite depth="6" name="kuRing" sprite="ku_round_md_ring" type="sliced" width="146" height="110" color="[kuEdge]" />
-				<sprite depth="7" name="kuRingHot" sprite="ku_round_md_ring" type="sliced" width="146" height="110" color="[kuAccent]" visible="{kt_hot}" />
+					<!-- location picture -->
+					<rect name="kuPicture" pos="0,-44" width="146" height="110" visible="{kt_isjob}">
+						<sprite depth="1" name="kuGlow" sprite="ku_glow" type="sliced" pos="-9,9" width="164" height="128" color="[kuAccentGlow]" visible="{kt_hot}" />
+						<sprite depth="2" name="kuImageWell" sprite="ku_round_md" type="sliced" width="146" height="110" color="[kuSlotWell]" />
+						<texture depth="3" name="kuImage" pos="1,-1" width="144" height="108" texture="{kt_image}" material="Materials/Transparent Colored" visible="{kt_hasimage}" />
+						<sprite depth="4" name="kuShade" sprite="ku_fade_up" pos="1,-58" width="144" height="51" color="8,10,22,235" />
+						<label depth="5" name="kuName" pos="7,-104" width="132" height="44" pivot="bottomleft" justify="left" font_size="17" max_line_count="2" overflow="shrinkcontent" text="{kt_name}" color="[kuTextBright]" effect="outline" effect_color="0,0,0,200" />
+						<sprite depth="5" name="kuTierBg" sprite="ku_pill" type="sliced" pos="5,-5" width="60" height="22" color="12,14,30,225" />
+						<label depth="6" name="kuTier" pos="35,-16" width="58" height="20" pivot="center" justify="center" font_size="15" text="{kt_tier}" color="[kuGold]" effect="outline" effect_color="0,0,0,160" />
+						<!-- distance + direction, top right (the text window above shows just the job) -->
+						<sprite depth="5" name="kuDistBg" sprite="ku_pill" type="sliced" pos="65,-5" width="76" height="22" color="12,14,30,225" visible="{kt_hasdistance}" />
+						<label depth="6" name="kuDist" pos="103,-16" width="74" height="20" pivot="center" justify="center" font_size="15" overflow="shrinkcontent" text="{kt_distance}" color="[kuAccent]" effect="outline" effect_color="0,0,0,160" visible="{kt_hasdistance}" />
+						<sprite depth="6" name="kuRing" sprite="ku_round_md_ring" type="sliced" width="146" height="110" color="[kuEdge]" />
+						<sprite depth="7" name="kuRingHot" sprite="ku_round_md_ring" type="sliced" width="146" height="110" color="[kuAccent]" visible="{kt_hot}" />
+					</rect>
+				</rect>
 			</rect>
-		</rect>
+		</ku_job_tile>
 	</append>
 
 </configs>

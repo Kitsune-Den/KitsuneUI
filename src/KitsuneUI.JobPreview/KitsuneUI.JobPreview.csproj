@@ -23,10 +23,19 @@
       <HintPath>$(GameBinaries)\LogLibrary.dll</HintPath>
       <Private>false</Private>
     </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>$(GameBinaries)\0Harmony.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>$(GameBinaries)\UnityEngine.CoreModule.dll</HintPath>
       <Private>false</Private>
     </Reference>
+  </ItemGroup>
+
+  <!-- The settings file format is shared with KitsuneUI_Settings, which writes it. -->
+  <ItemGroup>
+    <Compile Include="..\Shared\KitsuneSettingsFile.cs" Link="KitsuneSettingsFile.cs" />
   </ItemGroup>
 
   <Target Name="CopyToModFolder" AfterTargets="Build">

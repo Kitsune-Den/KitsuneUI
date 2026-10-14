@@ -1,0 +1,47 @@
+<configs>
+
+	<!-- ================================================================ -->
+	<!-- Esc menu: a KitsuneUI button under Options. The wrapper rect's   -->
+	<!-- controller opens the settings window when the button is pressed. -->
+	<!-- ================================================================ -->
+	<insertAfter xpath="/windows/window[@name='ingameMenu']/grid[@name='buttons']/simplebutton[@name='btnOptions']">
+		<rect name="kuSettingsEntry" width="250" height="46" controller="KitsuneSettingsOpener, KitsuneUI_Settings">
+			<simplebutton name="btnKitsuneUI" depth="3" width="250" height="46" caption="KitsuneUI" font_size="34" />
+		</rect>
+	</insertAfter>
+
+	<!-- A 1x1 hook in the toolbelt window (open whenever the HUD is) that applies the -->
+	<!-- settings once the UI is built, and again whenever the settings file changes.   -->
+	<append xpath="/windows/window[@name='windowToolbelt']/rect">
+		<rect name="kuSettingsHook" width="1" height="1" controller="KitsuneSettingsHook, KitsuneUI_Settings" />
+	</append>
+
+	<!-- ================================================================ -->
+	<!-- The settings window: glass header and body like every KitsuneUI  -->
+	<!-- window, three toggles, a four-step glass strength and Close.     -->
+	<!-- Changes save and apply straight away.                            -->
+	<!-- ================================================================ -->
+	<append xpath="/windows">
+		<window name="kuSettingsWindow" width="560" height="330" pos="-280,220" anchor="Center" depth="40" cursor_area="true" controller="KitsuneSettingsWindow, KitsuneUI_Settings">
+			<rect name="header" height="43" depth="1">
+				<headerbg />
+				<sprite depth="2" name="windowIcon" pos="6,-6" width="30" height="30" sprite="ku_icon_flame" color="[kuAccent]" />
+				<label style="header.name" pos="44,-6" width="400" text="KitsuneUI" />
+			</rect>
+			<sprite depth="0" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,-40" width="560" height="290" />
+
+			<togglebutton name="tglSlotNumbers" depth="3" pos="20,-60" width="520" height="40" font_size="26" caption="Toolbelt slot numbers and SHIFT tag" />
+			<togglebutton name="tglHealthBar" depth="3" pos="20,-108" width="520" height="40" font_size="26" caption="Enemy health bar always shown" />
+			<togglebutton name="tglJobTiles" depth="3" pos="20,-156" width="520" height="40" font_size="26" caption="Trader jobs as picture tiles" />
+
+			<label depth="3" name="lblGlass" pos="22,-208" width="140" height="30" font_size="26" color="[kuTextMid]" text="Glass" />
+			<simplebutton name="btnGlass100" depth="3" pos="160,-222" width="88" height="36" font_size="24" caption="100%" />
+			<simplebutton name="btnGlass85" depth="3" pos="254,-222" width="88" height="36" font_size="24" caption="85%" />
+			<simplebutton name="btnGlass70" depth="3" pos="348,-222" width="88" height="36" font_size="24" caption="70%" />
+			<simplebutton name="btnGlass55" depth="3" pos="442,-222" width="88" height="36" font_size="24" caption="55%" />
+
+			<simplebutton name="btnClose" depth="3" pos="200,-290" width="160" height="40" font_size="28" caption="Close" />
+		</window>
+	</append>
+
+</configs>

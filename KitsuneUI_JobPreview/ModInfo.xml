@@ -2,8 +2,8 @@
 <xml>
 	<Name value="KitsuneUI_JobPreview" />
 	<DisplayName value="KitsuneUI Job Preview" />
-	<Description value="Trader jobs as picture tiles under the trader, with each location's preview image, name, tier and distance, and a job offer window with the location's picture, distance, biome and objectives. Needs KitsuneUI. Contains a DLL: play with EAC off, and install on the server and every client." />
+	<Description value="Trader jobs as picture tiles under the trader, with each location's preview image, name, tier and distance, and a job offer window with the location's picture, distance, biome and objectives. With KitsuneUI_Settings it can be switched back to the game's dialog list. Needs KitsuneUI. Contains a DLL: play with EAC off, and install on the server and every client." />
 	<Website value="https://github.com/Kitsune-Den/KitsuneUI" />
 	<Author value="AdaInTheLab" />
-	<Version value="1.0.0" />
+	<Version value="1.1.0" />
 </xml>

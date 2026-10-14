@@ -13,13 +13,14 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 DIST = ROOT / "dist"
-MODS = ["KitsuneUI", "KitsuneUI_Toolbelt20", "KitsuneUI_JobPreview"]
+MODS = ["KitsuneUI", "KitsuneUI_Toolbelt20", "KitsuneUI_JobPreview", "KitsuneUI_Settings"]
 
 # Must be in the zip, or the mod is broken.
 REQUIRED = {
     "KitsuneUI": ["ModInfo.xml", "Config/XUi_Common/styles.xml", "UIAtlases/UIAtlas/settings.xml"],
     "KitsuneUI_Toolbelt20": ["ModInfo.xml", "KitsuneUI_Toolbelt20.dll", "Config/toolbelt.xml"],
-    "KitsuneUI_JobPreview": ["ModInfo.xml", "KitsuneUI_JobPreview.dll", "Config/XUi_InGame/windows.xml"],
+    "KitsuneUI_JobPreview": ["ModInfo.xml", "KitsuneUI_JobPreview.dll", "Config/XUi_InGame/windows.xml", "Config/XUi_InGame/xui.xml"],
+    "KitsuneUI_Settings": ["ModInfo.xml", "KitsuneUI_Settings.dll", "Config/XUi_InGame/windows.xml", "Config/XUi_InGame/xui.xml"],
 }
 
 # Never shipped.

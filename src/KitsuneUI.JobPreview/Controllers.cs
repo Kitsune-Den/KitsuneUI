@@ -1,15 +1,17 @@
 using UnityEngine;
 
 /// <summary>
-/// Entry point for KitsuneUI_JobPreview. The work is done by the two XUi controllers
-/// below, which the add-on's XML places in the dialog rows and the job offer window
-/// as controller="KitsuneJobTile, KitsuneUI_JobPreview" (XUi adds the XUiC_ prefix).
+/// Entry point for KitsuneUI_JobPreview. The work is done by the XUi controllers below,
+/// which the add-on's XML places in the tile strip and the job offer window as
+/// controller="KitsuneJobTile, KitsuneUI_JobPreview" (XUi adds the XUiC_ prefix), and by
+/// the dialog switch (DialogSwitch.cs), which picks tiles or the game's list.
 /// </summary>
 public class KitsuneUIJobPreviewMod : IModApi
 {
     public void InitMod(Mod _modInstance)
     {
-        Log.Out("[KitsuneUI_JobPreview] Loaded - trader jobs show as tiles with location previews");
+        new HarmonyLib.Harmony("com.adainthelab.kitsuneui.jobpreview").PatchAll(typeof(KitsuneUIJobPreviewMod).Assembly);
+        Log.Out("[KitsuneUI_JobPreview] Loaded - trader jobs show as tiles with location previews (or the game's list, per KitsuneUI settings)");
     }
 }
 
