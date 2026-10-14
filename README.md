@@ -76,8 +76,11 @@ Adds a **KitsuneUI** button to the Esc menu, under Options. It opens a settings 
 | Enemy health bar always shown | The game's default: the bar only shows in god mode |
 | Trader jobs as picture tiles | The game's dialog list (needs `KitsuneUI_JobPreview` for the tiles) |
 | Glass | 100%, 85%, 70% or 55% strength for the glass panels |
+| Colours | Kitsunebi, Ember (amber), Moss (green) or Sakura (pink): swaps the fox-fire, gold, selection and outline colours; the game's own colours (rarity, health) stay |
 
-**Move HUD** (a button in the same window) puts the HUD in move mode: a soft grid with a centre line covers the screen, every HUD piece shows a glass outline with its name, and you drag them where you want them. Pieces: stat bars, toolbelt, compass / time, location, the "Entering" title, quest and recipe trackers, chat, subtitles, ammo and looted items, pop-ups, enemy health and party bars. Each outline also has a size readout with **-** and **+** buttons (60% to 160%) and an **eye** to hide the piece (a hidden piece shows with a red outline in move mode, so you can bring it back). **Snap to grid** (on by default) lines a piece's corner up with the grid; **Reset** puts every position, size and hidden piece back. Trackers and party bars can be moved while they're showing.
+**Move HUD** (a button in the same window) puts the HUD in move mode: a soft grid with a centre line covers the screen, every HUD piece shows a glass outline with its name, and you drag them where you want them. Pieces: stat bars, toolbelt, compass / time, location, the "Entering" title, quest and recipe trackers, chat, subtitles, ammo, looted items, vehicle bars, pop-ups, enemy health and party bars. Each outline also has a size readout with **-** and **+** buttons (60% to 160%) and an **eye** to hide the piece (a hidden piece shows with a red outline in move mode, so you can bring it back). **Snap to grid** (on by default) lines a piece's corner up with the grid; **Reset** puts every position, size and hidden piece back. Trackers and party bars can be moved while they're showing.
+
+**Profiles** save the whole layout (positions, sizes, hidden pieces, glass, toggles, colours) under a name, up to 8, to load or delete later. **Export** copies a layout to the clipboard as one line of text you can paste to other players; **Import** reads one back (only KitsuneUI's own settings are accepted).
 
 Changes apply straight away. They are saved per player in `%APPDATA%\7DaysToDie\KitsuneUI\settings.txt`, so on a server every player picks their own. The defaults match KitsuneUI without the add-on, so nothing changes until someone flips a switch.
 
@@ -137,7 +140,7 @@ python tools/check_patches.py "<game>/Data/Config" KitsuneUI/Config KitsuneUI_Jo
 
 ### Building the DLLs
 
-The projects reference the game's DLLs from `7dtd-binaries/` (not committed). Copy these into it from your game install: `Assembly-CSharp.dll`, `LogLibrary.dll` and `UnityEngine.CoreModule.dll` from `7DaysToDie_Data/Managed`, and `0Harmony.dll` from `Mods/0_TFP_Harmony`. Then:
+The projects reference the game's DLLs from `7dtd-binaries/` (not committed). Copy these into it from your game install: `Assembly-CSharp.dll`, `LogLibrary.dll`, `UnityEngine.CoreModule.dll` and `UnityEngine.IMGUIModule.dll` from `7DaysToDie_Data/Managed`, and `0Harmony.dll` from `Mods/0_TFP_Harmony`. Then:
 
 ```
 dotnet build src/KitsuneUI.Toolbelt20 -c Release
