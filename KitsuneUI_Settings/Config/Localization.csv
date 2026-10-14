@@ -37,3 +37,4 @@ kuSetColours,UI,XUi,,,,Colours,,Farben,Colores,Couleurs,Colori,カラー,색상,
 kuPaletteEmber,UI,XUi,,,,Ember,,Glut,Brasa,Braise,Brace,残り火,불씨,Żar,Brasa,Угли,Kor,余烬,餘燼
 kuPaletteMoss,UI,XUi,,,,Moss,,Moos,Musgo,Mousse,Muschio,苔,이끼,Mech,Musgo,Мох,Yosun,苔藓,苔蘚
 kuPaletteSakura,UI,XUi,,,,Sakura,,Sakura,Sakura,Sakura,Sakura,桜,벚꽃,Sakura,Sakura,Сакура,Sakura,樱花,櫻花
+kuSetBackpackAll,UI,XUi,,,,Show the whole backpack (no scrolling),,Ganzen Rucksack zeigen (ohne Scrollen),Mostrar toda la mochila (sin desplazar),Afficher tout le sac à dos (sans défiler),Mostra tutto lo zaino (senza scorrere),バックパック全体を表示（スクロールなし）,배낭 전체 표시 (스크롤 없음),Pokaż cały plecak (bez przewijania),Mostrar a mochila inteira (sem rolar),Показывать весь рюкзак (без прокрутки),Tüm sırt çantasını göster (kaydırmadan),显示整个背包（无需滚动）,顯示整個背包（無需捲動）

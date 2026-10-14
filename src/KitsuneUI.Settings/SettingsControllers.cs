@@ -48,16 +48,17 @@ public static class KitsuneSettingsApplier
         bool healthBarAlways = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.HealthBarAlways);
         float glass = KitsuneSettingsFile.GetInt(KitsuneSettingsFile.Glass, 30, 100) / 100f;
         KitsunePalette palette = KitsunePalette.Get(KitsuneSettingsFile.Get(KitsuneSettingsFile.Palette));
+        bool wholeBackpack = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.BackpackAll);
         foreach (XUiWindowGroup group in xui.WindowGroups)
         {
             if (group?.Controller != null)
             {
-                Walk(group.Controller, slotNumbers, healthBarAlways, glass, palette);
+                Walk(group.Controller, slotNumbers, healthBarAlways, glass, palette, wholeBackpack);
             }
         }
     }
 
-    static void Walk(XUiController c, bool slotNumbers, bool healthBarAlways, float glass, KitsunePalette palette)
+    static void Walk(XUiController c, bool slotNumbers, bool healthBarAlways, float glass, KitsunePalette palette, bool wholeBackpack)
     {
         XUiView view = c.ViewComponent;
         if (view != null)
@@ -65,6 +66,10 @@ public static class KitsuneSettingsApplier
             if (view.ID == "kuSlotKeys" || view.ID == "kuTopBarKeys")
             {
                 view.IsVisible = slotNumbers;
+            }
+            if (view is XUiV_Grid grid)
+            {
+                KitsuneWholeBackpack.Apply(grid, c, wholeBackpack);
             }
             if (view is XUiV_Button button)
             {
@@ -119,7 +124,7 @@ public static class KitsuneSettingsApplier
         }
         foreach (XUiController child in c.Children)
         {
-            Walk(child, slotNumbers, healthBarAlways, glass, palette);
+            Walk(child, slotNumbers, healthBarAlways, glass, palette, wholeBackpack);
         }
     }
 }
@@ -159,7 +164,7 @@ public class XUiC_KitsuneSettingsOpener : XUiController
 }
 
 /// <summary>
-/// The settings window: three toggles, a four-step glass strength and Close.
+/// The settings window: four toggles, a four-step glass strength and Close.
 /// Every change is saved and applied straight away.
 /// </summary>
 public class XUiC_KitsuneSettingsWindow : XUiController
@@ -169,6 +174,7 @@ public class XUiC_KitsuneSettingsWindow : XUiController
     XUiC_ToggleButton slotNumbers;
     XUiC_ToggleButton healthBar;
     XUiC_ToggleButton jobTiles;
+    XUiC_ToggleButton wholeBackpack;
     readonly List<(int percent, XUiC_SimpleButton button)> glassButtons = new List<(int, XUiC_SimpleButton)>();
     readonly List<(string palette, XUiC_SimpleButton button)> paletteButtons = new List<(string, XUiC_SimpleButton)>();
 
@@ -178,6 +184,7 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         slotNumbers = Toggle("tglSlotNumbers", KitsuneSettingsFile.SlotNumbers);
         healthBar = Toggle("tglHealthBar", KitsuneSettingsFile.HealthBarAlways);
         jobTiles = Toggle("tglJobTiles", KitsuneSettingsFile.JobTiles);
+        wholeBackpack = Toggle("tglBackpackAll", KitsuneSettingsFile.BackpackAll);
         foreach (int percent in GlassSteps)
         {
             if (FindButton("btnGlass" + percent) is XUiC_SimpleButton b)
@@ -283,6 +290,7 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         if (slotNumbers != null) slotNumbers.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.SlotNumbers);
         if (healthBar != null) healthBar.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.HealthBarAlways);
         if (jobTiles != null) jobTiles.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.JobTiles);
+        if (wholeBackpack != null) wholeBackpack.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.BackpackAll);
         ShowGlass();
     }
 }

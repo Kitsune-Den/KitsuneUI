@@ -17,6 +17,7 @@ public static class KitsuneSettingsFile
     public const string Glass = "glass";                  // glass panel strength, percent
     public const string MoveSnap = "moveSnap";            // HUD move mode: snap pieces to the grid
     public const string Palette = "palette";              // colour preset: kitsunebi, ember, moss, sakura
+    public const string BackpackAll = "backpackAll";      // show every backpack slot, no scrolling
 
     static readonly Dictionary<string, string> Defaults = new Dictionary<string, string>
     {
@@ -26,6 +27,7 @@ public static class KitsuneSettingsFile
         { Glass, "100" },
         { MoveSnap, "true" },
         { Palette, "kitsunebi" },
+        { BackpackAll, "false" },
     };
 
     static Dictionary<string, string> values;

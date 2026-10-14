@@ -19,6 +19,10 @@
       <HintPath>$(GameBinaries)\Assembly-CSharp.dll</HintPath>
       <Private>false</Private>
     </Reference>
+    <Reference Include="NGUI">
+      <HintPath>$(GameBinaries)\NGUI.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
     <Reference Include="LogLibrary">
       <HintPath>$(GameBinaries)\LogLibrary.dll</HintPath>
       <Private>false</Private>
