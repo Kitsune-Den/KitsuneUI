@@ -18,7 +18,7 @@
 
 	<!-- ================================================================ -->
 	<!-- The settings window: glass header and body like every KitsuneUI  -->
-	<!-- window, three tabs (HUD, Windows, Look), and Move HUD, Profiles  -->
+	<!-- window, four tabs (HUD, Map, Windows, Look), and Move HUD, Profiles -->
 	<!-- and Close. Changes save and apply straight away.                 -->
 	<!-- ================================================================ -->
 	<append xpath="/windows">
@@ -30,10 +30,11 @@
 			</rect>
 			<sprite depth="0" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,-40" width="560" height="476" />
 
-			<!-- tabs: the controller shows one of the three rects below -->
-			<simplebutton name="btnTab_hud" depth="3" pos="20,-56" width="168" height="40" font_size="24" caption_key="kuTabHud" />
-			<simplebutton name="btnTab_windows" depth="3" pos="196,-56" width="168" height="40" font_size="24" caption_key="kuTabWindows" />
-			<simplebutton name="btnTab_look" depth="3" pos="372,-56" width="168" height="40" font_size="24" caption_key="kuTabLook" />
+			<!-- tabs: the controller shows one of the four rects below -->
+			<simplebutton name="btnTab_hud" depth="3" pos="20,-56" width="124" height="40" font_size="22" caption_key="kuTabHud" />
+			<simplebutton name="btnTab_map" depth="3" pos="152,-56" width="124" height="40" font_size="22" caption_key="kuTabMap" />
+			<simplebutton name="btnTab_windows" depth="3" pos="284,-56" width="124" height="40" font_size="22" caption_key="kuTabWindows" />
+			<simplebutton name="btnTab_look" depth="3" pos="416,-56" width="124" height="40" font_size="22" caption_key="kuTabLook" />
 			<sprite depth="2" name="kuTabRule" pos="20,-104" width="520" height="2" sprite="ku_rule" type="sliced" color="[kuGoldSoft]" />
 
 			<rect name="kuTab_hud" width="560" height="516">
@@ -43,29 +44,42 @@
 				<label depth="4" name="tglHealthBarText" pos="66,-184" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetHealthBar" />
 				<togglebutton name="tglAutoFade" depth="3" pos="20,-212" width="520" height="40" font_size="26" caption="" />
 				<label depth="4" name="tglAutoFadeText" pos="66,-232" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetAutoFade" />
-				<togglebutton name="tglMinimap" depth="3" pos="20,-260" width="520" height="40" font_size="26" caption="" />
-				<label depth="4" name="tglMinimapText" pos="66,-280" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetMinimap" />
-				<togglebutton name="tglHorde" depth="3" pos="20,-308" width="520" height="40" font_size="26" caption="" />
-				<label depth="4" name="tglHordeText" pos="66,-328" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetHorde" />
-				<togglebutton name="tglCrafting" depth="3" pos="20,-356" width="520" height="40" font_size="26" caption="" />
-				<label depth="4" name="tglCraftingText" pos="66,-376" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetCrafting" />
-				<label depth="3" name="lblBarText" pos="22,-422" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetBarText" />
-				<simplebutton name="btnBarText_full" depth="3" pos="160,-404" width="88" height="36" font_size="22" caption="100/100" />
-				<simplebutton name="btnBarText_percent" depth="3" pos="254,-404" width="88" height="36" font_size="22" caption="100%" />
-				<simplebutton name="btnBarText_current" depth="3" pos="348,-404" width="88" height="36" font_size="22" caption="100" />
-				<simplebutton name="btnBarText_none" depth="3" pos="442,-404" width="88" height="36" font_size="20" caption_key="kuBarTextNone" />
+				<togglebutton name="tglHorde" depth="3" pos="20,-260" width="520" height="40" font_size="26" caption="" />
+				<label depth="4" name="tglHordeText" pos="66,-280" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetHorde" />
+				<togglebutton name="tglCrafting" depth="3" pos="20,-308" width="520" height="40" font_size="26" caption="" />
+				<label depth="4" name="tglCraftingText" pos="66,-328" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetCrafting" />
+				<togglebutton name="tglBuffTimers" depth="3" pos="20,-356" width="520" height="40" font_size="26" caption="" />
+				<label depth="4" name="tglBuffTimersText" pos="66,-376" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetBuffTimers" />
+				<togglebutton name="tglWear" depth="3" pos="20,-404" width="520" height="40" font_size="26" caption="" />
+				<label depth="4" name="tglWearText" pos="66,-424" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetWear" />
+			</rect>
+
+			<rect name="kuTab_map" width="560" height="516" visible="false">
+				<togglebutton name="tglMinimap" depth="3" pos="20,-116" width="520" height="40" font_size="26" caption="" />
+				<label depth="4" name="tglMinimapText" pos="66,-136" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetMinimap" />
+				<togglebutton name="tglMapNames" depth="3" pos="20,-164" width="520" height="40" font_size="26" caption="" />
+				<label depth="4" name="tglMapNamesText" pos="66,-184" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetMapNames" />
+				<label depth="3" name="lblMapZoom" pos="22,-230" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetMapZoom" />
+				<simplebutton name="btnMapZoom64" depth="3" pos="160,-212" width="88" height="36" font_size="22" caption="64 m" />
+				<simplebutton name="btnMapZoom128" depth="3" pos="254,-212" width="88" height="36" font_size="22" caption="128 m" />
+				<simplebutton name="btnMapZoom256" depth="3" pos="348,-212" width="88" height="36" font_size="22" caption="256 m" />
+				<label depth="3" name="lblMapView" pos="22,-278" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetMapView" />
+				<simplebutton name="btnMapNorth" depth="3" pos="160,-260" width="182" height="36" font_size="20" caption_key="kuMapNorthUp" />
+				<simplebutton name="btnMapRotate" depth="3" pos="348,-260" width="182" height="36" font_size="20" caption_key="kuMapRotate" />
 			</rect>
 
 			<rect name="kuTab_windows" width="560" height="516" visible="false">
 				<togglebutton name="tglBackpackAll" depth="3" pos="20,-116" width="520" height="40" font_size="26" caption="" />
 				<label depth="4" name="tglBackpackAllText" pos="66,-136" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetBackpackAll" />
-				<togglebutton name="tglJobTiles" depth="3" pos="20,-164" width="520" height="40" font_size="26" caption="" />
-				<label depth="4" name="tglJobTilesText" pos="66,-184" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetJobTiles" />
-				<label depth="3" name="lblTextSize" pos="22,-230" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetTextSize" />
-				<simplebutton name="btnTextSize90" depth="3" pos="160,-212" width="88" height="36" font_size="22" caption="90%" />
-				<simplebutton name="btnTextSize100" depth="3" pos="254,-212" width="88" height="36" font_size="22" caption="100%" />
-				<simplebutton name="btnTextSize115" depth="3" pos="348,-212" width="88" height="36" font_size="22" caption="115%" />
-				<simplebutton name="btnTextSize130" depth="3" pos="442,-212" width="88" height="36" font_size="22" caption="130%" />
+				<togglebutton name="tglBagSearch" depth="3" pos="20,-164" width="520" height="40" font_size="26" caption="" />
+				<label depth="4" name="tglBagSearchText" pos="66,-184" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetBagSearch" />
+				<togglebutton name="tglJobTiles" depth="3" pos="20,-212" width="520" height="40" font_size="26" caption="" />
+				<label depth="4" name="tglJobTilesText" pos="66,-232" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetJobTiles" />
+				<label depth="3" name="lblTextSize" pos="22,-278" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetTextSize" />
+				<simplebutton name="btnTextSize90" depth="3" pos="160,-260" width="88" height="36" font_size="22" caption="90%" />
+				<simplebutton name="btnTextSize100" depth="3" pos="254,-260" width="88" height="36" font_size="22" caption="100%" />
+				<simplebutton name="btnTextSize115" depth="3" pos="348,-260" width="88" height="36" font_size="22" caption="115%" />
+				<simplebutton name="btnTextSize130" depth="3" pos="442,-260" width="88" height="36" font_size="22" caption="130%" />
 			</rect>
 
 			<rect name="kuTab_look" width="560" height="516" visible="false">
@@ -79,6 +93,11 @@
 				<simplebutton name="btnPalette_ember" depth="3" pos="254,-164" width="88" height="36" font_size="20" caption_key="kuPaletteEmber" />
 				<simplebutton name="btnPalette_moss" depth="3" pos="348,-164" width="88" height="36" font_size="20" caption_key="kuPaletteMoss" />
 				<simplebutton name="btnPalette_sakura" depth="3" pos="442,-164" width="88" height="36" font_size="20" caption_key="kuPaletteSakura" />
+				<label depth="3" name="lblBarText" pos="22,-230" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetBarText" />
+				<simplebutton name="btnBarText_full" depth="3" pos="160,-212" width="88" height="36" font_size="22" caption="100/100" />
+				<simplebutton name="btnBarText_percent" depth="3" pos="254,-212" width="88" height="36" font_size="22" caption="100%" />
+				<simplebutton name="btnBarText_current" depth="3" pos="348,-212" width="88" height="36" font_size="22" caption="100" />
+				<simplebutton name="btnBarText_none" depth="3" pos="442,-212" width="88" height="36" font_size="20" caption_key="kuBarTextNone" />
 			</rect>
 
 			<simplebutton name="btnMoveHUD" depth="3" pos="20,-460" width="168" height="40" font_size="24" caption_key="kuSetMoveHUD" />
@@ -690,6 +709,18 @@
 				<label depth="52" name="kuMoveName" pos="12,-50" width="190" height="30" pivot="left" justify="left" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveCrafting" />
 			</rect>
 		</window>
+	</append>
+
+	<!-- ================================================================ -->
+	<!-- Backpack search (Settings > Windows): a search field in the      -->
+	<!-- backpack header; XUiC_KitsuneBagSearch dims slots that don't      -->
+	<!-- match (kuSearchDim, patched into the item slot template).         -->
+	<!-- ================================================================ -->
+	<append xpath="/windows/window[@name='windowBackpack']/rect[@name='header']">
+		<rect name="kuBagSearch" pos="190,0" width="114" height="43" controller="KitsuneBagSearch, KitsuneUI_Settings">
+			<sprite depth="4" name="kuBagSearchIcon" style="icon30px" pos="0,-22" sprite="ui_game_symbol_search" pivot="center" color="[kuTextMid]" />
+			<textfield depth="5" name="kuBagSearchInput" pos="18,-7" width="92" height="30" font_size="20" character_limit="24" search_field="true" clear_button="true" />
+		</rect>
 	</append>
 
 </configs>

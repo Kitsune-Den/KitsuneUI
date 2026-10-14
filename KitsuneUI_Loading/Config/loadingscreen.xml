@@ -10,4 +10,11 @@
 		<tex file="@modfolder:Textures/ku_loading_snow.jpg" />
 		<tex file="@modfolder:Textures/ku_loading_bloodmoon.jpg" />
 	</append>
+	<!-- Four KitsuneUI tips join the game's loading tips (text in Localization.csv). -->
+	<append xpath="/doc/tips">
+		<tip key="kuTipMoveHud" />
+		<tip key="kuTipProfiles" />
+		<tip key="kuTipSearch" />
+		<tip key="kuTipHorde" />
+	</append>
 </configs>

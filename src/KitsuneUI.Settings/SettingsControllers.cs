@@ -164,6 +164,7 @@ public class XUiC_KitsuneSettingsHook : XUiController
         }
         KitsuneLayout.ApplyAll();
         KitsuneAutoFade.Update(xui, _dt);
+        KitsuneWearWarning.Update(this, _dt);
     }
 }
 
@@ -181,7 +182,7 @@ public class XUiC_KitsuneSettingsOpener : XUiController
 }
 
 /// <summary>
-/// The settings window, in three tabs (HUD, Windows, Look): eight toggles, bar text style, text size, a four-step glass strength and Close.
+/// The settings window, in four tabs (HUD, Map, Windows, Look): twelve toggles, minimap zoom and view, bar text style, text size, a four-step glass strength and Close.
 /// Every change is saved and applied straight away.
 /// </summary>
 public class XUiC_KitsuneSettingsWindow : XUiController
@@ -196,9 +197,16 @@ public class XUiC_KitsuneSettingsWindow : XUiController
     XUiC_ToggleButton minimap;
     XUiC_ToggleButton horde;
     XUiC_ToggleButton crafting;
+    XUiC_ToggleButton mapNames;
+    XUiC_ToggleButton bagSearch;
+    XUiC_ToggleButton wearWarning;
+    XUiC_ToggleButton buffTimers;
+    static readonly int[] MapZooms = { 64, 128, 256 };
+    readonly List<(int blocks, XUiC_SimpleButton button)> zoomButtons = new List<(int, XUiC_SimpleButton)>();
+    readonly List<(bool rotate, XUiC_SimpleButton button)> viewButtons = new List<(bool, XUiC_SimpleButton)>();
 
     // Tabs: each shows one rect of rows; the last one picked is shown again next time.
-    static readonly string[] Tabs = { "hud", "windows", "look" };
+    static readonly string[] Tabs = { "hud", "map", "windows", "look" };
     static string currentTab = "hud";
     readonly List<(string tab, XUiC_SimpleButton button, XUiView page)> tabs = new List<(string, XUiC_SimpleButton, XUiView)>();
     readonly List<(int percent, XUiC_SimpleButton button)> glassButtons = new List<(int, XUiC_SimpleButton)>();
@@ -218,6 +226,36 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         minimap = Toggle("tglMinimap", KitsuneSettingsFile.Minimap);
         horde = Toggle("tglHorde", KitsuneSettingsFile.HordeCountdown);
         crafting = Toggle("tglCrafting", KitsuneSettingsFile.CraftingHud);
+        mapNames = Toggle("tglMapNames", KitsuneSettingsFile.MapNames);
+        bagSearch = Toggle("tglBagSearch", KitsuneSettingsFile.BagSearch);
+        wearWarning = Toggle("tglWear", KitsuneSettingsFile.WearWarning);
+        buffTimers = Toggle("tglBuffTimers", KitsuneSettingsFile.BuffTimers);
+        foreach (int blocks in MapZooms)
+        {
+            if (FindButton("btnMapZoom" + blocks) is XUiC_SimpleButton b)
+            {
+                int z = blocks;
+                b.OnPressed += (_sender, _mouseButton) =>
+                {
+                    KitsuneSettingsFile.Set(KitsuneSettingsFile.MapZoom, z.ToString());
+                    ShowMap();
+                };
+                zoomButtons.Add((blocks, b));
+            }
+        }
+        foreach (bool rotate in new[] { false, true })
+        {
+            if (FindButton(rotate ? "btnMapRotate" : "btnMapNorth") is XUiC_SimpleButton b)
+            {
+                bool r = rotate;
+                b.OnPressed += (_sender, _mouseButton) =>
+                {
+                    KitsuneSettingsFile.Set(KitsuneSettingsFile.MapRotate, r ? "true" : "false");
+                    ShowMap();
+                };
+                viewButtons.Add((rotate, b));
+            }
+        }
         foreach (string tab in Tabs)
         {
             XUiC_SimpleButton b = FindButton("btnTab_" + tab);
@@ -367,6 +405,26 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         }
     }
 
+    void ShowMap()
+    {
+        int zoom = KitsuneSettingsFile.GetInt(KitsuneSettingsFile.MapZoom, 64, 256);
+        foreach ((int blocks, XUiC_SimpleButton button) in zoomButtons)
+        {
+            if (button.Button != null)
+            {
+                button.Button.Selected = blocks == zoom;
+            }
+        }
+        bool rotate = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.MapRotate);
+        foreach ((bool r, XUiC_SimpleButton button) in viewButtons)
+        {
+            if (button.Button != null)
+            {
+                button.Button.Selected = r == rotate;
+            }
+        }
+    }
+
     void ShowTab(string tab)
     {
         currentTab = tab;
@@ -406,6 +464,11 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         if (minimap != null) minimap.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.Minimap);
         if (horde != null) horde.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.HordeCountdown);
         if (crafting != null) crafting.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.CraftingHud);
+        if (mapNames != null) mapNames.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.MapNames);
+        if (bagSearch != null) bagSearch.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.BagSearch);
+        if (wearWarning != null) wearWarning.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.WearWarning);
+        if (buffTimers != null) buffTimers.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.BuffTimers);
+        ShowMap();
         ShowTab(currentTab);
         ShowGlass();
     }

@@ -24,6 +24,12 @@ public static class KitsuneSettingsFile
     public const string Minimap = "minimap";              // show the minimap (top right)
     public const string HordeCountdown = "hordeCountdown";  // horde night countdown under the compass
     public const string CraftingHud = "craftingHud";      // crafting progress card on the HUD
+    public const string MapZoom = "mapZoom";              // minimap blocks across: 64, 128, 256
+    public const string MapRotate = "mapRotate";          // minimap turns with the player
+    public const string MapNames = "mapNames";            // names by player and waypoint markers
+    public const string BagSearch = "bagSearch";          // search box in the backpack header
+    public const string WearWarning = "wearWarning";      // ring on nearly worn-out toolbelt items
+    public const string BuffTimers = "buffTimers";        // time left beside icon-only buffs
 
     static readonly Dictionary<string, string> Defaults = new Dictionary<string, string>
     {
@@ -40,6 +46,12 @@ public static class KitsuneSettingsFile
         { Minimap, "false" },
         { HordeCountdown, "false" },
         { CraftingHud, "false" },
+        { MapZoom, "128" },
+        { MapRotate, "false" },
+        { MapNames, "true" },
+        { BagSearch, "false" },
+        { WearWarning, "false" },
+        { BuffTimers, "false" },
     };
 
     static Dictionary<string, string> values;
