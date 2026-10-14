@@ -1,0 +1,13 @@
+<configs>
+	<!-- The loading screen picks one picture at random from this list. These replace -->
+	<!-- the vanilla four; drop the remove line to mix them in with the vanilla ones. -->
+	<remove xpath="/doc/backgrounds/tex" />
+	<append xpath="/doc/backgrounds">
+		<tex file="@modfolder:Textures/ku_loading_den.jpg" />
+		<tex file="@modfolder:Textures/ku_loading_town.jpg" />
+		<tex file="@modfolder:Textures/ku_loading_forest.jpg" />
+		<tex file="@modfolder:Textures/ku_loading_desert.jpg" />
+		<tex file="@modfolder:Textures/ku_loading_snow.jpg" />
+		<tex file="@modfolder:Textures/ku_loading_bloodmoon.jpg" />
+	</append>
+</configs>

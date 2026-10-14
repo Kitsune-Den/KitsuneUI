@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xml>
+	<Name value="KitsuneUI_Loading" />
+	<DisplayName value="KitsuneUI Loading Pictures" />
+	<Description value="Optional add-on for KitsuneUI: six Kitsunebi night paintings for the loading screen (a hilltop den, a ghost town, a burnt forest, a desert gas station, a frozen radio tower and horde night) in place of the vanilla pictures. XML and images only, so it works with EAC on. Client side." />
+	<Website value="https://github.com/Kitsune-Den/KitsuneUI" />
+	<Author value="AdaInTheLab" />
+	<Version value="1.0.0" />
+</xml>

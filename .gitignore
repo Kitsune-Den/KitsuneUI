@@ -13,3 +13,6 @@ Thumbs.db
 # Release packaging artifacts
 *.zip
 dist/
+
+# Raw generated art (the game copies live in KitsuneUI_Loading/Textures)
+build/
