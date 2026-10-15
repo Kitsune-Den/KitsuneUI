@@ -23,6 +23,8 @@
 		<window name="kuPlayerFrame" />
 		<window name="kuTargetFrame" />
 		<window name="kuXpBar" />
+		<window name="kuPartyFrames" />
+		<window name="kuCombatOverlay" />
 	</append>
 
 </configs>

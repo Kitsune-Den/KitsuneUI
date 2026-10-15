@@ -48,10 +48,20 @@ public static class KitsuneSettingsApplier
     /// <summary>
     /// Bar styles (Look > Bar style): textures for KitsuneUI's own bars. A bar is any
     /// "ku...Fill" sprite drawn with ku_bar (unit frames, XP bar, crafting card, the
-    /// preview in the settings window); "kitsunebi" keeps ku_bar itself.
+    /// preview in the settings window), plus the fills of the HUD's pill-shaped bars;
+    /// "kitsunebi" keeps each bar's own sprite.
     /// </summary>
     public static readonly string[] BarStyles = { "kitsunebi", "flat", "smooth", "glossy", "glass", "bevel", "inset", "neon", "brushed", "striped", "scanline", "split", "fade", "outline", "minimal" };
     static string barSprite = "ku_bar";
+    static string barStyle = "kitsunebi";
+
+    // The HUD's pill-shaped bars (stat, vehicle, enemy, party, companion, block health)
+    // have each style baked into their shape as <pill>_<style>; only their fills change.
+    static readonly HashSet<string> PillBars = new HashSet<string>
+    {
+        "ku_hudbar_lg", "ku_hudbar_sm", "ku_hudbar_xl", "ku_hudbar_thin", "ku_partybar", "ku_companionbar",
+    };
+    static readonly HashSet<string> PillFills = new HashSet<string> { "BarContent", "BarHealth", "bar" };
 
     public static string BarSpriteFor(string style) =>
         System.Array.IndexOf(BarStyles, style) > 0 ? "ku_barstyle_" + style : "ku_bar";
@@ -68,7 +78,12 @@ public static class KitsuneSettingsApplier
         KitsunePalette palette = KitsunePalette.Get(KitsuneSettingsFile.Get(KitsuneSettingsFile.Palette));
         bool wholeBackpack = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.BackpackAll);
         textScale = KitsuneSettingsFile.GetInt(KitsuneSettingsFile.TextSize, 80, 150) / 100f;
-        barSprite = BarSpriteFor(KitsuneSettingsFile.Get(KitsuneSettingsFile.BarStyle));
+        barStyle = KitsuneSettingsFile.Get(KitsuneSettingsFile.BarStyle);
+        if (System.Array.IndexOf(BarStyles, barStyle) < 0)
+        {
+            barStyle = "kitsunebi";
+        }
+        barSprite = BarSpriteFor(barStyle);
         foreach (XUiWindowGroup group in xui.WindowGroups)
         {
             if (group?.Controller != null)
@@ -109,6 +124,14 @@ public static class KitsuneSettingsApplier
                     && sprite.SpriteName != barSprite)
                 {
                     sprite.SpriteName = barSprite;
+                }
+                else if (o.Sprite != null && PillBars.Contains(o.Sprite) && sprite.ID != null && PillFills.Contains(sprite.ID))
+                {
+                    string pill = barStyle == "kitsunebi" ? o.Sprite : o.Sprite + "_" + barStyle;
+                    if (sprite.SpriteName != pill)
+                    {
+                        sprite.SpriteName = pill;
+                    }
                 }
                 if (sprite.SpriteName != null && GlassSprites.Contains(sprite.SpriteName))
                 {
@@ -200,7 +223,7 @@ public class XUiC_KitsuneSettingsOpener : XUiController
 }
 
 /// <summary>
-/// The settings window, in four tabs (HUD, Map, Windows, Look): fourteen toggles, bar style, minimap zoom and view, bar text style, text size, a four-step glass strength and Close.
+/// The settings window, in five tabs (HUD, Map, Combat, Windows, Look): fourteen toggles, bar style, minimap zoom and view, bar text style, text size, a four-step glass strength and Close.
 /// Every change is saved and applied straight away.
 /// </summary>
 public class XUiC_KitsuneSettingsWindow : XUiController
@@ -221,13 +244,16 @@ public class XUiC_KitsuneSettingsWindow : XUiController
     XUiC_ToggleButton buffTimers;
     XUiC_ToggleButton unitFrames;
     XUiC_ToggleButton xpBar;
+    XUiC_ToggleButton partyFrames;
+    XUiC_ToggleButton nameplates;
+    XUiC_ToggleButton combatText;
     XUiV_Label barStyleName;
     static readonly int[] MapZooms = { 64, 128, 256 };
     readonly List<(int blocks, XUiC_SimpleButton button)> zoomButtons = new List<(int, XUiC_SimpleButton)>();
     readonly List<(bool rotate, XUiC_SimpleButton button)> viewButtons = new List<(bool, XUiC_SimpleButton)>();
 
     // Tabs: each shows one rect of rows; the last one picked is shown again next time.
-    static readonly string[] Tabs = { "hud", "map", "windows", "look" };
+    static readonly string[] Tabs = { "hud", "map", "combat", "windows", "look" };
     static string currentTab = "hud";
     readonly List<(string tab, XUiC_SimpleButton button, XUiView page)> tabs = new List<(string, XUiC_SimpleButton, XUiView)>();
     readonly List<(int percent, XUiC_SimpleButton button)> glassButtons = new List<(int, XUiC_SimpleButton)>();
@@ -253,6 +279,9 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         buffTimers = Toggle("tglBuffTimers", KitsuneSettingsFile.BuffTimers);
         unitFrames = Toggle("tglUnitFrames", KitsuneSettingsFile.UnitFrames);
         xpBar = Toggle("tglXpBar", KitsuneSettingsFile.XpBar);
+        partyFrames = Toggle("tglPartyFrames", KitsuneSettingsFile.PartyFrames);
+        nameplates = Toggle("tglNameplates", KitsuneSettingsFile.Nameplates);
+        combatText = Toggle("tglCombatText", KitsuneSettingsFile.CombatText);
         barStyleName = GetChildById("kuBarStyleName")?.ViewComponent as XUiV_Label;
         foreach (int step in new[] { -1, 1 })
         {
@@ -523,6 +552,9 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         if (buffTimers != null) buffTimers.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.BuffTimers);
         if (unitFrames != null) unitFrames.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.UnitFrames);
         if (xpBar != null) xpBar.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.XpBar);
+        if (partyFrames != null) partyFrames.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.PartyFrames);
+        if (nameplates != null) nameplates.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.Nameplates);
+        if (combatText != null) combatText.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.CombatText);
         ShowBarStyle();
         ShowMap();
         ShowTab(currentTab);

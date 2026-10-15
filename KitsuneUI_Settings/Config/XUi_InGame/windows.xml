@@ -31,10 +31,11 @@
 			<sprite depth="0" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,-40" width="560" height="476" />
 
 			<!-- tabs: the controller shows one of the four rects below -->
-			<simplebutton name="btnTab_hud" depth="3" pos="20,-56" width="124" height="40" font_size="22" caption_key="kuTabHud" />
-			<simplebutton name="btnTab_map" depth="3" pos="152,-56" width="124" height="40" font_size="22" caption_key="kuTabMap" />
-			<simplebutton name="btnTab_windows" depth="3" pos="284,-56" width="124" height="40" font_size="22" caption_key="kuTabWindows" />
-			<simplebutton name="btnTab_look" depth="3" pos="416,-56" width="124" height="40" font_size="22" caption_key="kuTabLook" />
+			<simplebutton name="btnTab_hud" depth="3" pos="20,-56" width="100" height="40" font_size="21" caption_key="kuTabHud" />
+			<simplebutton name="btnTab_map" depth="3" pos="125,-56" width="100" height="40" font_size="21" caption_key="kuTabMap" />
+			<simplebutton name="btnTab_combat" depth="3" pos="230,-56" width="100" height="40" font_size="21" caption_key="kuTabCombat" />
+			<simplebutton name="btnTab_windows" depth="3" pos="335,-56" width="100" height="40" font_size="21" caption_key="kuTabWindows" />
+			<simplebutton name="btnTab_look" depth="3" pos="440,-56" width="100" height="40" font_size="21" caption_key="kuTabLook" />
 			<sprite depth="2" name="kuTabRule" pos="20,-104" width="520" height="2" sprite="ku_rule" type="sliced" color="[kuGoldSoft]" />
 
 			<rect name="kuTab_hud" width="560" height="516">
@@ -68,6 +69,17 @@
 				<simplebutton name="btnMapRotate" depth="3" pos="348,-260" width="182" height="36" font_size="20" caption_key="kuMapRotate" />
 			</rect>
 
+			<rect name="kuTab_combat" width="560" height="516" visible="false">
+				<togglebutton name="tglUnitFrames" depth="3" pos="20,-116" width="520" height="40" font_size="26" caption="" />
+				<label depth="4" name="tglUnitFramesText" pos="66,-136" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetUnitFrames" />
+				<togglebutton name="tglPartyFrames" depth="3" pos="20,-164" width="520" height="40" font_size="26" caption="" />
+				<label depth="4" name="tglPartyFramesText" pos="66,-184" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetPartyFrames" />
+				<togglebutton name="tglNameplates" depth="3" pos="20,-212" width="520" height="40" font_size="26" caption="" />
+				<label depth="4" name="tglNameplatesText" pos="66,-232" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetNameplates" />
+				<togglebutton name="tglCombatText" depth="3" pos="20,-260" width="520" height="40" font_size="26" caption="" />
+				<label depth="4" name="tglCombatTextText" pos="66,-280" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetCombatText" />
+			</rect>
+
 			<rect name="kuTab_windows" width="560" height="516" visible="false">
 				<togglebutton name="tglBackpackAll" depth="3" pos="20,-116" width="520" height="40" font_size="26" caption="" />
 				<label depth="4" name="tglBackpackAllText" pos="66,-136" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetBackpackAll" />
@@ -98,16 +110,14 @@
 				<simplebutton name="btnBarText_percent" depth="3" pos="254,-212" width="88" height="36" font_size="22" caption="100%" />
 				<simplebutton name="btnBarText_current" depth="3" pos="348,-212" width="88" height="36" font_size="22" caption="100" />
 				<simplebutton name="btnBarText_none" depth="3" pos="442,-212" width="88" height="36" font_size="20" caption_key="kuBarTextNone" />
-				<togglebutton name="tglUnitFrames" depth="3" pos="20,-260" width="520" height="40" font_size="26" caption="" />
-				<label depth="4" name="tglUnitFramesText" pos="66,-280" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetUnitFrames" />
-				<togglebutton name="tglXpBar" depth="3" pos="20,-308" width="520" height="40" font_size="26" caption="" />
-				<label depth="4" name="tglXpBarText" pos="66,-328" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetXpBar" />
-				<label depth="3" name="lblBarStyle" pos="22,-374" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetBarStyle" />
-				<simplebutton name="btnBarStylePrev" depth="3" pos="160,-356" width="44" height="36" font_size="24" caption="&lt;" />
-				<sprite depth="3" name="kuBarStyleTrack" pos="210,-356" width="270" height="36" sprite="ku_bar" type="sliced" color="6,8,20,225" />
-				<sprite depth="4" name="kuBarStylePreviewFill" pos="214,-361" width="262" height="26" sprite="ku_bar" type="filled" fill="0.72" color="60,200,95,255" />
-				<label depth="5" name="kuBarStyleName" pos="345,-374" width="250" height="26" pivot="center" justify="center" font_size="22" color="[white]" effect="outline" effect_color="0,0,0,230" text="" />
-				<simplebutton name="btnBarStyleNext" depth="3" pos="486,-356" width="44" height="36" font_size="24" caption="&gt;" />
+				<togglebutton name="tglXpBar" depth="3" pos="20,-260" width="520" height="40" font_size="26" caption="" />
+				<label depth="4" name="tglXpBarText" pos="66,-280" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetXpBar" />
+				<label depth="3" name="lblBarStyle" pos="22,-326" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetBarStyle" />
+				<simplebutton name="btnBarStylePrev" depth="3" pos="160,-308" width="44" height="36" font_size="24" caption="&lt;" />
+				<sprite depth="3" name="kuBarStyleTrack" pos="210,-308" width="270" height="36" sprite="ku_bar" type="sliced" color="6,8,20,225" />
+				<sprite depth="4" name="kuBarStylePreviewFill" pos="214,-313" width="262" height="26" sprite="ku_bar" type="filled" fill="0.72" color="60,200,95,255" />
+				<label depth="5" name="kuBarStyleName" pos="345,-326" width="250" height="26" pivot="center" justify="center" font_size="22" color="[white]" effect="outline" effect_color="0,0,0,230" text="" />
+				<simplebutton name="btnBarStyleNext" depth="3" pos="486,-308" width="44" height="36" font_size="24" caption="&gt;" />
 			</rect>
 
 			<simplebutton name="btnMoveHUD" depth="3" pos="20,-460" width="168" height="40" font_size="24" caption_key="kuSetMoveHUD" />
@@ -929,6 +939,86 @@
 				<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
 				<label depth="52" name="kuMoveName" pos="12,-18" width="300" height="30" pivot="left" justify="left" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveXpBar" />
 			</rect>
+			</rect>
+		</window>
+	</append>
+
+	<!-- ================================================================ -->
+	<!-- Party frames (Settings > Combat, with unit frames): the other     -->
+	<!-- party members under the player frame. Combat overlay: nameplates -->
+	<!-- and floating combat text, drawn by XUiC_KitsuneCombatOverlay     -->
+	<!-- into a centre-anchored layer under the rest of the HUD.          -->
+	<!-- ================================================================ -->
+	<append xpath="/windows">
+		<window name="kuPartyFrames" anchor="Center" pos="-370,-200" width="240" height="234" depth="-20">
+			<rect name="kuPartyBody" width="240" height="234" controller="KitsunePartyFrames, KitsuneUI_Settings">
+				<rect name="kuPartySlot0" pos="0,0" width="240" height="30" visible="false">
+					<sprite depth="0" name="kuPartyGlass" sprite="ku_panel_sm" type="sliced" color="[white]" width="240" height="30" />
+					<label depth="3" name="kuPartyName" pos="8,-3" width="160" height="15" pivot="topleft" justify="left" font_size="14" overflow="shrinkcontent" max_line_count="1" color="[kuTextBright]" text="" />
+					<label depth="3" name="kuPartyDist" pos="232,-3" width="70" height="15" pivot="topright" justify="right" font_size="13" color="[kuTextMid]" text="" />
+					<sprite depth="1" name="kuPartyHpTrack" pos="6,-19" width="228" height="7" sprite="ku_bar" type="sliced" color="6,8,20,225" />
+					<sprite depth="2" name="kuPartyHpFill" pos="6,-19" width="228" height="7" sprite="ku_bar" type="filled" fill="1" color="60,200,95,255" />
+				</rect>
+				<rect name="kuPartySlot1" pos="0,-34" width="240" height="30" visible="false">
+					<sprite depth="0" name="kuPartyGlass" sprite="ku_panel_sm" type="sliced" color="[white]" width="240" height="30" />
+					<label depth="3" name="kuPartyName" pos="8,-3" width="160" height="15" pivot="topleft" justify="left" font_size="14" overflow="shrinkcontent" max_line_count="1" color="[kuTextBright]" text="" />
+					<label depth="3" name="kuPartyDist" pos="232,-3" width="70" height="15" pivot="topright" justify="right" font_size="13" color="[kuTextMid]" text="" />
+					<sprite depth="1" name="kuPartyHpTrack" pos="6,-19" width="228" height="7" sprite="ku_bar" type="sliced" color="6,8,20,225" />
+					<sprite depth="2" name="kuPartyHpFill" pos="6,-19" width="228" height="7" sprite="ku_bar" type="filled" fill="1" color="60,200,95,255" />
+				</rect>
+				<rect name="kuPartySlot2" pos="0,-68" width="240" height="30" visible="false">
+					<sprite depth="0" name="kuPartyGlass" sprite="ku_panel_sm" type="sliced" color="[white]" width="240" height="30" />
+					<label depth="3" name="kuPartyName" pos="8,-3" width="160" height="15" pivot="topleft" justify="left" font_size="14" overflow="shrinkcontent" max_line_count="1" color="[kuTextBright]" text="" />
+					<label depth="3" name="kuPartyDist" pos="232,-3" width="70" height="15" pivot="topright" justify="right" font_size="13" color="[kuTextMid]" text="" />
+					<sprite depth="1" name="kuPartyHpTrack" pos="6,-19" width="228" height="7" sprite="ku_bar" type="sliced" color="6,8,20,225" />
+					<sprite depth="2" name="kuPartyHpFill" pos="6,-19" width="228" height="7" sprite="ku_bar" type="filled" fill="1" color="60,200,95,255" />
+				</rect>
+				<rect name="kuPartySlot3" pos="0,-102" width="240" height="30" visible="false">
+					<sprite depth="0" name="kuPartyGlass" sprite="ku_panel_sm" type="sliced" color="[white]" width="240" height="30" />
+					<label depth="3" name="kuPartyName" pos="8,-3" width="160" height="15" pivot="topleft" justify="left" font_size="14" overflow="shrinkcontent" max_line_count="1" color="[kuTextBright]" text="" />
+					<label depth="3" name="kuPartyDist" pos="232,-3" width="70" height="15" pivot="topright" justify="right" font_size="13" color="[kuTextMid]" text="" />
+					<sprite depth="1" name="kuPartyHpTrack" pos="6,-19" width="228" height="7" sprite="ku_bar" type="sliced" color="6,8,20,225" />
+					<sprite depth="2" name="kuPartyHpFill" pos="6,-19" width="228" height="7" sprite="ku_bar" type="filled" fill="1" color="60,200,95,255" />
+				</rect>
+				<rect name="kuPartySlot4" pos="0,-136" width="240" height="30" visible="false">
+					<sprite depth="0" name="kuPartyGlass" sprite="ku_panel_sm" type="sliced" color="[white]" width="240" height="30" />
+					<label depth="3" name="kuPartyName" pos="8,-3" width="160" height="15" pivot="topleft" justify="left" font_size="14" overflow="shrinkcontent" max_line_count="1" color="[kuTextBright]" text="" />
+					<label depth="3" name="kuPartyDist" pos="232,-3" width="70" height="15" pivot="topright" justify="right" font_size="13" color="[kuTextMid]" text="" />
+					<sprite depth="1" name="kuPartyHpTrack" pos="6,-19" width="228" height="7" sprite="ku_bar" type="sliced" color="6,8,20,225" />
+					<sprite depth="2" name="kuPartyHpFill" pos="6,-19" width="228" height="7" sprite="ku_bar" type="filled" fill="1" color="60,200,95,255" />
+				</rect>
+				<rect name="kuPartySlot5" pos="0,-170" width="240" height="30" visible="false">
+					<sprite depth="0" name="kuPartyGlass" sprite="ku_panel_sm" type="sliced" color="[white]" width="240" height="30" />
+					<label depth="3" name="kuPartyName" pos="8,-3" width="160" height="15" pivot="topleft" justify="left" font_size="14" overflow="shrinkcontent" max_line_count="1" color="[kuTextBright]" text="" />
+					<label depth="3" name="kuPartyDist" pos="232,-3" width="70" height="15" pivot="topright" justify="right" font_size="13" color="[kuTextMid]" text="" />
+					<sprite depth="1" name="kuPartyHpTrack" pos="6,-19" width="228" height="7" sprite="ku_bar" type="sliced" color="6,8,20,225" />
+					<sprite depth="2" name="kuPartyHpFill" pos="6,-19" width="228" height="7" sprite="ku_bar" type="filled" fill="1" color="60,200,95,255" />
+				</rect>
+				<rect name="kuPartySlot6" pos="0,-204" width="240" height="30" visible="false">
+					<sprite depth="0" name="kuPartyGlass" sprite="ku_panel_sm" type="sliced" color="[white]" width="240" height="30" />
+					<label depth="3" name="kuPartyName" pos="8,-3" width="160" height="15" pivot="topleft" justify="left" font_size="14" overflow="shrinkcontent" max_line_count="1" color="[kuTextBright]" text="" />
+					<label depth="3" name="kuPartyDist" pos="232,-3" width="70" height="15" pivot="topright" justify="right" font_size="13" color="[kuTextMid]" text="" />
+					<sprite depth="1" name="kuPartyHpTrack" pos="6,-19" width="228" height="7" sprite="ku_bar" type="sliced" color="6,8,20,225" />
+					<sprite depth="2" name="kuPartyHpFill" pos="6,-19" width="228" height="7" sprite="ku_bar" type="filled" fill="1" color="60,200,95,255" />
+				</rect>
+			</rect>
+			<rect name="kuMoveHandle" depth="50" pos="-6,6" width="252" height="246" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
+				<label depth="53" name="kuMoveScale" pos="148,-19" width="64" height="24" pivot="right" justify="right" font_size="18" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="100%" />
+				<sprite depth="54" name="kuChipSmaller" pos="152,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+				<button depth="55" name="kuBtnSmaller" pos="167,-19" sprite="ui_game_symbol_subtract" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+				<sprite depth="54" name="kuChipBigger" pos="184,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+				<button depth="55" name="kuBtnBigger" pos="199,-19" sprite="ui_game_symbol_add" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+				<sprite depth="54" name="kuChipHide" pos="216,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+				<button depth="55" name="kuBtnHide" pos="231,-19" sprite="ku_icon_eye" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+				<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
+				<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
+				<label depth="52" name="kuMoveName" pos="12,-228" width="200" height="30" pivot="left" justify="left" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMovePartyFrames" />
+			</rect>
+		</window>
+
+		<window name="kuCombatOverlay" anchor="Center" pos="0,0" width="2" height="2" depth="-30">
+			<rect name="kuCombatBody" width="2" height="2" controller="KitsuneCombatOverlay, KitsuneUI_Settings">
+				<sprite depth="1" name="kuCombatAnchor" sprite="ku_px" width="1" height="1" color="0,0,0,0" />
 			</rect>
 		</window>
 	</append>

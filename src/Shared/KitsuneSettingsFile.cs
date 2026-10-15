@@ -33,6 +33,9 @@ public static class KitsuneSettingsFile
     public const string UnitFrames = "unitFrames";        // ElvUI-style player and target frames
     public const string XpBar = "xpBar";                  // the XP bar as its own piece above the toolbelt
     public const string BarStyle = "barStyle";            // texture for KitsuneUI's bars (kitsunebi, flat, ...)
+    public const string PartyFrames = "partyFrames";      // party frames under the player frame (with unit frames)
+    public const string Nameplates = "nameplates";        // health bars over enemies you're fighting
+    public const string CombatText = "combatText";        // floating damage and heal numbers
 
     static readonly Dictionary<string, string> Defaults = new Dictionary<string, string>
     {
@@ -58,6 +61,9 @@ public static class KitsuneSettingsFile
         { UnitFrames, "false" },
         { XpBar, "true" },
         { BarStyle, "kitsunebi" },
+        { PartyFrames, "true" },
+        { Nameplates, "false" },
+        { CombatText, "false" },
     };
 
     static Dictionary<string, string> values;

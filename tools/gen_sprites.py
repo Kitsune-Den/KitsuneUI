@@ -443,7 +443,7 @@ def _brushed():
     import random
     rnd = random.Random(7)
     rows = [rnd.uniform(-34, 34) for _ in range(16)]
-    return lambda t, u, y, h: (205 + rows[y] - 40 * t, 255)
+    return lambda t, u, y, h: (205 + rows[min(15, int(t * 16))] - 40 * t, 255)
 
 
 BAR_STYLES = {
@@ -460,10 +460,22 @@ BAR_STYLES = {
     "split": lambda t, u, y, h: ((250 if t < 0.5 else 170), 255),
     "fade": lambda t, u, y, h: (120 + 135 * u - 25 * t, 255),
     "outline": lambda t, u, y, h: ((255, 255) if y < 2 or y >= h - 2 else (215, 105)),
-    "minimal": lambda t, u, y, h: ((240, 255) if 5 <= y <= 10 else (0, 0)),
+    "minimal": lambda t, u, y, h: ((240, 255) if 0.32 <= t <= 0.68 else (0, 0)),
 }
 for _name, _fn in BAR_STYLES.items():
     add("ku_barstyle_" + _name, bar_style(_fn), 0)
+
+# The same styles baked into the HUD's pill-shaped bars (stat, vehicle, enemy, party,
+# companion and block health bars), so a style keeps their rounded ends: the style's
+# shading at the pill's size, cut out by the pill's own alpha. Named <pill>_<style>.
+BAR_SHAPES = ["ku_hudbar_lg", "ku_hudbar_sm", "ku_hudbar_xl", "ku_hudbar_thin", "ku_partybar", "ku_companionbar"]
+for _shape in BAR_SHAPES:
+    _pill = sprites[_shape]
+    for _name, _fn in BAR_STYLES.items():
+        _img = bar_style(_fn, _pill.width, _pill.height)
+        _alpha = ImageChops.multiply(_img.getchannel("A"), _pill.getchannel("A"))
+        _img.putalpha(_alpha)
+        add(f"{_shape}_{_name}", _img, 0)
 
 
 def write_atlas(folder, items):

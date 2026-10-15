@@ -211,6 +211,18 @@ public static class KitsuneLayout
         Apply(g);
     }
 
+    /// <summary>Shifts a piece by a UI-unit amount (keeping it on screen), dragging or not.</summary>
+    public static void Nudge(string group, Vector2 uiDelta)
+    {
+        if (!groups.TryGetValue(group, out Group g))
+        {
+            return;
+        }
+        g.Offset += uiDelta;
+        g.RawOffset += uiDelta;
+        Apply(g);
+    }
+
     public static void Save(string group)
     {
         if (groups.TryGetValue(group, out Group g))
@@ -335,6 +347,120 @@ public class XUiC_KitsuneMoveHandle : XUiController
         hideButton = GetChildById("kuBtnHide")?.ViewComponent as XUiV_Button;
         ring = GetChildById("kuMoveRing")?.ViewComponent as XUiV_Sprite;
         fill = GetChildById("kuMoveFill")?.ViewComponent as XUiV_Sprite;
+        foreach (string id in StripIds)
+        {
+            if (GetChildById(id)?.ViewComponent is XUiView v)
+            {
+                strip.Add((id, v));
+            }
+        }
+    }
+
+    // ---- The name and the -, +, eye controls sit on a glass strip just outside the box
+    // (above it, or below when the piece is at the top of the screen), so they never cover
+    // the piece itself: toolbelt slots, the XP text, the stat bars, the subtitles.
+
+    const int StripHeight = 32;
+    static readonly string[] StripIds =
+    {
+        "kuMoveName", "kuMoveScale", "kuChipSmaller", "kuBtnSmaller", "kuChipBigger", "kuBtnBigger", "kuChipHide", "kuBtnHide",
+    };
+    readonly List<(string id, XUiView view)> strip = new List<(string, XUiView)>();
+    UISprite stripBg;
+    int laidOutFor = int.MinValue;   // box size and side the strip was last laid out for
+    bool dragging;
+
+    void LayoutStrip(bool under)
+    {
+        int w = ViewComponent.Size.x, h = ViewComponent.Size.y;
+        int key = (w * 4096 + h) * 2 + (under ? 1 : 0);
+        if (key == laidOutFor)
+        {
+            return;
+        }
+        laidOutFor = key;
+        int top = under ? -(h + 2) : StripHeight + 2;   // the strip's top edge, in the box's coordinates
+        int mid = top - StripHeight / 2;
+        foreach ((string id, XUiView v) in strip)
+        {
+            Vector2i at;
+            switch (id)
+            {
+                case "kuChipSmaller": at = new Vector2i(w - 88, top - 1); break;
+                case "kuChipBigger": at = new Vector2i(w - 56, top - 1); break;
+                case "kuChipHide": at = new Vector2i(w - 24, top - 1); break;
+                case "kuBtnSmaller": at = new Vector2i(w - 73, mid); break;
+                case "kuBtnBigger": at = new Vector2i(w - 41, mid); break;
+                case "kuBtnHide": at = new Vector2i(w - 9, mid); break;
+                case "kuMoveScale": at = new Vector2i(w - 92, mid); break;
+                default:   // the name, left of the controls
+                    at = new Vector2i(10, mid);
+                    if (v is XUiV_Label name)
+                    {
+                        name.Size = new Vector2i(Mathf.Max(60, w - 168), 26);
+                    }
+                    break;
+            }
+            if (v.Position != at)
+            {
+                v.Position = at;
+            }
+        }
+        // The strip's glass, made here (it isn't in the XML) under the labels and buttons.
+        UISprite ringSprite = ring?.UiTransform?.GetComponent<UISprite>();
+        if (stripBg == null && ringSprite != null)
+        {
+            GameObject go = new GameObject("kuMoveStrip");
+            go.layer = ViewComponent.UiTransform.gameObject.layer;
+            go.transform.SetParent(ViewComponent.UiTransform, false);
+            stripBg = go.AddComponent<UISprite>();
+            stripBg.atlas = ringSprite.atlas;
+            stripBg.spriteName = "ku_round_md";
+            stripBg.type = UIBasicSprite.Type.Sliced;
+            stripBg.pivot = UIWidget.Pivot.TopLeft;
+            stripBg.color = new Color32(12, 14, 30, 235);
+            stripBg.depth = ringSprite.depth;
+        }
+        if (stripBg != null)
+        {
+            stripBg.width = Mathf.Max(120, w);
+            stripBg.height = StripHeight;
+            stripBg.transform.localPosition = new Vector3(0f, top, 0f);
+        }
+    }
+
+    // Whether the strip fits above the box on screen, and nudging the piece back on screen
+    // if any of its box has gone past an edge (saved, so it stays put).
+    void KeepOnScreen()
+    {
+        Camera cam = xui.playerUI.camera;
+        Transform t = ViewComponent.UiTransform;
+        if (cam == null || t == null)
+        {
+            return;
+        }
+        int w = ViewComponent.Size.x, h = ViewComponent.Size.y;
+        Vector3 topLeft = cam.WorldToScreenPoint(t.TransformPoint(new Vector3(0f, 0f, 0f)));
+        Vector3 bottomRight = cam.WorldToScreenPoint(t.TransformPoint(new Vector3(w, -h, 0f)));
+        Vector3 stripTop = cam.WorldToScreenPoint(t.TransformPoint(new Vector3(0f, StripHeight + 4, 0f)));
+        LayoutStrip(stripTop.y > Screen.height);
+        if (dragging)
+        {
+            return;
+        }
+        // A little slack: some handles reach a few pixels past their piece (the toolbelt's
+        // sits on the bottom edge), and those shouldn't creep inward every time.
+        const float Slack = 12f;
+        float dx = 0f, dy = 0f;
+        if (topLeft.x < -Slack) dx = -topLeft.x;
+        else if (bottomRight.x > Screen.width + Slack) dx = Screen.width - bottomRight.x;
+        if (bottomRight.y < -Slack) dy = -bottomRight.y;
+        else if (topLeft.y > Screen.height + Slack) dy = Screen.height - topLeft.y;
+        if (dx != 0f || dy != 0f)
+        {
+            KitsuneLayout.Nudge(group, new Vector2(dx, dy) * xui.GetPixelRatioFactor());
+            KitsuneLayout.Save(group);
+        }
     }
 
     XUiV_Label scaleLabel;
@@ -387,11 +513,13 @@ public class XUiC_KitsuneMoveHandle : XUiController
         }
         if (_dragType == EDragType.DragEnd)
         {
+            dragging = false;
             KitsuneLayout.Save(group);
             return;
         }
         if (_dragType == EDragType.DragStart)
         {
+            dragging = true;
             KitsuneLayout.BeginDrag(group, ViewComponent);
         }
         KitsuneLayout.Drag(group, _mouseDelta * xui.GetPixelRatioFactor());
@@ -403,6 +531,11 @@ public class XUiC_KitsuneMoveHandle : XUiController
         if (ViewComponent.IsVisible != KitsuneLayout.Active)
         {
             ViewComponent.IsVisible = KitsuneLayout.Active;
+            dragging = false;
+        }
+        if (KitsuneLayout.Active)
+        {
+            KeepOnScreen();
         }
     }
 }
@@ -413,6 +546,27 @@ public class XUiC_KitsuneMoveHandle : XUiController
 /// they're showing something (subtitles, chat) are opened for the duration, so there's
 /// something to drag.
 /// </summary>
+/// <summary>
+/// The subtitle window closes itself once its last line has run its time, so when move
+/// mode opens it with nobody talking it would shut again on the next frame. While move
+/// mode is on, keep its clock fresh so it (and its handle) stay up to be dragged.
+/// </summary>
+[HarmonyLib.HarmonyPatch(typeof(XUiC_SubtitlesDisplay), nameof(XUiC_SubtitlesDisplay.Update))]
+public static class KitsuneSubtitlesStayForMoving
+{
+    static void Prefix(XUiC_SubtitlesDisplay __instance)
+    {
+        if (KitsuneLayout.Active)
+        {
+            __instance.openTime = Time.time;
+            if (__instance.duration < 1f)
+            {
+                __instance.duration = 1f;
+            }
+        }
+    }
+}
+
 public class XUiC_KitsuneMoveBar : XUiController
 {
     static readonly string[] OpenForMoving = { "subtitlesDisplay", "chatoutput" };
