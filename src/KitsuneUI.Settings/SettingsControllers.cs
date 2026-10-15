@@ -41,6 +41,10 @@ public static class KitsuneSettingsApplier
 
     static readonly ConditionalWeakTable<object, Original> originals = new ConditionalWeakTable<object, Original>();
 
+    /// <summary>Glass colourways (Look > Glass colour); midnight is the glass's own indigo.</summary>
+    public static readonly string[] GlassColours = { "midnight", "charcoal", "obsidian", "forest", "plum", "ember", "ocean" };
+    static string glassColour = "midnight";
+
     // Text size for this walk (1 = as designed). Labels in tight boxes shrink back to fit
     // (overflow="shrinkcontent"), so it mostly grows descriptions, lists and chat.
     static float textScale = 1f;
@@ -78,6 +82,11 @@ public static class KitsuneSettingsApplier
         KitsunePalette palette = KitsunePalette.Get(KitsuneSettingsFile.Get(KitsuneSettingsFile.Palette));
         bool wholeBackpack = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.BackpackAll);
         textScale = KitsuneSettingsFile.GetInt(KitsuneSettingsFile.TextSize, 80, 150) / 100f;
+        glassColour = KitsuneSettingsFile.Get(KitsuneSettingsFile.GlassColour);
+        if (System.Array.IndexOf(GlassColours, glassColour) < 0)
+        {
+            glassColour = "midnight";
+        }
         barStyle = KitsuneSettingsFile.Get(KitsuneSettingsFile.BarStyle);
         if (System.Array.IndexOf(BarStyles, barStyle) < 0)
         {
@@ -133,8 +142,13 @@ public static class KitsuneSettingsApplier
                         sprite.SpriteName = pill;
                     }
                 }
-                if (sprite.SpriteName != null && GlassSprites.Contains(sprite.SpriteName))
+                if (o.Sprite != null && GlassSprites.Contains(o.Sprite))
                 {
+                    string glassSprite = glassColour == "midnight" ? o.Sprite : o.Sprite + "_" + glassColour;
+                    if (sprite.SpriteName != glassSprite)
+                    {
+                        sprite.SpriteName = glassSprite;
+                    }
                     Color tint = palette.GlassTint;
                     sprite.Color = new Color(o.A.r * tint.r, o.A.g * tint.g, o.A.b * tint.b, o.A.a * glass);
                 }
@@ -248,6 +262,8 @@ public class XUiC_KitsuneSettingsWindow : XUiController
     XUiC_ToggleButton nameplates;
     XUiC_ToggleButton combatText;
     XUiView hueRing;
+    XUiView glassRing;
+    readonly List<(string colour, XUiView swatch)> glassSwatches = new List<(string, XUiView)>();
     readonly List<(int hue, XUiView swatch)> hueSwatches = new List<(int, XUiView)>();
 
     // Rows of buttons that each store one value under one key (frame width, buff size...).
@@ -265,8 +281,21 @@ public class XUiC_KitsuneSettingsWindow : XUiController
                     KitsuneSettingsFile.Set(key, v);
                     KitsuneSettingsApplier.ApplyAll(xui);
                     ShowChoices();
+        ShowGlassColour();
                 };
                 choices.Add((key, value, b));
+            }
+        }
+    }
+
+    void ShowGlassColour()
+    {
+        string current = KitsuneSettingsFile.Get(KitsuneSettingsFile.GlassColour);
+        foreach ((string colour, XUiView swatch) in glassSwatches)
+        {
+            if (colour == current && glassRing != null)
+            {
+                glassRing.Position = new Vector2i(swatch.Position.x - 3, swatch.Position.y + 3);
             }
         }
     }
@@ -320,6 +349,23 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         ChoiceRow("btnBuffSize_", KitsuneSettingsFile.BuffSize, "75", "100", "125");
         ChoiceRow("btnBuffCount_", KitsuneSettingsFile.BuffCount, "4", "6", "8");
         hueRing = GetChildById("kuHueRing")?.ViewComponent;
+        glassRing = GetChildById("kuGlassRing")?.ViewComponent;
+        foreach (string colour in KitsuneSettingsApplier.GlassColours)
+        {
+            XUiController c = GetChildById("btnGlassColour_" + colour);
+            if (c?.ViewComponent == null)
+            {
+                continue;
+            }
+            string col = colour;
+            c.OnPress += (_sender, _mouseButton) =>
+            {
+                KitsuneSettingsFile.Set(KitsuneSettingsFile.GlassColour, col);
+                KitsuneSettingsApplier.ApplyAll(xui);
+                ShowGlassColour();
+            };
+            glassSwatches.Add((colour, c.ViewComponent));
+        }
         foreach (int hue in KitsunePalette.CustomHues)
         {
             XUiController c = GetChildById("btnHue_" + hue);

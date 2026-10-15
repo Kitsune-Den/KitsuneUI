@@ -37,6 +37,7 @@ public static class KitsuneSettingsFile
     public const string Nameplates = "nameplates";        // health bars over enemies you're fighting
     public const string CombatText = "combatText";        // floating damage and heal numbers
     public const string CustomHue = "customHue";          // hue (degrees) of the custom colour palette
+    public const string GlassColour = "glassColour";      // glass colourway: midnight, charcoal, obsidian, forest, plum, ember, ocean
     public const string FrameWidth = "frameWidth";        // unit frame width: 260, 320, 400
     public const string BuffSize = "buffSize";            // unit frame buff icon size, percent: 75, 100, 125
     public const string BuffCount = "buffCount";          // buff icons shown per frame: 4, 6, 8
@@ -69,6 +70,7 @@ public static class KitsuneSettingsFile
         { Nameplates, "false" },
         { CombatText, "false" },
         { CustomHue, "200" },
+        { GlassColour, "midnight" },
         { FrameWidth, "320" },
         { BuffSize, "100" },
         { BuffCount, "8" },

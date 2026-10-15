@@ -100,12 +100,12 @@ def vgradient(w, h, top, bottom):
 
 # --- glass panel (baked) -------------------------------------------------------
 # 64x64, radius 14. Gradient glass, 1px cool edge, gold hairline along the top.
-def glass_panel(size=64, r=14):
-    body = vgradient(size, size, GLASS_TOP + (GLASS_A_TOP,), GLASS_BOTTOM + (GLASS_A_BOTTOM,))
+def glass_panel(size=64, r=14, top=GLASS_TOP, bottom=GLASS_BOTTOM, edge_rgb=EDGE):
+    body = vgradient(size, size, top + (GLASS_A_TOP,), bottom + (GLASS_A_BOTTOM,))
     # gradient alpha times the rounded-rect mask, so the edge stays anti-aliased
     body.putalpha(ImageChops.multiply(body.getchannel("A"), mask_round(size, size, r)))
 
-    edge = Image.new("RGBA", body.size, EDGE + (0,))
+    edge = Image.new("RGBA", body.size, edge_rgb + (0,))
     edge.putalpha(Image.eval(ring_mask(size, size, r, 1), lambda v: v * 44 // 255))
     body = Image.alpha_composite(body, edge)
 
@@ -129,7 +129,7 @@ add("ku_panel_sm", glass_panel(40, 10), 12)
 # Vanilla windows draw a 43px header (headerbg -> ui_game_panel_header) and the
 # content below it as separate sprites. The header is rounded on top only and
 # ends in a gold divider; the body is rounded at the bottom only.
-def glass_part(w, h, r, top, bottom, round_top, round_bottom, divider=False, hairline=False):
+def glass_part(w, h, r, top, bottom, round_top, round_bottom, divider=False, hairline=False, edge_rgb=EDGE):
     corners = (round_top, round_top, round_bottom, round_bottom)
     m = Image.new("L", (w * SS, h * SS), 0)
     ImageDraw.Draw(m).rounded_rectangle((0, 0, w * SS - 1, h * SS - 1), radius=r * SS, fill=255, corners=corners)
@@ -142,7 +142,7 @@ def glass_part(w, h, r, top, bottom, round_top, round_bottom, divider=False, hai
         (SS, SS if round_top else 0, w * SS - 1 - SS, h * SS - 1 - (SS if round_bottom else 0)),
         radius=(r - 1) * SS, fill=255, corners=corners)
     edge_m = ImageChops.subtract(m, inner)
-    edge = Image.new("RGBA", body.size, EDGE + (0,))
+    edge = Image.new("RGBA", body.size, edge_rgb + (0,))
     edge.putalpha(Image.eval(edge_m, lambda v: v * 44 // 255))
     body = Image.alpha_composite(body, edge)
 
@@ -167,6 +167,29 @@ add("ui_game_panel_header",
 add("ku_panel_body",
     glass_part(64, 48, 14, (20, 24, 46, GLASS_A_TOP), GLASS_BOTTOM + (GLASS_A_BOTTOM,), False, True),
     (16, 16, 4, 16))
+
+
+# Glass colourways (KitsuneUI_Settings > Look > Glass colour): the same four glass sprites
+# in other colours, named <sprite>_<colour>. Midnight is the indigo above. Per colour:
+# top and bottom of the gradient, the header's lower and the body's upper shade (so the
+# header and body still read as one piece), and the 1px edge. The gold stays gold.
+GLASS_COLOURS = {
+    "charcoal": ((36, 38, 42), (14, 15, 18), (31, 33, 37), (26, 28, 32), (195, 200, 210)),
+    "obsidian": ((18, 18, 21), (4, 4, 6), (15, 15, 18), (11, 11, 14), (130, 130, 145)),
+    "forest": ((24, 46, 35), (8, 18, 13), (21, 40, 31), (17, 33, 26), (150, 225, 180)),
+    "plum": ((48, 28, 60), (17, 9, 23), (42, 24, 52), (34, 20, 44), (215, 170, 255)),
+    "ember": ((54, 32, 24), (20, 11, 8), (47, 28, 21), (39, 23, 17), (255, 190, 150)),
+    "ocean": ((16, 44, 60), (6, 16, 24), (14, 38, 52), (12, 32, 44), (140, 215, 255)),
+}
+for _c, (_top, _bottom, _hdr, _body, _edge) in GLASS_COLOURS.items():
+    add(f"ku_panel_{_c}", glass_panel(top=_top, bottom=_bottom, edge_rgb=_edge), 18)
+    add(f"ku_panel_sm_{_c}", glass_panel(40, 10, _top, _bottom, _edge), 12)
+    add(f"ui_game_panel_header_{_c}",
+        glass_part(64, 48, 14, _top + (GLASS_A_TOP,), _hdr + (GLASS_A_TOP,), True, False, divider=True, hairline=True, edge_rgb=_edge),
+        (16, 16, 16, 4))
+    add(f"ku_panel_body_{_c}",
+        glass_part(64, 48, 14, _body + (GLASS_A_TOP,), _bottom + (GLASS_A_BOTTOM,), False, True, edge_rgb=_edge),
+        (16, 16, 4, 16))
 
 
 # --- soft drop shadow (baked) ---------------------------------------------------

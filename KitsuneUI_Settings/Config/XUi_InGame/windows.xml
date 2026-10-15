@@ -112,38 +112,47 @@
 				<simplebutton name="btnGlass85" depth="3" pos="254,-116" width="88" height="36" font_size="24" caption="85%" />
 				<simplebutton name="btnGlass70" depth="3" pos="348,-116" width="88" height="36" font_size="24" caption="70%" />
 				<simplebutton name="btnGlass55" depth="3" pos="442,-116" width="88" height="36" font_size="24" caption="55%" />
-				<label depth="3" name="lblColours" pos="22,-182" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetColours" />
-				<simplebutton name="btnPalette_kitsunebi" depth="3" pos="160,-164" width="88" height="36" font_size="20" caption="Kitsunebi" />
-				<simplebutton name="btnPalette_ember" depth="3" pos="254,-164" width="88" height="36" font_size="20" caption_key="kuPaletteEmber" />
-				<simplebutton name="btnPalette_moss" depth="3" pos="348,-164" width="88" height="36" font_size="20" caption_key="kuPaletteMoss" />
-				<simplebutton name="btnPalette_sakura" depth="3" pos="442,-164" width="88" height="36" font_size="20" caption_key="kuPaletteSakura" />
-				<label depth="3" name="lblCustomColour" pos="22,-230" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetCustomColour" />
-				<button depth="3" name="btnHue_0" pos="160,-216" width="28" height="28" sprite="ku_round_sm" type="sliced" defaultcolor="255,112,112,255" hovercolor="255,112,112,255" selectedcolor="255,112,112,255" style="press, hover" sound="[paging_click]" />
-				<button depth="3" name="btnHue_30" pos="191,-216" width="28" height="28" sprite="ku_round_sm" type="sliced" defaultcolor="255,184,112,255" hovercolor="255,184,112,255" selectedcolor="255,184,112,255" style="press, hover" sound="[paging_click]" />
-				<button depth="3" name="btnHue_50" pos="222,-216" width="28" height="28" sprite="ku_round_sm" type="sliced" defaultcolor="255,231,112,255" hovercolor="255,231,112,255" selectedcolor="255,231,112,255" style="press, hover" sound="[paging_click]" />
-				<button depth="3" name="btnHue_80" pos="253,-216" width="28" height="28" sprite="ku_round_sm" type="sliced" defaultcolor="207,255,112,255" hovercolor="207,255,112,255" selectedcolor="207,255,112,255" style="press, hover" sound="[paging_click]" />
-				<button depth="3" name="btnHue_120" pos="284,-216" width="28" height="28" sprite="ku_round_sm" type="sliced" defaultcolor="112,255,112,255" hovercolor="112,255,112,255" selectedcolor="112,255,112,255" style="press, hover" sound="[paging_click]" />
-				<button depth="3" name="btnHue_160" pos="315,-216" width="28" height="28" sprite="ku_round_sm" type="sliced" defaultcolor="112,255,207,255" hovercolor="112,255,207,255" selectedcolor="112,255,207,255" style="press, hover" sound="[paging_click]" />
-				<button depth="3" name="btnHue_185" pos="346,-216" width="28" height="28" sprite="ku_round_sm" type="sliced" defaultcolor="112,243,255,255" hovercolor="112,243,255,255" selectedcolor="112,243,255,255" style="press, hover" sound="[paging_click]" />
-				<button depth="3" name="btnHue_200" pos="377,-216" width="28" height="28" sprite="ku_round_sm" type="sliced" defaultcolor="112,207,255,255" hovercolor="112,207,255,255" selectedcolor="112,207,255,255" style="press, hover" sound="[paging_click]" />
-				<button depth="3" name="btnHue_220" pos="408,-216" width="28" height="28" sprite="ku_round_sm" type="sliced" defaultcolor="112,160,255,255" hovercolor="112,160,255,255" selectedcolor="112,160,255,255" style="press, hover" sound="[paging_click]" />
-				<button depth="3" name="btnHue_250" pos="439,-216" width="28" height="28" sprite="ku_round_sm" type="sliced" defaultcolor="136,112,255,255" hovercolor="136,112,255,255" selectedcolor="136,112,255,255" style="press, hover" sound="[paging_click]" />
-				<button depth="3" name="btnHue_280" pos="470,-216" width="28" height="28" sprite="ku_round_sm" type="sliced" defaultcolor="207,112,255,255" hovercolor="207,112,255,255" selectedcolor="207,112,255,255" style="press, hover" sound="[paging_click]" />
-				<button depth="3" name="btnHue_320" pos="501,-216" width="28" height="28" sprite="ku_round_sm" type="sliced" defaultcolor="255,112,207,255" hovercolor="255,112,207,255" selectedcolor="255,112,207,255" style="press, hover" sound="[paging_click]" />
-				<sprite depth="4" name="kuHueRing" pos="157,-213" width="34" height="34" sprite="ku_slot_ring2" type="sliced" color="[white]" visible="false" />
-				<label depth="3" name="lblBarText" pos="22,-278" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetBarText" />
-				<simplebutton name="btnBarText_full" depth="3" pos="160,-260" width="88" height="36" font_size="22" caption="100/100" />
-				<simplebutton name="btnBarText_percent" depth="3" pos="254,-260" width="88" height="36" font_size="22" caption="100%" />
-				<simplebutton name="btnBarText_current" depth="3" pos="348,-260" width="88" height="36" font_size="22" caption="100" />
-				<simplebutton name="btnBarText_none" depth="3" pos="442,-260" width="88" height="36" font_size="20" caption_key="kuBarTextNone" />
-				<togglebutton name="tglXpBar" depth="3" pos="20,-308" width="520" height="40" font_size="26" caption="" />
-				<label depth="4" name="tglXpBarText" pos="66,-328" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetXpBar" />
-				<label depth="3" name="lblBarStyle" pos="22,-374" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetBarStyle" />
-				<simplebutton name="btnBarStylePrev" depth="3" pos="160,-356" width="44" height="36" font_size="24" caption="&lt;" />
-				<sprite depth="3" name="kuBarStyleTrack" pos="210,-356" width="270" height="36" sprite="ku_bar" type="sliced" color="6,8,20,225" />
-				<sprite depth="4" name="kuBarStylePreviewFill" pos="214,-361" width="262" height="26" sprite="ku_bar" type="filled" fill="0.72" color="60,200,95,255" />
-				<label depth="5" name="kuBarStyleName" pos="345,-374" width="250" height="26" pivot="center" justify="center" font_size="22" color="[white]" effect="outline" effect_color="0,0,0,230" text="" />
-				<simplebutton name="btnBarStyleNext" depth="3" pos="486,-356" width="44" height="36" font_size="24" caption="&gt;" />
+				<label depth="3" name="lblGlassColour" pos="22,-182" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetGlassColour" />
+				<button depth="3" name="btnGlassColour_midnight" pos="160,-166" width="47" height="30" sprite="ku_round_sm" type="sliced" defaultcolor="82,93,160,255" hovercolor="82,93,160,255" selectedcolor="82,93,160,255" style="press, hover" sound="[paging_click]" tooltip_key="kuGlass_midnight" />
+				<button depth="3" name="btnGlassColour_charcoal" pos="213,-166" width="47" height="30" sprite="ku_round_sm" type="sliced" defaultcolor="100,105,114,255" hovercolor="100,105,114,255" selectedcolor="100,105,114,255" style="press, hover" sound="[paging_click]" tooltip_key="kuGlass_charcoal" />
+				<button depth="3" name="btnGlassColour_obsidian" pos="266,-166" width="47" height="30" sprite="ku_round_sm" type="sliced" defaultcolor="59,59,66,255" hovercolor="59,59,66,255" selectedcolor="59,59,66,255" style="press, hover" sound="[paging_click]" tooltip_key="kuGlass_obsidian" />
+				<button depth="3" name="btnGlassColour_forest" pos="319,-166" width="47" height="30" sprite="ku_round_sm" type="sliced" defaultcolor="73,123,98,255" hovercolor="73,123,98,255" selectedcolor="73,123,98,255" style="press, hover" sound="[paging_click]" tooltip_key="kuGlass_forest" />
+				<button depth="3" name="btnGlassColour_plum" pos="372,-166" width="47" height="30" sprite="ku_round_sm" type="sliced" defaultcolor="128,82,156,255" hovercolor="128,82,156,255" selectedcolor="128,82,156,255" style="press, hover" sound="[paging_click]" tooltip_key="kuGlass_plum" />
+				<button depth="3" name="btnGlassColour_ember" pos="425,-166" width="47" height="30" sprite="ku_round_sm" type="sliced" defaultcolor="142,91,73,255" hovercolor="142,91,73,255" selectedcolor="142,91,73,255" style="press, hover" sound="[paging_click]" tooltip_key="kuGlass_ember" />
+				<button depth="3" name="btnGlassColour_ocean" pos="478,-166" width="47" height="30" sprite="ku_round_sm" type="sliced" defaultcolor="54,119,156,255" hovercolor="54,119,156,255" selectedcolor="54,119,156,255" style="press, hover" sound="[paging_click]" tooltip_key="kuGlass_ocean" />
+				<sprite depth="4" name="kuGlassRing" pos="157,-163" width="53" height="36" sprite="ku_slot_ring2" type="sliced" color="[white]" />
+				<label depth="3" name="lblColours" pos="22,-230" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetColours" />
+				<simplebutton name="btnPalette_kitsunebi" depth="3" pos="160,-212" width="88" height="36" font_size="20" caption="Kitsunebi" />
+				<simplebutton name="btnPalette_ember" depth="3" pos="254,-212" width="88" height="36" font_size="20" caption_key="kuPaletteEmber" />
+				<simplebutton name="btnPalette_moss" depth="3" pos="348,-212" width="88" height="36" font_size="20" caption_key="kuPaletteMoss" />
+				<simplebutton name="btnPalette_sakura" depth="3" pos="442,-212" width="88" height="36" font_size="20" caption_key="kuPaletteSakura" />
+				<label depth="3" name="lblCustomColour" pos="22,-278" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetCustomColour" />
+				<button depth="3" name="btnHue_0" pos="160,-264" width="28" height="28" sprite="ku_round_sm" type="sliced" defaultcolor="255,112,112,255" hovercolor="255,112,112,255" selectedcolor="255,112,112,255" style="press, hover" sound="[paging_click]" />
+				<button depth="3" name="btnHue_30" pos="191,-264" width="28" height="28" sprite="ku_round_sm" type="sliced" defaultcolor="255,184,112,255" hovercolor="255,184,112,255" selectedcolor="255,184,112,255" style="press, hover" sound="[paging_click]" />
+				<button depth="3" name="btnHue_50" pos="222,-264" width="28" height="28" sprite="ku_round_sm" type="sliced" defaultcolor="255,231,112,255" hovercolor="255,231,112,255" selectedcolor="255,231,112,255" style="press, hover" sound="[paging_click]" />
+				<button depth="3" name="btnHue_80" pos="253,-264" width="28" height="28" sprite="ku_round_sm" type="sliced" defaultcolor="207,255,112,255" hovercolor="207,255,112,255" selectedcolor="207,255,112,255" style="press, hover" sound="[paging_click]" />
+				<button depth="3" name="btnHue_120" pos="284,-264" width="28" height="28" sprite="ku_round_sm" type="sliced" defaultcolor="112,255,112,255" hovercolor="112,255,112,255" selectedcolor="112,255,112,255" style="press, hover" sound="[paging_click]" />
+				<button depth="3" name="btnHue_160" pos="315,-264" width="28" height="28" sprite="ku_round_sm" type="sliced" defaultcolor="112,255,207,255" hovercolor="112,255,207,255" selectedcolor="112,255,207,255" style="press, hover" sound="[paging_click]" />
+				<button depth="3" name="btnHue_185" pos="346,-264" width="28" height="28" sprite="ku_round_sm" type="sliced" defaultcolor="112,243,255,255" hovercolor="112,243,255,255" selectedcolor="112,243,255,255" style="press, hover" sound="[paging_click]" />
+				<button depth="3" name="btnHue_200" pos="377,-264" width="28" height="28" sprite="ku_round_sm" type="sliced" defaultcolor="112,207,255,255" hovercolor="112,207,255,255" selectedcolor="112,207,255,255" style="press, hover" sound="[paging_click]" />
+				<button depth="3" name="btnHue_220" pos="408,-264" width="28" height="28" sprite="ku_round_sm" type="sliced" defaultcolor="112,160,255,255" hovercolor="112,160,255,255" selectedcolor="112,160,255,255" style="press, hover" sound="[paging_click]" />
+				<button depth="3" name="btnHue_250" pos="439,-264" width="28" height="28" sprite="ku_round_sm" type="sliced" defaultcolor="136,112,255,255" hovercolor="136,112,255,255" selectedcolor="136,112,255,255" style="press, hover" sound="[paging_click]" />
+				<button depth="3" name="btnHue_280" pos="470,-264" width="28" height="28" sprite="ku_round_sm" type="sliced" defaultcolor="207,112,255,255" hovercolor="207,112,255,255" selectedcolor="207,112,255,255" style="press, hover" sound="[paging_click]" />
+				<button depth="3" name="btnHue_320" pos="501,-264" width="28" height="28" sprite="ku_round_sm" type="sliced" defaultcolor="255,112,207,255" hovercolor="255,112,207,255" selectedcolor="255,112,207,255" style="press, hover" sound="[paging_click]" />
+				<sprite depth="4" name="kuHueRing" pos="157,-261" width="34" height="34" sprite="ku_slot_ring2" type="sliced" color="[white]" visible="false" />
+				<label depth="3" name="lblBarText" pos="22,-326" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetBarText" />
+				<simplebutton name="btnBarText_full" depth="3" pos="160,-308" width="88" height="36" font_size="22" caption="100/100" />
+				<simplebutton name="btnBarText_percent" depth="3" pos="254,-308" width="88" height="36" font_size="22" caption="100%" />
+				<simplebutton name="btnBarText_current" depth="3" pos="348,-308" width="88" height="36" font_size="22" caption="100" />
+				<simplebutton name="btnBarText_none" depth="3" pos="442,-308" width="88" height="36" font_size="20" caption_key="kuBarTextNone" />
+				<togglebutton name="tglXpBar" depth="3" pos="20,-356" width="520" height="40" font_size="26" caption="" />
+				<label depth="4" name="tglXpBarText" pos="66,-376" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetXpBar" />
+				<label depth="3" name="lblBarStyle" pos="22,-422" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetBarStyle" />
+				<simplebutton name="btnBarStylePrev" depth="3" pos="160,-404" width="44" height="36" font_size="24" caption="&lt;" />
+				<sprite depth="3" name="kuBarStyleTrack" pos="210,-404" width="270" height="36" sprite="ku_bar" type="sliced" color="6,8,20,225" />
+				<sprite depth="4" name="kuBarStylePreviewFill" pos="214,-409" width="262" height="26" sprite="ku_bar" type="filled" fill="0.72" color="60,200,95,255" />
+				<label depth="5" name="kuBarStyleName" pos="345,-422" width="250" height="26" pivot="center" justify="center" font_size="22" color="[white]" effect="outline" effect_color="0,0,0,230" text="" />
+				<simplebutton name="btnBarStyleNext" depth="3" pos="486,-404" width="44" height="36" font_size="24" caption="&gt;" />
 			</rect>
 
 			<simplebutton name="btnMoveHUD" depth="3" pos="20,-460" width="168" height="40" font_size="24" caption_key="kuSetMoveHUD" />

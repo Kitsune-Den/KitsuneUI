@@ -99,3 +99,11 @@ kuOptWide,UI,XUi,,,,Wide,,Breit,Ancho,Large,Largo,広い,넓게,Szeroka,Largo,Ш
 kuOptSmall,UI,XUi,,,,Small,,Klein,Pequeño,Petit,Piccolo,小,작게,Małe,Pequeno,Мелкие,Küçük,小,小
 kuOptLarge,UI,XUi,,,,Large,,Groß,Grande,Grand,Grande,大,크게,Duże,Grande,Крупные,Büyük,大,大
 kuTierZero,UI,XUi,,,,Tier 0,,Stufe 0,Nivel 0,Niveau 0,Livello 0,ティア0,티어 0,Poziom 0,Nível 0,Уровень 0,Seviye 0,等级 0,等級 0
+kuSetGlassColour,UI,XUi,,,,Glass colour,,Glasfarbe,Color del cristal,Couleur du verre,Colore vetro,ガラスの色,유리 색상,Kolor szkła,Cor do vidro,Цвет стекла,Cam rengi,玻璃颜色,玻璃顏色
+kuGlass_midnight,UI,XUi,,,,Midnight,,Mitternacht,Medianoche,Minuit,Mezzanotte,ミッドナイト,미드나이트,Północ,Meia-noite,Полночь,Gece yarısı,午夜,午夜
+kuGlass_charcoal,UI,XUi,,,,Charcoal,,Anthrazit,Carbón,Anthracite,Antracite,チャコール,차콜,Grafit,Carvão,Графит,Antrasit,炭灰,炭灰
+kuGlass_obsidian,UI,XUi,,,,Obsidian,,Obsidian,Obsidiana,Obsidienne,Ossidiana,黒曜石,흑요석,Obsydian,Obsidiana,Обсидиан,Obsidyen,黑曜石,黑曜石
+kuGlass_forest,UI,XUi,,,,Forest,,Wald,Bosque,Forêt,Foresta,フォレスト,숲,Las,Floresta,Лес,Orman,森林,森林
+kuGlass_plum,UI,XUi,,,,Plum,,Pflaume,Ciruela,Prune,Prugna,プラム,자두,Śliwka,Ameixa,Слива,Erik,梅紫,梅紫
+kuGlass_ember,UI,XUi,,,,Ember,,Glut,Brasa,Braise,Brace,残り火,잉걸불,Żar,Brasa,Угли,Kor,余烬,餘燼
+kuGlass_ocean,UI,XUi,,,,Ocean,,Ozean,Océano,Océan,Oceano,オーシャン,바다,Ocean,Oceano,Океан,Okyanus,海洋,海洋

@@ -3,6 +3,30 @@
 	<sprite name="ku_panel_sm" borderleft="12" borderright="12" bordertop="12" borderbottom="12" />
 	<sprite name="ui_game_panel_header" borderleft="16" borderright="16" bordertop="16" borderbottom="4" />
 	<sprite name="ku_panel_body" borderleft="16" borderright="16" bordertop="4" borderbottom="16" />
+	<sprite name="ku_panel_charcoal" borderleft="18" borderright="18" bordertop="18" borderbottom="18" />
+	<sprite name="ku_panel_sm_charcoal" borderleft="12" borderright="12" bordertop="12" borderbottom="12" />
+	<sprite name="ui_game_panel_header_charcoal" borderleft="16" borderright="16" bordertop="16" borderbottom="4" />
+	<sprite name="ku_panel_body_charcoal" borderleft="16" borderright="16" bordertop="4" borderbottom="16" />
+	<sprite name="ku_panel_obsidian" borderleft="18" borderright="18" bordertop="18" borderbottom="18" />
+	<sprite name="ku_panel_sm_obsidian" borderleft="12" borderright="12" bordertop="12" borderbottom="12" />
+	<sprite name="ui_game_panel_header_obsidian" borderleft="16" borderright="16" bordertop="16" borderbottom="4" />
+	<sprite name="ku_panel_body_obsidian" borderleft="16" borderright="16" bordertop="4" borderbottom="16" />
+	<sprite name="ku_panel_forest" borderleft="18" borderright="18" bordertop="18" borderbottom="18" />
+	<sprite name="ku_panel_sm_forest" borderleft="12" borderright="12" bordertop="12" borderbottom="12" />
+	<sprite name="ui_game_panel_header_forest" borderleft="16" borderright="16" bordertop="16" borderbottom="4" />
+	<sprite name="ku_panel_body_forest" borderleft="16" borderright="16" bordertop="4" borderbottom="16" />
+	<sprite name="ku_panel_plum" borderleft="18" borderright="18" bordertop="18" borderbottom="18" />
+	<sprite name="ku_panel_sm_plum" borderleft="12" borderright="12" bordertop="12" borderbottom="12" />
+	<sprite name="ui_game_panel_header_plum" borderleft="16" borderright="16" bordertop="16" borderbottom="4" />
+	<sprite name="ku_panel_body_plum" borderleft="16" borderright="16" bordertop="4" borderbottom="16" />
+	<sprite name="ku_panel_ember" borderleft="18" borderright="18" bordertop="18" borderbottom="18" />
+	<sprite name="ku_panel_sm_ember" borderleft="12" borderright="12" bordertop="12" borderbottom="12" />
+	<sprite name="ui_game_panel_header_ember" borderleft="16" borderright="16" bordertop="16" borderbottom="4" />
+	<sprite name="ku_panel_body_ember" borderleft="16" borderright="16" bordertop="4" borderbottom="16" />
+	<sprite name="ku_panel_ocean" borderleft="18" borderright="18" bordertop="18" borderbottom="18" />
+	<sprite name="ku_panel_sm_ocean" borderleft="12" borderright="12" bordertop="12" borderbottom="12" />
+	<sprite name="ui_game_panel_header_ocean" borderleft="16" borderright="16" bordertop="16" borderbottom="4" />
+	<sprite name="ku_panel_body_ocean" borderleft="16" borderright="16" bordertop="4" borderbottom="16" />
 	<sprite name="ku_shadow" borderleft="40" borderright="40" bordertop="40" borderbottom="40" />
 	<sprite name="ku_slot_fill" borderleft="10" borderright="10" bordertop="10" borderbottom="10" />
 	<sprite name="ku_slot_ring" borderleft="10" borderright="10" bordertop="10" borderbottom="10" />

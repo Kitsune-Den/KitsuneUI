@@ -150,6 +150,9 @@
 	<set xpath="/templates/skill_entry/rect/sprite[@name='backgroundMain']/@color">[transparent]</set>
 	<setattribute xpath="/templates/skill_entry/rect/sprite[@sprite='{rowstatesprite}']" name="atlas">KitsuneRows</setattribute>
 	<set xpath="/templates/skill_entry/rect/@row_color">64,64,64,255</set>
+	<!-- Skills you can study bright, locked ones dim (the palette brought the two too close). -->
+	<set xpath="/templates/skill_entry/rect/@enabled_color">[kuTextBright]</set>
+	<set xpath="/templates/skill_entry/rect/@disabled_color">104,110,134,255</set>
 	<set xpath="/templates/skill_entry/rect/@hover_color">96,96,96,255</set>
 
 	<!-- Active buff rows: colour and sprite set in code (64 / 96 / white + select_row). -->

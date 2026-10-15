@@ -7,7 +7,7 @@
 | | |
 |---|---|
 | ![Forge](docs/screenshots/forge.webp) | ![Skills](docs/screenshots/skills.webp) |
-| ![Challenges](docs/screenshots/challenges.webp) | ![Loading screen and respawn](docs/screenshots/loading-respawn.webp) |
+| ![Challenges](docs/screenshots/challenges.webp) | ![Loading screen: a Kitsunebi painting with the tip in a glass column (KitsuneUI_Loading)](docs/screenshots/loading.webp) |
 | ![Trader jobs as picture tiles (KitsuneUI_JobPreview)](docs/screenshots/job-tiles.webp) | ![Job offer with the location's picture (KitsuneUI_JobPreview)](docs/screenshots/job-offer.webp) |
 
 **About the screenshots:** they were taken with separate inventory and container mods installed (a bigger backpack, extra crafting queue and workstation slots, bigger stacks), to show the theme stretching to fit them. Those mods are **not** part of KitsuneUI. With KitsuneUI alone, your bags and workstations keep their vanilla sizes.
