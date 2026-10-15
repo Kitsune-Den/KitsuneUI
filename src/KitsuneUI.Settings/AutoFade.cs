@@ -30,6 +30,7 @@ public static class KitsuneAutoFade
 
     static readonly Piece belt = new Piece("windowToolbelt");
     static readonly Piece stats = new Piece("HUDLeftStatBars");
+    static readonly Piece frame = new Piece("kuPlayerFrame");
     static int beltSignature;
     static int lastSlot = -1;
     static bool wasFading;
@@ -38,6 +39,7 @@ public static class KitsuneAutoFade
     {
         Find(xui, belt);
         Find(xui, stats);
+        Find(xui, frame);
         bool on = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.AutoFade);
         EntityPlayerLocal player = xui?.playerUI?.entityPlayer;
         if (!on || KitsuneLayout.Active || player == null)
@@ -46,6 +48,7 @@ public static class KitsuneAutoFade
             {
                 Show(belt);
                 Show(stats);
+                Show(frame);
                 wasFading = false;
             }
             return;
@@ -66,6 +69,7 @@ public static class KitsuneAutoFade
 
         Step(belt, beltWake, dt);
         Step(stats, statsWake, dt);
+        Step(frame, statsWake, dt);
     }
 
     static void Find(XUi xui, Piece p)

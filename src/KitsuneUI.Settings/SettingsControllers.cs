@@ -182,7 +182,7 @@ public class XUiC_KitsuneSettingsOpener : XUiController
 }
 
 /// <summary>
-/// The settings window, in four tabs (HUD, Map, Windows, Look): twelve toggles, minimap zoom and view, bar text style, text size, a four-step glass strength and Close.
+/// The settings window, in four tabs (HUD, Map, Windows, Look): thirteen toggles, minimap zoom and view, bar text style, text size, a four-step glass strength and Close.
 /// Every change is saved and applied straight away.
 /// </summary>
 public class XUiC_KitsuneSettingsWindow : XUiController
@@ -201,6 +201,7 @@ public class XUiC_KitsuneSettingsWindow : XUiController
     XUiC_ToggleButton bagSearch;
     XUiC_ToggleButton wearWarning;
     XUiC_ToggleButton buffTimers;
+    XUiC_ToggleButton unitFrames;
     static readonly int[] MapZooms = { 64, 128, 256 };
     readonly List<(int blocks, XUiC_SimpleButton button)> zoomButtons = new List<(int, XUiC_SimpleButton)>();
     readonly List<(bool rotate, XUiC_SimpleButton button)> viewButtons = new List<(bool, XUiC_SimpleButton)>();
@@ -230,6 +231,7 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         bagSearch = Toggle("tglBagSearch", KitsuneSettingsFile.BagSearch);
         wearWarning = Toggle("tglWear", KitsuneSettingsFile.WearWarning);
         buffTimers = Toggle("tglBuffTimers", KitsuneSettingsFile.BuffTimers);
+        unitFrames = Toggle("tglUnitFrames", KitsuneSettingsFile.UnitFrames);
         foreach (int blocks in MapZooms)
         {
             if (FindButton("btnMapZoom" + blocks) is XUiC_SimpleButton b)
@@ -468,6 +470,7 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         if (bagSearch != null) bagSearch.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.BagSearch);
         if (wearWarning != null) wearWarning.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.WearWarning);
         if (buffTimers != null) buffTimers.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.BuffTimers);
+        if (unitFrames != null) unitFrames.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.UnitFrames);
         ShowMap();
         ShowTab(currentTab);
         ShowGlass();

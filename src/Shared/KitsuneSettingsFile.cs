@@ -30,6 +30,7 @@ public static class KitsuneSettingsFile
     public const string BagSearch = "bagSearch";          // search box in the backpack header
     public const string WearWarning = "wearWarning";      // ring on nearly worn-out toolbelt items
     public const string BuffTimers = "buffTimers";        // time left beside icon-only buffs
+    public const string UnitFrames = "unitFrames";        // ElvUI-style player and target frames
 
     static readonly Dictionary<string, string> Defaults = new Dictionary<string, string>
     {
@@ -52,6 +53,7 @@ public static class KitsuneSettingsFile
         { BagSearch, "false" },
         { WearWarning, "false" },
         { BuffTimers, "false" },
+        { UnitFrames, "false" },
     };
 
     static Dictionary<string, string> values;

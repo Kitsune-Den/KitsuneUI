@@ -19,7 +19,7 @@ public static class KitsuneBarText
 
     static void Postfix(XUiC_HUDStatBar __instance, ref string _value, string _bindingName)
     {
-        if (_bindingName != "statcurrentwithmax" || __instance.localPlayer == null)
+        if ((_bindingName != "statcurrentwithmax" && _bindingName != "statvisible") || __instance.localPlayer == null)
         {
             return;
         }
@@ -32,6 +32,15 @@ public static class KitsuneBarText
                 break;
             default:
                 return;
+        }
+        // Unit frames replace these four bars, so they hide while those are on.
+        if (_bindingName == "statvisible")
+        {
+            if (KitsuneUnitFrames.On)
+            {
+                _value = "false";
+            }
+            return;
         }
         string style = KitsuneSettingsFile.Get(KitsuneSettingsFile.BarText);
         if (style == Full)

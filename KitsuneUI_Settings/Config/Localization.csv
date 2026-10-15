@@ -63,3 +63,6 @@ kuSetMapZoom,UI,XUi,,,,Zoom,,Zoom,Zoom,Zoom,Zoom,ズーム,확대,Powiększenie,
 kuSetMapView,UI,XUi,,,,View,,Ansicht,Vista,Vue,Vista,表示,보기,Widok,Visão,Вид,Görünüm,视图,視圖
 kuMapNorthUp,UI,XUi,,,,North up,,Norden oben,Norte arriba,Nord en haut,Nord in alto,北が上,북쪽 위,Północ u góry,Norte para cima,Север сверху,Kuzey yukarı,北方朝上,北方朝上
 kuMapRotate,UI,XUi,,,,Turn with me,,Mitdrehen,Girar conmigo,Tourner avec moi,Ruota con me,向きに合わせる,나와 함께 회전,Obracaj ze mną,Girar comigo,Поворачивать за мной,Benimle dön,随我转动,隨我轉動
+kuSetUnitFrames,UI,XUi,,,,Unit frames by the crosshair,,Einheitenrahmen am Fadenkreuz,Marcos de unidad junto a la mira,Cadres d'unité près du réticule,Riquadri unità vicino al mirino,照準のそばにユニットフレーム,조준점 옆 유닛 프레임,Ramki jednostek przy celowniku,Quadros de unidade junto à mira,Рамки юнитов у прицела,Nişangahın yanında birim çerçeveleri,准星旁的单位框体,準星旁的單位框體
+kuMovePlayerFrame,UI,XUi,,,,PLAYER FRAME,,SPIELERRAHMEN,MARCO DEL JUGADOR,CADRE DU JOUEUR,RIQUADRO GIOCATORE,プレイヤーフレーム,플레이어 프레임,RAMKA GRACZA,QUADRO DO JOGADOR,РАМКА ИГРОКА,OYUNCU ÇERÇEVESİ,玩家框体,玩家框體
+kuMoveTargetFrame,UI,XUi,,,,TARGET FRAME,,ZIELRAHMEN,MARCO DEL OBJETIVO,CADRE DE LA CIBLE,RIQUADRO BERSAGLIO,ターゲットフレーム,대상 프레임,RAMKA CELU,QUADRO DO ALVO,РАМКА ЦЕЛИ,HEDEF ÇERÇEVESİ,目标框体,目標框體
