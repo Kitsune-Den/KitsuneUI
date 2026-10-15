@@ -21,7 +21,7 @@ The theme is XML and images only. It changes how the game looks, never how it pl
 - **Inventory:** backpack, loot, vehicle and drone storage, with rounded slots that glow fox-fire when selected and gold on hover.
 - **Crafting:** recipe list, recipe and item details, crafting queue, the creative menu, every workstation (workbench, forge, campfire, chemistry station, cement mixer, dew collector).
 - **Trader and quests:** trader stock, services, job offer, quest journal, turn-in rewards.
-- **Character:** character sheet, buffs, skills and perks, challenges, cosmetics.
+- **Character:** character sheet, buffs, skills and perks (skills you can study bright, locked ones dim; with the Settings add-on, fully learned ones gold), challenges, cosmetics.
 - **Map:** map, waypoints, shared waypoints and the right-click menus.
 - **Menus:** main menu, Play Game, the in-game Esc menu, every Options page, death message and respawn screen.
 - **Loading screen:** the picture fills the screen and the tip sits in a glass column down the right edge, with the spawn buttons docked at its foot.
@@ -92,6 +92,7 @@ Adds a **KitsuneUI** button to the Esc menu, under Options. It opens a settings 
 | Time left beside buffs | Icon-only buffs show just the icon. On, buffs with an end show their time left (4:32) |
 | Warn when a toolbelt item is nearly worn out | No warning. On, a toolbelt slot gets an amber ring under 20% durability and a red one under 5% |
 | Glass | 100%, 85%, 70% or 55% strength for the glass panels |
+| Glass colour | Midnight (the Kitsunebi indigo), Charcoal, Obsidian, Forest, Plum, Ember or Ocean glass; the gold stays gold |
 | Colours | Kitsunebi, Ember (amber), Moss (green) or Sakura (pink): swaps the fox-fire, gold, selection and outline colours; the game's own colours (rarity, health) stay. **Custom** offers 12 hue swatches that build a palette from any colour |
 | Bar text | How the health, stamina, food and water bars write their value: 100/100, 100%, the value only, or no text |
 | Unit frames by the crosshair | The game's bars. On, ElvUI-style frames sit either side of the crosshair: yours (name, level, health, stamina, food, water) with your buffs and debuffs as icons above it, and your target's (name, BOSS tag, health) with its harmful effects above it. The vanilla bars, buff list and enemy bar hide while it's on |
