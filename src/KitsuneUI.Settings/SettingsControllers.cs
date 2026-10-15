@@ -36,6 +36,7 @@ public static class KitsuneSettingsApplier
     {
         public Color A, B, C;
         public int Size;
+        public string Sprite;
     }
 
     static readonly ConditionalWeakTable<object, Original> originals = new ConditionalWeakTable<object, Original>();
@@ -43,6 +44,17 @@ public static class KitsuneSettingsApplier
     // Text size for this walk (1 = as designed). Labels in tight boxes shrink back to fit
     // (overflow="shrinkcontent"), so it mostly grows descriptions, lists and chat.
     static float textScale = 1f;
+
+    /// <summary>
+    /// Bar styles (Look > Bar style): textures for KitsuneUI's own bars. A bar is any
+    /// "ku...Fill" sprite drawn with ku_bar (unit frames, XP bar, crafting card, the
+    /// preview in the settings window); "kitsunebi" keeps ku_bar itself.
+    /// </summary>
+    public static readonly string[] BarStyles = { "kitsunebi", "flat", "smooth", "glossy", "glass", "bevel", "inset", "neon", "brushed", "striped", "scanline", "split", "fade", "outline", "minimal" };
+    static string barSprite = "ku_bar";
+
+    public static string BarSpriteFor(string style) =>
+        System.Array.IndexOf(BarStyles, style) > 0 ? "ku_barstyle_" + style : "ku_bar";
 
     public static void ApplyAll(XUi xui)
     {
@@ -56,6 +68,7 @@ public static class KitsuneSettingsApplier
         KitsunePalette palette = KitsunePalette.Get(KitsuneSettingsFile.Get(KitsuneSettingsFile.Palette));
         bool wholeBackpack = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.BackpackAll);
         textScale = KitsuneSettingsFile.GetInt(KitsuneSettingsFile.TextSize, 80, 150) / 100f;
+        barSprite = BarSpriteFor(KitsuneSettingsFile.Get(KitsuneSettingsFile.BarStyle));
         foreach (XUiWindowGroup group in xui.WindowGroups)
         {
             if (group?.Controller != null)
@@ -91,7 +104,12 @@ public static class KitsuneSettingsApplier
             }
             else if (view is XUiV_Sprite sprite)
             {
-                Original o = originals.GetValue(sprite, _ => new Original { A = sprite.Color });
+                Original o = originals.GetValue(sprite, _ => new Original { A = sprite.Color, Sprite = sprite.SpriteName });
+                if (o.Sprite == "ku_bar" && sprite.ID != null && sprite.ID.StartsWith("ku") && sprite.ID.EndsWith("Fill")
+                    && sprite.SpriteName != barSprite)
+                {
+                    sprite.SpriteName = barSprite;
+                }
                 if (sprite.SpriteName != null && GlassSprites.Contains(sprite.SpriteName))
                 {
                     Color tint = palette.GlassTint;
@@ -182,7 +200,7 @@ public class XUiC_KitsuneSettingsOpener : XUiController
 }
 
 /// <summary>
-/// The settings window, in four tabs (HUD, Map, Windows, Look): thirteen toggles, minimap zoom and view, bar text style, text size, a four-step glass strength and Close.
+/// The settings window, in four tabs (HUD, Map, Windows, Look): fourteen toggles, bar style, minimap zoom and view, bar text style, text size, a four-step glass strength and Close.
 /// Every change is saved and applied straight away.
 /// </summary>
 public class XUiC_KitsuneSettingsWindow : XUiController
@@ -202,6 +220,8 @@ public class XUiC_KitsuneSettingsWindow : XUiController
     XUiC_ToggleButton wearWarning;
     XUiC_ToggleButton buffTimers;
     XUiC_ToggleButton unitFrames;
+    XUiC_ToggleButton xpBar;
+    XUiV_Label barStyleName;
     static readonly int[] MapZooms = { 64, 128, 256 };
     readonly List<(int blocks, XUiC_SimpleButton button)> zoomButtons = new List<(int, XUiC_SimpleButton)>();
     readonly List<(bool rotate, XUiC_SimpleButton button)> viewButtons = new List<(bool, XUiC_SimpleButton)>();
@@ -232,6 +252,24 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         wearWarning = Toggle("tglWear", KitsuneSettingsFile.WearWarning);
         buffTimers = Toggle("tglBuffTimers", KitsuneSettingsFile.BuffTimers);
         unitFrames = Toggle("tglUnitFrames", KitsuneSettingsFile.UnitFrames);
+        xpBar = Toggle("tglXpBar", KitsuneSettingsFile.XpBar);
+        barStyleName = GetChildById("kuBarStyleName")?.ViewComponent as XUiV_Label;
+        foreach (int step in new[] { -1, 1 })
+        {
+            if (FindButton(step < 0 ? "btnBarStylePrev" : "btnBarStyleNext") is XUiC_SimpleButton b)
+            {
+                int s = step;
+                b.OnPressed += (_sender, _mouseButton) =>
+                {
+                    string[] all = KitsuneSettingsApplier.BarStyles;
+                    int i = System.Array.IndexOf(all, KitsuneSettingsFile.Get(KitsuneSettingsFile.BarStyle));
+                    i = ((i < 0 ? 0 : i) + s + all.Length) % all.Length;
+                    KitsuneSettingsFile.Set(KitsuneSettingsFile.BarStyle, all[i]);
+                    KitsuneSettingsApplier.ApplyAll(xui);
+                    ShowBarStyle();
+                };
+            }
+        }
         foreach (int blocks in MapZooms)
         {
             if (FindButton("btnMapZoom" + blocks) is XUiC_SimpleButton b)
@@ -427,6 +465,19 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         }
     }
 
+    void ShowBarStyle()
+    {
+        string style = KitsuneSettingsFile.Get(KitsuneSettingsFile.BarStyle);
+        if (System.Array.IndexOf(KitsuneSettingsApplier.BarStyles, style) < 0)
+        {
+            style = "kitsunebi";
+        }
+        if (barStyleName != null)
+        {
+            barStyleName.Text = Localization.Get("kuBarStyle_" + style);
+        }
+    }
+
     void ShowTab(string tab)
     {
         currentTab = tab;
@@ -471,6 +522,8 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         if (wearWarning != null) wearWarning.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.WearWarning);
         if (buffTimers != null) buffTimers.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.BuffTimers);
         if (unitFrames != null) unitFrames.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.UnitFrames);
+        if (xpBar != null) xpBar.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.XpBar);
+        ShowBarStyle();
         ShowMap();
         ShowTab(currentTab);
         ShowGlass();

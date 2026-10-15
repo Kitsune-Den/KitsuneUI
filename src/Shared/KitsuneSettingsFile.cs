@@ -31,6 +31,8 @@ public static class KitsuneSettingsFile
     public const string WearWarning = "wearWarning";      // ring on nearly worn-out toolbelt items
     public const string BuffTimers = "buffTimers";        // time left beside icon-only buffs
     public const string UnitFrames = "unitFrames";        // ElvUI-style player and target frames
+    public const string XpBar = "xpBar";                  // the XP bar as its own piece above the toolbelt
+    public const string BarStyle = "barStyle";            // texture for KitsuneUI's bars (kitsunebi, flat, ...)
 
     static readonly Dictionary<string, string> Defaults = new Dictionary<string, string>
     {
@@ -54,6 +56,8 @@ public static class KitsuneSettingsFile
         { WearWarning, "false" },
         { BuffTimers, "false" },
         { UnitFrames, "false" },
+        { XpBar, "true" },
+        { BarStyle, "kitsunebi" },
     };
 
     static Dictionary<string, string> values;

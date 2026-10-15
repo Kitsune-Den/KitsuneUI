@@ -494,10 +494,11 @@
 			pos="{%'-9, ' + ((beltCount - 1) * 82 + 9)}" width="768" height="{%beltCount * 82 + 11}" />
 	</prepend>
 
-	<!-- XP bar: vanilla sits on the toolbelt's top edge, which with two bars is between them. -->
-	<!-- Move it under the tray as a thin rounded bar in the XP colour.                       -->
-	<set xpath="/windows/window[@name='windowToolbelt']/rect/sprite[@visible='{showxp}']/@pos">3,-92</set>
-	<set xpath="/windows/window[@name='windowToolbelt']/rect/sprite[@visible='{showxp}']/@height">5</set>
+	<!-- XP bar: a rounded strip in the XP colour just above the tray, where vanilla has it (on -->
+	<!-- the toolbelt's top edge; with two bars that's between them). KitsuneUI_Settings can  -->
+	<!-- show it as its own piece instead. (It used to sit below the tray, off the screen.)    -->
+	<set xpath="/windows/window[@name='windowToolbelt']/rect/sprite[@visible='{showxp}']/@pos">3,18</set>
+	<set xpath="/windows/window[@name='windowToolbelt']/rect/sprite[@visible='{showxp}']/@height">6</set>
 	<set xpath="/windows/window[@name='windowToolbelt']/rect/sprite[@visible='{showxp}']/@sprite">ku_bar</set>
 	<setattribute xpath="/windows/window[@name='windowToolbelt']/rect/sprite[@visible='{showxp}' and @depth='1']" name="width">750</setattribute>
 	<set xpath="/windows/window[@name='windowToolbelt']/rect/sprite[@visible='{showxp}' and @depth='1']/@color">[kuTrack]</set>

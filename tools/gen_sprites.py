@@ -423,6 +423,49 @@ add("ku_icon_eye_off", eye(crossed=True), 0)
 
 
 # --- write -----------------------------------------------------------------------
+# Bar styles (KitsuneUI_Settings > Look > Bar style), like the status bar textures in WoW
+# UI addons. 128x16 greyscale: a filled bar stretches its sprite to the bar's size, so each
+# style only varies from top to bottom (Fade varies left to right, which stretches cleanly
+# too), and the bar's colour attribute tints it. "Kitsunebi" is the existing ku_bar.
+def bar_style(fn, w=128, h=16):
+    img = Image.new("RGBA", (w, h))
+    px = img.load()
+    for y in range(h):
+        t = y / (h - 1)
+        for x in range(w):
+            v, a = fn(t, x / (w - 1), y, h)
+            v = max(0, min(255, round(v)))
+            px[x, y] = (v, v, v, max(0, min(255, round(a))))
+    return img
+
+
+def _brushed():
+    import random
+    rnd = random.Random(7)
+    rows = [rnd.uniform(-34, 34) for _ in range(16)]
+    return lambda t, u, y, h: (205 + rows[y] - 40 * t, 255)
+
+
+BAR_STYLES = {
+    "flat": lambda t, u, y, h: (235, 255),
+    "smooth": lambda t, u, y, h: (255 - 85 * t, 255),
+    "glossy": lambda t, u, y, h: ((255 - 30 * t) if t < 0.5 else (170 - 50 * (t - 0.5)), 255),
+    "glass": lambda t, u, y, h: ((255 if y == 0 else 215 - 55 * t), 215),
+    "bevel": lambda t, u, y, h: ((255 if y < 2 else (110 if y >= h - 2 else 200)), 255),
+    "inset": lambda t, u, y, h: ((90 if y < 3 else 165 + 85 * t), 255),
+    "neon": lambda t, u, y, h: (130 + 125 * (1 - abs(t - 0.5) * 2) ** 0.6, 200 + 55 * (1 - abs(t - 0.5) * 2)),
+    "brushed": _brushed(),
+    "striped": lambda t, u, y, h: ((245 if y % 4 < 2 else 165), 255),
+    "scanline": lambda t, u, y, h: ((105 if y % 3 == 0 else 235), 255),
+    "split": lambda t, u, y, h: ((250 if t < 0.5 else 170), 255),
+    "fade": lambda t, u, y, h: (120 + 135 * u - 25 * t, 255),
+    "outline": lambda t, u, y, h: ((255, 255) if y < 2 or y >= h - 2 else (215, 105)),
+    "minimal": lambda t, u, y, h: ((240, 255) if 5 <= y <= 10 else (0, 0)),
+}
+for _name, _fn in BAR_STYLES.items():
+    add("ku_barstyle_" + _name, bar_style(_fn), 0)
+
+
 def write_atlas(folder, items):
     """items: name -> (image, border). Writes the PNGs and settings.xml."""
     folder.mkdir(parents=True, exist_ok=True)

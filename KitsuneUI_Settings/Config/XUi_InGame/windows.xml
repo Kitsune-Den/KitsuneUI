@@ -100,6 +100,14 @@
 				<simplebutton name="btnBarText_none" depth="3" pos="442,-212" width="88" height="36" font_size="20" caption_key="kuBarTextNone" />
 				<togglebutton name="tglUnitFrames" depth="3" pos="20,-260" width="520" height="40" font_size="26" caption="" />
 				<label depth="4" name="tglUnitFramesText" pos="66,-280" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetUnitFrames" />
+				<togglebutton name="tglXpBar" depth="3" pos="20,-308" width="520" height="40" font_size="26" caption="" />
+				<label depth="4" name="tglXpBarText" pos="66,-328" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetXpBar" />
+				<label depth="3" name="lblBarStyle" pos="22,-374" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetBarStyle" />
+				<simplebutton name="btnBarStylePrev" depth="3" pos="160,-356" width="44" height="36" font_size="24" caption="&lt;" />
+				<sprite depth="3" name="kuBarStyleTrack" pos="210,-356" width="270" height="36" sprite="ku_bar" type="sliced" color="6,8,20,225" />
+				<sprite depth="4" name="kuBarStylePreviewFill" pos="214,-361" width="262" height="26" sprite="ku_bar" type="filled" fill="0.72" color="60,200,95,255" />
+				<label depth="5" name="kuBarStyleName" pos="345,-374" width="250" height="26" pivot="center" justify="center" font_size="22" color="[white]" effect="outline" effect_color="0,0,0,230" text="" />
+				<simplebutton name="btnBarStyleNext" depth="3" pos="486,-356" width="44" height="36" font_size="24" caption="&gt;" />
 			</rect>
 
 			<simplebutton name="btnMoveHUD" depth="3" pos="20,-460" width="168" height="40" font_size="24" caption_key="kuSetMoveHUD" />
@@ -886,6 +894,41 @@
 				<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
 				<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
 				<label depth="52" name="kuMoveName" pos="12,-128" width="210" height="30" pivot="left" justify="left" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveTargetFrame" />
+			</rect>
+		</window>
+	</append>
+
+	<!-- ================================================================ -->
+	<!-- Separate XP bar (Settings > Look, on by default): its own glass   -->
+	<!-- piece above the toolbelt tray, level on the left, progress on    -->
+	<!-- the right. XUiC_KitsuneXpBar fills the kuxp* bindings and lifts  -->
+	<!-- it above a second toolbelt bar; the toolbelt's strip hides.      -->
+	<!-- ================================================================ -->
+	<append xpath="/windows">
+		<window name="kuXpBar" anchor="Bottom" pos="-375,126" width="750" height="24" depth="-20">
+			<!-- The bar and its move handle share one rect, so lifting it above a second toolbelt -->
+			<!-- bar keeps the handle on the bar.                                                   -->
+			<rect name="kuXpLift" width="750" height="24" controller="KitsuneXpBar, KitsuneUI_Settings">
+			<rect name="kuXpBody" width="750" height="24">
+				<sprite depth="0" name="kuXpGlass" sprite="ku_panel_sm" type="sliced" color="[white]" width="750" height="24" />
+				<sprite depth="1" name="kuXpTrack" pos="5,-5" width="740" height="14" sprite="ku_bar" type="sliced" color="6,8,20,225" />
+				<sprite depth="2" name="kuXpFill" pos="5,-5" width="740" height="14" sprite="ku_bar" type="filled" fill="{kuxpfill}" color="{kuxpcolor}" />
+				<label depth="3" name="kuXpLevel" pos="14,-12" width="200" height="18" pivot="left" justify="left" font_size="15" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="{kuxplevel}" />
+				<label depth="3" name="kuXpProgress" pos="736,-12" width="320" height="18" pivot="right" justify="right" font_size="15" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="{kuxpprogress}" />
+			</rect>
+			<rect name="kuMoveHandle" depth="50" pos="-6,6" width="762" height="36" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
+				<!-- size readout and the -, +, show/hide buttons (XUiC_KitsuneMoveHandle) -->
+				<label depth="53" name="kuMoveScale" pos="658,-19" width="64" height="24" pivot="right" justify="right" font_size="18" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="100%" />
+				<sprite depth="54" name="kuChipSmaller" pos="662,-3" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+				<button depth="55" name="kuBtnSmaller" pos="677,-18" sprite="ui_game_symbol_subtract" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+				<sprite depth="54" name="kuChipBigger" pos="694,-3" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+				<button depth="55" name="kuBtnBigger" pos="709,-18" sprite="ui_game_symbol_add" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+				<sprite depth="54" name="kuChipHide" pos="726,-3" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+				<button depth="55" name="kuBtnHide" pos="741,-18" sprite="ku_icon_eye" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+				<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
+				<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
+				<label depth="52" name="kuMoveName" pos="12,-18" width="300" height="30" pivot="left" justify="left" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveXpBar" />
+			</rect>
 			</rect>
 		</window>
 	</append>
