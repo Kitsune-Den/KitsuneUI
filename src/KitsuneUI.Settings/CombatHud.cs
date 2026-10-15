@@ -184,8 +184,9 @@ public class XUiC_KitsuneCombatOverlay : XUiController
     const int MaxPlates = 12;
     const float PlateRange = 40f;
     const float RecentHit = 20f;
-    const int PlateWidth = 96;
+    const int PlateWidth = 150;
     const float TextLife = 1.1f;
+    const float PlateGap = 44f;     // pixels between the top of the head and the plate (at 1080p)
 
     sealed class Plate
     {
@@ -295,8 +296,8 @@ public class XUiC_KitsuneCombatOverlay : XUiController
         for (int i = 0; i < candidates.Count && shown < MaxPlates; i++)
         {
             EntityAlive e = candidates[i].e;
-            Vector3 world = e.getHeadPosition() + new Vector3(0f, 0.55f, 0f) - Origin.position;
-            Vector3 sp = cam.WorldToScreenPoint(world);
+            Vector3 sp = cam.WorldToScreenPoint(HeadTop(e));
+            sp.y += PlateGap * Screen.height / 1080f;
             if (sp.z <= 0.1f)
             {
                 continue;
@@ -304,7 +305,7 @@ public class XUiC_KitsuneCombatOverlay : XUiController
             Plate p = GetPlate(shown++, parent);
             SetActive(p.Root, true);
             p.Root.transform.localPosition = ToLocal(ui, parent, sp);
-            float scale = Mathf.Clamp(1.15f - candidates[i].d / PlateRange * 0.55f, 0.6f, 1.1f);
+            float scale = Mathf.Clamp(1.2f - candidates[i].d / PlateRange * 0.45f, 0.75f, 1.2f);
             p.Root.transform.localScale = new Vector3(scale, scale, 1f);
             bool isBoss = boss != null && boss.BossEntity == e;
             if (p.Fill.spriteName != fillSprite)
@@ -333,12 +334,12 @@ public class XUiC_KitsuneCombatOverlay : XUiController
             root.layer = parent.gameObject.layer;
             root.transform.SetParent(parent, false);
             Plate p = new Plate { Root = root };
-            p.Track = AddSprite(root, "ku_bar", UIBasicSprite.Type.Sliced, PlateWidth + 4, 10, new Color32(6, 8, 20, 220), 0);
-            p.Fill = AddSprite(root, "ku_bar", UIBasicSprite.Type.Filled, PlateWidth, 6, Color.white, 1);
+            p.Track = AddSprite(root, "ku_bar", UIBasicSprite.Type.Sliced, PlateWidth + 6, 18, new Color32(6, 8, 20, 225), 0);
+            p.Fill = AddSprite(root, "ku_bar", UIBasicSprite.Type.Filled, PlateWidth, 12, Color.white, 1);
             p.Fill.fillDirection = UIBasicSprite.FillDirection.Horizontal;
-            p.Name = AddLabel(root, 14, 2);
+            p.Name = AddLabel(root, 19, 2);
             p.Name.pivot = UIWidget.Pivot.Bottom;
-            p.Name.transform.localPosition = new Vector3(0f, 7f, 0f);
+            p.Name.transform.localPosition = new Vector3(0f, 11f, 0f);
             plates.Add(p);
         }
         return plates[i];
@@ -379,7 +380,7 @@ public class XUiC_KitsuneCombatOverlay : XUiController
                     string t = h.Amount + (h.Critical ? "!" : "");
                     Color color = h.Fatal ? new Color32(255, 255, 255, 255) : h.Head ? new Color32(255, 210, 107, 255) : new Color32(240, 236, 220, 255);
                     int size = h.Fatal || h.Head ? 30 : 24;
-                    Vector3 jitter = new Vector3(Random.Range(-0.35f, 0.35f), Random.Range(0f, 0.25f), Random.Range(-0.35f, 0.35f));
+                    Vector3 jitter = new Vector3(Random.Range(-40f, 40f), Random.Range(10f, 30f), 0f);   // pixels
                     Spawn(h.Target, jitter, t, color, size, ui, parent);
                 }
             }
@@ -400,7 +401,7 @@ public class XUiC_KitsuneCombatOverlay : XUiController
             Vector3 local;
             if (f.Target != null)
             {
-                Vector3 sp = cam.WorldToScreenPoint(f.Target.getHeadPosition() + f.Offset + new Vector3(0f, 0.3f, 0f) - Origin.position);
+                Vector3 sp = cam.WorldToScreenPoint(HeadTop(f.Target)) + f.Offset * (Screen.height / 1080f);
                 if (sp.z <= 0.1f)
                 {
                     SetActive(f.Label.gameObject, false);
@@ -438,6 +439,14 @@ public class XUiC_KitsuneCombatOverlay : XUiController
     }
 
     // ---- helpers
+
+    // The top of an entity's head, in the scene space the camera renders (the entity's own
+    // transform plus most of its height), so nothing depends on world-origin offsets. Gaps
+    // above it are added on screen, so they look the same up close and far away.
+    static Vector3 HeadTop(EntityAlive e)
+    {
+        return e.transform.position + new Vector3(0f, e.height, 0f);
+    }
 
     UISprite AddSprite(GameObject parent, string name, UIBasicSprite.Type type, int w, int h, Color color, int depthOffset)
     {
