@@ -170,7 +170,8 @@ public static class KitsuneDamageHook
 
 /// <summary>
 /// The combat overlay, a full-screen layer under the rest of the HUD:
-///  - "Nameplates" (Settings > Combat): ElvUI-style health bars over enemies that are
+///  - "Nameplates" (Settings > Combat): ElvUI-style health bars over enemies (zombies,
+///    hostile animals, bandits, wildlife; never traders or other NPCs) that are
 ///    fighting you (ones you've hit lately, ones attacking you, and your current
 ///    target), up to 40 m away and 12 at a time, nearest first. Gold for a boss. They
 ///    use the chosen bar style. Enemies that haven't noticed you get no plate, so it
@@ -272,7 +273,10 @@ public class XUiC_KitsuneCombatOverlay : XUiController
         float now = Time.time;
         for (int i = 0; i < all.Count; i++)
         {
-            if (!(all[i] is EntityAlive e) || e == me || e is EntityPlayer || !e.IsAlive())
+            // Only things you fight: zombies, hostile animals and bandits (EntityEnemy) and
+            // wildlife (EntityAnimal). Traders and other NPCs, vehicles, drones and turrets
+            // never get a plate.
+            if (!(all[i] is EntityAlive e) || !(e is EntityEnemy || e is EntityAnimal) || !e.IsAlive())
             {
                 continue;
             }

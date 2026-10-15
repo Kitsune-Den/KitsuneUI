@@ -247,6 +247,40 @@ public class XUiC_KitsuneSettingsWindow : XUiController
     XUiC_ToggleButton partyFrames;
     XUiC_ToggleButton nameplates;
     XUiC_ToggleButton combatText;
+    XUiView hueRing;
+    readonly List<(int hue, XUiView swatch)> hueSwatches = new List<(int, XUiView)>();
+
+    // Rows of buttons that each store one value under one key (frame width, buff size...).
+    readonly List<(string key, string value, XUiC_SimpleButton button)> choices = new List<(string, string, XUiC_SimpleButton)>();
+
+    void ChoiceRow(string prefix, string key, params string[] values)
+    {
+        foreach (string value in values)
+        {
+            if (FindButton(prefix + value) is XUiC_SimpleButton b)
+            {
+                string v = value;
+                b.OnPressed += (_sender, _mouseButton) =>
+                {
+                    KitsuneSettingsFile.Set(key, v);
+                    KitsuneSettingsApplier.ApplyAll(xui);
+                    ShowChoices();
+                };
+                choices.Add((key, value, b));
+            }
+        }
+    }
+
+    void ShowChoices()
+    {
+        foreach ((string key, string value, XUiC_SimpleButton button) in choices)
+        {
+            if (button.Button != null)
+            {
+                button.Button.Selected = KitsuneSettingsFile.Get(key) == value;
+            }
+        }
+    }
     XUiV_Label barStyleName;
     static readonly int[] MapZooms = { 64, 128, 256 };
     readonly List<(int blocks, XUiC_SimpleButton button)> zoomButtons = new List<(int, XUiC_SimpleButton)>();
@@ -282,6 +316,30 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         partyFrames = Toggle("tglPartyFrames", KitsuneSettingsFile.PartyFrames);
         nameplates = Toggle("tglNameplates", KitsuneSettingsFile.Nameplates);
         combatText = Toggle("tglCombatText", KitsuneSettingsFile.CombatText);
+        ChoiceRow("btnFrameWidth_", KitsuneSettingsFile.FrameWidth, "260", "320", "400");
+        ChoiceRow("btnBuffSize_", KitsuneSettingsFile.BuffSize, "75", "100", "125");
+        ChoiceRow("btnBuffCount_", KitsuneSettingsFile.BuffCount, "4", "6", "8");
+        hueRing = GetChildById("kuHueRing")?.ViewComponent;
+        foreach (int hue in KitsunePalette.CustomHues)
+        {
+            XUiController c = GetChildById("btnHue_" + hue);
+            if (c?.ViewComponent == null)
+            {
+                continue;
+            }
+            int h = hue;
+            c.OnPress += (_sender, _mouseButton) =>
+            {
+                KitsuneSettingsFile.SetMany(new Dictionary<string, string>
+                {
+                    { KitsuneSettingsFile.Palette, "custom" },
+                    { KitsuneSettingsFile.CustomHue, h.ToString() },
+                });
+                KitsuneSettingsApplier.ApplyAll(xui);
+                ShowPalette();
+            };
+            hueSwatches.Add((hue, c.ViewComponent));
+        }
         barStyleName = GetChildById("kuBarStyleName")?.ViewComponent as XUiV_Label;
         foreach (int step in new[] { -1, 1 })
         {
@@ -460,6 +518,21 @@ public class XUiC_KitsuneSettingsWindow : XUiController
                 button.Button.Selected = palette == current;
             }
         }
+            bool custom = KitsuneSettingsFile.Get(KitsuneSettingsFile.Palette) == "custom";
+        int hue = KitsuneSettingsFile.GetInt(KitsuneSettingsFile.CustomHue, 0, 359);
+        bool ringShown = false;
+        foreach ((int h, XUiView swatch) in hueSwatches)
+        {
+            if (custom && h == hue && hueRing != null)
+            {
+                hueRing.Position = new Vector2i(swatch.Position.x - 3, swatch.Position.y + 3);
+                ringShown = true;
+            }
+        }
+        if (hueRing != null && hueRing.IsVisible != ringShown)
+        {
+            hueRing.IsVisible = ringShown;
+        }
     }
 
     void ShowBarText()
@@ -555,6 +628,7 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         if (partyFrames != null) partyFrames.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.PartyFrames);
         if (nameplates != null) nameplates.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.Nameplates);
         if (combatText != null) combatText.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.CombatText);
+        ShowChoices();
         ShowBarStyle();
         ShowMap();
         ShowTab(currentTab);

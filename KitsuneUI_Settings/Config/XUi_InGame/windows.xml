@@ -78,6 +78,18 @@
 				<label depth="4" name="tglNameplatesText" pos="66,-232" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetNameplates" />
 				<togglebutton name="tglCombatText" depth="3" pos="20,-260" width="520" height="40" font_size="26" caption="" />
 				<label depth="4" name="tglCombatTextText" pos="66,-280" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetCombatText" />
+				<label depth="3" name="lblFrameWidth" pos="22,-326" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetFrameWidth" />
+				<simplebutton name="btnFrameWidth_260" depth="3" pos="160,-308" width="120" height="36" font_size="20" caption_key="kuOptNarrow" />
+				<simplebutton name="btnFrameWidth_320" depth="3" pos="286,-308" width="120" height="36" font_size="20" caption_key="kuOptNormal" />
+				<simplebutton name="btnFrameWidth_400" depth="3" pos="412,-308" width="120" height="36" font_size="20" caption_key="kuOptWide" />
+				<label depth="3" name="lblBuffSize" pos="22,-374" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetBuffSize" />
+				<simplebutton name="btnBuffSize_75" depth="3" pos="160,-356" width="120" height="36" font_size="20" caption_key="kuOptSmall" />
+				<simplebutton name="btnBuffSize_100" depth="3" pos="286,-356" width="120" height="36" font_size="20" caption_key="kuOptNormal" />
+				<simplebutton name="btnBuffSize_125" depth="3" pos="412,-356" width="120" height="36" font_size="20" caption_key="kuOptLarge" />
+				<label depth="3" name="lblBuffCount" pos="22,-422" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetBuffCount" />
+				<simplebutton name="btnBuffCount_4" depth="3" pos="160,-404" width="120" height="36" font_size="20" caption="4" />
+				<simplebutton name="btnBuffCount_6" depth="3" pos="286,-404" width="120" height="36" font_size="20" caption="6" />
+				<simplebutton name="btnBuffCount_8" depth="3" pos="412,-404" width="120" height="36" font_size="20" caption="8" />
 			</rect>
 
 			<rect name="kuTab_windows" width="560" height="516" visible="false">
@@ -105,19 +117,33 @@
 				<simplebutton name="btnPalette_ember" depth="3" pos="254,-164" width="88" height="36" font_size="20" caption_key="kuPaletteEmber" />
 				<simplebutton name="btnPalette_moss" depth="3" pos="348,-164" width="88" height="36" font_size="20" caption_key="kuPaletteMoss" />
 				<simplebutton name="btnPalette_sakura" depth="3" pos="442,-164" width="88" height="36" font_size="20" caption_key="kuPaletteSakura" />
-				<label depth="3" name="lblBarText" pos="22,-230" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetBarText" />
-				<simplebutton name="btnBarText_full" depth="3" pos="160,-212" width="88" height="36" font_size="22" caption="100/100" />
-				<simplebutton name="btnBarText_percent" depth="3" pos="254,-212" width="88" height="36" font_size="22" caption="100%" />
-				<simplebutton name="btnBarText_current" depth="3" pos="348,-212" width="88" height="36" font_size="22" caption="100" />
-				<simplebutton name="btnBarText_none" depth="3" pos="442,-212" width="88" height="36" font_size="20" caption_key="kuBarTextNone" />
-				<togglebutton name="tglXpBar" depth="3" pos="20,-260" width="520" height="40" font_size="26" caption="" />
-				<label depth="4" name="tglXpBarText" pos="66,-280" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetXpBar" />
-				<label depth="3" name="lblBarStyle" pos="22,-326" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetBarStyle" />
-				<simplebutton name="btnBarStylePrev" depth="3" pos="160,-308" width="44" height="36" font_size="24" caption="&lt;" />
-				<sprite depth="3" name="kuBarStyleTrack" pos="210,-308" width="270" height="36" sprite="ku_bar" type="sliced" color="6,8,20,225" />
-				<sprite depth="4" name="kuBarStylePreviewFill" pos="214,-313" width="262" height="26" sprite="ku_bar" type="filled" fill="0.72" color="60,200,95,255" />
-				<label depth="5" name="kuBarStyleName" pos="345,-326" width="250" height="26" pivot="center" justify="center" font_size="22" color="[white]" effect="outline" effect_color="0,0,0,230" text="" />
-				<simplebutton name="btnBarStyleNext" depth="3" pos="486,-308" width="44" height="36" font_size="24" caption="&gt;" />
+				<label depth="3" name="lblCustomColour" pos="22,-230" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetCustomColour" />
+				<button depth="3" name="btnHue_0" pos="160,-216" width="28" height="28" sprite="ku_round_sm" type="sliced" defaultcolor="255,112,112,255" hovercolor="255,112,112,255" selectedcolor="255,112,112,255" style="press, hover" sound="[paging_click]" />
+				<button depth="3" name="btnHue_30" pos="191,-216" width="28" height="28" sprite="ku_round_sm" type="sliced" defaultcolor="255,184,112,255" hovercolor="255,184,112,255" selectedcolor="255,184,112,255" style="press, hover" sound="[paging_click]" />
+				<button depth="3" name="btnHue_50" pos="222,-216" width="28" height="28" sprite="ku_round_sm" type="sliced" defaultcolor="255,231,112,255" hovercolor="255,231,112,255" selectedcolor="255,231,112,255" style="press, hover" sound="[paging_click]" />
+				<button depth="3" name="btnHue_80" pos="253,-216" width="28" height="28" sprite="ku_round_sm" type="sliced" defaultcolor="207,255,112,255" hovercolor="207,255,112,255" selectedcolor="207,255,112,255" style="press, hover" sound="[paging_click]" />
+				<button depth="3" name="btnHue_120" pos="284,-216" width="28" height="28" sprite="ku_round_sm" type="sliced" defaultcolor="112,255,112,255" hovercolor="112,255,112,255" selectedcolor="112,255,112,255" style="press, hover" sound="[paging_click]" />
+				<button depth="3" name="btnHue_160" pos="315,-216" width="28" height="28" sprite="ku_round_sm" type="sliced" defaultcolor="112,255,207,255" hovercolor="112,255,207,255" selectedcolor="112,255,207,255" style="press, hover" sound="[paging_click]" />
+				<button depth="3" name="btnHue_185" pos="346,-216" width="28" height="28" sprite="ku_round_sm" type="sliced" defaultcolor="112,243,255,255" hovercolor="112,243,255,255" selectedcolor="112,243,255,255" style="press, hover" sound="[paging_click]" />
+				<button depth="3" name="btnHue_200" pos="377,-216" width="28" height="28" sprite="ku_round_sm" type="sliced" defaultcolor="112,207,255,255" hovercolor="112,207,255,255" selectedcolor="112,207,255,255" style="press, hover" sound="[paging_click]" />
+				<button depth="3" name="btnHue_220" pos="408,-216" width="28" height="28" sprite="ku_round_sm" type="sliced" defaultcolor="112,160,255,255" hovercolor="112,160,255,255" selectedcolor="112,160,255,255" style="press, hover" sound="[paging_click]" />
+				<button depth="3" name="btnHue_250" pos="439,-216" width="28" height="28" sprite="ku_round_sm" type="sliced" defaultcolor="136,112,255,255" hovercolor="136,112,255,255" selectedcolor="136,112,255,255" style="press, hover" sound="[paging_click]" />
+				<button depth="3" name="btnHue_280" pos="470,-216" width="28" height="28" sprite="ku_round_sm" type="sliced" defaultcolor="207,112,255,255" hovercolor="207,112,255,255" selectedcolor="207,112,255,255" style="press, hover" sound="[paging_click]" />
+				<button depth="3" name="btnHue_320" pos="501,-216" width="28" height="28" sprite="ku_round_sm" type="sliced" defaultcolor="255,112,207,255" hovercolor="255,112,207,255" selectedcolor="255,112,207,255" style="press, hover" sound="[paging_click]" />
+				<sprite depth="4" name="kuHueRing" pos="157,-213" width="34" height="34" sprite="ku_slot_ring2" type="sliced" color="[white]" visible="false" />
+				<label depth="3" name="lblBarText" pos="22,-278" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetBarText" />
+				<simplebutton name="btnBarText_full" depth="3" pos="160,-260" width="88" height="36" font_size="22" caption="100/100" />
+				<simplebutton name="btnBarText_percent" depth="3" pos="254,-260" width="88" height="36" font_size="22" caption="100%" />
+				<simplebutton name="btnBarText_current" depth="3" pos="348,-260" width="88" height="36" font_size="22" caption="100" />
+				<simplebutton name="btnBarText_none" depth="3" pos="442,-260" width="88" height="36" font_size="20" caption_key="kuBarTextNone" />
+				<togglebutton name="tglXpBar" depth="3" pos="20,-308" width="520" height="40" font_size="26" caption="" />
+				<label depth="4" name="tglXpBarText" pos="66,-328" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetXpBar" />
+				<label depth="3" name="lblBarStyle" pos="22,-374" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetBarStyle" />
+				<simplebutton name="btnBarStylePrev" depth="3" pos="160,-356" width="44" height="36" font_size="24" caption="&lt;" />
+				<sprite depth="3" name="kuBarStyleTrack" pos="210,-356" width="270" height="36" sprite="ku_bar" type="sliced" color="6,8,20,225" />
+				<sprite depth="4" name="kuBarStylePreviewFill" pos="214,-361" width="262" height="26" sprite="ku_bar" type="filled" fill="0.72" color="60,200,95,255" />
+				<label depth="5" name="kuBarStyleName" pos="345,-374" width="250" height="26" pivot="center" justify="center" font_size="22" color="[white]" effect="outline" effect_color="0,0,0,230" text="" />
+				<simplebutton name="btnBarStyleNext" depth="3" pos="486,-356" width="44" height="36" font_size="24" caption="&gt;" />
 			</rect>
 
 			<simplebutton name="btnMoveHUD" depth="3" pos="20,-460" width="168" height="40" font_size="24" caption_key="kuSetMoveHUD" />
@@ -1021,6 +1047,12 @@
 				<sprite depth="1" name="kuCombatAnchor" sprite="ku_px" width="1" height="1" color="0,0,0,0" />
 			</rect>
 		</window>
+	</append>
+
+	<!-- Location box: "Tier 0" where the skulls go, inside a POI that has none (tier 0 in -->
+	<!-- an easy biome). Tier 0 places can still hold zombies, so it's the tier, not "safe". -->
+	<append xpath="/windows/window[@name='windowLocation']">
+		<label depth="3" name="kuTierZero" pos="131,-34" width="140" height="18" pivot="center" justify="center" font_size="16" color="[kuTextMid]" text_key="kuTierZero" visible="{kutierzero}" />
 	</append>
 
 </configs>

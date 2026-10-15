@@ -41,7 +41,7 @@ public static class KitsuneUnitFrames
                     continue;
                 }
                 shown.Add(b);
-                if (shown.Count == Slots)
+                if (shown.Count == Mathf.Clamp(KitsuneSettingsFile.GetInt(KitsuneSettingsFile.BuffCount, 1, Slots), 1, Slots))
                 {
                     break;
                 }
@@ -94,6 +94,97 @@ public static class KitsuneUnitFrames
         }
     }
 
+    // ---- Frame width and buff icon size (Settings > Combat). The XML is laid out at the
+    // normal 320 px; this stretches the glass, bars and right-hand labels to the chosen
+    // width (the player frame grows leftward, so its inner edge stays by the crosshair),
+    // and sizes and spaces the buff icons.
+
+    static readonly Dictionary<XUiController, int> laidOut = new Dictionary<XUiController, int>();
+
+    public static void Layout(XUiController frame, bool target)
+    {
+        int w = KitsuneSettingsFile.GetInt(KitsuneSettingsFile.FrameWidth, 200, 480);
+        float icon = KitsuneSettingsFile.GetInt(KitsuneSettingsFile.BuffSize, 50, 150) / 100f;
+        int key = w * 1000 + Mathf.RoundToInt(icon * 100f);
+        if (laidOut.TryGetValue(frame, out int done) && done == key)
+        {
+            return;
+        }
+        laidOut[frame] = key;
+        string p = target ? "kuTF" : "kuPF";
+        int inner = w - 16;
+        Size(frame, p + "Panel", w, -1);
+        Size(frame, p + "Glass", w, -1);
+        Size(frame, p + "HpTrack", inner, -1);
+        Size(frame, p + "HpFill", inner, -1);
+        if (target)
+        {
+            Move(frame, "kuTFName", w - 10);
+            Move(frame, "kuTFPct", w - 16);
+        }
+        else
+        {
+            Move(frame, "kuPFLevel", w - 10);
+            Move(frame, "kuPFHpText", w - 16);
+            Size(frame, "kuPFStaTrack", inner, -1);
+            Size(frame, "kuPFStaFill", inner, -1);
+            int half = (w - 20) / 2;
+            Size(frame, "kuPFFoodTrack", half, -1);
+            Size(frame, "kuPFFoodFill", half, -1);
+            Size(frame, "kuPFWaterTrack", half, -1);
+            Size(frame, "kuPFWaterFill", half, -1);
+            Move(frame, "kuPFWaterTrack", 12 + half);
+            Move(frame, "kuPFWaterFill", 12 + half);
+            // Keep the inner (crosshair-side) edge where it was: grow to the left.
+            if (frame.ViewComponent != null)
+            {
+                frame.ViewComponent.Position = new Vector2i(320 - w, frame.ViewComponent.Position.y);
+            }
+        }
+        // The move handle covers the frame at its new size.
+        if (frame.Parent?.GetChildById("kuMoveHandle")?.ViewComponent is XUiView handle)
+        {
+            handle.Size = new Vector2i(w + 12, handle.Size.y);
+            if (!target)
+            {
+                handle.Position = new Vector2i(320 - w - 6, handle.Position.y);
+            }
+        }
+        // Buff icons: sized, spaced, and lifted so the bigger ones clear the frame.
+        float step = 38f * icon;
+        int lift = Mathf.RoundToInt(50f * (icon - 1f));
+        for (int i = 0; i < Slots; i++)
+        {
+            XUiView slot = frame.GetChildById("kuBuffSlot" + i)?.ViewComponent;
+            if (slot == null)
+            {
+                continue;
+            }
+            int x = target ? Mathf.RoundToInt(w - 32f * icon - i * step) : Mathf.RoundToInt(i * step);
+            slot.Position = new Vector2i(x, lift);
+            if (slot.UiTransform != null)
+            {
+                slot.UiTransform.localScale = new Vector3(icon, icon, 1f);
+            }
+        }
+    }
+
+    static void Size(XUiController frame, string id, int w, int h)
+    {
+        if (frame.GetChildById(id)?.ViewComponent is XUiView v)
+        {
+            v.Size = new Vector2i(w, h < 0 ? v.Size.y : h);
+        }
+    }
+
+    static void Move(XUiController frame, string id, int x)
+    {
+        if (frame.GetChildById(id)?.ViewComponent is XUiView v)
+        {
+            v.Position = new Vector2i(x, v.Position.y);
+        }
+    }
+
     // The game tints harmful buffs red-ish: more red than green and blue.
     static bool LooksBad(Color c) => c.r > 0.6f && c.g < 0.55f && c.b < 0.55f;
 
@@ -139,6 +230,7 @@ public class XUiC_KitsunePlayerFrame : XUiController
             return;
         }
         sinceRefresh = 0f;
+        KitsuneUnitFrames.Layout(this, false);
         EntityStats s = player.Stats;
         name = player.PlayerDisplayName ?? "";
         level = Localization.Get("xuiLevel") + " " + player.Progression.Level;
@@ -195,6 +287,7 @@ public class XUiC_KitsuneTargetFrame : XUiController
             return;
         }
         sinceRefresh = 0f;
+        KitsuneUnitFrames.Layout(this, true);
         name = target is EntityPlayer p ? p.PlayerDisplayName : Localization.Get(EntityClass.list[target.entityClass].entityClassName);
         bool boss = bar.CurrentBossGroup != null && bar.CurrentBossGroup.BossEntity == target;
         tag = boss ? "BOSS" : "";

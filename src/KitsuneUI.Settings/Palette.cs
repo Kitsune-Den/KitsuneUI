@@ -51,8 +51,26 @@ public sealed class KitsunePalette
             new Color32(255, 234, 244, 255)),
     };
 
+    /// <summary>The 12 hues offered as custom colours (Look > Custom), in degrees.</summary>
+    public static readonly int[] CustomHues = { 0, 30, 50, 80, 120, 160, 185, 200, 220, 250, 280, 320 };
+
+    /// <summary>
+    /// A palette built from one hue: the fox-fire accent, a deeper selection and hover, a
+    /// lighter outline and a faint glass tint, all of that hue. The gold titles stay gold.
+    /// </summary>
+    public static KitsunePalette Custom(int hue)
+    {
+        float h = (((hue % 360) + 360) % 360) / 360f;
+        Color32 C(float s, float v) => Color.HSVToRGB(h, s, v);
+        return new KitsunePalette("custom", C(0.56f, 1f), Gold, C(0.75f, 0.46f), C(0.62f, 0.44f), C(0.38f, 1f), C(0.09f, 1f));
+    }
+
     public static KitsunePalette Get(string name)
     {
+        if (name == "custom")
+        {
+            return Custom(KitsuneSettingsFile.GetInt(KitsuneSettingsFile.CustomHue, 0, 359));
+        }
         foreach (KitsunePalette p in All)
         {
             if (p.Name == name)

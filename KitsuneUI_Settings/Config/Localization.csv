@@ -89,3 +89,13 @@ kuSetPartyFrames,UI,XUi,,,,Party frames under your frame,,Gruppenrahmen unter de
 kuSetNameplates,UI,XUi,,,,Nameplates over enemies you're fighting,,Namensschilder über Gegnern im Kampf,Placas de nombre sobre enemigos en combate,Barres de nom au-dessus des ennemis combattus,Targhette sopra i nemici che combatti,戦闘中の敵の頭上にネームプレート,싸우는 적 위에 이름표,Tabliczki nad wrogami w walce,Placas de nome sobre inimigos em combate,Полоски над врагами в бою,Savaştığın düşmanların üstünde isim levhaları,在交战的敌人头顶显示姓名板,在交戰的敵人頭頂顯示名牌
 kuSetCombatText,UI,XUi,,,,Floating combat text,,Schwebender Kampftext,Texto de combate flotante,Texte de combat flottant,Testo di combattimento fluttuante,フローティング戦闘テキスト,떠오르는 전투 텍스트,Unoszący się tekst walki,Texto de combate flutuante,Всплывающий текст боя,Yüzen savaş metni,浮动战斗文字,浮動戰鬥文字
 kuMovePartyFrames,UI,XUi,,,,PARTY FRAMES,,GRUPPENRAHMEN,MARCOS DE GRUPO,CADRES DE GROUPE,RIQUADRI GRUPPO,パーティーフレーム,파티 프레임,RAMKI DRUŻYNY,QUADROS DO GRUPO,РАМКИ ГРУППЫ,GRUP ÇERÇEVELERİ,队伍框体,隊伍框體
+kuSetCustomColour,UI,XUi,,,,Custom,,Eigene,Personalizado,Perso,Personale,カスタム,사용자,Własny,Personalizado,Свой,Özel,自定义,自訂
+kuSetFrameWidth,UI,XUi,,,,Frame width,,Rahmenbreite,Ancho del marco,Largeur du cadre,Larghezza riquadro,フレーム幅,프레임 너비,Szerokość ramki,Largura do quadro,Ширина рамки,Çerçeve genişliği,框体宽度,框體寬度
+kuSetBuffSize,UI,XUi,,,,Buff icons,,Effekt-Symbole,Iconos de efectos,Icônes d'effets,Icone effetti,効果アイコン,버프 아이콘,Ikony efektów,Ícones de efeitos,Значки эффектов,Etki simgeleri,状态图标,狀態圖示
+kuSetBuffCount,UI,XUi,,,,Buffs shown,,Angezeigte Effekte,Efectos visibles,Effets affichés,Effetti mostrati,表示する効果,표시할 버프,Widoczne efekty,Efeitos exibidos,Показано эффектов,Gösterilen etkiler,显示的状态,顯示的狀態
+kuOptNarrow,UI,XUi,,,,Narrow,,Schmal,Estrecho,Étroit,Stretto,狭い,좁게,Wąska,Estreito,Узкая,Dar,窄,窄
+kuOptNormal,UI,XUi,,,,Normal,,Normal,Normal,Normal,Normale,標準,보통,Normalna,Normal,Обычная,Normal,标准,標準
+kuOptWide,UI,XUi,,,,Wide,,Breit,Ancho,Large,Largo,広い,넓게,Szeroka,Largo,Широкая,Geniş,宽,寬
+kuOptSmall,UI,XUi,,,,Small,,Klein,Pequeño,Petit,Piccolo,小,작게,Małe,Pequeno,Мелкие,Küçük,小,小
+kuOptLarge,UI,XUi,,,,Large,,Groß,Grande,Grand,Grande,大,크게,Duże,Grande,Крупные,Büyük,大,大
+kuTierZero,UI,XUi,,,,Tier 0,,Stufe 0,Nivel 0,Niveau 0,Livello 0,ティア0,티어 0,Poziom 0,Nível 0,Уровень 0,Seviye 0,等级 0,等級 0
