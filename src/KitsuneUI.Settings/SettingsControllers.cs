@@ -218,6 +218,7 @@ public class XUiC_KitsuneSettingsHook : XUiController
             appliedVersion = KitsuneSettingsFile.Version;
             KitsuneSettingsApplier.ApplyAll(xui);
         }
+        KitsuneMoveModeGuard.Update(xui);
         KitsuneLayout.ApplyAll();
         KitsuneAutoFade.Update(xui, _dt);
         KitsuneWearWarning.Update(this, _dt);
