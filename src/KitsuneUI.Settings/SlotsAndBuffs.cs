@@ -235,9 +235,14 @@ public static class KitsuneBuffTimers
         }
         sinceRefresh = 0f;
         bool on = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.BuffTimers);
+        bool sweep = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.BuffSweep);
         foreach (XUiC_BuffPopoutList.Data data in __instance.items)
         {
             EntityUINotification n = data?.Notification;
+            if (n?.Buff?.BuffClass != null && data.Item != null)
+            {
+                KitsuneBuffSweep.Show(__instance.xui, data.Item, n.Buff, sweep);
+            }
             if (n?.Buff == null || data.Item == null || n.DisplayMode == EnumEntityUINotificationDisplayMode.IconPlusCurrentValue)
             {
                 continue;
@@ -256,5 +261,68 @@ public static class KitsuneBuffTimers
                 label.text = text;
             }
         }
+    }
+}
+
+/// <summary>
+/// "Debuffs in their own row" on the game's own buff list (when unit frames are off): the
+/// list keeps its order, but each icon gets the same dark countdown sweep as the unit
+/// frames, and harmful ones a red ring, so they stand apart from the buffs.
+/// </summary>
+public static class KitsuneBuffSweep
+{
+    const int Size = 40;
+    static readonly Color Red = new Color(0.9f, 0.27f, 0.24f, 1f);
+
+    public static void Show(XUi xui, GameObject item, BuffValue buff, bool on)
+    {
+        UISprite icon = item.transform.Find("Icon")?.GetComponent<UISprite>();
+        if (icon == null)
+        {
+            return;
+        }
+        UISprite dark = Child(xui, item, icon, "kuSweep", "ku_round_md", UIBasicSprite.Type.Filled, 1);
+        UISprite ring = Child(xui, item, icon, "kuDebuffRing", "ku_round_md_ring", UIBasicSprite.Type.Sliced, 2);
+        float length = buff.BuffClass.DurationMax;
+        float gone = on && length > 0f ? Mathf.Clamp01(buff.DurationInSeconds / length) : 0f;
+        dark.fillAmount = gone;
+        bool bad = on && KitsuneUnitFrames.LooksBad(buff.BuffClass.IconColor);
+        if (ring.gameObject.activeSelf != bad)
+        {
+            ring.gameObject.SetActive(bad);
+        }
+    }
+
+    static UISprite Child(XUi xui, GameObject item, UISprite icon, string name, string sprite, UIBasicSprite.Type type, int above)
+    {
+        Transform t = item.transform.Find(name);
+        if (t != null)
+        {
+            return t.GetComponent<UISprite>();
+        }
+        GameObject go = new GameObject(name);
+        go.layer = item.layer;
+        go.transform.SetParent(item.transform, false);
+        go.transform.localPosition = icon.transform.localPosition;
+        UISprite s = go.AddComponent<UISprite>();
+        s.atlas = xui.GetAtlasByName(((UnityEngine.Object)icon.atlas).name, sprite);
+        s.spriteName = sprite;
+        s.type = type;
+        s.pivot = UIWidget.Pivot.Center;
+        s.width = Size + (type == UIBasicSprite.Type.Sliced ? 6 : 0);
+        s.height = s.width;
+        s.depth = icon.depth + above;
+        if (type == UIBasicSprite.Type.Filled)
+        {
+            s.fillDirection = UIBasicSprite.FillDirection.Radial360;
+            s.fillAmount = 0f;
+            s.color = new Color(0f, 0f, 0f, 0.55f);
+        }
+        else
+        {
+            s.color = Red;
+            go.SetActive(false);
+        }
+        return s;
     }
 }

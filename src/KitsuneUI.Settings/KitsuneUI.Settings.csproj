@@ -39,6 +39,10 @@
       <HintPath>$(GameBinaries)\UnityEngine.CoreModule.dll</HintPath>
       <Private>false</Private>
     </Reference>
+    <Reference Include="UnityEngine.ImageConversionModule">
+      <HintPath>$(GameBinaries)\UnityEngine.ImageConversionModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
     <Reference Include="UnityEngine.AnimationModule">
       <HintPath>$(GameBinaries)\UnityEngine.AnimationModule.dll</HintPath>
       <Private>false</Private>

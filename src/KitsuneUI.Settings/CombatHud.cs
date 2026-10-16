@@ -75,6 +75,18 @@ public class XUiC_KitsunePartyFrames : XUiController
             float d = Vector3.Distance(m.position, me.position);
             dist.Text = dead ? "" : d >= 1000f ? (d / 1000f).ToString("0.0") + " km" : Mathf.RoundToInt(d) + " m";
         }
+        KitsuneUnitFrames.ShowPortrait(slot.GetChildById("kuPartyPortraitBox")?.ViewComponent,
+            slot.GetChildById("kuPartyPortrait")?.ViewComponent as XUiV_Texture, null,
+            KitsunePortrait.For(m), Color.white);
+        if (slot.GetChildById("kuPartyPortraitBox")?.ViewComponent is XUiView box && box.UiTransform != null)
+        {
+            // Greyed out while they're dead, like the rest of the row.
+            UITexture t = box.UiTransform.GetComponentInChildren<UITexture>();
+            if (t != null)
+            {
+                t.color = dead ? new Color(0.45f, 0.45f, 0.5f, 1f) : Color.white;
+            }
+        }
         if (slot.GetChildById("kuPartyHpFill")?.ViewComponent is XUiV_Sprite hp)
         {
             hp.Fill = dead ? 0f : Mathf.Clamp01((float)m.Health / Mathf.Max(1, m.GetMaxHealth()));

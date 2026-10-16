@@ -584,13 +584,43 @@ public static class KitsuneSubtitlesStayForMoving
 {
     static void Prefix(XUiC_SubtitlesDisplay __instance)
     {
-        if (KitsuneLayout.Active)
+        // Only while the Move HUD bar is really open: a subtitle kept up after move mode
+        // would also pause every pop-up message (the game waits for subtitles to finish).
+        if (KitsuneLayout.Active && __instance.xui.playerUI.windowManager.IsWindowOpen("kuMove"))
         {
             __instance.openTime = Time.time;
             if (__instance.duration < 1f)
             {
                 __instance.duration = 1f;
             }
+        }
+    }
+}
+
+/// <summary>
+/// Keeps move mode and the game's subtitle flag honest. If the UI is rebuilt while Move
+/// HUD is open (changing language does that) or you leave a game in it, the bar's OnClose
+/// never runs and move mode would stay "on" for the session. And whenever the game thinks
+/// a subtitle is showing while the subtitles window isn't open, it holds every pop-up
+/// message ("New level", recipes, "You are cold") back forever: clear that flag.
+/// </summary>
+public static class KitsuneMoveModeGuard
+{
+    public static void Update(XUi xui)
+    {
+        GUIWindowManager wm = xui?.playerUI?.windowManager;
+        if (wm == null)
+        {
+            return;
+        }
+        if (KitsuneLayout.Active && !wm.IsWindowOpen("kuMove"))
+        {
+            KitsuneLayout.Active = false;
+            KitsuneLayout.ShowHandles(false);
+        }
+        if (XUiC_SubtitlesDisplay.IsDisplaying && !wm.IsWindowOpen("subtitlesDisplay"))
+        {
+            XUiC_SubtitlesDisplay.IsDisplaying = false;
         }
     }
 }

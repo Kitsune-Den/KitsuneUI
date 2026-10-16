@@ -92,6 +92,9 @@ public class XUiC_KitsuneJobTile : XUiController
             case "kt_name":
                 _value = info.Name;
                 return true;
+            case "kt_hastier":
+                _value = (info.Tier.Length > 0).ToString();
+                return true;
             case "kt_tier":
                 _value = info.Tier;
                 return true;
@@ -246,6 +249,9 @@ public class XUiC_KitsuneJobOffer : XUiController
                 return true;
             case "kj_biome":
                 _value = info.Biome;
+                return true;
+            case "kj_hastier":
+                _value = (info.Tier.Length > 0).ToString();
                 return true;
             case "kj_objectives":
                 _value = info.Objectives;

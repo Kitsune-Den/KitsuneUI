@@ -52,7 +52,7 @@
 			</rect>
 
 			<!-- chips: tier, distance + direction, biome -->
-			<sprite depth="2" pos="14,-272" width="18" height="18" sprite="ui_game_symbol_skull" color="[kuDanger]" />
+			<sprite depth="2" pos="14,-272" width="18" height="18" sprite="ui_game_symbol_skull" color="[kuDanger]" visible="{kj_hastier}" />
 			<label depth="2" pos="36,-270" width="80" height="24" font_size="20" text="{kj_tier}" color="[kuTextMid]" />
 			<sprite depth="2" pos="122,-272" width="18" height="18" sprite="ui_game_symbol_compass" color="[kuAccent]" />
 			<label depth="2" pos="144,-270" width="96" height="24" font_size="20" text="{kj_distance}" color="[kuTextMid]" overflow="shrinkcontent" />
@@ -63,7 +63,7 @@
 			<rect pos="366,-190" visible="{kj_hasobjectives}">
 				<sprite depth="2" pos="0,0" width="360" height="2" sprite="ku_rule" color="[kuGoldSoft]" />
 				<label depth="2" pos="0,-8" width="360" height="22" font_size="16" upper_case="true" text_key="xuiObjectives" color="[kuGold]" />
-				<label depth="2" pos="0,-34" width="360" height="90" font_size="19" spacing_y="4" text="{kj_objectives}" color="[kuTextMid]" overflow="shrinkcontent" />
+				<label depth="2" pos="0,-34" width="360" height="90" font_size="18" spacing_y="3" text="{kj_objectives}" color="[kuTextMid]" overflow="shrinkcontent" />
 			</rect>
 		</rect>
 	</append>

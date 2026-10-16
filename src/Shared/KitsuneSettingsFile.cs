@@ -42,6 +42,9 @@ public static class KitsuneSettingsFile
     public const string MapShape = "mapShape";            // "square" or "round"
     public const string MapCoords = "mapCoords";          // your coordinates under the minimap
     public const string MapClock = "mapClock";            // the day and time under the minimap
+    public const string Portrait = "portrait";            // player frame portrait: "off", "clean" or "painted"
+    public const string BuffSweep = "buffSweep";          // debuffs in their own row, countdown sweep on buff icons
+    public const string HideQuestTier = "hideQuestTier";  // trader jobs nearest first, no tiers or POI skulls
     public const string QuestBars = "questBars";          // quest tracker progress bars and direction arrows
     public const string QualityRings = "qualityRings";    // ring in the item's quality colour in every slot
     public const string CompareHeld = "compareHeld";      // weapons and tools compare with the one in your hand
@@ -84,6 +87,9 @@ public static class KitsuneSettingsFile
         { MapShape, "square" },
         { MapCoords, "false" },
         { MapClock, "false" },
+        { Portrait, "off" },
+        { BuffSweep, "false" },
+        { HideQuestTier, "false" },
         { QuestBars, "false" },
         { QualityRings, "false" },
         { CompareHeld, "false" },

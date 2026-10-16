@@ -52,7 +52,10 @@ public sealed class JobInfo
             return info;
         }
 
-        info.Tier = Localization.Get("xuiTier").ToUpper() + " " + ValueDisplayFormatters.RomanNumber(quest.QuestClass.DifficultyTier);
+        // "Hide job tiers" (KitsuneUI_Settings): no badge, the player scouts the place instead.
+        info.Tier = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.HideQuestTier)
+            ? ""
+            : Localization.Get("xuiTier").ToUpper() + " " + ValueDisplayFormatters.RomanNumber(quest.QuestClass.DifficultyTier);
         info.Name = quest.GetPOIName();
 
         string response = quest.QuestClass.ResponseText ?? "";
@@ -93,38 +96,83 @@ public sealed class JobInfo
         return info;
     }
 
-    // BaseObjective.Description runs the objective's display setup, and some objectives
-    // (fetch-from-treasure, for one) throw when the quest is only offered, not accepted
-    // yet. Read each one on its own and skip the ones that can't describe themselves.
+    // BaseObjective.Description runs the objective's display setup, and many objectives
+    // (going to the POI, the rally point, clearing it) throw or come out empty while the
+    // quest is only offered, not accepted. Those fall back to the objective's own keyword
+    // ("Head to Rally Point:", "Clear Areas:"), the same words the quest log uses, tidied
+    // into one line each ("Clear Areas"), without repeats.
+    static readonly Regex Placeholder = new Regex(@"\{\d+\}");
+    static readonly Regex Spaces = new Regex(@"\s{2,}");
+
+    // An objective sets its keyword in SetupObjective(), which only runs once the quest
+    // starts (and has side effects, so it isn't called here): the same localisation keys,
+    // looked up directly, by objective type. The rally point's own key is "Activate {0}",
+    // so it gets the game's "Activate Rally Point" line instead.
+    static readonly System.Collections.Generic.Dictionary<string, string> KeywordKeys =
+        new System.Collections.Generic.Dictionary<string, string>
+        {
+            ["ObjectiveRandomPOIGoto"] = "ObjectiveRallyPointHeadTo",
+            ["ObjectiveClosestPOIGoto"] = "ObjectiveRallyPointHeadTo",
+            ["ObjectiveRandomGoto"] = "ObjectiveRallyPointHeadTo",
+            ["ObjectiveRallyPoint"] = "ObjectiveRallyPointActivate",
+            ["ObjectiveClearSleepers"] = "ObjectiveClearAreas_keyword",
+            ["ObjectiveEntityKill"] = "ObjectiveZombieKill_keyword",
+            ["ObjectiveFetch"] = "ObjectiveFetch_keyword",
+            ["ObjectiveFetchAnyContainer"] = "ObjectiveFetch_keyword",
+            ["ObjectiveFetchFromContainer"] = "ObjectiveFetchContainer_keyword",
+            ["ObjectiveFetchFromTreasure"] = "ObjectiveFetchContainer_keyword",
+            ["ObjectiveBaseFetchContainer"] = "ObjectiveFetchContainer_keyword",
+            ["ObjectivePOIBlockActivate"] = "ObjectiveRestorePower_keyword",
+            ["ObjectivePOIBlockUpgrade"] = "ObjectiveBlockUpgrade_keyword",
+            ["ObjectiveBlockActivate"] = "ObjectiveBlockActivate_keyword",
+            ["ObjectiveReturnToNPC"] = "ObjectiveReturnToTrader_keyword",
+            ["ObjectiveTime"] = "ObjectiveTime_keyword",
+        };
+
+    static string KeywordFor(BaseObjective objective)
+    {
+        for (Type t = objective.GetType(); t != null && t != typeof(BaseObjective); t = t.BaseType)
+        {
+            string key = KeywordKeys.TryGetValue(t.Name, out string k) ? k : t.Name + "_keyword";
+            string text = Localization.Get(key);
+            if (!string.IsNullOrEmpty(text) && text != key)
+            {
+                return text;
+            }
+        }
+        return "";
+    }
+
     static string ObjectiveLines(Quest quest)
     {
-        var lines = new StringBuilder();
+        var lines = new System.Collections.Generic.List<string>();
         foreach (BaseObjective objective in quest.Objectives)
         {
-            string text;
+            // "Return to Trader" is hidden by the game until the end and says the same as
+            // the "Talk to Trader" step that closes most jobs, so it's left out here.
+            if (objective == null || objective.HiddenObjective || !objective.ShowInQuestLog || objective is ObjectiveReturnToNPC)
+            {
+                continue;
+            }
+            string text = null;
             try
             {
-                if (objective == null || objective.HiddenObjective || !objective.ShowInQuestLog)
-                {
-                    continue;
-                }
                 text = objective.Description;
             }
             catch (Exception)
             {
-                continue;
             }
-            if (string.IsNullOrEmpty(text))
+            if (string.IsNullOrWhiteSpace(text) || text.Contains("{"))
             {
-                continue;
+                text = !string.IsNullOrEmpty(objective.keyword) ? objective.keyword : KeywordFor(objective);
             }
-            if (lines.Length > 0)
+            text = Spaces.Replace(Placeholder.Replace(text ?? "", ""), " ").Trim().TrimEnd(':').Trim();
+            if (text.Length > 0 && (lines.Count == 0 || lines[lines.Count - 1] != text))
             {
-                lines.Append('\n');
+                lines.Add(text);
             }
-            lines.Append(text);
         }
-        return lines.ToString();
+        return lines.Count == 0 ? "" : "• " + string.Join("\n• ", lines);
     }
 
     // Uses the game's own token formatting; tries POI tokens first, then treasure ones.

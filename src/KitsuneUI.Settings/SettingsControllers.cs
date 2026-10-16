@@ -218,6 +218,7 @@ public class XUiC_KitsuneSettingsHook : XUiController
             appliedVersion = KitsuneSettingsFile.Version;
             KitsuneSettingsApplier.ApplyAll(xui);
         }
+        KitsuneMoveModeGuard.Update(xui);
         KitsuneLayout.ApplyAll();
         KitsuneAutoFade.Update(xui, _dt);
         KitsuneWearWarning.Update(this, _dt);
@@ -267,6 +268,8 @@ public class XUiC_KitsuneSettingsWindow : XUiController
     XUiC_ToggleButton combatText;
     XUiC_ToggleButton qualityRings;
     XUiC_ToggleButton questBars;
+    XUiC_ToggleButton hideTier;
+    XUiC_ToggleButton buffSweep;
     XUiC_ToggleButton compareHeld;
     XUiView hueRing;
     XUiView glassRing;
@@ -357,9 +360,12 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         combatText = Toggle("tglCombatText", KitsuneSettingsFile.CombatText);
         qualityRings = Toggle("tglQualityRings", KitsuneSettingsFile.QualityRings);
         questBars = Toggle("tglQuestBars", KitsuneSettingsFile.QuestBars);
+        hideTier = Toggle("tglHideTier", KitsuneSettingsFile.HideQuestTier);
+        buffSweep = Toggle("tglBuffSweep", KitsuneSettingsFile.BuffSweep);
         compareHeld = Toggle("tglCompareHeld", KitsuneSettingsFile.CompareHeld);
         ChoiceRow("btnMapShape_", KitsuneSettingsFile.MapShape, "square", "round");
         ChoiceRow("btnMapCreatures_", KitsuneSettingsFile.MapCreatures, "off", "animals", "all");
+        ChoiceRow("btnPortrait_", KitsuneSettingsFile.Portrait, "off", "clean", "painted");
         ChoiceRow("btnFrameWidth_", KitsuneSettingsFile.FrameWidth, "260", "320", "400");
         ChoiceRow("btnBuffSize_", KitsuneSettingsFile.BuffSize, "75", "100", "125");
         ChoiceRow("btnBuffCount_", KitsuneSettingsFile.BuffCount, "4", "6", "8");
@@ -669,6 +675,26 @@ public class XUiC_KitsuneSettingsWindow : XUiController
     public override void OnOpen()
     {
         base.OnOpen();
+        Sync();
+        ShowTab(currentTab);
+    }
+
+    // Whenever the settings change underneath the window (a preset, a profile, an import,
+    // another window), the buttons follow, so what's lit always matches what's saved.
+    int syncedVersion = -1;
+
+    public override void Update(float _dt)
+    {
+        base.Update(_dt);
+        if (syncedVersion != KitsuneSettingsFile.Version)
+        {
+            Sync();
+        }
+    }
+
+    void Sync()
+    {
+        syncedVersion = KitsuneSettingsFile.Version;
         ShowPalette();
         ShowBarText();
         ShowTextSize();
@@ -694,11 +720,13 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         if (combatText != null) combatText.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.CombatText);
         if (qualityRings != null) qualityRings.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.QualityRings);
         if (questBars != null) questBars.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.QuestBars);
+        if (hideTier != null) hideTier.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.HideQuestTier);
+        if (buffSweep != null) buffSweep.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.BuffSweep);
         if (compareHeld != null) compareHeld.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.CompareHeld);
         ShowChoices();
         ShowBarStyle();
         ShowMap();
-        ShowTab(currentTab);
         ShowGlass();
+        ShowGlassColour();
     }
 }

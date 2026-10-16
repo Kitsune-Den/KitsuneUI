@@ -33,7 +33,7 @@
 						<texture depth="3" name="kuImage" pos="1,-1" width="144" height="108" texture="{kt_image}" material="Materials/Transparent Colored" visible="{kt_hasimage}" />
 						<sprite depth="4" name="kuShade" sprite="ku_fade_up" pos="1,-58" width="144" height="51" color="8,10,22,235" />
 						<label depth="5" name="kuName" pos="7,-104" width="132" height="44" pivot="bottomleft" justify="left" font_size="17" max_line_count="2" overflow="shrinkcontent" text="{kt_name}" color="[kuTextBright]" effect="outline" effect_color="0,0,0,200" />
-						<sprite depth="5" name="kuTierBg" sprite="ku_pill" type="sliced" pos="5,-5" width="60" height="22" color="12,14,30,225" />
+						<sprite depth="5" name="kuTierBg" sprite="ku_pill" type="sliced" pos="5,-5" width="60" height="22" color="12,14,30,225" visible="{kt_hastier}" />
 						<label depth="6" name="kuTier" pos="35,-16" width="58" height="20" pivot="center" justify="center" font_size="15" text="{kt_tier}" color="[kuGold]" effect="outline" effect_color="0,0,0,160" />
 						<!-- distance + direction, top right (the text window above shows just the job) -->
 						<sprite depth="5" name="kuDistBg" sprite="ku_pill" type="sliced" pos="65,-5" width="76" height="22" color="12,14,30,225" visible="{kt_hasdistance}" />

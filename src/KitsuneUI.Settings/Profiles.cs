@@ -20,7 +20,7 @@ public static class KitsuneProfiles
     static readonly HashSet<string> SettingKeys = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
     {
         KitsuneSettingsFile.SlotNumbers, KitsuneSettingsFile.HealthBarAlways, KitsuneSettingsFile.JobTiles,
-        KitsuneSettingsFile.Glass, KitsuneSettingsFile.MoveSnap, KitsuneSettingsFile.Palette, KitsuneSettingsFile.BackpackAll, KitsuneSettingsFile.AutoFade, KitsuneSettingsFile.BarText, KitsuneSettingsFile.TextSize, KitsuneSettingsFile.Minimap, KitsuneSettingsFile.HordeCountdown, KitsuneSettingsFile.CraftingHud, KitsuneSettingsFile.ActionBar, KitsuneSettingsFile.MapZoom, KitsuneSettingsFile.MapRotate, KitsuneSettingsFile.MapNames, KitsuneSettingsFile.MapShape, KitsuneSettingsFile.MapCreatures, KitsuneSettingsFile.MapCoords, KitsuneSettingsFile.MapClock, KitsuneSettingsFile.BagSearch, KitsuneSettingsFile.WearWarning, KitsuneSettingsFile.BuffTimers, KitsuneSettingsFile.UnitFrames, KitsuneSettingsFile.XpBar, KitsuneSettingsFile.BarStyle, KitsuneSettingsFile.PartyFrames, KitsuneSettingsFile.Nameplates, KitsuneSettingsFile.CombatText, KitsuneSettingsFile.CustomHue, KitsuneSettingsFile.GlassColour, KitsuneSettingsFile.QuestBars, KitsuneSettingsFile.QualityRings, KitsuneSettingsFile.CompareHeld, KitsuneSettingsFile.FrameWidth, KitsuneSettingsFile.BuffSize, KitsuneSettingsFile.BuffCount,
+        KitsuneSettingsFile.Glass, KitsuneSettingsFile.MoveSnap, KitsuneSettingsFile.Palette, KitsuneSettingsFile.BackpackAll, KitsuneSettingsFile.AutoFade, KitsuneSettingsFile.BarText, KitsuneSettingsFile.TextSize, KitsuneSettingsFile.Minimap, KitsuneSettingsFile.HordeCountdown, KitsuneSettingsFile.CraftingHud, KitsuneSettingsFile.ActionBar, KitsuneSettingsFile.MapZoom, KitsuneSettingsFile.MapRotate, KitsuneSettingsFile.MapNames, KitsuneSettingsFile.MapShape, KitsuneSettingsFile.MapCreatures, KitsuneSettingsFile.MapCoords, KitsuneSettingsFile.MapClock, KitsuneSettingsFile.BagSearch, KitsuneSettingsFile.WearWarning, KitsuneSettingsFile.BuffTimers, KitsuneSettingsFile.UnitFrames, KitsuneSettingsFile.XpBar, KitsuneSettingsFile.BarStyle, KitsuneSettingsFile.PartyFrames, KitsuneSettingsFile.Nameplates, KitsuneSettingsFile.CombatText, KitsuneSettingsFile.CustomHue, KitsuneSettingsFile.GlassColour, KitsuneSettingsFile.QuestBars, KitsuneSettingsFile.HideQuestTier, KitsuneSettingsFile.BuffSweep, KitsuneSettingsFile.Portrait, KitsuneSettingsFile.QualityRings, KitsuneSettingsFile.CompareHeld, KitsuneSettingsFile.FrameWidth, KitsuneSettingsFile.BuffSize, KitsuneSettingsFile.BuffCount,
     };
     static readonly Regex SafeKey = new Regex(@"^(move|scale|hide)\.[A-Za-z0-9_]{1,40}$");
     static readonly Regex SafeValue = new Regex(@"^[A-Za-z0-9.,\-]{1,24}$");
@@ -54,6 +54,7 @@ public static class KitsuneProfiles
             [KitsuneSettingsFile.BuffTimers] = "true", [KitsuneSettingsFile.MapCoords] = "true",
             [KitsuneSettingsFile.MapClock] = "true", [KitsuneSettingsFile.QuestBars] = "true",
             [KitsuneSettingsFile.WearWarning] = "true", [KitsuneSettingsFile.SlotNumbers] = "true",
+            [KitsuneSettingsFile.BuffSweep] = "true",
         },
         // For streaming and videos: everything a viewer needs to follow, a little larger,
         // and nothing that gives away where your base is or who you play with.
@@ -68,6 +69,7 @@ public static class KitsuneProfiles
             [KitsuneSettingsFile.Nameplates] = "true", [KitsuneSettingsFile.CombatText] = "false",
             [KitsuneSettingsFile.XpBar] = "true", [KitsuneSettingsFile.BuffTimers] = "true",
             [KitsuneSettingsFile.QuestBars] = "true", [KitsuneSettingsFile.TextSize] = "115",
+            [KitsuneSettingsFile.BuffSweep] = "true",
         },
     };
 
@@ -283,7 +285,12 @@ public class XUiC_KitsuneProfilesWindow : XUiController
                 Say("kuProfBadImport");
             }
         });
-        On("btnProfileClose", () => xui.playerUI.windowManager.Close("kuProfiles"));
+        // Close goes back to the settings window it was opened from.
+        On("btnProfileClose", () =>
+        {
+            xui.playerUI.windowManager.Close("kuProfiles");
+            xui.playerUI.windowManager.Open("kuSettings", true);
+        });
         foreach (string preset in new[] { "minimal", "full", "streamer" })
         {
             string p = preset;

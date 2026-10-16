@@ -275,6 +275,9 @@ def rimmed_dot(size=12, rim=2.0):
 
 
 add("ku_dot", rimmed_dot(), 0)   # creatures on the minimap
+add("ku_portrait_ring", ring(72, 72, 36, 3), 0)   # the player frame's portrait
+add("ku_badge", solid_round(24, 24, 12), 0)       # its level badge
+add("ku_badge_ring", ring(24, 24, 12, 2), 0)
 add("ku_pill", solid_round(16, 16, 8), (8, 8, 8, 8))
 add("ku_bar", solid_round(16, 8, 4), (5, 5, 4, 4))
 

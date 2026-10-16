@@ -103,6 +103,8 @@
 				<simplebutton name="btnBuffCount_4" depth="3" pos="160,-404" width="120" height="36" font_size="20" caption="4" />
 				<simplebutton name="btnBuffCount_6" depth="3" pos="286,-404" width="120" height="36" font_size="20" caption="6" />
 				<simplebutton name="btnBuffCount_8" depth="3" pos="412,-404" width="120" height="36" font_size="20" caption="8" />
+				<togglebutton name="tglBuffSweep" depth="3" pos="20,-452" width="520" height="40" font_size="26" caption="" />
+				<label depth="4" name="tglBuffSweepText" pos="66,-472" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetBuffSweep" />
 			</rect>
 
 			<rect name="kuTab_windows" width="560" height="564" visible="false">
@@ -123,6 +125,8 @@
 				<label depth="4" name="tglCompareHeldText" pos="66,-376" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetCompareHeld" />
 				<togglebutton name="tglQuestBars" depth="3" pos="20,-404" width="520" height="40" font_size="26" caption="" />
 				<label depth="4" name="tglQuestBarsText" pos="66,-424" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetQuestBars" />
+				<togglebutton name="tglHideTier" depth="3" pos="20,-452" width="520" height="40" font_size="26" caption="" />
+				<label depth="4" name="tglHideTierText" pos="66,-472" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetHideTier" />
 			</rect>
 
 			<rect name="kuTab_look" width="560" height="564" visible="false">
@@ -172,6 +176,10 @@
 				<sprite depth="4" name="kuBarStylePreviewFill" pos="214,-409" width="262" height="26" sprite="ku_bar" type="filled" fill="0.72" color="60,200,95,255" />
 				<label depth="5" name="kuBarStyleName" pos="345,-422" width="250" height="26" pivot="center" justify="center" font_size="22" color="[white]" effect="outline" effect_color="0,0,0,230" text="" />
 				<simplebutton name="btnBarStyleNext" depth="3" pos="486,-404" width="44" height="36" font_size="24" caption="&gt;" />
+				<label depth="3" name="lblPortrait" pos="22,-470" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetPortrait" />
+				<simplebutton name="btnPortrait_off" depth="3" pos="160,-452" width="120" height="36" font_size="20" caption_key="kuOptOff" />
+				<simplebutton name="btnPortrait_clean" depth="3" pos="286,-452" width="120" height="36" font_size="20" caption_key="kuOptClean" />
+				<simplebutton name="btnPortrait_painted" depth="3" pos="412,-452" width="120" height="36" font_size="20" caption_key="kuOptPainted" />
 			</rect>
 
 			<simplebutton name="btnMoveHUD" depth="3" pos="20,-508" width="168" height="40" font_size="24" caption_key="kuSetMoveHUD" />
@@ -853,49 +861,122 @@
 					<sprite depth="1" name="kuBuffBg" sprite="ku_slot_fill" type="sliced" width="32" height="32" color="6,8,20,225" />
 					<sprite depth="2" name="kuBuffEdge" sprite="ku_slot_ring2" type="sliced" width="32" height="32" color="[white]" />
 					<sprite depth="3" name="kuBuffIcon" pos="16,-16" width="20" height="20" pivot="center" sprite="ui_game_symbol_add" color="[white]" />
+					<sprite depth="4" name="kuBuffSweep" sprite="ku_slot_fill" type="filled" filldirection="Radial360" fill="0" color="0,0,0,150" width="32" height="32" />
 					<label depth="3" name="kuBuffTime" pos="16,-34" width="44" height="16" pivot="top" justify="center" font_size="13" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="" />
 				</rect>
 				<rect name="kuBuffSlot1" pos="38,0" width="32" height="50" visible="false">
 					<sprite depth="1" name="kuBuffBg" sprite="ku_slot_fill" type="sliced" width="32" height="32" color="6,8,20,225" />
 					<sprite depth="2" name="kuBuffEdge" sprite="ku_slot_ring2" type="sliced" width="32" height="32" color="[white]" />
 					<sprite depth="3" name="kuBuffIcon" pos="16,-16" width="20" height="20" pivot="center" sprite="ui_game_symbol_add" color="[white]" />
+					<sprite depth="4" name="kuBuffSweep" sprite="ku_slot_fill" type="filled" filldirection="Radial360" fill="0" color="0,0,0,150" width="32" height="32" />
 					<label depth="3" name="kuBuffTime" pos="16,-34" width="44" height="16" pivot="top" justify="center" font_size="13" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="" />
 				</rect>
 				<rect name="kuBuffSlot2" pos="76,0" width="32" height="50" visible="false">
 					<sprite depth="1" name="kuBuffBg" sprite="ku_slot_fill" type="sliced" width="32" height="32" color="6,8,20,225" />
 					<sprite depth="2" name="kuBuffEdge" sprite="ku_slot_ring2" type="sliced" width="32" height="32" color="[white]" />
 					<sprite depth="3" name="kuBuffIcon" pos="16,-16" width="20" height="20" pivot="center" sprite="ui_game_symbol_add" color="[white]" />
+					<sprite depth="4" name="kuBuffSweep" sprite="ku_slot_fill" type="filled" filldirection="Radial360" fill="0" color="0,0,0,150" width="32" height="32" />
 					<label depth="3" name="kuBuffTime" pos="16,-34" width="44" height="16" pivot="top" justify="center" font_size="13" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="" />
 				</rect>
 				<rect name="kuBuffSlot3" pos="114,0" width="32" height="50" visible="false">
 					<sprite depth="1" name="kuBuffBg" sprite="ku_slot_fill" type="sliced" width="32" height="32" color="6,8,20,225" />
 					<sprite depth="2" name="kuBuffEdge" sprite="ku_slot_ring2" type="sliced" width="32" height="32" color="[white]" />
 					<sprite depth="3" name="kuBuffIcon" pos="16,-16" width="20" height="20" pivot="center" sprite="ui_game_symbol_add" color="[white]" />
+					<sprite depth="4" name="kuBuffSweep" sprite="ku_slot_fill" type="filled" filldirection="Radial360" fill="0" color="0,0,0,150" width="32" height="32" />
 					<label depth="3" name="kuBuffTime" pos="16,-34" width="44" height="16" pivot="top" justify="center" font_size="13" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="" />
 				</rect>
 				<rect name="kuBuffSlot4" pos="152,0" width="32" height="50" visible="false">
 					<sprite depth="1" name="kuBuffBg" sprite="ku_slot_fill" type="sliced" width="32" height="32" color="6,8,20,225" />
 					<sprite depth="2" name="kuBuffEdge" sprite="ku_slot_ring2" type="sliced" width="32" height="32" color="[white]" />
 					<sprite depth="3" name="kuBuffIcon" pos="16,-16" width="20" height="20" pivot="center" sprite="ui_game_symbol_add" color="[white]" />
+					<sprite depth="4" name="kuBuffSweep" sprite="ku_slot_fill" type="filled" filldirection="Radial360" fill="0" color="0,0,0,150" width="32" height="32" />
 					<label depth="3" name="kuBuffTime" pos="16,-34" width="44" height="16" pivot="top" justify="center" font_size="13" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="" />
 				</rect>
 				<rect name="kuBuffSlot5" pos="190,0" width="32" height="50" visible="false">
 					<sprite depth="1" name="kuBuffBg" sprite="ku_slot_fill" type="sliced" width="32" height="32" color="6,8,20,225" />
 					<sprite depth="2" name="kuBuffEdge" sprite="ku_slot_ring2" type="sliced" width="32" height="32" color="[white]" />
 					<sprite depth="3" name="kuBuffIcon" pos="16,-16" width="20" height="20" pivot="center" sprite="ui_game_symbol_add" color="[white]" />
+					<sprite depth="4" name="kuBuffSweep" sprite="ku_slot_fill" type="filled" filldirection="Radial360" fill="0" color="0,0,0,150" width="32" height="32" />
 					<label depth="3" name="kuBuffTime" pos="16,-34" width="44" height="16" pivot="top" justify="center" font_size="13" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="" />
 				</rect>
 				<rect name="kuBuffSlot6" pos="228,0" width="32" height="50" visible="false">
 					<sprite depth="1" name="kuBuffBg" sprite="ku_slot_fill" type="sliced" width="32" height="32" color="6,8,20,225" />
 					<sprite depth="2" name="kuBuffEdge" sprite="ku_slot_ring2" type="sliced" width="32" height="32" color="[white]" />
 					<sprite depth="3" name="kuBuffIcon" pos="16,-16" width="20" height="20" pivot="center" sprite="ui_game_symbol_add" color="[white]" />
+					<sprite depth="4" name="kuBuffSweep" sprite="ku_slot_fill" type="filled" filldirection="Radial360" fill="0" color="0,0,0,150" width="32" height="32" />
 					<label depth="3" name="kuBuffTime" pos="16,-34" width="44" height="16" pivot="top" justify="center" font_size="13" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="" />
 				</rect>
 				<rect name="kuBuffSlot7" pos="266,0" width="32" height="50" visible="false">
 					<sprite depth="1" name="kuBuffBg" sprite="ku_slot_fill" type="sliced" width="32" height="32" color="6,8,20,225" />
 					<sprite depth="2" name="kuBuffEdge" sprite="ku_slot_ring2" type="sliced" width="32" height="32" color="[white]" />
 					<sprite depth="3" name="kuBuffIcon" pos="16,-16" width="20" height="20" pivot="center" sprite="ui_game_symbol_add" color="[white]" />
+					<sprite depth="4" name="kuBuffSweep" sprite="ku_slot_fill" type="filled" filldirection="Radial360" fill="0" color="0,0,0,150" width="32" height="32" />
 					<label depth="3" name="kuBuffTime" pos="16,-34" width="44" height="16" pivot="top" justify="center" font_size="13" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="" />
+				</rect>
+				<rect name="kuDebuffSlot0" pos="0,0" width="32" height="50" visible="false">
+					<sprite depth="1" name="kuBuffBg" sprite="ku_slot_fill" type="sliced" width="32" height="32" color="6,8,20,225" />
+					<sprite depth="2" name="kuBuffEdge" sprite="ku_slot_ring2" type="sliced" width="32" height="32" color="230,70,60,255" />
+					<sprite depth="3" name="kuBuffIcon" pos="16,-16" width="20" height="20" pivot="center" sprite="ui_game_symbol_add" color="[white]" />
+					<sprite depth="4" name="kuBuffSweep" sprite="ku_slot_fill" type="filled" filldirection="Radial360" fill="0" color="0,0,0,150" width="32" height="32" />
+					<label depth="3" name="kuBuffTime" pos="16,-34" width="44" height="16" pivot="top" justify="center" font_size="13" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="" />
+				</rect>
+				<rect name="kuDebuffSlot1" pos="38,0" width="32" height="50" visible="false">
+					<sprite depth="1" name="kuBuffBg" sprite="ku_slot_fill" type="sliced" width="32" height="32" color="6,8,20,225" />
+					<sprite depth="2" name="kuBuffEdge" sprite="ku_slot_ring2" type="sliced" width="32" height="32" color="230,70,60,255" />
+					<sprite depth="3" name="kuBuffIcon" pos="16,-16" width="20" height="20" pivot="center" sprite="ui_game_symbol_add" color="[white]" />
+					<sprite depth="4" name="kuBuffSweep" sprite="ku_slot_fill" type="filled" filldirection="Radial360" fill="0" color="0,0,0,150" width="32" height="32" />
+					<label depth="3" name="kuBuffTime" pos="16,-34" width="44" height="16" pivot="top" justify="center" font_size="13" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="" />
+				</rect>
+				<rect name="kuDebuffSlot2" pos="76,0" width="32" height="50" visible="false">
+					<sprite depth="1" name="kuBuffBg" sprite="ku_slot_fill" type="sliced" width="32" height="32" color="6,8,20,225" />
+					<sprite depth="2" name="kuBuffEdge" sprite="ku_slot_ring2" type="sliced" width="32" height="32" color="230,70,60,255" />
+					<sprite depth="3" name="kuBuffIcon" pos="16,-16" width="20" height="20" pivot="center" sprite="ui_game_symbol_add" color="[white]" />
+					<sprite depth="4" name="kuBuffSweep" sprite="ku_slot_fill" type="filled" filldirection="Radial360" fill="0" color="0,0,0,150" width="32" height="32" />
+					<label depth="3" name="kuBuffTime" pos="16,-34" width="44" height="16" pivot="top" justify="center" font_size="13" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="" />
+				</rect>
+				<rect name="kuDebuffSlot3" pos="114,0" width="32" height="50" visible="false">
+					<sprite depth="1" name="kuBuffBg" sprite="ku_slot_fill" type="sliced" width="32" height="32" color="6,8,20,225" />
+					<sprite depth="2" name="kuBuffEdge" sprite="ku_slot_ring2" type="sliced" width="32" height="32" color="230,70,60,255" />
+					<sprite depth="3" name="kuBuffIcon" pos="16,-16" width="20" height="20" pivot="center" sprite="ui_game_symbol_add" color="[white]" />
+					<sprite depth="4" name="kuBuffSweep" sprite="ku_slot_fill" type="filled" filldirection="Radial360" fill="0" color="0,0,0,150" width="32" height="32" />
+					<label depth="3" name="kuBuffTime" pos="16,-34" width="44" height="16" pivot="top" justify="center" font_size="13" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="" />
+				</rect>
+				<rect name="kuDebuffSlot4" pos="152,0" width="32" height="50" visible="false">
+					<sprite depth="1" name="kuBuffBg" sprite="ku_slot_fill" type="sliced" width="32" height="32" color="6,8,20,225" />
+					<sprite depth="2" name="kuBuffEdge" sprite="ku_slot_ring2" type="sliced" width="32" height="32" color="230,70,60,255" />
+					<sprite depth="3" name="kuBuffIcon" pos="16,-16" width="20" height="20" pivot="center" sprite="ui_game_symbol_add" color="[white]" />
+					<sprite depth="4" name="kuBuffSweep" sprite="ku_slot_fill" type="filled" filldirection="Radial360" fill="0" color="0,0,0,150" width="32" height="32" />
+					<label depth="3" name="kuBuffTime" pos="16,-34" width="44" height="16" pivot="top" justify="center" font_size="13" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="" />
+				</rect>
+				<rect name="kuDebuffSlot5" pos="190,0" width="32" height="50" visible="false">
+					<sprite depth="1" name="kuBuffBg" sprite="ku_slot_fill" type="sliced" width="32" height="32" color="6,8,20,225" />
+					<sprite depth="2" name="kuBuffEdge" sprite="ku_slot_ring2" type="sliced" width="32" height="32" color="230,70,60,255" />
+					<sprite depth="3" name="kuBuffIcon" pos="16,-16" width="20" height="20" pivot="center" sprite="ui_game_symbol_add" color="[white]" />
+					<sprite depth="4" name="kuBuffSweep" sprite="ku_slot_fill" type="filled" filldirection="Radial360" fill="0" color="0,0,0,150" width="32" height="32" />
+					<label depth="3" name="kuBuffTime" pos="16,-34" width="44" height="16" pivot="top" justify="center" font_size="13" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="" />
+				</rect>
+				<rect name="kuDebuffSlot6" pos="228,0" width="32" height="50" visible="false">
+					<sprite depth="1" name="kuBuffBg" sprite="ku_slot_fill" type="sliced" width="32" height="32" color="6,8,20,225" />
+					<sprite depth="2" name="kuBuffEdge" sprite="ku_slot_ring2" type="sliced" width="32" height="32" color="230,70,60,255" />
+					<sprite depth="3" name="kuBuffIcon" pos="16,-16" width="20" height="20" pivot="center" sprite="ui_game_symbol_add" color="[white]" />
+					<sprite depth="4" name="kuBuffSweep" sprite="ku_slot_fill" type="filled" filldirection="Radial360" fill="0" color="0,0,0,150" width="32" height="32" />
+					<label depth="3" name="kuBuffTime" pos="16,-34" width="44" height="16" pivot="top" justify="center" font_size="13" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="" />
+				</rect>
+				<rect name="kuDebuffSlot7" pos="266,0" width="32" height="50" visible="false">
+					<sprite depth="1" name="kuBuffBg" sprite="ku_slot_fill" type="sliced" width="32" height="32" color="6,8,20,225" />
+					<sprite depth="2" name="kuBuffEdge" sprite="ku_slot_ring2" type="sliced" width="32" height="32" color="230,70,60,255" />
+					<sprite depth="3" name="kuBuffIcon" pos="16,-16" width="20" height="20" pivot="center" sprite="ui_game_symbol_add" color="[white]" />
+					<sprite depth="4" name="kuBuffSweep" sprite="ku_slot_fill" type="filled" filldirection="Radial360" fill="0" color="0,0,0,150" width="32" height="32" />
+					<label depth="3" name="kuBuffTime" pos="16,-34" width="44" height="16" pivot="top" justify="center" font_size="13" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="" />
+				</rect>
+				<!-- Portrait (Settings > Look > Portrait): a snapshot of your character, see KitsunePortrait -->
+				<rect name="kuPFPortraitBox" pos="-66,-58" width="72" height="72" visible="false">
+					<sprite depth="2" name="kuPFPortraitBg" sprite="ku_badge" width="72" height="72" color="20,26,51,255" />
+					<texture depth="3" name="kuPFPortrait" width="72" height="72" color="[white]" />
+					<sprite depth="4" name="kuPFPortraitRing" sprite="ku_portrait_ring" width="72" height="72" color="[kuGold]" />
+					<sprite depth="5" name="kuPFBadge" pos="50,-50" sprite="ku_badge" width="26" height="26" color="12,15,34,255" />
+					<sprite depth="6" name="kuPFBadgeRing" pos="50,-50" sprite="ku_badge_ring" width="26" height="26" color="[kuGold]" />
+					<label depth="7" name="kuPFBadgeLevel" pos="63,-63" width="26" height="18" pivot="center" justify="center" font_size="15" overflow="shrinkcontent" color="243,227,184,255" text="{kupflevelnum}" />
 				</rect>
 				<rect name="kuPFPanel" pos="0,-54" width="320" height="80">
 				<sprite depth="0" name="kuPFGlass" sprite="ku_panel_sm" type="sliced" color="[white]" width="320" height="80" />
@@ -934,49 +1015,63 @@
 					<sprite depth="1" name="kuBuffBg" sprite="ku_slot_fill" type="sliced" width="32" height="32" color="6,8,20,225" />
 					<sprite depth="2" name="kuBuffEdge" sprite="ku_slot_ring2" type="sliced" width="32" height="32" color="[white]" />
 					<sprite depth="3" name="kuBuffIcon" pos="16,-16" width="20" height="20" pivot="center" sprite="ui_game_symbol_add" color="[white]" />
+					<sprite depth="4" name="kuBuffSweep" sprite="ku_slot_fill" type="filled" filldirection="Radial360" fill="0" color="0,0,0,150" width="32" height="32" />
 					<label depth="3" name="kuBuffTime" pos="16,-34" width="44" height="16" pivot="top" justify="center" font_size="13" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="" />
 				</rect>
 				<rect name="kuBuffSlot1" pos="250,0" width="32" height="50" visible="false">
 					<sprite depth="1" name="kuBuffBg" sprite="ku_slot_fill" type="sliced" width="32" height="32" color="6,8,20,225" />
 					<sprite depth="2" name="kuBuffEdge" sprite="ku_slot_ring2" type="sliced" width="32" height="32" color="[white]" />
 					<sprite depth="3" name="kuBuffIcon" pos="16,-16" width="20" height="20" pivot="center" sprite="ui_game_symbol_add" color="[white]" />
+					<sprite depth="4" name="kuBuffSweep" sprite="ku_slot_fill" type="filled" filldirection="Radial360" fill="0" color="0,0,0,150" width="32" height="32" />
 					<label depth="3" name="kuBuffTime" pos="16,-34" width="44" height="16" pivot="top" justify="center" font_size="13" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="" />
 				</rect>
 				<rect name="kuBuffSlot2" pos="212,0" width="32" height="50" visible="false">
 					<sprite depth="1" name="kuBuffBg" sprite="ku_slot_fill" type="sliced" width="32" height="32" color="6,8,20,225" />
 					<sprite depth="2" name="kuBuffEdge" sprite="ku_slot_ring2" type="sliced" width="32" height="32" color="[white]" />
 					<sprite depth="3" name="kuBuffIcon" pos="16,-16" width="20" height="20" pivot="center" sprite="ui_game_symbol_add" color="[white]" />
+					<sprite depth="4" name="kuBuffSweep" sprite="ku_slot_fill" type="filled" filldirection="Radial360" fill="0" color="0,0,0,150" width="32" height="32" />
 					<label depth="3" name="kuBuffTime" pos="16,-34" width="44" height="16" pivot="top" justify="center" font_size="13" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="" />
 				</rect>
 				<rect name="kuBuffSlot3" pos="174,0" width="32" height="50" visible="false">
 					<sprite depth="1" name="kuBuffBg" sprite="ku_slot_fill" type="sliced" width="32" height="32" color="6,8,20,225" />
 					<sprite depth="2" name="kuBuffEdge" sprite="ku_slot_ring2" type="sliced" width="32" height="32" color="[white]" />
 					<sprite depth="3" name="kuBuffIcon" pos="16,-16" width="20" height="20" pivot="center" sprite="ui_game_symbol_add" color="[white]" />
+					<sprite depth="4" name="kuBuffSweep" sprite="ku_slot_fill" type="filled" filldirection="Radial360" fill="0" color="0,0,0,150" width="32" height="32" />
 					<label depth="3" name="kuBuffTime" pos="16,-34" width="44" height="16" pivot="top" justify="center" font_size="13" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="" />
 				</rect>
 				<rect name="kuBuffSlot4" pos="136,0" width="32" height="50" visible="false">
 					<sprite depth="1" name="kuBuffBg" sprite="ku_slot_fill" type="sliced" width="32" height="32" color="6,8,20,225" />
 					<sprite depth="2" name="kuBuffEdge" sprite="ku_slot_ring2" type="sliced" width="32" height="32" color="[white]" />
 					<sprite depth="3" name="kuBuffIcon" pos="16,-16" width="20" height="20" pivot="center" sprite="ui_game_symbol_add" color="[white]" />
+					<sprite depth="4" name="kuBuffSweep" sprite="ku_slot_fill" type="filled" filldirection="Radial360" fill="0" color="0,0,0,150" width="32" height="32" />
 					<label depth="3" name="kuBuffTime" pos="16,-34" width="44" height="16" pivot="top" justify="center" font_size="13" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="" />
 				</rect>
 				<rect name="kuBuffSlot5" pos="98,0" width="32" height="50" visible="false">
 					<sprite depth="1" name="kuBuffBg" sprite="ku_slot_fill" type="sliced" width="32" height="32" color="6,8,20,225" />
 					<sprite depth="2" name="kuBuffEdge" sprite="ku_slot_ring2" type="sliced" width="32" height="32" color="[white]" />
 					<sprite depth="3" name="kuBuffIcon" pos="16,-16" width="20" height="20" pivot="center" sprite="ui_game_symbol_add" color="[white]" />
+					<sprite depth="4" name="kuBuffSweep" sprite="ku_slot_fill" type="filled" filldirection="Radial360" fill="0" color="0,0,0,150" width="32" height="32" />
 					<label depth="3" name="kuBuffTime" pos="16,-34" width="44" height="16" pivot="top" justify="center" font_size="13" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="" />
 				</rect>
 				<rect name="kuBuffSlot6" pos="60,0" width="32" height="50" visible="false">
 					<sprite depth="1" name="kuBuffBg" sprite="ku_slot_fill" type="sliced" width="32" height="32" color="6,8,20,225" />
 					<sprite depth="2" name="kuBuffEdge" sprite="ku_slot_ring2" type="sliced" width="32" height="32" color="[white]" />
 					<sprite depth="3" name="kuBuffIcon" pos="16,-16" width="20" height="20" pivot="center" sprite="ui_game_symbol_add" color="[white]" />
+					<sprite depth="4" name="kuBuffSweep" sprite="ku_slot_fill" type="filled" filldirection="Radial360" fill="0" color="0,0,0,150" width="32" height="32" />
 					<label depth="3" name="kuBuffTime" pos="16,-34" width="44" height="16" pivot="top" justify="center" font_size="13" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="" />
 				</rect>
 				<rect name="kuBuffSlot7" pos="22,0" width="32" height="50" visible="false">
 					<sprite depth="1" name="kuBuffBg" sprite="ku_slot_fill" type="sliced" width="32" height="32" color="6,8,20,225" />
 					<sprite depth="2" name="kuBuffEdge" sprite="ku_slot_ring2" type="sliced" width="32" height="32" color="[white]" />
 					<sprite depth="3" name="kuBuffIcon" pos="16,-16" width="20" height="20" pivot="center" sprite="ui_game_symbol_add" color="[white]" />
+					<sprite depth="4" name="kuBuffSweep" sprite="ku_slot_fill" type="filled" filldirection="Radial360" fill="0" color="0,0,0,150" width="32" height="32" />
 					<label depth="3" name="kuBuffTime" pos="16,-34" width="44" height="16" pivot="top" justify="center" font_size="13" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="" />
+				</rect>
+				<!-- Portrait (Settings > Look > Portrait): a painted creature face, or a player's snapshot -->
+				<rect name="kuTFPortraitBox" pos="314,-48" width="72" height="72" visible="false">
+					<sprite depth="2" name="kuTFPortraitBg" sprite="ku_badge" width="72" height="72" color="20,26,51,255" />
+					<texture depth="3" name="kuTFPortrait" width="72" height="72" color="[white]" />
+					<sprite depth="4" name="kuTFPortraitRing" sprite="ku_portrait_ring" width="72" height="72" color="[white]" />
 				</rect>
 				<rect name="kuTFPanel" pos="0,-54" width="320" height="60">
 				<sprite depth="0" name="kuTFGlass" sprite="ku_panel_sm" type="sliced" color="[white]" width="320" height="60" />
@@ -1049,6 +1144,11 @@
 		<window name="kuPartyFrames" anchor="Center" pos="-370,-200" width="240" height="234" depth="-20">
 			<rect name="kuPartyBody" width="240" height="234" controller="KitsunePartyFrames, KitsuneUI_Settings">
 				<rect name="kuPartySlot0" pos="0,0" width="240" height="30" visible="false">
+					<rect name="kuPartyPortraitBox" pos="-33,1" width="28" height="28" visible="false">
+						<sprite depth="1" name="kuPartyPortraitBg" sprite="ku_badge" width="28" height="28" color="20,26,51,255" />
+						<texture depth="2" name="kuPartyPortrait" width="28" height="28" color="[white]" />
+						<sprite depth="3" name="kuPartyPortraitRing" sprite="ku_badge_ring" width="28" height="28" color="150,175,255,200" />
+					</rect>
 					<sprite depth="0" name="kuPartyGlass" sprite="ku_panel_sm" type="sliced" color="[white]" width="240" height="30" />
 					<label depth="3" name="kuPartyName" pos="8,-3" width="160" height="15" pivot="topleft" justify="left" font_size="14" overflow="shrinkcontent" max_line_count="1" color="[kuTextBright]" text="" />
 					<label depth="3" name="kuPartyDist" pos="232,-3" width="70" height="15" pivot="topright" justify="right" font_size="13" color="[kuTextMid]" text="" />
@@ -1056,6 +1156,11 @@
 					<sprite depth="2" name="kuPartyHpFill" pos="6,-19" width="228" height="7" sprite="ku_bar" type="filled" fill="1" color="60,200,95,255" />
 				</rect>
 				<rect name="kuPartySlot1" pos="0,-34" width="240" height="30" visible="false">
+					<rect name="kuPartyPortraitBox" pos="-33,1" width="28" height="28" visible="false">
+						<sprite depth="1" name="kuPartyPortraitBg" sprite="ku_badge" width="28" height="28" color="20,26,51,255" />
+						<texture depth="2" name="kuPartyPortrait" width="28" height="28" color="[white]" />
+						<sprite depth="3" name="kuPartyPortraitRing" sprite="ku_badge_ring" width="28" height="28" color="150,175,255,200" />
+					</rect>
 					<sprite depth="0" name="kuPartyGlass" sprite="ku_panel_sm" type="sliced" color="[white]" width="240" height="30" />
 					<label depth="3" name="kuPartyName" pos="8,-3" width="160" height="15" pivot="topleft" justify="left" font_size="14" overflow="shrinkcontent" max_line_count="1" color="[kuTextBright]" text="" />
 					<label depth="3" name="kuPartyDist" pos="232,-3" width="70" height="15" pivot="topright" justify="right" font_size="13" color="[kuTextMid]" text="" />
@@ -1063,6 +1168,11 @@
 					<sprite depth="2" name="kuPartyHpFill" pos="6,-19" width="228" height="7" sprite="ku_bar" type="filled" fill="1" color="60,200,95,255" />
 				</rect>
 				<rect name="kuPartySlot2" pos="0,-68" width="240" height="30" visible="false">
+					<rect name="kuPartyPortraitBox" pos="-33,1" width="28" height="28" visible="false">
+						<sprite depth="1" name="kuPartyPortraitBg" sprite="ku_badge" width="28" height="28" color="20,26,51,255" />
+						<texture depth="2" name="kuPartyPortrait" width="28" height="28" color="[white]" />
+						<sprite depth="3" name="kuPartyPortraitRing" sprite="ku_badge_ring" width="28" height="28" color="150,175,255,200" />
+					</rect>
 					<sprite depth="0" name="kuPartyGlass" sprite="ku_panel_sm" type="sliced" color="[white]" width="240" height="30" />
 					<label depth="3" name="kuPartyName" pos="8,-3" width="160" height="15" pivot="topleft" justify="left" font_size="14" overflow="shrinkcontent" max_line_count="1" color="[kuTextBright]" text="" />
 					<label depth="3" name="kuPartyDist" pos="232,-3" width="70" height="15" pivot="topright" justify="right" font_size="13" color="[kuTextMid]" text="" />
@@ -1070,6 +1180,11 @@
 					<sprite depth="2" name="kuPartyHpFill" pos="6,-19" width="228" height="7" sprite="ku_bar" type="filled" fill="1" color="60,200,95,255" />
 				</rect>
 				<rect name="kuPartySlot3" pos="0,-102" width="240" height="30" visible="false">
+					<rect name="kuPartyPortraitBox" pos="-33,1" width="28" height="28" visible="false">
+						<sprite depth="1" name="kuPartyPortraitBg" sprite="ku_badge" width="28" height="28" color="20,26,51,255" />
+						<texture depth="2" name="kuPartyPortrait" width="28" height="28" color="[white]" />
+						<sprite depth="3" name="kuPartyPortraitRing" sprite="ku_badge_ring" width="28" height="28" color="150,175,255,200" />
+					</rect>
 					<sprite depth="0" name="kuPartyGlass" sprite="ku_panel_sm" type="sliced" color="[white]" width="240" height="30" />
 					<label depth="3" name="kuPartyName" pos="8,-3" width="160" height="15" pivot="topleft" justify="left" font_size="14" overflow="shrinkcontent" max_line_count="1" color="[kuTextBright]" text="" />
 					<label depth="3" name="kuPartyDist" pos="232,-3" width="70" height="15" pivot="topright" justify="right" font_size="13" color="[kuTextMid]" text="" />
@@ -1077,6 +1192,11 @@
 					<sprite depth="2" name="kuPartyHpFill" pos="6,-19" width="228" height="7" sprite="ku_bar" type="filled" fill="1" color="60,200,95,255" />
 				</rect>
 				<rect name="kuPartySlot4" pos="0,-136" width="240" height="30" visible="false">
+					<rect name="kuPartyPortraitBox" pos="-33,1" width="28" height="28" visible="false">
+						<sprite depth="1" name="kuPartyPortraitBg" sprite="ku_badge" width="28" height="28" color="20,26,51,255" />
+						<texture depth="2" name="kuPartyPortrait" width="28" height="28" color="[white]" />
+						<sprite depth="3" name="kuPartyPortraitRing" sprite="ku_badge_ring" width="28" height="28" color="150,175,255,200" />
+					</rect>
 					<sprite depth="0" name="kuPartyGlass" sprite="ku_panel_sm" type="sliced" color="[white]" width="240" height="30" />
 					<label depth="3" name="kuPartyName" pos="8,-3" width="160" height="15" pivot="topleft" justify="left" font_size="14" overflow="shrinkcontent" max_line_count="1" color="[kuTextBright]" text="" />
 					<label depth="3" name="kuPartyDist" pos="232,-3" width="70" height="15" pivot="topright" justify="right" font_size="13" color="[kuTextMid]" text="" />
@@ -1084,6 +1204,11 @@
 					<sprite depth="2" name="kuPartyHpFill" pos="6,-19" width="228" height="7" sprite="ku_bar" type="filled" fill="1" color="60,200,95,255" />
 				</rect>
 				<rect name="kuPartySlot5" pos="0,-170" width="240" height="30" visible="false">
+					<rect name="kuPartyPortraitBox" pos="-33,1" width="28" height="28" visible="false">
+						<sprite depth="1" name="kuPartyPortraitBg" sprite="ku_badge" width="28" height="28" color="20,26,51,255" />
+						<texture depth="2" name="kuPartyPortrait" width="28" height="28" color="[white]" />
+						<sprite depth="3" name="kuPartyPortraitRing" sprite="ku_badge_ring" width="28" height="28" color="150,175,255,200" />
+					</rect>
 					<sprite depth="0" name="kuPartyGlass" sprite="ku_panel_sm" type="sliced" color="[white]" width="240" height="30" />
 					<label depth="3" name="kuPartyName" pos="8,-3" width="160" height="15" pivot="topleft" justify="left" font_size="14" overflow="shrinkcontent" max_line_count="1" color="[kuTextBright]" text="" />
 					<label depth="3" name="kuPartyDist" pos="232,-3" width="70" height="15" pivot="topright" justify="right" font_size="13" color="[kuTextMid]" text="" />
@@ -1091,6 +1216,11 @@
 					<sprite depth="2" name="kuPartyHpFill" pos="6,-19" width="228" height="7" sprite="ku_bar" type="filled" fill="1" color="60,200,95,255" />
 				</rect>
 				<rect name="kuPartySlot6" pos="0,-204" width="240" height="30" visible="false">
+					<rect name="kuPartyPortraitBox" pos="-33,1" width="28" height="28" visible="false">
+						<sprite depth="1" name="kuPartyPortraitBg" sprite="ku_badge" width="28" height="28" color="20,26,51,255" />
+						<texture depth="2" name="kuPartyPortrait" width="28" height="28" color="[white]" />
+						<sprite depth="3" name="kuPartyPortraitRing" sprite="ku_badge_ring" width="28" height="28" color="150,175,255,200" />
+					</rect>
 					<sprite depth="0" name="kuPartyGlass" sprite="ku_panel_sm" type="sliced" color="[white]" width="240" height="30" />
 					<label depth="3" name="kuPartyName" pos="8,-3" width="160" height="15" pivot="topleft" justify="left" font_size="14" overflow="shrinkcontent" max_line_count="1" color="[kuTextBright]" text="" />
 					<label depth="3" name="kuPartyDist" pos="232,-3" width="70" height="15" pivot="topright" justify="right" font_size="13" color="[kuTextMid]" text="" />
