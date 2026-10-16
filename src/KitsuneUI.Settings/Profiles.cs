@@ -20,13 +20,69 @@ public static class KitsuneProfiles
     static readonly HashSet<string> SettingKeys = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
     {
         KitsuneSettingsFile.SlotNumbers, KitsuneSettingsFile.HealthBarAlways, KitsuneSettingsFile.JobTiles,
-        KitsuneSettingsFile.Glass, KitsuneSettingsFile.MoveSnap, KitsuneSettingsFile.Palette, KitsuneSettingsFile.BackpackAll, KitsuneSettingsFile.AutoFade, KitsuneSettingsFile.BarText, KitsuneSettingsFile.TextSize, KitsuneSettingsFile.Minimap, KitsuneSettingsFile.HordeCountdown, KitsuneSettingsFile.CraftingHud, KitsuneSettingsFile.ActionBar, KitsuneSettingsFile.MapZoom, KitsuneSettingsFile.MapRotate, KitsuneSettingsFile.MapNames, KitsuneSettingsFile.MapShape, KitsuneSettingsFile.MapCoords, KitsuneSettingsFile.MapClock, KitsuneSettingsFile.BagSearch, KitsuneSettingsFile.WearWarning, KitsuneSettingsFile.BuffTimers, KitsuneSettingsFile.UnitFrames, KitsuneSettingsFile.XpBar, KitsuneSettingsFile.BarStyle, KitsuneSettingsFile.PartyFrames, KitsuneSettingsFile.Nameplates, KitsuneSettingsFile.CombatText, KitsuneSettingsFile.CustomHue, KitsuneSettingsFile.GlassColour, KitsuneSettingsFile.QualityRings, KitsuneSettingsFile.CompareHeld, KitsuneSettingsFile.FrameWidth, KitsuneSettingsFile.BuffSize, KitsuneSettingsFile.BuffCount,
+        KitsuneSettingsFile.Glass, KitsuneSettingsFile.MoveSnap, KitsuneSettingsFile.Palette, KitsuneSettingsFile.BackpackAll, KitsuneSettingsFile.AutoFade, KitsuneSettingsFile.BarText, KitsuneSettingsFile.TextSize, KitsuneSettingsFile.Minimap, KitsuneSettingsFile.HordeCountdown, KitsuneSettingsFile.CraftingHud, KitsuneSettingsFile.ActionBar, KitsuneSettingsFile.MapZoom, KitsuneSettingsFile.MapRotate, KitsuneSettingsFile.MapNames, KitsuneSettingsFile.MapShape, KitsuneSettingsFile.MapCreatures, KitsuneSettingsFile.MapCoords, KitsuneSettingsFile.MapClock, KitsuneSettingsFile.BagSearch, KitsuneSettingsFile.WearWarning, KitsuneSettingsFile.BuffTimers, KitsuneSettingsFile.UnitFrames, KitsuneSettingsFile.XpBar, KitsuneSettingsFile.BarStyle, KitsuneSettingsFile.PartyFrames, KitsuneSettingsFile.Nameplates, KitsuneSettingsFile.CombatText, KitsuneSettingsFile.CustomHue, KitsuneSettingsFile.GlassColour, KitsuneSettingsFile.QuestBars, KitsuneSettingsFile.QualityRings, KitsuneSettingsFile.CompareHeld, KitsuneSettingsFile.FrameWidth, KitsuneSettingsFile.BuffSize, KitsuneSettingsFile.BuffCount,
     };
     static readonly Regex SafeKey = new Regex(@"^(move|scale|hide)\.[A-Za-z0-9_]{1,40}$");
     static readonly Regex SafeValue = new Regex(@"^[A-Za-z0-9.,\-]{1,24}$");
     static readonly Regex SafeName = new Regex(@"[^A-Za-z0-9 _\-]");
 
     static string Folder => Path.Combine(Path.GetDirectoryName(KitsuneSettingsFile.Path), "profiles");
+
+    // One-click presets (Profiles > Presets): which HUD pieces are on. They never touch
+    // where things are, their sizes, colours, glass or text size (Streamer aside), and
+    // never turn the minimap's creature dots on.
+    static readonly Dictionary<string, Dictionary<string, string>> Presets = new Dictionary<string, Dictionary<string, string>>
+    {
+        ["minimal"] = new Dictionary<string, string>
+        {
+            [KitsuneSettingsFile.AutoFade] = "true", [KitsuneSettingsFile.Minimap] = "false",
+            [KitsuneSettingsFile.HordeCountdown] = "false", [KitsuneSettingsFile.CraftingHud] = "false",
+            [KitsuneSettingsFile.ActionBar] = "false", [KitsuneSettingsFile.UnitFrames] = "false",
+            [KitsuneSettingsFile.PartyFrames] = "false", [KitsuneSettingsFile.Nameplates] = "false",
+            [KitsuneSettingsFile.CombatText] = "false", [KitsuneSettingsFile.XpBar] = "false",
+            [KitsuneSettingsFile.BuffTimers] = "false", [KitsuneSettingsFile.MapCoords] = "false",
+            [KitsuneSettingsFile.MapClock] = "false", [KitsuneSettingsFile.MapCreatures] = "off",
+            [KitsuneSettingsFile.QuestBars] = "false", [KitsuneSettingsFile.SlotNumbers] = "false",
+        },
+        ["full"] = new Dictionary<string, string>
+        {
+            [KitsuneSettingsFile.AutoFade] = "false", [KitsuneSettingsFile.Minimap] = "true",
+            [KitsuneSettingsFile.HordeCountdown] = "true", [KitsuneSettingsFile.CraftingHud] = "true",
+            [KitsuneSettingsFile.ActionBar] = "true", [KitsuneSettingsFile.UnitFrames] = "true",
+            [KitsuneSettingsFile.PartyFrames] = "true", [KitsuneSettingsFile.Nameplates] = "true",
+            [KitsuneSettingsFile.CombatText] = "true", [KitsuneSettingsFile.XpBar] = "true",
+            [KitsuneSettingsFile.BuffTimers] = "true", [KitsuneSettingsFile.MapCoords] = "true",
+            [KitsuneSettingsFile.MapClock] = "true", [KitsuneSettingsFile.QuestBars] = "true",
+            [KitsuneSettingsFile.WearWarning] = "true", [KitsuneSettingsFile.SlotNumbers] = "true",
+        },
+        // For streaming and videos: everything a viewer needs to follow, a little larger,
+        // and nothing that gives away where your base is or who you play with.
+        ["streamer"] = new Dictionary<string, string>
+        {
+            [KitsuneSettingsFile.AutoFade] = "false", [KitsuneSettingsFile.Minimap] = "true",
+            [KitsuneSettingsFile.MapShape] = "round", [KitsuneSettingsFile.MapClock] = "true",
+            [KitsuneSettingsFile.MapCoords] = "false", [KitsuneSettingsFile.MapNames] = "false",
+            [KitsuneSettingsFile.MapCreatures] = "off", [KitsuneSettingsFile.HordeCountdown] = "true",
+            [KitsuneSettingsFile.CraftingHud] = "true", [KitsuneSettingsFile.ActionBar] = "true",
+            [KitsuneSettingsFile.UnitFrames] = "true", [KitsuneSettingsFile.PartyFrames] = "true",
+            [KitsuneSettingsFile.Nameplates] = "true", [KitsuneSettingsFile.CombatText] = "false",
+            [KitsuneSettingsFile.XpBar] = "true", [KitsuneSettingsFile.BuffTimers] = "true",
+            [KitsuneSettingsFile.QuestBars] = "true", [KitsuneSettingsFile.TextSize] = "115",
+        },
+    };
+
+    public static bool ApplyPreset(string name)
+    {
+        if (!Presets.TryGetValue(name, out Dictionary<string, string> values))
+        {
+            return false;
+        }
+        foreach (KeyValuePair<string, string> kv in values)
+        {
+            KitsuneSettingsFile.Set(kv.Key, kv.Value);
+        }
+        return true;
+    }
 
     /// <summary>Only KitsuneUI's own settings, with plain values, are ever saved or imported.</summary>
     static bool Portable(string key, string value) =>
@@ -228,6 +284,18 @@ public class XUiC_KitsuneProfilesWindow : XUiController
             }
         });
         On("btnProfileClose", () => xui.playerUI.windowManager.Close("kuProfiles"));
+        foreach (string preset in new[] { "minimal", "full", "streamer" })
+        {
+            string p = preset;
+            On("btnPreset_" + p, () =>
+            {
+                if (KitsuneProfiles.ApplyPreset(p))
+                {
+                    KitsuneSettingsApplier.ApplyAll(xui);
+                    Say("kuPresetDone");
+                }
+            });
+        }
 
         for (int i = 0; i < KitsuneProfiles.Max; i++)
         {

@@ -76,6 +76,10 @@
 				<label depth="4" name="tglMapCoordsText" pos="66,-376" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetMapCoords" />
 				<togglebutton name="tglMapClock" depth="3" pos="20,-404" width="520" height="40" font_size="26" caption="" />
 				<label depth="4" name="tglMapClockText" pos="66,-424" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetMapClock" />
+				<label depth="3" name="lblMapCreatures" pos="22,-470" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetMapCreatures" />
+				<simplebutton name="btnMapCreatures_off" depth="3" pos="160,-452" width="120" height="36" font_size="20" caption_key="kuOptOff" />
+				<simplebutton name="btnMapCreatures_animals" depth="3" pos="286,-452" width="120" height="36" font_size="20" caption_key="kuOptAnimals" />
+				<simplebutton name="btnMapCreatures_all" depth="3" pos="412,-452" width="120" height="36" font_size="20" caption_key="kuOptAll" />
 			</rect>
 
 			<rect name="kuTab_combat" width="560" height="564" visible="false">
@@ -117,6 +121,8 @@
 				<label depth="4" name="tglQualityRingsText" pos="66,-328" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetQualityRings" />
 				<togglebutton name="tglCompareHeld" depth="3" pos="20,-356" width="520" height="40" font_size="26" caption="" />
 				<label depth="4" name="tglCompareHeldText" pos="66,-376" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetCompareHeld" />
+				<togglebutton name="tglQuestBars" depth="3" pos="20,-404" width="520" height="40" font_size="26" caption="" />
+				<label depth="4" name="tglQuestBarsText" pos="66,-424" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetQuestBars" />
 			</rect>
 
 			<rect name="kuTab_look" width="560" height="564" visible="false">
@@ -180,13 +186,13 @@
 	<!-- layout as one line of text through the clipboard.               -->
 	<!-- ================================================================ -->
 	<append xpath="/windows">
-		<window name="kuProfilesWindow" width="560" height="560" pos="-280,280" anchor="Center" depth="40" cursor_area="true" controller="KitsuneProfilesWindow, KitsuneUI_Settings">
+		<window name="kuProfilesWindow" width="560" height="608" pos="-280,304" anchor="Center" depth="40" cursor_area="true" controller="KitsuneProfilesWindow, KitsuneUI_Settings">
 			<rect name="header" height="43" depth="1">
 				<headerbg />
 				<sprite depth="2" name="windowIcon" pos="6,-6" width="30" height="30" sprite="ku_icon_flame" color="[kuAccent]" />
 				<label style="header.name" pos="44,-6" width="400" text_key="kuSetProfiles" />
 			</rect>
-			<sprite depth="0" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,-40" width="560" height="520" />
+			<sprite depth="0" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,-40" width="560" height="568" />
 			<textfield name="txtProfileName" depth="3" pos="20,-60" width="370" height="36" font_size="24" character_limit="24" />
 			<simplebutton name="btnProfileSave" depth="3" pos="400,-58" width="140" height="36" font_size="24" caption_key="xuiSave" />
 			<rect name="kuProfRow0" depth="3" pos="20,-112" width="520" height="40">
@@ -237,10 +243,14 @@
 				<simplebutton name="btnProfileLoad7" depth="5" pos="320,-4" width="96" height="32" font_size="22" caption_key="kuProfLoad" />
 				<simplebutton name="btnProfileDelete7" depth="5" pos="422,-4" width="94" height="32" font_size="22" caption_key="xuiDelete" />
 			</rect>
-			<label depth="3" name="lblProfileStatus" pos="20,-480" width="520" height="26" pivot="left" font_size="22" overflow="shrinkcontent" color="[kuGold]" text="" />
-			<simplebutton name="btnProfileExport" depth="3" pos="20,-510" width="168" height="40" font_size="24" caption_key="kuProfExport" />
-			<simplebutton name="btnProfileImport" depth="3" pos="196,-510" width="168" height="40" font_size="24" caption_key="kuProfImport" />
-			<simplebutton name="btnProfileClose" depth="3" pos="372,-510" width="168" height="40" font_size="24" caption_key="xuiClose" />
+			<label depth="3" name="lblPresets" pos="22,-484" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetPresets" />
+			<simplebutton name="btnPreset_minimal" depth="3" pos="160,-466" width="120" height="36" font_size="20" caption_key="kuPresetMinimal" />
+			<simplebutton name="btnPreset_full" depth="3" pos="286,-466" width="120" height="36" font_size="20" caption_key="kuPresetFull" />
+			<simplebutton name="btnPreset_streamer" depth="3" pos="412,-466" width="120" height="36" font_size="20" caption_key="kuPresetStreamer" />
+			<label depth="3" name="lblProfileStatus" pos="20,-528" width="520" height="26" pivot="left" font_size="22" overflow="shrinkcontent" color="[kuGold]" text="" />
+			<simplebutton name="btnProfileExport" depth="3" pos="20,-558" width="168" height="40" font_size="24" caption_key="kuProfExport" />
+			<simplebutton name="btnProfileImport" depth="3" pos="196,-558" width="168" height="40" font_size="24" caption_key="kuProfImport" />
+			<simplebutton name="btnProfileClose" depth="3" pos="372,-558" width="168" height="40" font_size="24" caption_key="xuiClose" />
 		</window>
 	</append>
 

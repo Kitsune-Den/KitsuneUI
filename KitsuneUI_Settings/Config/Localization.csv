@@ -118,3 +118,13 @@ kuSetActionBar,UI,XUi,,,,"Action bar: reloading, eating, drinking, medicine",,"A
 kuMoveActionBar,UI,XUi,,,,ACTION BAR,,AKTIONSLEISTE,BARRA DE ACCIÓN,BARRE D'ACTION,BARRA AZIONI,アクションバー,액션 바,PASEK AKCJI,BARRA DE AÇÃO,ПАНЕЛЬ ДЕЙСТВИЙ,EYLEM ÇUBUĞU,动作条,動作條
 kuActReloading,UI,XUi,,,,Reloading,,Nachladen,Recargando,Rechargement,Ricarica,リロード中,재장전 중,Przeładowanie,Recarregando,Перезарядка,Dolduruluyor,装弹中,裝彈中
 kuActOnTarget,UI,XUi,,,,{0} on {1},,{0} bei {1},{0} a {1},{0} sur {1},{0} su {1},{1}に{0},{1}에게 {0},{0}: {1},{0} em {1},{0}: {1},{1}: {0},对{1}使用{0},對{1}使用{0}
+kuSetMapCreatures,UI,XUi,,,,Creatures,,Kreaturen,Criaturas,Créatures,Creature,生き物,생물,Stworzenia,Criaturas,Существа,Yaratıklar,生物,生物
+kuOptOff,UI,XUi,,,,Off,,Aus,No,Non,No,オフ,끄기,Wył.,Não,Выкл.,Kapalı,关,關
+kuOptAnimals,UI,XUi,,,,Animals,,Tiere,Animales,Animaux,Animali,動物,동물,Zwierzęta,Animais,Животные,Hayvanlar,动物,動物
+kuOptAll,UI,XUi,,,,All,,Alle,Todos,Tous,Tutti,すべて,모두,Wszystkie,Todos,Все,Hepsi,全部,全部
+kuSetQuestBars,UI,XUi,,,,Quest tracker: progress bars and a direction arrow,,Questverfolgung: Fortschrittsbalken und Richtungspfeil,Seguimiento de misiones: barras de progreso y flecha de dirección,Suivi des quêtes : barres de progression et flèche de direction,Tracciamento missioni: barre di avanzamento e freccia di direzione,クエスト追跡：進行バーと方向矢印,퀘스트 추적: 진행 막대와 방향 화살표,Śledzenie zadań: paski postępu i strzałka kierunku,Rastreador de missões: barras de progresso e seta de direção,Отслеживание заданий: полосы прогресса и стрелка направления,Görev takibi: ilerleme çubukları ve yön oku,任务追踪：进度条和方向箭头,任務追蹤：進度條和方向箭頭
+kuSetPresets,UI,XUi,,,,Presets,,Vorlagen,Preajustes,Préréglages,Preimpostazioni,プリセット,프리셋,Zestawy,Predefinições,Пресеты,Hazır ayarlar,预设,預設
+kuPresetMinimal,UI,XUi,,,,Minimal,,Minimal,Mínimo,Minimal,Minimo,最小,최소,Minimalny,Mínimo,Минимум,Sade,简洁,簡潔
+kuPresetFull,UI,XUi,,,,Full,,Voll,Completo,Complet,Completo,フル,전체,Pełny,Completo,Полный,Tam,完整,完整
+kuPresetStreamer,UI,XUi,,,,Streamer,,Streamer,Streamer,Streamer,Streamer,配信者,스트리머,Streamer,Streamer,Стример,Yayıncı,主播,實況主
+kuPresetDone,UI,XUi,,,,Preset applied. Positions and colours are unchanged.,,Vorlage angewendet. Positionen und Farben bleiben.,Preajuste aplicado. Posiciones y colores sin cambios.,Préréglage appliqué. Positions et couleurs inchangées.,Preimpostazione applicata. Posizioni e colori invariati.,プリセットを適用しました。位置と色はそのままです。,프리셋을 적용했습니다. 위치와 색상은 그대로입니다.,Zastosowano zestaw. Położenie i kolory bez zmian.,Predefinição aplicada. Posições e cores sem alteração.,Пресет применён. Положение и цвета не изменены.,Hazır ayar uygulandı. Konumlar ve renkler değişmedi.,已应用预设。位置和颜色不变。,已套用預設。位置和顏色不變。

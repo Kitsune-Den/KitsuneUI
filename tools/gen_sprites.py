@@ -262,6 +262,19 @@ rows["ui_game_select_row"] = (selected_row(), 8)
 add("ku_round_md", solid_round(32, 32, 10), 11)
 add("ku_round_md_ring", ring(32, 32, 10, 1.25), 11)
 add("ku_round_sm", solid_round(20, 20, 7), 8)
+
+
+def rimmed_dot(size=12, rim=2.0):
+    """A white dot with a dark rim baked in, so a tinted dot reads on any ground."""
+    img = Image.new("RGBA", (size * SS, size * SS), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    d.ellipse((0, 0, size * SS - 1, size * SS - 1), fill=(0, 0, 0, 180))
+    r = rim * SS
+    d.ellipse((r, r, size * SS - 1 - r, size * SS - 1 - r), fill=(255, 255, 255, 255))
+    return down(img)
+
+
+add("ku_dot", rimmed_dot(), 0)   # creatures on the minimap
 add("ku_pill", solid_round(16, 16, 8), (8, 8, 8, 8))
 add("ku_bar", solid_round(16, 8, 4), (5, 5, 4, 4))
 

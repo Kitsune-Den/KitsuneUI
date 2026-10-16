@@ -266,6 +266,7 @@ public class XUiC_KitsuneSettingsWindow : XUiController
     XUiC_ToggleButton nameplates;
     XUiC_ToggleButton combatText;
     XUiC_ToggleButton qualityRings;
+    XUiC_ToggleButton questBars;
     XUiC_ToggleButton compareHeld;
     XUiView hueRing;
     XUiView glassRing;
@@ -355,8 +356,10 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         nameplates = Toggle("tglNameplates", KitsuneSettingsFile.Nameplates);
         combatText = Toggle("tglCombatText", KitsuneSettingsFile.CombatText);
         qualityRings = Toggle("tglQualityRings", KitsuneSettingsFile.QualityRings);
+        questBars = Toggle("tglQuestBars", KitsuneSettingsFile.QuestBars);
         compareHeld = Toggle("tglCompareHeld", KitsuneSettingsFile.CompareHeld);
         ChoiceRow("btnMapShape_", KitsuneSettingsFile.MapShape, "square", "round");
+        ChoiceRow("btnMapCreatures_", KitsuneSettingsFile.MapCreatures, "off", "animals", "all");
         ChoiceRow("btnFrameWidth_", KitsuneSettingsFile.FrameWidth, "260", "320", "400");
         ChoiceRow("btnBuffSize_", KitsuneSettingsFile.BuffSize, "75", "100", "125");
         ChoiceRow("btnBuffCount_", KitsuneSettingsFile.BuffCount, "4", "6", "8");
@@ -690,6 +693,7 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         if (nameplates != null) nameplates.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.Nameplates);
         if (combatText != null) combatText.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.CombatText);
         if (qualityRings != null) qualityRings.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.QualityRings);
+        if (questBars != null) questBars.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.QuestBars);
         if (compareHeld != null) compareHeld.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.CompareHeld);
         ShowChoices();
         ShowBarStyle();

@@ -18,6 +18,10 @@ using UnityEngine;
 /// Round (Settings > Map > Shape) always draws through the view texture, with everything
 /// outside the circle cleared, and swaps the square glass and ring for round ones. A
 /// strip under the map can show the day and time and your coordinates.
+///
+/// Creatures (Settings > Map, off by default): dots for animals, or for animals and
+/// zombies, inside the map's view only (never pinned to the edge): red for zombies and
+/// bandits, orange for animals that attack, green for the ones that don't.
 /// </summary>
 public class XUiC_KitsuneMinimap : XUiController
 {
@@ -145,6 +149,95 @@ public class XUiC_KitsuneMinimap : XUiController
         }
         PlaceNorth(rotate, yaw);
         UpdateMarkers(player, pos, yaw, viewBlocks, round);
+        UpdateCreatures(player, pos, yaw, viewBlocks, round);
+    }
+
+    // ---- Creatures: a pool of dots (ku_dot: white with a dark rim, tinted per kind).
+
+    const int DotSize = 10;
+    static readonly Color Zombie = new Color(0.93f, 0.30f, 0.26f);
+    static readonly Color HostileAnimal = new Color(1f, 0.62f, 0.24f);
+    static readonly Color Animal = new Color(0.50f, 0.85f, 0.45f);
+    readonly List<UISprite> dots = new List<UISprite>();
+
+    void UpdateCreatures(EntityPlayerLocal player, Vector3 pos, float yaw, int viewBlocks, bool round)
+    {
+        string mode = KitsuneSettingsFile.Get(KitsuneSettingsFile.MapCreatures);
+        UISprite arrowSprite = arrow?.UiTransform?.GetComponent<UISprite>();
+        Transform parent = ViewComponent.UiTransform;
+        int used = 0;
+        if ((mode == "animals" || mode == "all") && arrowSprite != null && parent != null && GameManager.Instance?.World != null)
+        {
+            Axes(yaw, out Vector2 right, out Vector2 up);
+            float blocksToPixels = MapPixels / viewBlocks;
+            float half = MapPixels / 2f - EdgeInset;
+            List<Entity> all = GameManager.Instance.World.Entities.list;
+            for (int i = 0; i < all.Count; i++)
+            {
+                if (!(all[i] is EntityAlive e) || e == player || !e.IsAlive())
+                {
+                    continue;
+                }
+                Color color;
+                if (e is EntityEnemyAnimal)
+                {
+                    color = HostileAnimal;
+                }
+                else if (e is EntityAnimal)
+                {
+                    color = Animal;
+                }
+                else if (e is EntityEnemy && mode == "all")
+                {
+                    color = Zombie;
+                }
+                else
+                {
+                    continue;
+                }
+                Vector3 p = e.position;
+                Vector2 d = new Vector2(Vector2.Dot(new Vector2(p.x - pos.x, p.z - pos.z), right),
+                    Vector2.Dot(new Vector2(p.x - pos.x, p.z - pos.z), up)) * blocksToPixels;
+                if (round ? d.magnitude > half : Mathf.Max(Mathf.Abs(d.x), Mathf.Abs(d.y)) > half)
+                {
+                    continue;
+                }
+                if (used == dots.Count)
+                {
+                    dots.Add(NewDot(parent, arrowSprite));
+                }
+                UISprite dot = dots[used++];
+                // Under the arrow, level with the map markers (which are drawn after, so on top).
+                dot.depth = arrowSprite.depth - 1;
+                dot.color = color;
+                dot.transform.localPosition = new Vector3(Center.x + d.x, Center.y + d.y, 0f);
+                if (!dot.gameObject.activeSelf)
+                {
+                    dot.gameObject.SetActive(true);
+                }
+            }
+        }
+        for (int i = used; i < dots.Count; i++)
+        {
+            if (dots[i] != null && dots[i].gameObject.activeSelf)
+            {
+                dots[i].gameObject.SetActive(false);
+            }
+        }
+    }
+
+    UISprite NewDot(Transform parent, UISprite arrowSprite)
+    {
+        GameObject go = new GameObject("kuMapCreature");
+        go.layer = parent.gameObject.layer;
+        go.transform.SetParent(parent, false);
+        UISprite s = go.AddComponent<UISprite>();
+        s.atlas = xui.GetAtlasByName(((Object)arrowSprite.atlas).name, "ku_dot");
+        s.spriteName = "ku_dot";
+        s.pivot = UIWidget.Pivot.Center;
+        s.width = DotSize;
+        s.height = DotSize;
+        return s;
     }
 
     static void Show(XUiView v, bool on)
