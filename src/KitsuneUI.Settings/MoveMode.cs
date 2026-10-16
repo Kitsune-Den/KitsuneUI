@@ -47,6 +47,7 @@ public static class KitsuneLayout
     public static Transform GridRoot;
 
     static readonly Dictionary<string, Group> groups = new Dictionary<string, Group>();
+    static readonly Dictionary<XUiView, Group> byView = new Dictionary<XUiView, Group>();
     static readonly List<XUiView> handles = new List<XUiView>();
     static readonly List<XUiC_KitsuneMoveHandle> handleControllers = new List<XUiC_KitsuneMoveHandle>();
 
@@ -137,6 +138,7 @@ public static class KitsuneLayout
             return;
         }
         g.Members.Add(new Member { View = window, Base = window.Position });
+        byView[window] = g;
     }
 
     public static void RegisterHandle(XUiView handle)
@@ -246,6 +248,26 @@ public static class KitsuneLayout
             Apply(kv.Value);
         }
         RefreshHandles();
+    }
+
+    /// <summary>
+    /// The game resets a window's scale to 100% whenever it rebuilds the window's root
+    /// (after any change that marks it for a redraw, moving it included). Put the piece's
+    /// own size straight back, so it never shows a frame at 100% (that was the blink on
+    /// some pieces while resizing and moving in move mode).
+    /// </summary>
+    public static void ReapplyScale(XUiView view)
+    {
+        if (view == null || !byView.TryGetValue(view, out Group g))
+        {
+            return;
+        }
+        Transform t = view.UiTransform;
+        if (t != null)
+        {
+            float s = !Active && g.Hidden ? 0.0001f : g.Scale;
+            t.localScale = new Vector3(s, s, 1f);
+        }
     }
 
     /// <summary>Called every frame: puts each piece back where the player left it.</summary>
@@ -546,6 +568,12 @@ public class XUiC_KitsuneMoveHandle : XUiController
 /// they're showing something (subtitles, chat) are opened for the duration, so there's
 /// something to drag.
 /// </summary>
+[HarmonyLib.HarmonyPatch(typeof(XUiV_Window), nameof(XUiV_Window.setRootNode))]
+public static class KitsuneKeepScaleOnRebuild
+{
+    static void Postfix(XUiV_Window __instance) => KitsuneLayout.ReapplyScale(__instance);
+}
+
 /// <summary>
 /// The subtitle window closes itself once its last line has run its time, so when move
 /// mode opens it with nobody talking it would shut again on the next frame. While move
