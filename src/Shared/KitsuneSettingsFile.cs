@@ -37,6 +37,8 @@ public static class KitsuneSettingsFile
     public const string Nameplates = "nameplates";        // health bars over enemies you're fighting
     public const string CombatText = "combatText";        // floating damage and heal numbers
     public const string CustomHue = "customHue";          // hue (degrees) of the custom colour palette
+    public const string QualityRings = "qualityRings";    // ring in the item's quality colour in every slot
+    public const string CompareHeld = "compareHeld";      // weapons and tools compare with the one in your hand
     public const string GlassColour = "glassColour";      // glass colourway: midnight, charcoal, obsidian, forest, plum, ember, ocean
     public const string FrameWidth = "frameWidth";        // unit frame width: 260, 320, 400
     public const string BuffSize = "buffSize";            // unit frame buff icon size, percent: 75, 100, 125
@@ -71,6 +73,8 @@ public static class KitsuneSettingsFile
         { CombatText, "false" },
         { CustomHue, "200" },
         { GlassColour, "midnight" },
+        { QualityRings, "false" },
+        { CompareHeld, "false" },
         { FrameWidth, "320" },
         { BuffSize, "100" },
         { BuffCount, "8" },

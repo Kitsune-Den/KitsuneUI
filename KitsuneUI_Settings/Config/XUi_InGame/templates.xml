@@ -4,7 +4,10 @@
 	<!-- hidden until KitsuneUI_Settings shows them:                                       -->
 	<!--   kuWearRing:  toolbelt items under 20% durability (amber) or 5% (red)            -->
 	<!--   kuSearchDim: dims backpack slots that don't match the search box                -->
+	<!--   kuQualityRing: a thin ring in the item's quality colour, set in from the edge   -->
 	<append xpath="/templates/item_stack/rect">
+		<sprite depth="9" name="kuQualityRing" sprite="ku_slot_ring" type="sliced" color="{durabilitycolor}" visible="{kuqualityring}" globalopacitymod="0"
+			pos="4,-4" width="${-8+cell_size}" height="${-8+cell_size}" />
 		<sprite depth="10" name="kuWearRing" sprite="ku_slot_ring2" type="sliced" color="255,178,74,255" visible="false" globalopacitymod="0"
 			pos="1,-1" width="${-2+cell_size}" height="${-2+cell_size}" />
 		<sprite depth="12" name="kuSearchDim" sprite="ku_slot_fill" type="sliced" color="6,8,20,190" visible="false" globalopacitymod="0"

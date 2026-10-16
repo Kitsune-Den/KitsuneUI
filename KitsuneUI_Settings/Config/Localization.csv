@@ -107,3 +107,5 @@ kuGlass_forest,UI,XUi,,,,Forest,,Wald,Bosque,Forêt,Foresta,フォレスト,숲,
 kuGlass_plum,UI,XUi,,,,Plum,,Pflaume,Ciruela,Prune,Prugna,プラム,자두,Śliwka,Ameixa,Слива,Erik,梅紫,梅紫
 kuGlass_ember,UI,XUi,,,,Ember,,Glut,Brasa,Braise,Brace,残り火,잉걸불,Żar,Brasa,Угли,Kor,余烬,餘燼
 kuGlass_ocean,UI,XUi,,,,Ocean,,Ozean,Océano,Océan,Oceano,オーシャン,바다,Ocean,Oceano,Океан,Okyanus,海洋,海洋
+kuSetQualityRings,UI,XUi,,,,Item slots ringed in their quality colour,,Gegenstandsplätze in Qualitätsfarbe umrandet,Casillas con anillo del color de calidad,Cases entourées de la couleur de qualité,Slot con anello del colore della qualità,スロットを品質色の枠で囲む,슬롯에 품질 색상 테두리,Sloty z obwódką w kolorze jakości,Espaços com anel na cor da qualidade,Ячейки с обводкой цвета качества,Yuvalar kalite rengiyle çevrili,物品格显示品质颜色边框,物品格顯示品質顏色邊框
+kuSetCompareHeld,UI,XUi,,,,Compare with the item in your hand,,Mit dem Gegenstand in der Hand vergleichen,Comparar con el objeto en la mano,Comparer avec l'objet en main,Confronta con l'oggetto in mano,手に持つアイテムと比較,손에 든 아이템과 비교,Porównaj z przedmiotem w ręce,Comparar com o item na mão,Сравнивать с предметом в руке,Elindeki eşyayla karşılaştır,与手中的物品比较,與手中的物品比較

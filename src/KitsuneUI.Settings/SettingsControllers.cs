@@ -180,6 +180,7 @@ public static class KitsuneSettingsApplier
             if (KitsunePalette.IsPalette(o.A)) stack.selectColor = palette.Map(o.A);
             if (KitsunePalette.IsPalette(o.B)) stack.highlightColor = palette.Map(o.B);
             if (KitsunePalette.IsPalette(o.C)) stack.holdingColor = palette.Map(o.C);
+            stack.RefreshBindings();
         }
         if (c is XUiC_HUDStatBar statBar)
         {
@@ -261,6 +262,8 @@ public class XUiC_KitsuneSettingsWindow : XUiController
     XUiC_ToggleButton partyFrames;
     XUiC_ToggleButton nameplates;
     XUiC_ToggleButton combatText;
+    XUiC_ToggleButton qualityRings;
+    XUiC_ToggleButton compareHeld;
     XUiView hueRing;
     XUiView glassRing;
     readonly List<(string colour, XUiView swatch)> glassSwatches = new List<(string, XUiView)>();
@@ -345,6 +348,8 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         partyFrames = Toggle("tglPartyFrames", KitsuneSettingsFile.PartyFrames);
         nameplates = Toggle("tglNameplates", KitsuneSettingsFile.Nameplates);
         combatText = Toggle("tglCombatText", KitsuneSettingsFile.CombatText);
+        qualityRings = Toggle("tglQualityRings", KitsuneSettingsFile.QualityRings);
+        compareHeld = Toggle("tglCompareHeld", KitsuneSettingsFile.CompareHeld);
         ChoiceRow("btnFrameWidth_", KitsuneSettingsFile.FrameWidth, "260", "320", "400");
         ChoiceRow("btnBuffSize_", KitsuneSettingsFile.BuffSize, "75", "100", "125");
         ChoiceRow("btnBuffCount_", KitsuneSettingsFile.BuffCount, "4", "6", "8");
@@ -674,6 +679,8 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         if (partyFrames != null) partyFrames.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.PartyFrames);
         if (nameplates != null) nameplates.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.Nameplates);
         if (combatText != null) combatText.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.CombatText);
+        if (qualityRings != null) qualityRings.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.QualityRings);
+        if (compareHeld != null) compareHeld.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.CompareHeld);
         ShowChoices();
         ShowBarStyle();
         ShowMap();
