@@ -37,6 +37,10 @@ public static class KitsuneSettingsFile
     public const string Nameplates = "nameplates";        // health bars over enemies you're fighting
     public const string CombatText = "combatText";        // floating damage and heal numbers
     public const string CustomHue = "customHue";          // hue (degrees) of the custom colour palette
+    public const string ActionBar = "actionBar";          // cast bar for reloading, eating and medicine
+    public const string MapShape = "mapShape";            // "square" or "round"
+    public const string MapCoords = "mapCoords";          // your coordinates under the minimap
+    public const string MapClock = "mapClock";            // the day and time under the minimap
     public const string QualityRings = "qualityRings";    // ring in the item's quality colour in every slot
     public const string CompareHeld = "compareHeld";      // weapons and tools compare with the one in your hand
     public const string GlassColour = "glassColour";      // glass colourway: midnight, charcoal, obsidian, forest, plum, ember, ocean
@@ -73,6 +77,10 @@ public static class KitsuneSettingsFile
         { CombatText, "false" },
         { CustomHue, "200" },
         { GlassColour, "midnight" },
+        { ActionBar, "false" },
+        { MapShape, "square" },
+        { MapCoords, "false" },
+        { MapClock, "false" },
         { QualityRings, "false" },
         { CompareHeld, "false" },
         { FrameWidth, "320" },

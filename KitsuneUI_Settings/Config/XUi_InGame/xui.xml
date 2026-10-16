@@ -20,6 +20,7 @@
 	<append xpath="/xui/window_group[@name='toolbelt']">
 		<window name="kuMinimap" />
 		<window name="kuCraftingHud" />
+		<window name="kuActionBar" />
 		<window name="kuPlayerFrame" />
 		<window name="kuTargetFrame" />
 		<window name="kuXpBar" />

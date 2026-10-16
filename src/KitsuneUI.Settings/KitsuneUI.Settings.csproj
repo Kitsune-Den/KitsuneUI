@@ -39,6 +39,10 @@
       <HintPath>$(GameBinaries)\UnityEngine.CoreModule.dll</HintPath>
       <Private>false</Private>
     </Reference>
+    <Reference Include="UnityEngine.AnimationModule">
+      <HintPath>$(GameBinaries)\UnityEngine.AnimationModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
   </ItemGroup>
 
   <!-- The settings file format is shared with KitsuneUI_JobPreview, which reads it too. -->

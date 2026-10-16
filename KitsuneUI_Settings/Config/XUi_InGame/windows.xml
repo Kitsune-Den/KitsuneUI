@@ -22,13 +22,13 @@
 	<!-- and Close. Changes save and apply straight away.                 -->
 	<!-- ================================================================ -->
 	<append xpath="/windows">
-		<window name="kuSettingsWindow" width="560" height="516" pos="-280,258" anchor="Center" depth="40" cursor_area="true" controller="KitsuneSettingsWindow, KitsuneUI_Settings">
+		<window name="kuSettingsWindow" width="560" height="564" pos="-280,282" anchor="Center" depth="40" cursor_area="true" controller="KitsuneSettingsWindow, KitsuneUI_Settings">
 			<rect name="header" height="43" depth="1">
 				<headerbg />
 				<sprite depth="2" name="windowIcon" pos="6,-6" width="30" height="30" sprite="ku_icon_flame" color="[kuAccent]" />
 				<label style="header.name" pos="44,-6" width="400" text="KitsuneUI" />
 			</rect>
-			<sprite depth="0" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,-40" width="560" height="476" />
+			<sprite depth="0" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,-40" width="560" height="524" />
 
 			<!-- tabs: the controller shows one of the four rects below -->
 			<simplebutton name="btnTab_hud" depth="3" pos="20,-56" width="100" height="40" font_size="21" caption_key="kuTabHud" />
@@ -38,7 +38,7 @@
 			<simplebutton name="btnTab_look" depth="3" pos="440,-56" width="100" height="40" font_size="21" caption_key="kuTabLook" />
 			<sprite depth="2" name="kuTabRule" pos="20,-104" width="520" height="2" sprite="ku_rule" type="sliced" color="[kuGoldSoft]" />
 
-			<rect name="kuTab_hud" width="560" height="516">
+			<rect name="kuTab_hud" width="560" height="564">
 				<togglebutton name="tglSlotNumbers" depth="3" pos="20,-116" width="520" height="40" font_size="26" caption="" />
 				<label depth="4" name="tglSlotNumbersText" pos="66,-136" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetSlotNumbers" />
 				<togglebutton name="tglHealthBar" depth="3" pos="20,-164" width="520" height="40" font_size="26" caption="" />
@@ -53,9 +53,11 @@
 				<label depth="4" name="tglBuffTimersText" pos="66,-376" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetBuffTimers" />
 				<togglebutton name="tglWear" depth="3" pos="20,-404" width="520" height="40" font_size="26" caption="" />
 				<label depth="4" name="tglWearText" pos="66,-424" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetWear" />
+				<togglebutton name="tglActionBar" depth="3" pos="20,-452" width="520" height="40" font_size="26" caption="" />
+				<label depth="4" name="tglActionBarText" pos="66,-472" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetActionBar" />
 			</rect>
 
-			<rect name="kuTab_map" width="560" height="516" visible="false">
+			<rect name="kuTab_map" width="560" height="564" visible="false">
 				<togglebutton name="tglMinimap" depth="3" pos="20,-116" width="520" height="40" font_size="26" caption="" />
 				<label depth="4" name="tglMinimapText" pos="66,-136" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetMinimap" />
 				<togglebutton name="tglMapNames" depth="3" pos="20,-164" width="520" height="40" font_size="26" caption="" />
@@ -67,9 +69,16 @@
 				<label depth="3" name="lblMapView" pos="22,-278" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetMapView" />
 				<simplebutton name="btnMapNorth" depth="3" pos="160,-260" width="182" height="36" font_size="20" caption_key="kuMapNorthUp" />
 				<simplebutton name="btnMapRotate" depth="3" pos="348,-260" width="182" height="36" font_size="20" caption_key="kuMapRotate" />
+				<label depth="3" name="lblMapShape" pos="22,-326" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetMapShape" />
+				<simplebutton name="btnMapShape_square" depth="3" pos="160,-308" width="182" height="36" font_size="20" caption_key="kuOptSquare" />
+				<simplebutton name="btnMapShape_round" depth="3" pos="348,-308" width="182" height="36" font_size="20" caption_key="kuOptRound" />
+				<togglebutton name="tglMapCoords" depth="3" pos="20,-356" width="520" height="40" font_size="26" caption="" />
+				<label depth="4" name="tglMapCoordsText" pos="66,-376" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetMapCoords" />
+				<togglebutton name="tglMapClock" depth="3" pos="20,-404" width="520" height="40" font_size="26" caption="" />
+				<label depth="4" name="tglMapClockText" pos="66,-424" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetMapClock" />
 			</rect>
 
-			<rect name="kuTab_combat" width="560" height="516" visible="false">
+			<rect name="kuTab_combat" width="560" height="564" visible="false">
 				<togglebutton name="tglUnitFrames" depth="3" pos="20,-116" width="520" height="40" font_size="26" caption="" />
 				<label depth="4" name="tglUnitFramesText" pos="66,-136" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetUnitFrames" />
 				<togglebutton name="tglPartyFrames" depth="3" pos="20,-164" width="520" height="40" font_size="26" caption="" />
@@ -92,7 +101,7 @@
 				<simplebutton name="btnBuffCount_8" depth="3" pos="412,-404" width="120" height="36" font_size="20" caption="8" />
 			</rect>
 
-			<rect name="kuTab_windows" width="560" height="516" visible="false">
+			<rect name="kuTab_windows" width="560" height="564" visible="false">
 				<togglebutton name="tglBackpackAll" depth="3" pos="20,-116" width="520" height="40" font_size="26" caption="" />
 				<label depth="4" name="tglBackpackAllText" pos="66,-136" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetBackpackAll" />
 				<togglebutton name="tglBagSearch" depth="3" pos="20,-164" width="520" height="40" font_size="26" caption="" />
@@ -110,7 +119,7 @@
 				<label depth="4" name="tglCompareHeldText" pos="66,-376" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetCompareHeld" />
 			</rect>
 
-			<rect name="kuTab_look" width="560" height="516" visible="false">
+			<rect name="kuTab_look" width="560" height="564" visible="false">
 				<label depth="3" name="lblGlass" pos="22,-134" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetGlass" />
 				<simplebutton name="btnGlass100" depth="3" pos="160,-116" width="88" height="36" font_size="24" caption="100%" />
 				<simplebutton name="btnGlass85" depth="3" pos="254,-116" width="88" height="36" font_size="24" caption="85%" />
@@ -159,9 +168,9 @@
 				<simplebutton name="btnBarStyleNext" depth="3" pos="486,-404" width="44" height="36" font_size="24" caption="&gt;" />
 			</rect>
 
-			<simplebutton name="btnMoveHUD" depth="3" pos="20,-460" width="168" height="40" font_size="24" caption_key="kuSetMoveHUD" />
-			<simplebutton name="btnProfiles" depth="3" pos="196,-460" width="168" height="40" font_size="24" caption_key="kuSetProfiles" />
-			<simplebutton name="btnClose" depth="3" pos="372,-460" width="168" height="40" font_size="24" caption_key="xuiClose" />
+			<simplebutton name="btnMoveHUD" depth="3" pos="20,-508" width="168" height="40" font_size="24" caption_key="kuSetMoveHUD" />
+			<simplebutton name="btnProfiles" depth="3" pos="196,-508" width="168" height="40" font_size="24" caption_key="kuSetProfiles" />
+			<simplebutton name="btnClose" depth="3" pos="372,-508" width="168" height="40" font_size="24" caption_key="xuiClose" />
 		</window>
 	</append>
 
@@ -707,8 +716,13 @@
 		<window name="kuMinimap" anchor="TopRight" pos="-224,-112" width="200" height="200" depth="-20">
 			<rect name="kuMapBody" width="200" height="200" controller="KitsuneMinimap, KitsuneUI_Settings">
 				<sprite depth="0" name="kuMapGlass" sprite="ku_panel" type="sliced" color="[white]" width="200" height="200" />
+				<sprite depth="0" name="kuMapGlassRound" sprite="ku_disc" color="[white]" width="200" height="200" visible="false" />
 				<texture depth="2" name="kuMapTexture" pos="8,-8" width="184" height="184" color="[white]" />
 				<sprite depth="3" name="kuMapRing" pos="7,-7" width="186" height="186" sprite="ku_round_md_ring" type="sliced" color="[kuEdge]" />
+				<sprite depth="3" name="kuMapRingRound" pos="7,-7" width="186" height="186" sprite="ku_disc_ring" color="[kuEdge]" visible="false" />
+				<!-- the day and time and/or your coordinates (Settings > Map), on a strip under the map -->
+				<sprite depth="0" name="kuMapInfoGlass" pos="10,-204" width="180" height="28" sprite="ku_panel_sm" type="sliced" color="[white]" visible="false" />
+				<label depth="4" name="kuMapInfo" pos="100,-218" width="168" height="24" pivot="center" justify="center" font_size="18" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="" visible="false" />
 				<sprite depth="4" name="kuMapArrow" pos="100,-100" width="24" height="24" pivot="center" sprite="ui_game_symbol_map_player_arrow" color="[kuAccent]" />
 				<label depth="4" name="kuMapNorth" pos="100,-9" width="30" height="22" pivot="top" justify="center" font_size="18" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="N" />
 			</rect>
@@ -767,6 +781,38 @@
 				<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
 				<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
 				<label depth="52" name="kuMoveName" pos="12,-50" width="190" height="30" pivot="left" justify="left" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveCrafting" />
+			</rect>
+		</window>
+	</append>
+
+	<!-- ================================================================ -->
+	<!-- Action bar (Settings > HUD): a cast bar above the toolbelt while  -->
+	<!-- you reload, eat, drink or use medicine, with the item, what       -->
+	<!-- you're doing, the time left and a bar. XUiC_KitsuneActionBar.     -->
+	<!-- ================================================================ -->
+	<append xpath="/windows">
+		<window name="kuActionBar" anchor="Bottom" pos="-160,250" width="320" height="48" depth="-20">
+			<rect name="kuActBody" width="320" height="48" controller="KitsuneActionBar, KitsuneUI_Settings">
+				<sprite depth="0" name="kuActGlass" sprite="ku_panel_sm" type="sliced" color="[white]" width="320" height="48" />
+				<sprite depth="1" name="kuActSlot" pos="6,-6" width="36" height="36" sprite="ku_slot_fill" type="sliced" color="12,14,30,200" />
+				<sprite depth="2" name="kuActIcon" pos="8,-8" width="32" height="32" atlas="ItemIconAtlas" sprite="{kuacticon}" color="{kuacttint}" foregroundlayer="true" />
+				<label depth="2" name="kuActName" pos="50,-5" width="210" height="22" pivot="topleft" justify="left" font_size="19" overflow="shrinkcontent" max_line_count="1" color="[kuTextBright]" text="{kuactname}" />
+				<label depth="2" name="kuActTime" pos="312,-5" width="50" height="22" pivot="topright" justify="right" font_size="18" color="[kuGold]" text="{kuacttime}" />
+				<sprite depth="2" name="kuActTrack" pos="50,-31" width="262" height="9" sprite="ku_bar" type="sliced" color="12,14,30,220" />
+				<sprite depth="3" name="kuActFill" pos="50,-31" width="262" height="9" sprite="ku_bar" type="filled" fill="{kuactfill}" fillinvert="false" color="[kuAccent]" />
+			</rect>
+			<rect name="kuMoveHandle" depth="50" pos="-6,6" width="332" height="60" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
+				<!-- size readout and the -, +, show/hide buttons (XUiC_KitsuneMoveHandle) -->
+				<label depth="53" name="kuMoveScale" pos="228,-19" width="64" height="24" pivot="right" justify="right" font_size="18" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="100%" />
+				<sprite depth="54" name="kuChipSmaller" pos="232,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+				<button depth="55" name="kuBtnSmaller" pos="247,-19" sprite="ui_game_symbol_subtract" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+				<sprite depth="54" name="kuChipBigger" pos="264,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+				<button depth="55" name="kuBtnBigger" pos="279,-19" sprite="ui_game_symbol_add" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+				<sprite depth="54" name="kuChipHide" pos="296,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+				<button depth="55" name="kuBtnHide" pos="311,-19" sprite="ku_icon_eye" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+				<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
+				<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
+				<label depth="52" name="kuMoveName" pos="12,-36" width="200" height="30" pivot="left" justify="left" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveActionBar" />
 			</rect>
 		</window>
 	</append>

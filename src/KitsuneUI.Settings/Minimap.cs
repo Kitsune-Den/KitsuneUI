@@ -14,6 +14,10 @@ using UnityEngine;
 /// and the N circles the edge. Zoom sets how many blocks fit across (64, 128 or 256).
 /// The game's map markers are drawn on top, pinned to the edge when out of view, with
 /// names for players and named waypoints when that's on.
+///
+/// Round (Settings > Map > Shape) always draws through the view texture, with everything
+/// outside the circle cleared, and swaps the square glass and ring for round ones. A
+/// strip under the map can show the day and time and your coordinates.
 /// </summary>
 public class XUiC_KitsuneMinimap : XUiController
 {
@@ -28,6 +32,10 @@ public class XUiC_KitsuneMinimap : XUiController
     XUiView arrow;
     XUiView north;
     Vector3 northHome;
+    XUiView glassSquare, glassRound, ringSquare, ringRound, infoGlass;
+    XUiV_Label info;
+    bool? shownRound;
+    float sinceInfo = 1f;
 
     int span;                                 // chunks across the buffer
     int texSize;                              // blocks (= pixels) across the buffer
@@ -47,6 +55,12 @@ public class XUiC_KitsuneMinimap : XUiController
         map = GetChildById("kuMapTexture")?.ViewComponent as XUiV_Texture;
         arrow = GetChildById("kuMapArrow")?.ViewComponent;
         north = GetChildById("kuMapNorth")?.ViewComponent;
+        glassSquare = GetChildById("kuMapGlass")?.ViewComponent;
+        glassRound = GetChildById("kuMapGlassRound")?.ViewComponent;
+        ringSquare = GetChildById("kuMapRing")?.ViewComponent;
+        ringRound = GetChildById("kuMapRingRound")?.ViewComponent;
+        infoGlass = GetChildById("kuMapInfoGlass")?.ViewComponent;
+        info = GetChildById("kuMapInfo")?.ViewComponent as XUiV_Label;
     }
 
     public override void Update(float _dt)
@@ -64,6 +78,17 @@ public class XUiC_KitsuneMinimap : XUiController
         }
         int viewBlocks = KitsuneSettingsFile.GetInt(KitsuneSettingsFile.MapZoom, 64, 256);
         bool rotate = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.MapRotate);
+        bool round = KitsuneSettingsFile.Get(KitsuneSettingsFile.MapShape) == "round";
+        if (shownRound != round)
+        {
+            shownRound = round;
+            Show(glassSquare, !round);
+            Show(ringSquare, !round);
+            Show(glassRound, round);
+            Show(ringRound, round);
+            dirtyView = true;
+        }
+        UpdateInfo(player, _dt);
 
         // The buffer must reach the view's corners even when turned (the diagonal).
         int wantSpan = Mathf.CeilToInt((viewBlocks * 1.42f + 32f) / 16f) | 1;
@@ -82,7 +107,7 @@ public class XUiC_KitsuneMinimap : XUiController
         }
 
         float yaw = rotate ? player.rotation.y : 0f;
-        if (rotate)
+        if (rotate || round)
         {
             if (map.Texture != view)
             {
@@ -91,7 +116,7 @@ public class XUiC_KitsuneMinimap : XUiController
             }
             if (dirtyView || (pos - lastPos).sqrMagnitude > 0.01f || Mathf.Abs(Mathf.DeltaAngle(yaw, lastYaw)) > 0.2f)
             {
-                DrawRotated(pos, yaw, viewBlocks);
+                DrawRotated(pos, yaw, viewBlocks, round);
                 lastPos = pos;
                 lastYaw = yaw;
                 dirtyView = false;
@@ -119,7 +144,52 @@ public class XUiC_KitsuneMinimap : XUiController
             arrow.UiTransform.localEulerAngles = new Vector3(0f, 0f, rotate ? 0f : -player.rotation.y);
         }
         PlaceNorth(rotate, yaw);
-        UpdateMarkers(player, pos, yaw, viewBlocks);
+        UpdateMarkers(player, pos, yaw, viewBlocks, round);
+    }
+
+    static void Show(XUiView v, bool on)
+    {
+        if (v != null && v.IsVisible != on)
+        {
+            v.IsVisible = on;
+        }
+    }
+
+    // The strip under the map: "Day 7 14:32" and/or "1234 E 567 N", twice a second.
+    void UpdateInfo(EntityPlayerLocal player, float dt)
+    {
+        if (info == null)
+        {
+            return;
+        }
+        sinceInfo += dt;
+        if (sinceInfo < 0.5f)
+        {
+            return;
+        }
+        sinceInfo = 0f;
+        bool clock = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.MapClock);
+        bool coords = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.MapCoords);
+        Show(info, clock || coords);
+        Show(infoGlass, clock || coords);
+        if (!clock && !coords)
+        {
+            return;
+        }
+        string text = "";
+        if (clock && GameManager.Instance?.World != null)
+        {
+            (int days, int hours, int minutes) = GameUtils.WorldTimeToElements(GameManager.Instance.World.worldTime);
+            text = $"{Localization.Get("xuiDay")} {days}  {hours:00}:{minutes:00}";
+        }
+        if (coords)
+        {
+            text += (text.Length > 0 ? "   " : "") + ValueDisplayFormatters.WorldPos(player.position, " ");
+        }
+        if (info.Text != text)
+        {
+            info.Text = text;
+        }
     }
 
     void Allocate(int newSpan)
@@ -193,8 +263,9 @@ public class XUiC_KitsuneMinimap : XUiController
         up = new Vector2(s, c);
     }
 
-    void DrawRotated(Vector3 pos, float yaw, int viewBlocks)
+    void DrawRotated(Vector3 pos, float yaw, int viewBlocks, bool round)
     {
+        float radius = ViewRes / 2f;
         Axes(yaw, out Vector2 right, out Vector2 up);
         float step = (float)viewBlocks / ViewRes;
         float baseX = pos.x - originChunkX * 16;
@@ -208,9 +279,20 @@ public class XUiC_KitsuneMinimap : XUiController
                 float sx = (x + 0.5f - ViewRes / 2f) * step;
                 int px = Mathf.FloorToInt(baseX + sx * right.x + sy * up.x);
                 int pz = Mathf.FloorToInt(baseZ + sx * right.y + sy * up.y);
-                viewPixels[y * ViewRes + x] = px < 0 || pz < 0 || px >= texSize || pz >= texSize
+                Color32 c = px < 0 || pz < 0 || px >= texSize || pz >= texSize
                     ? clear
                     : pixels[pz * texSize + px];
+                if (round && c.a > 0)
+                {
+                    // Clear outside the circle, with a one-pixel soft edge.
+                    float dx = x + 0.5f - radius, dy = y + 0.5f - radius;
+                    float inside = radius - Mathf.Sqrt(dx * dx + dy * dy);
+                    if (inside < 1f)
+                    {
+                        c.a = inside <= 0f ? (byte)0 : (byte)(c.a * inside);
+                    }
+                }
+                viewPixels[y * ViewRes + x] = c;
             }
         }
         view.SetPixels32(viewPixels);
@@ -255,7 +337,7 @@ public class XUiC_KitsuneMinimap : XUiController
     readonly HashSet<int> alive = new HashSet<int>();
     readonly List<int> stale = new List<int>();
 
-    void UpdateMarkers(EntityPlayerLocal player, Vector3 pos, float yaw, int viewBlocks)
+    void UpdateMarkers(EntityPlayerLocal player, Vector3 pos, float yaw, int viewBlocks, bool round)
     {
         UISprite arrowSprite = arrow?.UiTransform?.GetComponent<UISprite>();
         Transform parent = ViewComponent.UiTransform;
@@ -307,7 +389,8 @@ public class XUiC_KitsuneMinimap : XUiController
             Vector3 world = nav.GetPosition() + Origin.position;
             Vector2 w = new Vector2(world.x - pos.x, world.z - pos.z);
             Vector2 d = new Vector2(Vector2.Dot(w, right), Vector2.Dot(w, up)) * blocksToPixels;
-            float far = Mathf.Max(Mathf.Abs(d.x), Mathf.Abs(d.y));
+            // Square maps pin to the frame's edge, round ones to the circle.
+            float far = round ? d.magnitude : Mathf.Max(Mathf.Abs(d.x), Mathf.Abs(d.y));
             bool edge = far > half;
             if (edge)
             {

@@ -124,6 +124,10 @@ add("ku_panel", glass_panel(), 18)
 # A flatter, smaller-radius variant for strips and header bars.
 add("ku_panel_sm", glass_panel(40, 10), 12)
 
+# The round minimap's glass and its ring, drawn at the size they're shown (not sliced).
+add("ku_disc", glass_panel(200, 100), 0)
+add("ku_disc_ring", ring(186, 186, 93, 1.25), 0)
+
 
 # --- split panel: header on top of a body, reading as one piece of glass ---------
 # Vanilla windows draw a 43px header (headerbg -> ui_game_panel_header) and the
@@ -184,6 +188,7 @@ GLASS_COLOURS = {
 for _c, (_top, _bottom, _hdr, _body, _edge) in GLASS_COLOURS.items():
     add(f"ku_panel_{_c}", glass_panel(top=_top, bottom=_bottom, edge_rgb=_edge), 18)
     add(f"ku_panel_sm_{_c}", glass_panel(40, 10, _top, _bottom, _edge), 12)
+    add(f"ku_disc_{_c}", glass_panel(200, 100, _top, _bottom, _edge), 0)
     add(f"ui_game_panel_header_{_c}",
         glass_part(64, 48, 14, _top + (GLASS_A_TOP,), _hdr + (GLASS_A_TOP,), True, False, divider=True, hairline=True, edge_rgb=_edge),
         (16, 16, 16, 4))
@@ -530,7 +535,7 @@ def main():
     preview["rows: idle"] = grey(rows["menu_empty"][0], 64)
     preview["rows: hover"] = grey(rows["menu_empty"][0], 96)
     preview["rows: selected"] = rows["ui_game_select_row"][0]
-    baked = {"ku_panel", "ku_panel_sm", "ku_shadow", "ui_game_panel_header", "ku_panel_body", "ui_game_popup",
+    baked = {"ku_panel", "ku_panel_sm", "ku_disc", "ku_shadow", "ui_game_panel_header", "ku_panel_body", "ui_game_popup",
              "rows: idle", "rows: hover", "rows: selected"}
 
     accent = (111, 227, 255)

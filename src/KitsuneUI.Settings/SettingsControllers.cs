@@ -27,7 +27,7 @@ public static class KitsuneSettingsApplier
     // static ([white]), so scaling the alpha once sticks until the next change.
     static readonly HashSet<string> GlassSprites = new HashSet<string>
     {
-        "ku_panel", "ku_panel_body", "ku_panel_sm", "ui_game_panel_header",
+        "ku_panel", "ku_panel_body", "ku_panel_sm", "ui_game_panel_header", "ku_disc",
     };
 
     // Every element's colours as loaded, so repeated changes never compound and a preset
@@ -254,6 +254,9 @@ public class XUiC_KitsuneSettingsWindow : XUiController
     XUiC_ToggleButton horde;
     XUiC_ToggleButton crafting;
     XUiC_ToggleButton mapNames;
+    XUiC_ToggleButton mapCoords;
+    XUiC_ToggleButton actionBar;
+    XUiC_ToggleButton mapClock;
     XUiC_ToggleButton bagSearch;
     XUiC_ToggleButton wearWarning;
     XUiC_ToggleButton buffTimers;
@@ -339,7 +342,10 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         minimap = Toggle("tglMinimap", KitsuneSettingsFile.Minimap);
         horde = Toggle("tglHorde", KitsuneSettingsFile.HordeCountdown);
         crafting = Toggle("tglCrafting", KitsuneSettingsFile.CraftingHud);
+        actionBar = Toggle("tglActionBar", KitsuneSettingsFile.ActionBar);
         mapNames = Toggle("tglMapNames", KitsuneSettingsFile.MapNames);
+        mapCoords = Toggle("tglMapCoords", KitsuneSettingsFile.MapCoords);
+        mapClock = Toggle("tglMapClock", KitsuneSettingsFile.MapClock);
         bagSearch = Toggle("tglBagSearch", KitsuneSettingsFile.BagSearch);
         wearWarning = Toggle("tglWear", KitsuneSettingsFile.WearWarning);
         buffTimers = Toggle("tglBuffTimers", KitsuneSettingsFile.BuffTimers);
@@ -350,6 +356,7 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         combatText = Toggle("tglCombatText", KitsuneSettingsFile.CombatText);
         qualityRings = Toggle("tglQualityRings", KitsuneSettingsFile.QualityRings);
         compareHeld = Toggle("tglCompareHeld", KitsuneSettingsFile.CompareHeld);
+        ChoiceRow("btnMapShape_", KitsuneSettingsFile.MapShape, "square", "round");
         ChoiceRow("btnFrameWidth_", KitsuneSettingsFile.FrameWidth, "260", "320", "400");
         ChoiceRow("btnBuffSize_", KitsuneSettingsFile.BuffSize, "75", "100", "125");
         ChoiceRow("btnBuffCount_", KitsuneSettingsFile.BuffCount, "4", "6", "8");
@@ -670,7 +677,10 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         if (minimap != null) minimap.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.Minimap);
         if (horde != null) horde.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.HordeCountdown);
         if (crafting != null) crafting.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.CraftingHud);
+        if (actionBar != null) actionBar.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.ActionBar);
         if (mapNames != null) mapNames.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.MapNames);
+        if (mapCoords != null) mapCoords.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.MapCoords);
+        if (mapClock != null) mapClock.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.MapClock);
         if (bagSearch != null) bagSearch.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.BagSearch);
         if (wearWarning != null) wearWarning.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.WearWarning);
         if (buffTimers != null) buffTimers.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.BuffTimers);
