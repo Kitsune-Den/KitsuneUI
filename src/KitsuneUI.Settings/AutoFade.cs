@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-/// "Fade the HUD when idle": the toolbelt and the stat bars fade to a ghost after a few
+/// "Fade the HUD when idle": the toolbelt (with the XP bar on it) and the stat bars fade to a ghost after a few
 /// quiet seconds and come straight back when something needs them. The toolbelt wakes
 /// when you switch, use, pick up or fire something; the stat bars wake while health or
 /// stamina are below full, food or water run low, or you crouch (the stealth meter).
@@ -31,6 +31,14 @@ public static class KitsuneAutoFade
     static readonly Piece belt = new Piece("windowToolbelt");
     static readonly Piece stats = new Piece("HUDLeftStatBars");
     static readonly Piece frame = new Piece("kuPlayerFrame");
+    static readonly Piece xp = new Piece("kuXpBar");
+    static int lastXp = int.MinValue;
+
+    // Block icons on the toolbelt sit on a texture swatch drawn with a material that
+    // ignores the window's fade, so it would stay solid while the rest fades: shrink it
+    // away once the belt is mostly faded, and bring it back as the belt comes back.
+    static readonly System.Collections.Generic.List<Transform> beltTextures = new System.Collections.Generic.List<Transform>();
+    static bool beltTexturesFound;
     static int beltSignature;
     static int lastSlot = -1;
     static bool wasFading;
@@ -40,6 +48,8 @@ public static class KitsuneAutoFade
         Find(xui, belt);
         Find(xui, stats);
         Find(xui, frame);
+        Find(xui, xp);
+        FindBeltTextures(xui);
         bool on = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.AutoFade);
         EntityPlayerLocal player = xui?.playerUI?.entityPlayer;
         if (!on || KitsuneLayout.Active || player == null)
@@ -49,6 +59,8 @@ public static class KitsuneAutoFade
                 Show(belt);
                 Show(stats);
                 Show(frame);
+                Show(xp);
+                ShowBeltTextures(true);
                 wasFading = false;
             }
             return;
@@ -67,9 +79,62 @@ public static class KitsuneAutoFade
             || s.Health.ValuePercent < 0.999f || s.Stamina.ValuePercent < 0.98f
             || s.Food.ValuePercent < 0.4f || s.Water.ValuePercent < 0.4f;
 
+        // The XP bar fades with the toolbelt it sits on, and wakes when XP comes in.
+        int xpNow = player.Progression.Level * 1000003 + player.Progression.ExpToNextLevel + player.Progression.ExpDeficit * 7;
+        bool xpWake = beltWake || (lastXp != int.MinValue && xpNow != lastXp);
+        lastXp = xpNow;
+
         Step(belt, beltWake, dt);
         Step(stats, statsWake, dt);
         Step(frame, statsWake, dt);
+        Step(xp, xpWake, dt);
+        ShowBeltTextures(belt.Alpha > 0.55f);
+    }
+
+    static void FindBeltTextures(XUi xui)
+    {
+        if (beltTexturesFound || belt.View == null || xui?.WindowGroups == null)
+        {
+            return;
+        }
+        foreach (XUiWindowGroup group in xui.WindowGroups)
+        {
+            XUiController window = group?.Controller?.GetChildById("windowToolbelt");
+            if (window != null)
+            {
+                Collect(window);
+                beltTexturesFound = true;
+                return;
+            }
+        }
+    }
+
+    static void Collect(XUiController c)
+    {
+        if (c.ViewComponent is XUiV_Texture t && t.ID == "backgroundTexture" && t.UiTransform != null)
+        {
+            beltTextures.Add(t.UiTransform);
+        }
+        if (c.Children == null)
+        {
+            return;
+        }
+        foreach (XUiController child in c.Children)
+        {
+            Collect(child);
+        }
+    }
+
+    static void ShowBeltTextures(bool show)
+    {
+        float s = show ? 1f : 0.0001f;
+        foreach (Transform t in beltTextures)
+        {
+            if (t != null && !Mathf.Approximately(t.localScale.x, s))
+            {
+                t.localScale = new Vector3(s, s, 1f);
+            }
+        }
     }
 
     static void Find(XUi xui, Piece p)
