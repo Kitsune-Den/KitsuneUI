@@ -295,9 +295,17 @@ public static class KitsunePortrait
 
     static void Build(Entry e)
     {
-        string style = Style;
-        e.Styled = style;
-        Color32[] src = style == "painted" ? Ink(Grade(Kuwahara(e.Raw, Size, 3)), Size) : e.Raw;
+        e.Styled = Style;
+        e.Picture = Paint(e.Raw, e.Picture, e.Styled);
+    }
+
+    /// <summary>
+    /// A 256 px render made into the frames' picture in a style (clean or painted): halved,
+    /// cut to a circle with a soft edge. Reuses (and returns) the picture texture given.
+    /// </summary>
+    public static Texture2D Paint(Color32[] raw, Texture2D picture, string style)
+    {
+        Color32[] src = style == "painted" ? Ink(Grade(Kuwahara(raw, Size, 3)), Size) : raw;
         Color32[] dst = new Color32[Out * Out];
         float r = Out / 2f;
         for (int y = 0; y < Out; y++)
@@ -317,18 +325,22 @@ public static class KitsunePortrait
                 dst[y * Out + x] = new Color32((byte)(R * vignette), (byte)(G * vignette), (byte)(B * vignette), (byte)(255 * inside));
             }
         }
-        if (e.Picture == null)
+        if (picture == null)
         {
-            e.Picture = new Texture2D(Out, Out, TextureFormat.RGBA32, true)
+            picture = new Texture2D(Out, Out, TextureFormat.RGBA32, true)
             {
                 name = "KitsuneUI.portrait",
                 filterMode = FilterMode.Trilinear,
                 wrapMode = TextureWrapMode.Clamp,
             };
         }
-        e.Picture.SetPixels32(dst);
-        e.Picture.Apply(true);
+        picture.SetPixels32(dst);
+        picture.Apply(true);
+        return picture;
     }
+
+    public const int RenderSize = Size;
+    public static readonly Color PortraitBackground = Background;
 
     /// <summary>
     /// The painted portraits' palette: a little more contrast, and shadows pulled toward the

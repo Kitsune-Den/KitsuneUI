@@ -465,7 +465,10 @@ public class XUiC_KitsuneTargetFrame : XUiController
             }
             else
             {
-                face = KitsuneCreaturePortraits.For(target, out ring);
+                // A snapshot of the real model (taken the first time this kind is targeted),
+                // with the painted art as the stand-in until there is one.
+                Texture2D painted = KitsuneCreaturePortraits.For(target, out ring);
+                face = KitsuneCreatureSnapshots.For(target) ?? painted;
             }
             if (boss)
             {
