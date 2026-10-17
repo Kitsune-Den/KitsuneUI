@@ -110,7 +110,7 @@ public class XUiC_KitsuneMinimap : XUiController
             Rebuild(player.ChunkObserver.mapDatabase, chunkX - span / 2, chunkZ - span / 2);
         }
 
-        float yaw = rotate ? player.rotation.y : 0f;
+        float yaw = rotate ? KitsuneHeading.Of(player) : 0f;
         if (rotate || round)
         {
             if (map.Texture != view)
@@ -145,7 +145,7 @@ public class XUiC_KitsuneMinimap : XUiController
         if (arrow?.UiTransform != null)
         {
             // North-up: the arrow turns. Rotating: the map turns and the arrow points up.
-            arrow.UiTransform.localEulerAngles = new Vector3(0f, 0f, rotate ? 0f : -player.rotation.y);
+            arrow.UiTransform.localEulerAngles = new Vector3(0f, 0f, rotate ? 0f : -KitsuneHeading.Of(player));
         }
         PlaceNorth(rotate, yaw);
         UpdateMarkers(player, pos, yaw, viewBlocks, round);
@@ -578,5 +578,18 @@ public class XUiC_KitsuneMinimap : XUiController
             Object.Destroy(view);
             view = null;
         }
+    }
+}
+
+/// <summary>
+/// Which way the player is facing, for the minimap and the quest arrows. Seated in a
+/// vehicle the player's own rotation stays put, so it's the vehicle's heading there.
+/// </summary>
+public static class KitsuneHeading
+{
+    public static float Of(EntityPlayer player)
+    {
+        Entity ride = player?.AttachedToEntity;
+        return ride != null ? ride.rotation.y : player?.rotation.y ?? 0f;
     }
 }

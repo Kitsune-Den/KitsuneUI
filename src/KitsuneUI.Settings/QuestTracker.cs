@@ -49,7 +49,7 @@ public class XUiC_KitsuneQuestObjective : XUiController
             {
                 Vector3 to = target.GetPosition() + Origin.position - player.position;
                 float bearing = Mathf.Atan2(to.x, to.z) * Mathf.Rad2Deg;
-                arrow.UiTransform.localEulerAngles = new Vector3(0f, 0f, player.rotation.y - bearing);
+                arrow.UiTransform.localEulerAngles = new Vector3(0f, 0f, KitsuneHeading.Of(player) - bearing);
             }
         }
     }

@@ -20,7 +20,7 @@ public static class KitsuneHideTiers
 [HarmonyPatch(typeof(DialogStatement), nameof(DialogStatement.GetResponses))]
 public static class KitsuneTraderJobsByDistance
 {
-    const int PerPage = 8;
+    const int PerPage = 7;            // 7 jobs + "Closer jobs" + "Farther jobs" + "Never mind" = the 10 rows
     const int MaxTier = 6;
     const int MaxPerTier = 7;
     static readonly Regex TierTag = new Regex(@"^\s*\[\[[0-9A-Fa-f]{6}\][^\]]*\[-\]\]\s*");
@@ -93,24 +93,24 @@ public static class KitsuneTraderJobsByDistance
             {
                 list.Add(found[i].entry);
             }
-            if (pages > 1)
+            // Paging both ways: closer jobs from the second page on, farther ones while there are more.
+            if (page > 0)
             {
-                var more = new DialogResponse("kuFartherJobs")
-                {
-                    Text = "[" + Localization.Get(page + 1 < pages ? "kuFartherJobs" : "kuNearestJobs") + "]",
-                    NextStatementID = __instance.ID,
-                    OwnerDialog = __instance.OwnerDialog,
-                };
-                more.AddAction(new KitsuneJobsPageAction { OwnerDialog = __instance.OwnerDialog, Owner = more });
-                list.Add(new DialogResponseEntry("kuFartherJobs") { Response = more });
+                list.Add(PageRow(__instance, "kuCloserJobs", -1));
             }
-            // Keep the page's other rows ("Never mind"), but not the per-tier page buttons.
+            if (page + 1 < pages)
+            {
+                list.Add(PageRow(__instance, "kuFartherJobs", +1));
+            }
+            // Keep the page's other rows ("Never mind"), but not the per-tier page buttons: they
+            // share the unique id "next" and lead to another jobs page.
             foreach (BaseResponseEntry e in __result)
             {
-                if (!(e is DialogQuestResponseEntry) && e.Response != null && !(e.ID ?? "").StartsWith("jobsnext"))
+                if (e is DialogQuestResponseEntry || e.Response == null || IsTierButton(e))
                 {
-                    list.Add(e);
+                    continue;
                 }
+                list.Add(e);
             }
             __result = list;
         }
@@ -131,12 +131,31 @@ public static class KitsuneTraderJobsByDistance
         return float.MaxValue;
     }
 
-    /// <summary>The "Farther jobs" row's action: show the next page of the same list.</summary>
+    static bool IsTierButton(BaseResponseEntry e) =>
+        (e.ID ?? "").StartsWith("jobsnext")
+        || e.UniqueID == "next"
+        || (e.Response.NextStatementID ?? "").StartsWith("currentjobs");
+
+    static BaseResponseEntry PageRow(DialogStatement statement, string labelKey, int step)
+    {
+        var row = new DialogResponse(labelKey)
+        {
+            Text = "[" + Localization.Get(labelKey) + "]",
+            NextStatementID = statement.ID,
+            OwnerDialog = statement.OwnerDialog,
+        };
+        row.AddAction(new KitsuneJobsPageAction { OwnerDialog = statement.OwnerDialog, Owner = row, Step = step });
+        return new DialogResponseEntry(labelKey) { Response = row };
+    }
+
+    /// <summary>The paging rows' action: show the next (+1) or previous (-1) page of the same list.</summary>
     public class KitsuneJobsPageAction : BaseDialogAction
     {
+        public int Step = 1;
+
         public override void PerformAction(EntityPlayer player)
         {
-            page++;
+            page = Mathf.Max(0, page + Step);
         }
     }
 
