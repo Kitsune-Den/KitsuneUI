@@ -16,6 +16,25 @@ public static class KitsuneWholeBackpack
     }
 
     static readonly ConditionalWeakTable<XUiV_Grid, Original> originals = new ConditionalWeakTable<XUiV_Grid, Original>();
+    static int shownSlots = -1;
+
+    /// <summary>
+    /// Called every frame by the settings hook: when the bag's size changes (a perk, a
+    /// pocket mod), lay the backpack out again for the new number of slots.
+    /// </summary>
+    public static void Watch(XUi xui)
+    {
+        if (shownSlots < 0)
+        {
+            return;
+        }
+        int now = xui?.PlayerInventory?.Backpack?.SlotCount ?? shownSlots;
+        if (now != shownSlots)
+        {
+            shownSlots = now;
+            KitsuneSettingsApplier.ApplyAll(xui);
+        }
+    }
 
     /// <summary>Called by the settings walk for every grid; acts on the backpack's.</summary>
     public static void Apply(XUiV_Grid grid, XUiController controller, bool whole)
@@ -31,10 +50,25 @@ public static class KitsuneWholeBackpack
         {
             bar.IsVisible = !whole;
         }
+        // Lay out for the slots the bag really has: a grid made for bigger bags (KitsuneBackpack's
+        // is 8 x 17) shows only the player's current backpack size, the rest stay blank.
+        int slotCount = o.Columns * o.Rows;
+        if (controller is XUiC_Backpack bag && bag.BackpackSlots > 0)
+        {
+            slotCount = Mathf.Min(slotCount, bag.BackpackSlots);
+            shownSlots = bag.BackpackSlots;
+        }
         if (!whole)
         {
-            grid.Columns = o.Columns;
-            grid.Rows = o.Rows;
+            // Scrolling: as many full-size columns as the (possibly wider) window holds,
+            // never fewer than the bag's own.
+            int perRow = o.Columns;
+            if (KitsuneBackpackWidth.Extra > 0 && controller.Parent?.ViewComponent is XUiView view && view.Size.x > 0)
+            {
+                perRow = Mathf.Clamp(view.Size.x / Mathf.Max(1, grid.CellWidth), o.Columns, slotCount);
+            }
+            grid.Columns = perRow;
+            grid.Rows = perRow == o.Columns ? o.Rows : (slotCount + perRow - 1) / perRow;
             if (t != null && t.localScale != Vector3.one)
             {
                 t.localScale = Vector3.one;
@@ -43,7 +77,7 @@ public static class KitsuneWholeBackpack
             return;
         }
 
-        int slots = o.Columns * o.Rows;
+        int slots = slotCount;
         int cellW = Mathf.Max(1, grid.CellWidth);
         int cellH = Mathf.Max(1, grid.CellHeight);
         // The scroll view the grid sits in is the visible area.
@@ -51,9 +85,9 @@ public static class KitsuneWholeBackpack
         float w = area.x > 0 ? area.x : 587f;
         float h = area.y > 0 ? area.y : 359f;
 
-        int bestCols = o.Columns;
+        int bestCols = Mathf.Min(o.Columns, slots);
         float bestScale = 0f;
-        for (int cols = o.Columns; cols <= slots; cols++)
+        for (int cols = Mathf.Min(o.Columns, slots); cols <= slots; cols++)
         {
             int rows = (slots + cols - 1) / cols;
             float scale = Mathf.Min(1f, Mathf.Min(w / (cols * cellW), h / (rows * cellH)));

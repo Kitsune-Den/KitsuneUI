@@ -44,6 +44,9 @@ public static class KitsuneSettingsFile
     public const string MapClock = "mapClock";            // the day and time under the minimap
     public const string Portrait = "portrait";            // player frame portrait: "off", "clean" or "painted"
     public const string BuffSweep = "buffSweep";          // debuffs in their own row, countdown sweep on buff icons
+    public const string TraderTileSize = "traderTileSize"; // trader option tiles, percent: 100, 125, 150
+    public const string StatBarsSplit = "statBarsSplit";  // Move HUD: health, stamina, food, water as separate pieces
+    public const string BackpackWidth = "backpackWidth";  // backpack window: "normal", "wide" or "extra"
     public const string HideQuestTier = "hideQuestTier";  // trader jobs nearest first, no tiers or POI skulls
     public const string QuestBars = "questBars";          // quest tracker progress bars and direction arrows
     public const string QualityRings = "qualityRings";    // ring in the item's quality colour in every slot
@@ -89,6 +92,9 @@ public static class KitsuneSettingsFile
         { MapClock, "false" },
         { Portrait, "off" },
         { BuffSweep, "false" },
+        { TraderTileSize, "100" },
+        { StatBarsSplit, "false" },
+        { BackpackWidth, "normal" },
         { HideQuestTier, "false" },
         { QuestBars, "false" },
         { QualityRings, "false" },

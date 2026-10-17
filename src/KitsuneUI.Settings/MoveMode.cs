@@ -24,6 +24,10 @@ public static class KitsuneLayout
     sealed class Group
     {
         public readonly List<Member> Members = new List<Member>();
+        // "" for most pieces. The stat bars come as one piece ("joined") or as a piece per
+        // bar ("split", Move HUD > Split stat bars); a piece whose mode is off sits at its
+        // default place and size, and its outline doesn't show.
+        public string Mode = "";
         public Vector2 Offset;
         // While dragging: the unsnapped offset, and the handle's corner (in grid space)
         // and offset when the drag started, so snapping never fights the mouse.
@@ -117,7 +121,11 @@ public static class KitsuneLayout
 
     static string Key(string group) => "move." + group;
 
-    public static void Register(string group, XUiView window)
+    /// <summary>Whether pieces of this mode are in use ("" always; "split" / "joined" by the setting).</summary>
+    public static bool ModeOn(string mode) =>
+        string.IsNullOrEmpty(mode) || (mode == "split") == KitsuneSettingsFile.GetBool(KitsuneSettingsFile.StatBarsSplit);
+
+    public static void Register(string group, XUiView window, string mode = "")
     {
         if (window == null || string.IsNullOrEmpty(group))
         {
@@ -127,6 +135,7 @@ public static class KitsuneLayout
         {
             g = new Group
             {
+                Mode = mode ?? "",
                 Offset = Load(group),
                 Scale = LoadScale(group),
                 Hidden = KitsuneSettingsFile.Get("hide." + group) == "true",
@@ -158,6 +167,13 @@ public static class KitsuneLayout
         foreach (XUiView h in handles)
         {
             h.IsVisible = show;
+        }
+        foreach (XUiC_KitsuneMoveHandle c in handleControllers)
+        {
+            if (show && !ModeOn(c.Mode) && c.ViewComponent != null)
+            {
+                c.ViewComponent.IsVisible = false;
+            }
         }
         RefreshHandles();
     }
@@ -265,7 +281,7 @@ public static class KitsuneLayout
         Transform t = view.UiTransform;
         if (t != null)
         {
-            float s = !Active && g.Hidden ? 0.0001f : g.Scale;
+            float s = !ModeOn(g.Mode) ? 1f : !Active && g.Hidden ? 0.0001f : g.Scale;
             t.localScale = new Vector3(s, s, 1f);
         }
     }
@@ -281,8 +297,9 @@ public static class KitsuneLayout
 
     static void Apply(Group g)
     {
-        int dx = Mathf.RoundToInt(g.Offset.x);
-        int dy = Mathf.RoundToInt(g.Offset.y);
+        bool on = ModeOn(g.Mode);
+        int dx = on ? Mathf.RoundToInt(g.Offset.x) : 0;
+        int dy = on ? Mathf.RoundToInt(g.Offset.y) : 0;
         foreach (Member m in g.Members)
         {
             var want = new Vector2i(m.Base.x + dx, m.Base.y + dy);
@@ -293,7 +310,7 @@ public static class KitsuneLayout
             Transform t = m.View.UiTransform;
             if (t != null)
             {
-                float s = !Active && g.Hidden ? 0.0001f : g.Scale;
+                float s = !on ? 1f : !Active && g.Hidden ? 0.0001f : g.Scale;
                 if (!Mathf.Approximately(t.localScale.x, s))
                 {
                     t.localScale = new Vector3(s, s, 1f);
@@ -327,6 +344,10 @@ public class XUiC_KitsuneMoveHandle : XUiController
             case "target":
                 target = _value;
                 return true;
+            // "joined" / "split": the stat bars as one piece or a piece per bar (KitsuneLayout.ModeOn).
+            case "mode":
+                Mode = _value;
+                return true;
             default:
                 return base.ParseAttribute(_name, _value);
         }
@@ -358,7 +379,7 @@ public class XUiC_KitsuneMoveHandle : XUiController
         {
             group = window.ID;
         }
-        KitsuneLayout.Register(group, window);
+        KitsuneLayout.Register(group, window, Mode);
         KitsuneLayout.RegisterHandle(ViewComponent);
         KitsuneLayout.RegisterHandleController(this);
         OnDrag += Dragged;
@@ -394,7 +415,7 @@ public class XUiC_KitsuneMoveHandle : XUiController
 
     void LayoutStrip(bool under)
     {
-        int w = ViewComponent.Size.x, h = ViewComponent.Size.y;
+        int w = Mathf.Max(ViewComponent.Size.x, 230), h = ViewComponent.Size.y;   // narrow pieces (food, water) get a full strip
         int key = (w * 4096 + h) * 2 + (under ? 1 : 0);
         if (key == laidOutFor)
         {
@@ -547,15 +568,18 @@ public class XUiC_KitsuneMoveHandle : XUiController
         KitsuneLayout.Drag(group, _mouseDelta * xui.GetPixelRatioFactor());
     }
 
+    public string Mode = "";
+
     public override void Update(float _dt)
     {
         base.Update(_dt);
-        if (ViewComponent.IsVisible != KitsuneLayout.Active)
+        bool show = KitsuneLayout.Active && KitsuneLayout.ModeOn(Mode);
+        if (ViewComponent.IsVisible != show)
         {
-            ViewComponent.IsVisible = KitsuneLayout.Active;
+            ViewComponent.IsVisible = show;
             dragging = false;
         }
-        if (KitsuneLayout.Active)
+        if (show)
         {
             KeepOnScreen();
         }
@@ -625,6 +649,36 @@ public static class KitsuneMoveModeGuard
     }
 }
 
+/// <summary>
+/// Joins the element it sits in to a move group without an outline of its own: one
+/// outline moves several elements (health with stamina, water with food).
+/// </summary>
+public class XUiC_KitsuneMoveMember : XUiController
+{
+    string group, mode = "";
+
+    public override bool ParseAttribute(string _name, string _value)
+    {
+        switch (_name)
+        {
+            case "group":
+                group = _value;
+                return true;
+            case "mode":
+                mode = _value;
+                return true;
+            default:
+                return base.ParseAttribute(_name, _value);
+        }
+    }
+
+    public override void Init()
+    {
+        base.Init();
+        KitsuneLayout.Register(group, Parent?.ViewComponent, mode);
+    }
+}
+
 public class XUiC_KitsuneMoveBar : XUiController
 {
     static readonly string[] OpenForMoving = { "subtitlesDisplay", "chatoutput" };
@@ -647,9 +701,21 @@ public class XUiC_KitsuneMoveBar : XUiController
         {
             snap.OnValueChanged += (_s, _v) => KitsuneSettingsFile.Set(KitsuneSettingsFile.MoveSnap, _v ? "true" : "false");
         }
+        // Split stat bars: health, stamina, food and water as separate pieces.
+        XUiController sp = GetChildById("tglMoveSplit");
+        split = sp as XUiC_ToggleButton ?? sp?.GetChildByType<XUiC_ToggleButton>();
+        if (split != null)
+        {
+            split.OnValueChanged += (_s, _v) =>
+            {
+                KitsuneSettingsFile.Set(KitsuneSettingsFile.StatBarsSplit, _v ? "true" : "false");
+                KitsuneLayout.ShowHandles(KitsuneLayout.Active);
+            };
+        }
     }
 
     XUiC_ToggleButton snap;
+    XUiC_ToggleButton split;
 
     XUiC_SimpleButton Button(string id)
     {
@@ -675,6 +741,10 @@ public class XUiC_KitsuneMoveBar : XUiController
         if (snap != null)
         {
             snap.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.MoveSnap);
+        }
+        if (split != null)
+        {
+            split.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.StatBarsSplit);
         }
     }
 

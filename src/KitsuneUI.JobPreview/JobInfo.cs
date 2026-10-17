@@ -62,8 +62,17 @@ public sealed class JobInfo
         info.Action = quest.GetParsedText(PoiNameToken.Replace(response, "")).Trim();
         info.ActionShort = quest.GetParsedText(DistanceGroup.Replace(PoiNameToken.Replace(response, ""), "")).Trim();
 
-        info.Distance = Parsed(quest, "{poi.distance}", "{treasure.distance}");
-        info.Direction = Parsed(quest, "{poi.direction}", "{treasure.direction}");
+        // A job with a place (clear, fetch...) has a POI distance; buried supplies have a treasure
+        // one instead. For a job without a POI the game answers {poi.distance} with the bare word
+        // "poi", so a distance only counts when it has a number in it.
+        string poiDistance = Resolved(quest.GetParsedText("{poi.distance}"));
+        bool atPoi = poiDistance.IndexOfAny("0123456789".ToCharArray()) >= 0;
+        info.Distance = atPoi ? poiDistance : Resolved(quest.GetParsedText("{treasure.distance}"));
+        if (info.Distance.IndexOfAny("0123456789".ToCharArray()) < 0)
+        {
+            info.Distance = "";
+        }
+        info.Direction = info.Distance.Length == 0 ? "" : Resolved(quest.GetParsedText(atPoi ? "{poi.direction}" : "{treasure.direction}"));
 
         PrefabInstance prefab = FindPrefab(quest, out Vector3 center, out bool hasPosition);
         if (prefab != null)
@@ -80,6 +89,21 @@ public sealed class JobInfo
             }
         }
 
+        // No building (buried supplies): the dig site's biome and the painted buried-supplies picture.
+        if (prefab == null && !atPoi)
+        {
+            if (quest.GetPositionData(out Vector3 site, Quest.PositionDataTypes.TreasurePoint)
+                || quest.GetPositionData(out site, Quest.PositionDataTypes.Location))
+            {
+                center = site;
+                hasPosition = true;
+            }
+            if (info.Image.Length == 0)
+            {
+                info.Image = BuriedPicture();
+            }
+        }
+
         if (hasPosition)
         {
             BiomeDefinition biome = GameManager.Instance?.World?.GetBiomeInWorld((int)center.x, (int)center.z);
@@ -87,6 +111,11 @@ public sealed class JobInfo
             {
                 info.Biome = biome.LocalizedName;
             }
+        }
+        // The tile's place name: the building, or for a dig in the wild, the biome it's in.
+        if (!atPoi && prefab == null)
+        {
+            info.Name = info.Biome;
         }
 
         if (withObjectives)
@@ -176,14 +205,25 @@ public sealed class JobInfo
     }
 
     // Uses the game's own token formatting; tries POI tokens first, then treasure ones.
-    static string Parsed(Quest quest, string poiToken, string treasureToken)
+    // A parsed token, or "" when the game couldn't fill it in (left the braces, or just the
+    // token's own first word, like "poi" or "treasure").
+    static string Resolved(string value)
     {
-        string value = quest.GetParsedText(poiToken);
-        if (string.IsNullOrEmpty(value) || value.Contains("{"))
+        value = (value ?? "").Trim();
+        return value.Length == 0 || value.Contains("{") || value == "poi" || value == "treasure" ? "" : value;
+    }
+
+    // The painted picture shipped for jobs that have no building to show (buried supplies).
+    static string buriedPicture;
+
+    static string BuriedPicture()
+    {
+        if (buriedPicture == null)
         {
-            value = quest.GetParsedText(treasureToken);
+            string jpg = Path.Combine(Path.GetDirectoryName(typeof(JobInfo).Assembly.Location) ?? "", "Textures", "ku_buried_supplies.jpg");
+            buriedPicture = File.Exists(jpg) ? "@" + new Uri(Path.GetFullPath(jpg)).AbsoluteUri : "";
         }
-        return string.IsNullOrEmpty(value) || value.Contains("{") ? "" : value;
+        return buriedPicture;
     }
 
     static PrefabInstance FindPrefab(Quest quest, out Vector3 center, out bool hasPosition)

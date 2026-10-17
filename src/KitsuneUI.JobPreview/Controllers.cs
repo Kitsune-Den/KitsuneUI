@@ -153,6 +153,16 @@ public class XUiC_KitsuneDialogStrip : XUiController
             }
         }
 
+        // Trader options size (KitsuneUI_Settings: Trader options 100 / 125 / 150%). The
+        // game can reset a window's scale when it redraws it, so it's checked every frame.
+        float scale = Mathf.Clamp(KitsuneSettingsFile.GetInt(KitsuneSettingsFile.TraderTileSize, 100, 150), 100, 150) / 100f;
+        Transform t = window.UiTransform;
+        if (t != null && !Mathf.Approximately(t.localScale.x, scale))
+        {
+            t.localScale = new Vector3(scale, scale, 1f);
+            shownCount = -1;
+        }
+
         int count = 0;
         foreach (XUiController child in GetChildrenByType<XUiC_DialogResponseEntry>())
         {
@@ -166,8 +176,13 @@ public class XUiC_KitsuneDialogStrip : XUiController
             return;
         }
         shownCount = count;
+        // Centred under the speaker at any size (the window scales from its top-left corner),
+        // with its bottom edge where it is at 100%, so a bigger strip grows upward, clear of
+        // the toolbelt.
         int offset = (Slots - Mathf.Clamp(count, 1, Slots)) * CellWidth / 2;
-        window.Position = new Vector2i(basePosition.x + offset, basePosition.y);
+        int height = window.Size.y > 0 ? window.Size.y : 200;
+        window.Position = new Vector2i(Mathf.RoundToInt((basePosition.x + offset) * scale),
+            basePosition.y + Mathf.RoundToInt(height * (scale - 1f)));
     }
 
     public override bool ParseAttribute(string _name, string _value)

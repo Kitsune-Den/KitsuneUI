@@ -81,6 +81,7 @@ public static class KitsuneSettingsApplier
         float glass = KitsuneSettingsFile.GetInt(KitsuneSettingsFile.Glass, 30, 100) / 100f;
         KitsunePalette palette = KitsunePalette.Get(KitsuneSettingsFile.Get(KitsuneSettingsFile.Palette));
         bool wholeBackpack = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.BackpackAll);
+        KitsuneBackpackWidth.Apply(xui);   // before the walk: the whole-backpack layout reads the new size
         textScale = KitsuneSettingsFile.GetInt(KitsuneSettingsFile.TextSize, 80, 150) / 100f;
         glassColour = KitsuneSettingsFile.Get(KitsuneSettingsFile.GlassColour);
         if (System.Array.IndexOf(GlassColours, glassColour) < 0)
@@ -219,6 +220,7 @@ public class XUiC_KitsuneSettingsHook : XUiController
             KitsuneSettingsApplier.ApplyAll(xui);
         }
         KitsuneMoveModeGuard.Update(xui);
+        KitsuneWholeBackpack.Watch(xui);
         KitsuneLayout.ApplyAll();
         KitsuneAutoFade.Update(xui, _dt);
         KitsuneWearWarning.Update(this, _dt);
@@ -341,6 +343,24 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         slotNumbers = Toggle("tglSlotNumbers", KitsuneSettingsFile.SlotNumbers);
         healthBar = Toggle("tglHealthBar", KitsuneSettingsFile.HealthBarAlways);
         jobTiles = Toggle("tglJobTiles", KitsuneSettingsFile.JobTiles);
+        // Trader options: List turns the tiles off; a size turns them on at that size.
+        foreach (string choice in new[] { "list", "100", "125", "150" })
+        {
+            if (FindButton("btnTraderTiles_" + choice) is XUiC_SimpleButton b)
+            {
+                string c = choice;
+                b.OnPressed += (_sender, _mouseButton) =>
+                {
+                    KitsuneSettingsFile.Set(KitsuneSettingsFile.JobTiles, c == "list" ? "false" : "true");
+                    if (c != "list")
+                    {
+                        KitsuneSettingsFile.Set(KitsuneSettingsFile.TraderTileSize, c);
+                    }
+                    ShowTraderOptions();
+                };
+                traderButtons.Add((c, b));
+            }
+        }
         wholeBackpack = Toggle("tglBackpackAll", KitsuneSettingsFile.BackpackAll);
         autoFade = Toggle("tglAutoFade", KitsuneSettingsFile.AutoFade);
         minimap = Toggle("tglMinimap", KitsuneSettingsFile.Minimap);
@@ -366,6 +386,7 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         ChoiceRow("btnMapShape_", KitsuneSettingsFile.MapShape, "square", "round");
         ChoiceRow("btnMapCreatures_", KitsuneSettingsFile.MapCreatures, "off", "animals", "all");
         ChoiceRow("btnPortrait_", KitsuneSettingsFile.Portrait, "off", "clean", "painted");
+        ChoiceRow("btnBagWidth_", KitsuneSettingsFile.BackpackWidth, "normal", "wide", "extra");
         ChoiceRow("btnFrameWidth_", KitsuneSettingsFile.FrameWidth, "260", "320", "400");
         ChoiceRow("btnBuffSize_", KitsuneSettingsFile.BuffSize, "75", "100", "125");
         ChoiceRow("btnBuffCount_", KitsuneSettingsFile.BuffCount, "4", "6", "8");
@@ -660,6 +681,20 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         }
     }
 
+    readonly List<(string choice, XUiC_SimpleButton button)> traderButtons = new List<(string, XUiC_SimpleButton)>();
+
+    void ShowTraderOptions()
+    {
+        string current = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.JobTiles) ? KitsuneSettingsFile.Get(KitsuneSettingsFile.TraderTileSize) : "list";
+        foreach ((string choice, XUiC_SimpleButton button) in traderButtons)
+        {
+            if (button.Button != null)
+            {
+                button.Button.Selected = choice == current;
+            }
+        }
+    }
+
     void ShowTextSize()
     {
         int current = KitsuneSettingsFile.GetInt(KitsuneSettingsFile.TextSize, 80, 150);
@@ -701,6 +736,7 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         if (slotNumbers != null) slotNumbers.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.SlotNumbers);
         if (healthBar != null) healthBar.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.HealthBarAlways);
         if (jobTiles != null) jobTiles.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.JobTiles);
+        ShowTraderOptions();
         if (wholeBackpack != null) wholeBackpack.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.BackpackAll);
         if (autoFade != null) autoFade.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.AutoFade);
         if (minimap != null) minimap.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.Minimap);
