@@ -44,6 +44,7 @@ public static class KitsuneSettingsFile
     public const string MapClock = "mapClock";            // the day and time under the minimap
     public const string Portrait = "portrait";            // player frame portrait: "off", "clean" or "painted"
     public const string BuffSweep = "buffSweep";          // debuffs in their own row, countdown sweep on buff icons
+    public const string TraderJobs = "traderJobs";        // jobs a trader rolls per tier: 7 (the game's), 10, 14
     public const string TraderTileSize = "traderTileSize"; // trader option tiles, percent: 100, 125, 150
     public const string StatBarsSplit = "statBarsSplit";  // Move HUD: health, stamina, food, water as separate pieces
     public const string BackpackWidth = "backpackWidth";  // backpack window: "normal", "wide" or "extra"
@@ -92,6 +93,7 @@ public static class KitsuneSettingsFile
         { MapClock, "false" },
         { Portrait, "off" },
         { BuffSweep, "false" },
+        { TraderJobs, "7" },
         { TraderTileSize, "100" },
         { StatBarsSplit, "false" },
         { BackpackWidth, "normal" },

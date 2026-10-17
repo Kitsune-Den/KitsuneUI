@@ -22,13 +22,13 @@
 	<!-- and Close. Changes save and apply straight away.                 -->
 	<!-- ================================================================ -->
 	<append xpath="/windows">
-		<window name="kuSettingsWindow" width="560" height="612" pos="-280,306" anchor="Center" depth="40" cursor_area="true" controller="KitsuneSettingsWindow, KitsuneUI_Settings">
+		<window name="kuSettingsWindow" width="560" height="660" pos="-280,330" anchor="Center" depth="40" cursor_area="true" controller="KitsuneSettingsWindow, KitsuneUI_Settings">
 			<rect name="header" height="43" depth="1">
 				<headerbg />
 				<sprite depth="2" name="windowIcon" pos="6,-6" width="30" height="30" sprite="ku_icon_flame" color="[kuAccent]" />
 				<label style="header.name" pos="44,-6" width="400" text="KitsuneUI" />
 			</rect>
-			<sprite depth="0" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,-40" width="560" height="572" />
+			<sprite depth="0" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,-40" width="560" height="620" />
 
 			<!-- tabs: the controller shows one of the four rects below -->
 			<simplebutton name="btnTab_hud" depth="3" pos="20,-56" width="100" height="40" font_size="21" caption_key="kuTabHud" />
@@ -38,7 +38,7 @@
 			<simplebutton name="btnTab_look" depth="3" pos="440,-56" width="100" height="40" font_size="21" caption_key="kuTabLook" />
 			<sprite depth="2" name="kuTabRule" pos="20,-104" width="520" height="2" sprite="ku_rule" type="sliced" color="[kuGoldSoft]" />
 
-			<rect name="kuTab_hud" width="560" height="612">
+			<rect name="kuTab_hud" width="560" height="660">
 				<togglebutton name="tglSlotNumbers" depth="3" pos="20,-116" width="520" height="40" font_size="26" caption="" />
 				<label depth="4" name="tglSlotNumbersText" pos="66,-136" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetSlotNumbers" />
 				<togglebutton name="tglHealthBar" depth="3" pos="20,-164" width="520" height="40" font_size="26" caption="" />
@@ -57,7 +57,7 @@
 				<label depth="4" name="tglActionBarText" pos="66,-472" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetActionBar" />
 			</rect>
 
-			<rect name="kuTab_map" width="560" height="612" visible="false">
+			<rect name="kuTab_map" width="560" height="660" visible="false">
 				<togglebutton name="tglMinimap" depth="3" pos="20,-116" width="520" height="40" font_size="26" caption="" />
 				<label depth="4" name="tglMinimapText" pos="66,-136" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetMinimap" />
 				<togglebutton name="tglMapNames" depth="3" pos="20,-164" width="520" height="40" font_size="26" caption="" />
@@ -82,7 +82,7 @@
 				<simplebutton name="btnMapCreatures_all" depth="3" pos="412,-452" width="120" height="36" font_size="20" caption_key="kuOptAll" />
 			</rect>
 
-			<rect name="kuTab_combat" width="560" height="612" visible="false">
+			<rect name="kuTab_combat" width="560" height="660" visible="false">
 				<togglebutton name="tglUnitFrames" depth="3" pos="20,-116" width="520" height="40" font_size="26" caption="" />
 				<label depth="4" name="tglUnitFramesText" pos="66,-136" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetUnitFrames" />
 				<togglebutton name="tglPartyFrames" depth="3" pos="20,-164" width="520" height="40" font_size="26" caption="" />
@@ -107,7 +107,7 @@
 				<label depth="4" name="tglBuffSweepText" pos="66,-472" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetBuffSweep" />
 			</rect>
 
-			<rect name="kuTab_windows" width="560" height="612" visible="false">
+			<rect name="kuTab_windows" width="560" height="660" visible="false">
 				<togglebutton name="tglBackpackAll" depth="3" pos="20,-116" width="520" height="40" font_size="26" caption="" />
 				<label depth="4" name="tglBackpackAllText" pos="66,-136" width="466" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetBackpackAll" />
 				<togglebutton name="tglBagSearch" depth="3" pos="20,-164" width="520" height="40" font_size="26" caption="" />
@@ -135,9 +135,13 @@
 				<simplebutton name="btnBagWidth_normal" depth="3" pos="160,-500" width="120" height="36" font_size="20" caption_key="kuOptNormal" />
 				<simplebutton name="btnBagWidth_wide" depth="3" pos="286,-500" width="120" height="36" font_size="20" caption_key="kuOptWide" />
 				<simplebutton name="btnBagWidth_extra" depth="3" pos="412,-500" width="120" height="36" font_size="20" caption_key="kuOptExtraWide" />
+				<label depth="3" name="lblTraderJobs" pos="22,-566" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetTraderJobs" />
+				<simplebutton name="btnTraderJobs_7" depth="3" pos="160,-548" width="120" height="36" font_size="20" caption="7" />
+				<simplebutton name="btnTraderJobs_10" depth="3" pos="286,-548" width="120" height="36" font_size="20" caption="10" />
+				<simplebutton name="btnTraderJobs_14" depth="3" pos="412,-548" width="120" height="36" font_size="20" caption="14" />
 			</rect>
 
-			<rect name="kuTab_look" width="560" height="612" visible="false">
+			<rect name="kuTab_look" width="560" height="660" visible="false">
 				<label depth="3" name="lblGlass" pos="22,-134" width="132" height="30" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetGlass" />
 				<simplebutton name="btnGlass100" depth="3" pos="160,-116" width="88" height="36" font_size="24" caption="100%" />
 				<simplebutton name="btnGlass85" depth="3" pos="254,-116" width="88" height="36" font_size="24" caption="85%" />
@@ -190,9 +194,9 @@
 				<simplebutton name="btnPortrait_painted" depth="3" pos="412,-452" width="120" height="36" font_size="20" caption_key="kuOptPainted" />
 			</rect>
 
-			<simplebutton name="btnMoveHUD" depth="3" pos="20,-556" width="168" height="40" font_size="24" caption_key="kuSetMoveHUD" />
-			<simplebutton name="btnProfiles" depth="3" pos="196,-556" width="168" height="40" font_size="24" caption_key="kuSetProfiles" />
-			<simplebutton name="btnClose" depth="3" pos="372,-556" width="168" height="40" font_size="24" caption_key="xuiClose" />
+			<simplebutton name="btnMoveHUD" depth="3" pos="20,-604" width="168" height="40" font_size="24" caption_key="kuSetMoveHUD" />
+			<simplebutton name="btnProfiles" depth="3" pos="196,-604" width="168" height="40" font_size="24" caption_key="kuSetProfiles" />
+			<simplebutton name="btnClose" depth="3" pos="372,-604" width="168" height="40" font_size="24" caption_key="xuiClose" />
 		</window>
 	</append>
 

@@ -387,6 +387,22 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         ChoiceRow("btnMapCreatures_", KitsuneSettingsFile.MapCreatures, "off", "animals", "all");
         ChoiceRow("btnPortrait_", KitsuneSettingsFile.Portrait, "off", "clean", "painted");
         ChoiceRow("btnBagWidth_", KitsuneSettingsFile.BackpackWidth, "normal", "wide", "extra");
+        // Jobs per tier: this game's setting, or on someone else's server, the server's
+        // (an admin's click is sent there; KitsuneTraderJobsNet).
+        foreach (string n in new[] { "7", "10", "14" })
+        {
+            if (FindButton("btnTraderJobs_" + n) is XUiC_SimpleButton b)
+            {
+                string v = n;
+                b.OnPressed += (_sender, _mouseButton) =>
+                {
+                    KitsuneTraderJobsNet.Choose(v);
+                    ShowTraderJobs();
+                };
+                traderJobButtons.Add((v, b));
+            }
+        }
+        traderJobsLabel = GetChildById("lblTraderJobs")?.ViewComponent as XUiV_Label;
         ChoiceRow("btnFrameWidth_", KitsuneSettingsFile.FrameWidth, "260", "320", "400");
         ChoiceRow("btnBuffSize_", KitsuneSettingsFile.BuffSize, "75", "100", "125");
         ChoiceRow("btnBuffCount_", KitsuneSettingsFile.BuffCount, "4", "6", "8");
@@ -710,6 +726,7 @@ public class XUiC_KitsuneSettingsWindow : XUiController
     public override void OnOpen()
     {
         base.OnOpen();
+        KitsuneTraderJobsNet.Ask();   // on a server: what's the server's jobs per tier?
         Sync();
         ShowTab(currentTab);
     }
@@ -724,6 +741,34 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         if (syncedVersion != KitsuneSettingsFile.Version)
         {
             Sync();
+        }
+        if (shownTraderJobs != KitsuneTraderJobsNet.Current)
+        {
+            ShowTraderJobs();   // the server's answer arrived
+        }
+    }
+
+    readonly List<(string value, XUiC_SimpleButton button)> traderJobButtons = new List<(string, XUiC_SimpleButton)>();
+    XUiV_Label traderJobsLabel;
+    string shownTraderJobs;
+
+    void ShowTraderJobs()
+    {
+        shownTraderJobs = KitsuneTraderJobsNet.Current;
+        foreach ((string value, XUiC_SimpleButton button) in traderJobButtons)
+        {
+            if (button.Button != null)
+            {
+                button.Button.Selected = value == shownTraderJobs;
+            }
+        }
+        if (traderJobsLabel != null)
+        {
+            string text = Localization.Get(KitsuneTraderJobsNet.Remote ? "kuSetTraderJobsServer" : "kuSetTraderJobs");
+            if (traderJobsLabel.Text != text)
+            {
+                traderJobsLabel.Text = text;
+            }
         }
     }
 

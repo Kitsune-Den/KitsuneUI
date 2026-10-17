@@ -143,3 +143,7 @@ kuMoveHealthStamina,UI,XUi,,,,HEALTH & STAMINA,,GESUNDHEIT & AUSDAUER,SALUD Y AG
 kuMoveFoodWater,UI,XUi,,,,FOOD & WATER,,NAHRUNG & WASSER,COMIDA Y AGUA,NOURRITURE ET EAU,CIBO E ACQUA,食料と水分,음식과 물,JEDZENIE I WODA,COMIDA E ÁGUA,ЕДА И ВОДА,YİYECEK VE SU,食物与水,食物與水
 kuSetTraderOptions,UI,XUi,,,,Trader options,,Händleroptionen,Opciones del comerciante,Options du marchand,Opzioni mercante,商人の選択肢,상인 선택지,Opcje handlarza,Opções do comerciante,Варианты торговца,Tüccar seçenekleri,商人选项,商人選項
 kuOptList,UI,XUi,,,,List,,Liste,Lista,Liste,Elenco,リスト,목록,Lista,Lista,Список,Liste,列表,列表
+kuSetTraderJobs,UI,XUi,,,,Jobs per tier,,Aufträge pro Stufe,Trabajos por nivel,Missions par niveau,Incarichi per livello,ティアごとの依頼数,등급별 의뢰 수,Zlecenia na poziom,Trabalhos por nível,Заданий на уровень,Seviye başına iş,每级任务数,每級任務數
+kuMoreJobs,UI,XUi,,,,More jobs,,Weitere Aufträge,Más trabajos,Plus de missions,Altri incarichi,他の依頼,더 많은 의뢰,Więcej zleceń,Mais trabalhos,Ещё задания,Daha fazla iş,更多任务,更多任務
+kuFirstJobs,UI,XUi,,,,Back to the first jobs,,Zurück zu den ersten Aufträgen,Volver a los primeros,Retour aux premières,Torna ai primi,最初の依頼に戻る,처음 의뢰로 돌아가기,Wróć do pierwszych,Voltar aos primeiros,Назад к первым,İlk işlere dön,回到最前面的任务,回到最前面的任務
+kuSetTraderJobsServer,UI,XUi,,,,Jobs per tier (server),,Aufträge pro Stufe (Server),Trabajos por nivel (servidor),Missions par niveau (serveur),Incarichi per livello (server),ティアごとの依頼数（サーバー）,등급별 의뢰 수 (서버),Zlecenia na poziom (serwer),Trabalhos por nível (servidor),Заданий на уровень (сервер),Seviye başına iş (sunucu),每级任务数（服务器）,每級任務數（伺服器）
