@@ -5,5 +5,5 @@
 	<Description value="An in-game settings window for KitsuneUI (Esc menu > KitsuneUI): toolbelt slot numbers, enemy health bar, trader job tiles, whole backpack without scrolling, backpack search, buff timers, worn-out tool warning, idle fade, a minimap with markers, zoom and rotation, a horde night countdown, crafting progress, ElvUI-style unit frames and party frames, nameplates, floating combat text, a custom colour, glass colours, gold for fully learned skills, a separate XP bar, 15 bar styles, glass strength, colour presets, bar text, text size, Move HUD to drag, resize or hide every HUD piece (grid, snap, reset), and layout profiles you can export and share. Saved per player. Needs KitsuneUI. Contains a DLL: play with EAC off, and install on the server and every client." />
 	<Website value="https://github.com/Kitsune-Den/KitsuneUI" />
 	<Author value="AdaInTheLab" />
-	<Version value="1.14.1" />
+	<Version value="1.15.0" />
 </xml>
