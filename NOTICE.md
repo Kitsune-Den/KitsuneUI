@@ -26,6 +26,14 @@ VIP, or otherwise makes money, as long as the mod itself, or access to it,
 isn't what's being sold. This is a permission I give on top of CC BY-NC-SA
 4.0, not a change to it.
 
+## Extra permission: mods built on KitsuneUI
+
+A mod that uses KitsuneUI's public names and templates (the colours, sprites and templates
+listed in [docs/framework.md](docs/framework.md)), for example by referencing them in its own
+XML, is not a changed version of KitsuneUI, and keeps its own license. This is a permission I
+give on top of CC BY-NC-SA 4.0, not a change to it. Copying KitsuneUI's own files or art into
+your mod is still covered by the license above.
+
 ## Not covered
 
 7 Days to Die's own files and any third-party libraries or assets in this repository keep their own licenses.

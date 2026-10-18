@@ -126,3 +126,7 @@ Your piece is moved by its window, so give it a window of its own.
 - Anything not on this page is internal (other `ku_*` sprites and colours, bindings,
   controllers) and can change in any release. Ask on the Nexus page if you need something.
 - `tools/check_public_names.py` checks this list before every release.
+- **Your license stays yours.** Using these names and templates from your mod doesn't make it
+  a changed version of KitsuneUI, so it keeps its own license (see
+  [NOTICE.md](../NOTICE.md)). Copying KitsuneUI's own files or art into your mod is covered by
+  KitsuneUI's license.
