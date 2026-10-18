@@ -210,4 +210,6 @@ The mocks behind the Kitsunebi direction (night indigo glass, fox-fire cyan acce
 
 Inspired by [Terminal UI](https://www.nexusmods.com/7daystodie/mods/12967) by SkyLett. All art and code here is our own.
 
-MIT licensed, see `LICENSE`.
+## License
+
+[CC BY-NC-SA 4.0](LICENSE), with an extra permission for servers that make money: see [NOTICE.md](NOTICE.md). In short: play it, change it and share it, with credit, not for sale, and with changed versions under the same license.
