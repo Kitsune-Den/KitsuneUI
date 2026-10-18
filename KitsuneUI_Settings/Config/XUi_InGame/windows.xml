@@ -724,8 +724,12 @@
 
 	<!-- Pop-up messages above the toolbelt (new recipe, can't place here...). With two toolbelt -->
 	<!-- bars the game lifts the message by yoffset_secondrow, so the outline follows it.           -->
+	<!-- The message itself sits above the separate XP bar (126 tall from the toolbelt's foot), -->
+	<!-- not on it, and with a second toolbelt bar it lifts as far as the XP bar does (82).    -->
+	<set xpath="/windows/window[@name='toolTipPopups']/@pos">0,138</set>
+	<setattribute xpath="/windows/window[@name='toolTipPopups']" name="yoffset_second_row">82</setattribute>
 	<append xpath="/windows/window[@name='toolTipPopups']">
-		<rect name="kuMoveHandle" depth="50" pos="{%'-250, ' + (yoffset_secondrow + 44)}" width="500" height="64" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
+		<rect name="kuMoveHandle" depth="50" pos="{%'-250, ' + (int(yoffset_secondrow) + 44)}" width="500" height="64" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
 			<!-- size readout and the -, +, show/hide buttons (XUiC_KitsuneMoveHandle) -->
 			<label depth="53" name="kuMoveScale" pos="396,-19" width="64" height="24" pivot="right" justify="right" font_size="18" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="100%" />
 			<sprite depth="54" name="kuChipSmaller" pos="400,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />

@@ -185,10 +185,19 @@ public static class KitsuneLayout
             && float.TryParse(parts[0], NumberStyles.Float, CultureInfo.InvariantCulture, out float x)
             && float.TryParse(parts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out float y))
         {
+            // A piece saved thousands of units away (an older version's on-screen nudge
+            // could run away like that) is off every screen: back to its own spot.
+            if (Mathf.Abs(x) > MaxOffset || Mathf.Abs(y) > MaxOffset)
+            {
+                Log.Warning($"[KitsuneUI] {group} was saved off screen ({x:0},{y:0}); put back in its default spot.");
+                return Vector2.zero;
+            }
             return new Vector2(x, y);
         }
         return Vector2.zero;
     }
+
+    const float MaxOffset = 5000f;
 
     public static void BeginDrag(string group, XUiView handle)
     {
@@ -489,7 +498,19 @@ public class XUiC_KitsuneMoveHandle : XUiController
         LayoutStrip(stripTop.y > Screen.height);
         if (dragging)
         {
+            nudged = false;
             return;
+        }
+        // Wait for the last nudge to land before judging again. Some windows (the pop-ups)
+        // take their new position a frame or more late; nudging again every frame then
+        // overshoots further each time, and the piece ran thousands of pixels off screen.
+        if (nudged)
+        {
+            if ((topLeft - nudgedFrom).sqrMagnitude < 0.25f)
+            {
+                return;
+            }
+            nudged = false;
         }
         // A little slack: some handles reach a few pixels past their piece (the toolbelt's
         // sits on the bottom edge), and those shouldn't creep inward every time.
@@ -499,12 +520,23 @@ public class XUiC_KitsuneMoveHandle : XUiController
         else if (bottomRight.x > Screen.width + Slack) dx = Screen.width - bottomRight.x;
         if (bottomRight.y < -Slack) dy = -bottomRight.y;
         else if (topLeft.y > Screen.height + Slack) dy = Screen.height - topLeft.y;
+        // More than a whole screen out means the outline itself is misplaced (a bad
+        // binding), not that the piece was dragged off: leave the piece where it is.
+        if (Mathf.Abs(dx) > Screen.width || Mathf.Abs(dy) > Screen.height)
+        {
+            return;
+        }
         if (dx != 0f || dy != 0f)
         {
             KitsuneLayout.Nudge(group, new Vector2(dx, dy) * xui.GetPixelRatioFactor());
             KitsuneLayout.Save(group);
+            nudged = true;
+            nudgedFrom = topLeft;
         }
     }
+
+    bool nudged;
+    Vector3 nudgedFrom;
 
     XUiV_Label scaleLabel;
     XUiV_Button hideButton;
