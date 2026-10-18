@@ -30,7 +30,7 @@ public static class KitsuneUnitFrames
     /// it shows. With "Debuffs in their own row" on, each icon also gets a dark radial
     /// sweep that grows as the buff runs out (kuBuffSweep).
     /// </summary>
-    public static int FillBuffs(XUiController frame, string prefix, List<BuffValue> buffs, Kinds kinds, XUi xui)
+    public static int FillBuffs(XUiController frame, string prefix, EntityAlive owner, List<BuffValue> buffs, Kinds kinds, XUi xui)
     {
         bool sweep = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.BuffSweep);
         shown.Clear();
@@ -102,8 +102,7 @@ public static class KitsuneUnitFrames
             UILabel time = slot.GetChildById("kuBuffTime")?.ViewComponent?.UiTransform?.GetComponent<UILabel>();
             if (time != null)
             {
-                float max = b.BuffClass.DurationMax;
-                string text = max > 0f ? XUiM_PlayerBuffs.GetCVarValueAsTimeString(Mathf.Max(0f, max - b.DurationInSeconds)) : "";
+                string text = ValueText(owner, b);
                 if (time.text != text)
                 {
                     time.text = text;
@@ -111,6 +110,39 @@ public static class KitsuneUnitFrames
             }
         }
         return shown.Count;
+    }
+
+    /// <summary>
+    /// The number under a buff icon, the same one the game's own buff list shows: the value
+    /// it tracks (wet 40%, cold -5°C, a drunk or radiation level, in the buff's own wording
+    /// where it has one), or for a buff that only runs out, the time left. Nothing otherwise.
+    /// </summary>
+    static string ValueText(EntityAlive owner, BuffValue b)
+    {
+        BuffClass c = b.BuffClass;
+        if (owner != null && !string.IsNullOrEmpty(c.DisplayValueCVar))
+        {
+            var n = new BuffEntityUINotification(owner, b);
+            float v = n.CurrentValue;
+            switch (n.Units)
+            {
+                case "%":
+                    return (int)(v * 100f) + "%";
+                case "°":
+                    return ValueDisplayFormatters.Temperature(v);
+                case "duration":
+                    return XUiM_PlayerBuffs.GetCVarValueAsTimeString(Mathf.Max(0f, c.DurationMax - b.DurationInSeconds));
+            }
+            string shown = c.DisplayValueFormat == BuffClass.CVarDisplayFormat.Time ? XUiM_PlayerBuffs.GetCVarValueAsTimeString(v)
+                : c.DisplayValueFormat == BuffClass.CVarDisplayFormat.Degrees ? ValueDisplayFormatters.Temperature(v)
+                : null;
+            if (c.DisplayValueKey != null)
+            {
+                return string.Format(Localization.Get(c.DisplayValueKey), (object)shown ?? v);
+            }
+            return shown ?? ((int)v).ToString();
+        }
+        return c.DurationMax > 0f ? XUiM_PlayerBuffs.GetCVarValueAsTimeString(Mathf.Max(0f, c.DurationMax - b.DurationInSeconds)) : "";
     }
 
     /// <summary>
@@ -383,14 +415,14 @@ public class XUiC_KitsunePlayerFrame : XUiController
         List<BuffValue> buffs = player.Buffs?.ActiveBuffs;
         if (KitsuneSettingsFile.GetBool(KitsuneSettingsFile.BuffSweep))
         {
-            int good = KitsuneUnitFrames.FillBuffs(this, "kuBuffSlot", buffs, KitsuneUnitFrames.Kinds.Good, xui);
-            KitsuneUnitFrames.FillBuffs(this, "kuDebuffSlot", buffs, KitsuneUnitFrames.Kinds.Bad, xui);
+            int good = KitsuneUnitFrames.FillBuffs(this, "kuBuffSlot", player, buffs, KitsuneUnitFrames.Kinds.Good, xui);
+            KitsuneUnitFrames.FillBuffs(this, "kuDebuffSlot", player, buffs, KitsuneUnitFrames.Kinds.Bad, xui);
             KitsuneUnitFrames.PlaceDebuffRow(this, good > 0);
         }
         else
         {
-            KitsuneUnitFrames.FillBuffs(this, "kuBuffSlot", buffs, KitsuneUnitFrames.Kinds.All, xui);
-            KitsuneUnitFrames.FillBuffs(this, "kuDebuffSlot", null, KitsuneUnitFrames.Kinds.Bad, xui);
+            KitsuneUnitFrames.FillBuffs(this, "kuBuffSlot", player, buffs, KitsuneUnitFrames.Kinds.All, xui);
+            KitsuneUnitFrames.FillBuffs(this, "kuDebuffSlot", player, null, KitsuneUnitFrames.Kinds.Bad, xui);
         }
     }
 
@@ -481,7 +513,7 @@ public class XUiC_KitsuneTargetFrame : XUiController
         hpText = KitsuneUnitFrames.HealthText(target.Health, max);
         pct = KitsuneSettingsFile.Get(KitsuneSettingsFile.BarText) == KitsuneBarText.Full ? Mathf.RoundToInt(hp * 100f) + "%" : "";
         RefreshBindings();
-        KitsuneUnitFrames.FillBuffs(this, "kuBuffSlot", target.Buffs?.ActiveBuffs, KitsuneUnitFrames.Kinds.Bad, xui);
+        KitsuneUnitFrames.FillBuffs(this, "kuBuffSlot", target, target.Buffs?.ActiveBuffs, KitsuneUnitFrames.Kinds.Bad, xui);
     }
 
     public override bool GetBindingValueInternal(ref string _value, string _bindingName)
