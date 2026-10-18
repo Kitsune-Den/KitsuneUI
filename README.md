@@ -150,6 +150,10 @@ Edit `KitsuneUI_Toolbelt20/Config/toolbelt.xml`. The game clamps `slot_per_bar` 
 
 ## For modders
 
+### Building on KitsuneUI
+
+Your mod's windows can wear the Kitsunebi glass, follow each player's look settings, and join Move HUD, while staying vanilla for players without KitsuneUI. See **[Building on KitsuneUI](docs/framework.md)**: the colours, sprites and templates you can use, the one rule (wrap them in `mod_loaded('KitsuneUI')`), and the one-line Move HUD handle. KitsuneRadio is the first mod built this way.
+
 ### Ground rules
 
 - **The theme has no dependencies.** No DLL, no Harmony, no custom XPath ops, no other mods. Only XML (XUi) and UIAtlas sprites, so it runs with EAC on.
