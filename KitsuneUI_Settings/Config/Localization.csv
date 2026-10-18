@@ -144,3 +144,6 @@ kuMoveFoodWater,UI,XUi,,,,FOOD & WATER,,NAHRUNG & WASSER,COMIDA Y AGUA,NOURRITUR
 kuSetTraderOptions,UI,XUi,,,,Trader options,,Händleroptionen,Opciones del comerciante,Options du marchand,Opzioni mercante,商人の選択肢,상인 선택지,Opcje handlarza,Opções do comerciante,Варианты торговца,Tüccar seçenekleri,商人选项,商人選項
 kuOptList,UI,XUi,,,,List,,Liste,Lista,Liste,Elenco,リスト,목록,Lista,Lista,Список,Liste,列表,列表
 kuCloserJobs,UI,XUi,,,,Closer jobs,,Nähere Aufträge,Trabajos más cercanos,Missions plus proches,Incarichi più vicini,近くの依頼,더 가까운 의뢰,Bliższe zlecenia,Trabalhos mais próximos,Ближние задания,Daha yakın işler,更近的任务,更近的任務
+kuSetToolbeltLayout,UI,XUi,,,,Toolbelt,,Werkzeuggürtel,Cinturón,Ceinture,Cintura,ツールベルト,툴벨트,Pasek narzędzi,Cinto,Пояс,Alet kemeri,工具栏,工具列
+kuOptTwoRows,UI,XUi,,,,Two rows,,Zwei Reihen,Dos filas,Deux rangées,Due file,2段,두 줄,Dwa rzędy,Duas fileiras,Два ряда,İki sıra,两行,兩行
+kuOptOneRow,UI,XUi,,,,One row,,Eine Reihe,Una fila,Une rangée,Una fila,1段,한 줄,Jeden rząd,Uma fileira,Один ряд,Tek sıra,一行,一行

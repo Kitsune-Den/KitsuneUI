@@ -47,6 +47,7 @@ public static class KitsuneSettingsFile
     public const string TraderTileSize = "traderTileSize"; // trader option tiles, percent: 100, 125, 150
     public const string StatBarsSplit = "statBarsSplit";  // Move HUD: health, stamina, food, water as separate pieces
     public const string BackpackWidth = "backpackWidth";  // backpack window: "normal", "wide" or "extra"
+    public const string ToolbeltLayout = "toolbeltLayout"; // two toolbelt bars: "stacked" (two rows) or "row" (one row)
     public const string HideQuestTier = "hideQuestTier";  // trader jobs nearest first, no tiers or POI skulls
     public const string QuestBars = "questBars";          // quest tracker progress bars and direction arrows
     public const string QualityRings = "qualityRings";    // ring in the item's quality colour in every slot
@@ -95,6 +96,7 @@ public static class KitsuneSettingsFile
         { TraderTileSize, "100" },
         { StatBarsSplit, "false" },
         { BackpackWidth, "normal" },
+        { ToolbeltLayout, "stacked" },
         { HideQuestTier, "false" },
         { QuestBars, "false" },
         { QualityRings, "false" },

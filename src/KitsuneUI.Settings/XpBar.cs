@@ -83,7 +83,7 @@ public class XUiC_KitsuneXpBar : XUiController
         }
         int bars = 1;
         string value = "";
-        if (toolbelt != null && toolbelt.GetBindingValueInternal(ref value, "beltCount") && int.TryParse(value, out int n))
+        if (toolbelt != null && toolbelt.GetBindingValueInternal(ref value, "kurows") && int.TryParse(value, out int n))
         {
             bars = Mathf.Clamp(n, 1, 2);
         }
