@@ -50,6 +50,9 @@ public static class KitsuneLayout
     /// <summary>The grid window; its top-left corner is a grid intersection.</summary>
     public static Transform GridRoot;
 
+    /// <summary>Window groups Move HUD opens while it's on (subtitles, chat, and any handle with open_for_moving).</summary>
+    public static readonly HashSet<string> OpenForMoving = new HashSet<string> { "subtitlesDisplay", "chatoutput" };
+
     static readonly Dictionary<string, Group> groups = new Dictionary<string, Group>();
     static readonly Dictionary<XUiView, Group> byView = new Dictionary<XUiView, Group>();
     static readonly List<XUiView> handles = new List<XUiView>();
@@ -357,10 +360,17 @@ public class XUiC_KitsuneMoveHandle : XUiController
             case "mode":
                 Mode = _value;
                 return true;
+            // "true": the piece's window only opens now and then (a mod's now-playing box), so
+            // Move HUD opens it for the duration, like the subtitles, to have something to drag.
+            case "open_for_moving":
+                openForMoving = _value == "true";
+                return true;
             default:
                 return base.ParseAttribute(_name, _value);
         }
     }
+
+    bool openForMoving;
 
     public override void Init()
     {
@@ -389,6 +399,10 @@ public class XUiC_KitsuneMoveHandle : XUiController
             group = window.ID;
         }
         KitsuneLayout.Register(group, window, Mode);
+        if (openForMoving && !string.IsNullOrEmpty(WindowGroup?.Id))
+        {
+            KitsuneLayout.OpenForMoving.Add(WindowGroup.Id);
+        }
         KitsuneLayout.RegisterHandle(ViewComponent);
         KitsuneLayout.RegisterHandleController(this);
         OnDrag += Dragged;
@@ -713,7 +727,6 @@ public class XUiC_KitsuneMoveMember : XUiController
 
 public class XUiC_KitsuneMoveBar : XUiController
 {
-    static readonly string[] OpenForMoving = { "subtitlesDisplay", "chatoutput" };
     readonly List<string> openedHere = new List<string>();
 
     public override void Init()
@@ -758,16 +771,8 @@ public class XUiC_KitsuneMoveBar : XUiController
     public override void OnOpen()
     {
         base.OnOpen();
-        GUIWindowManager wm = xui.playerUI.windowManager;
         openedHere.Clear();
-        foreach (string group in OpenForMoving)
-        {
-            if (!wm.IsWindowOpen(group))
-            {
-                wm.Open(group, false);
-                openedHere.Add(group);
-            }
-        }
+        OpenPieces();
         KitsuneLayout.Active = true;
         KitsuneLayout.ShowHandles(true);
         if (snap != null)
@@ -790,6 +795,37 @@ public class XUiC_KitsuneMoveBar : XUiController
             xui.playerUI.windowManager.Close(group);
         }
         openedHere.Clear();
+    }
+
+    // Some mods close their piece's window while a modal one is open (Move HUD is modal):
+    // open it again, once a second at most, so it stays up to be dragged.
+    float sinceReopen;
+
+    public override void Update(float _dt)
+    {
+        base.Update(_dt);
+        sinceReopen += _dt;
+        if (KitsuneLayout.Active && sinceReopen >= 1f)
+        {
+            sinceReopen = 0f;
+            OpenPieces();
+        }
+    }
+
+    void OpenPieces()
+    {
+        GUIWindowManager wm = xui.playerUI.windowManager;
+        foreach (string group in KitsuneLayout.OpenForMoving)
+        {
+            if (!wm.IsWindowOpen(group) && xui.FindWindowGroupByName(group) != null)
+            {
+                wm.Open(group, false);
+                if (!openedHere.Contains(group))
+                {
+                    openedHere.Add(group);
+                }
+            }
+        }
     }
 }
 

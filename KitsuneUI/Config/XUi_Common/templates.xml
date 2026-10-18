@@ -157,4 +157,43 @@
 	<!-- Hold-to-activate progress fill -->
 	<set xpath="/templates/labeledglyphbutton/rect/sprite[@name='fill']/@sprite">ku_round_md</set>
 	<set xpath="/templates/labeledglyphbutton/rect/sprite[@name='fill']/@color">[kuAccentSoft]</set>
+
+	<!-- ================================================================ -->
+	<!-- Framework building blocks (public, see docs/framework.md). Other -->
+	<!-- mods use these inside mod_loaded('KitsuneUI') conditionals.      -->
+	<!-- ================================================================ -->
+	<append xpath="/templates">
+		<!-- The glass body under a vanilla header (headerbg, 43 tall), filling the window below it. -->
+		<!-- Glass strength and colour follow the player's settings.                                -->
+		<ku_window_body name="kuBody" depth="-1" top="40">
+			<sprite name="${name}" depth="${depth}" sprite="ku_panel_body" type="sliced" color="[white]"
+				pos="0,-${top}" width="${parentinnerwidth}" height="${parentinnerheight - top}" />
+		</ku_window_body>
+
+		<!-- A gold section title with a rule under it. -->
+		<ku_section name="kuSection" pos="0,0" width="300" depth="3" font_size="24" text="" text_key="">
+			<rect name="${name}" pos="${pos}" width="${width}" height="34" depth="${depth}">
+				<label depth="${depth}" pos="0,0" width="${width}" height="30" font_size="${font_size}" justify="left"
+					color="[kuGold]" effect="outline" effect_color="0,0,0,160" text="${text}" text_key="${text_key}" />
+				<sprite depth="${depth}" pos="0,-31" width="${width}" height="2" sprite="ku_rule" type="sliced" color="[kuGoldSoft]" />
+			</rect>
+		</ku_section>
+
+		<!-- A rounded cell, for table rows and info blocks; alt="true" for the alternate rows. -->
+		<ku_row name="kuRow" pos="0,0" width="300" height="34" depth="1" alt="false">
+			<sprite name="${name}" depth="${depth}" pos="${pos}" width="${width}" height="${height}"
+				sprite="ku_round_sm" type="sliced" color="${alt ? '[kuCellAlt]' : '[kuCell]'}" />
+		</ku_row>
+
+		<!-- A glass toggle with its label, like the KitsuneUI settings window. The label's id is -->
+		<!-- the toggle's name plus "Text".                                                      -->
+		<ku_toggle_row name="kuToggle" pos="0,0" width="520" depth="3" font_size="26" text="" text_key="">
+			<rect pos="${pos}" width="${width}" height="40">
+				<togglebutton name="${name}" depth="${depth}" pos="0,0" width="${width}" height="40" font_size="${font_size}" caption="" />
+				<label depth="${depth + 1}" name="${name}Text" pos="46,-20" width="${width - 54}" height="34" pivot="left"
+					font_size="${font_size}" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160"
+					text="${text}" text_key="${text_key}" />
+			</rect>
+		</ku_toggle_row>
+	</append>
 </configs>

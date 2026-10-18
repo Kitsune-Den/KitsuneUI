@@ -25,4 +25,32 @@
 		</rect>
 	</append>
 
+	<!-- ================================================================ -->
+	<!-- Framework: ku_move_handle (public, see docs/framework.md). Put it -->
+	<!-- in any HUD window, inside mod_loaded('KitsuneUI_Settings'), and   -->
+	<!-- the window joins Move HUD: drag, size, hide, snap, profiles,      -->
+	<!-- saved as move.<window name>. pos / width / height outline the     -->
+	<!-- piece; label_key names it on the outline's strip. group is        -->
+	<!-- optional (several handles, one piece). open_for_moving="true"    -->
+	<!-- opens a window that only shows now and then while Move HUD is on. -->
+	<!-- ================================================================ -->
+	<append xpath="/templates">
+		<ku_move_handle pos="0,0" width="300" height="60" label_key="" label="" group="" open_for_moving="false">
+			<rect name="kuMoveHandle" depth="50" pos="${pos}" width="${width}" height="${height}" on_drag="true" group="${group}" open_for_moving="${open_for_moving}"
+				controller="KitsuneMoveHandle, KitsuneUI_Settings">
+				<!-- the strip's controls; XUiC_KitsuneMoveHandle lays them out above (or below) the outline -->
+				<label depth="53" name="kuMoveScale" pos="0,0" width="64" height="24" pivot="right" justify="right" font_size="18" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="100%" />
+				<sprite depth="54" name="kuChipSmaller" pos="0,0" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+				<button depth="55" name="kuBtnSmaller" pos="0,0" sprite="ui_game_symbol_subtract" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+				<sprite depth="54" name="kuChipBigger" pos="0,0" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+				<button depth="55" name="kuBtnBigger" pos="0,0" sprite="ui_game_symbol_add" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+				<sprite depth="54" name="kuChipHide" pos="0,0" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+				<button depth="55" name="kuBtnHide" pos="0,0" sprite="ku_icon_eye" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+				<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
+				<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
+				<label depth="52" name="kuMoveName" pos="12,-19" width="${width - 168}" height="30" pivot="left" justify="left" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text="${label}" text_key="${label_key}" />
+			</rect>
+		</ku_move_handle>
+	</append>
+
 </configs>
