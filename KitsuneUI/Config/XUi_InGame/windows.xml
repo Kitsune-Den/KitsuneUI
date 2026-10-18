@@ -111,6 +111,15 @@
 	<set xpath="/windows/window[@name='windowToolsForge' or @name='windowToolsCampfire' or @name='windowDewCollectorMods' or @name='windowFuel' or @name='windowForgeInput' or @name='windowOutput' or @name='windowCombine' or @name='windowCollectorFuel' or @name='windowCollectorCatalyst']//sprite[@sprite='menu_empty3px' and @color='[black]']/@color">[transparent]</set>
 	<setattribute xpath="/windows/window[@name='windowForgeInput' or @name='windowCombine']//sprite[not(@sprite)][@color='[darkGrey]' or @color='[mediumGrey]' or @color='[lightGrey]']" name="sprite">ku_round_sm</setattribute>
 	<set xpath="/windows/window[@name='windowForgeInput' or @name='windowCombine']//sprite[@sprite='ku_round_sm'][@color='[darkGrey]' or @color='[mediumGrey]' or @color='[lightGrey]']/@color">[kuCell]</set>
+	<!-- Combine's result stats alternate darkGrey / darkestGrey rows, like the crafting info panel: -->
+	<!-- the darkest ones become the alternate cell colour, and all of them stop short of the edge. -->
+	<setattribute xpath="/windows/window[@name='windowCombine']//sprite[not(@sprite)][@color='[darkestGrey]']" name="sprite">ku_round_sm</setattribute>
+	<set xpath="/windows/window[@name='windowCombine']//sprite[@sprite='ku_round_sm'][@color='[darkestGrey]']/@color">[kuCellAlt]</set>
+	<setattribute xpath="/windows/window[@name='windowCombine']//rect[@name='description']//sprite[@sprite='ku_round_sm']" name="width">404</setattribute>
+	<!-- The rows sit 30 to 33px apart but are 34-36px tall, so the glass cells overlapped in faint bands. -->
+	<setattribute xpath="/windows/window[@name='windowCombine']//rect[@name='description']//sprite[@sprite='ku_round_sm']" name="height">28</setattribute>
+	<!-- The game writes "Select an item to combine" in black (made for vanilla's light grey). -->
+	<set xpath="/windows/window[@name='windowCombine']//label[@color='{itemstackcolor1}' or @color='{itemstackcolor2}']/@color">[kuText]</set>
 
 	<!-- Bodies: from just under the 43px header to the bottom of the slots / button. -->
 	<prepend xpath="/windows/window[@name='windowToolsForge' or @name='windowToolsCampfire' or @name='windowDewCollectorMods']">
