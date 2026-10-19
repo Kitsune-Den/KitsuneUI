@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KitsuneUI for modders</title>
+<meta name="description" content="A few lines of XML and your 7 Days to Die mod's windows wear the KitsuneUI glass, follow each player's colours, and join Move HUD. Without KitsuneUI, nothing changes.">
+<meta property="og:title" content="KitsuneUI for modders">
+<meta property="og:description" content="Make your 7 Days to Die mod's windows wear the KitsuneUI glass. XML only, safe without KitsuneUI.">
+<meta property="og:image" content="https://ui.kitsuneden.net/img/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#080A18">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="topbar over">
+  <a class="brand" href="./"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c1 3.5 5 5.5 5 10.5A5 5 0 0 1 12 18a5 5 0 0 1-5-5.5c0-2 1-3.5 2-4.5 0 2 1 3 2 3 0-3-1-5 1-9z"/></svg>KitsuneUI</a>
+  <span class="spacer"></span>
+  <nav class="topnav" aria-label="Site">
+    <a href="guide.html#rule">Quick start</a>
+    <a href="guide.html#colours">Reference</a>
+    <a href="guide.html#move">Move HUD</a>
+    <a href="https://github.com/Kitsune-Den/KitsuneUI">GitHub</a>
+  </nav>
+  <a class="btn small solid" href="https://www.nexusmods.com/7daystodie/mods/12967">Get KitsuneUI</a>
+</header>
+
+<main id="main">
+
+<section class="hero" aria-labelledby="hero-title">
+  <img src="img/mainmenu.webp" alt="" fetchpriority="high">
+  <div class="hero-body">
+    <div class="eyebrow">For 7 Days to Die modders</div>
+    <h1 id="hero-title">Your mod, in fox-fire glass.</h1>
+    <p class="lede">A few lines of XML and your windows match the KitsuneUI theme, follow each player's colours, and join Move HUD. Without KitsuneUI, nothing changes.</p>
+    <div class="ctas">
+      <a class="btn primary" href="guide.html#rule">Start in 5 minutes</a>
+      <a class="btn" href="guide.html#colours">Browse the 52 names</a>
+    </div>
+    <div class="facts">
+      <span><b>XML only</b> for the look, works with EAC on</span>
+      <span><b>Names fixed</b> for all of 1.x</span>
+      <span><b>Your licence</b> stays yours</span>
+    </div>
+  </div>
+</section>
+
+<div class="strip" aria-hidden="true"><i style="background:#6FE3FF"></i><i style="background:#D9B873"></i><i style="background:#E8ECF7"></i><i style="background:#96AFFF"></i><i style="background:#6FD266"></i><i style="background:#FF6B5A"></i><i style="background:#F2B544"></i><i style="background:#9BD36A"></i><i style="background:#59B4FF"></i><i style="background:#B48CFF"></i></div>
+
+<section class="wrap band" aria-labelledby="steps-title">
+  <div class="center">
+    <div class="eyebrow">Quick start</div>
+    <h2 id="steps-title">Three steps, one file</h2>
+  </div>
+  <div class="cols3">
+    <div class="step">
+      <div class="step-head"><div><b>1</b>Wrap it</div><p>Everything goes inside a <code>mod_loaded</code> check. That one rule keeps your mod safe for players without KitsuneUI.</p></div>
+<pre><span class="t">&lt;conditional&gt;</span>
+  <span class="t">&lt;if</span> <span class="a">cond</span>=<span class="v">"mod_loaded('KitsuneUI')"</span><span class="t">&gt;</span>
+    <span class="c">&lt;!-- steps 2 and 3 --&gt;</span>
+  <span class="t">&lt;/if&gt;</span>
+<span class="t">&lt;/conditional&gt;</span></pre>
+    </div>
+    <div class="step">
+      <div class="step-head"><div><b>2</b>Add the glass</div><p>Put the glass body behind your window and make the old grey background transparent.</p></div>
+<pre><span class="t">&lt;prepend</span> <span class="a">xpath</span>=<span class="v">"/windows/window[@name='myWindow']"</span><span class="t">&gt;</span>
+  <span class="t">&lt;ku_window_body /&gt;</span>
+<span class="t">&lt;/prepend&gt;</span></pre>
+    </div>
+    <div class="step">
+      <div class="step-head"><div><b>3</b>Use the colours</div><p>Titles in gold, highlights in fox-fire. They follow the player's colour preset.</p></div>
+<pre><span class="t">&lt;setattribute</span> <span class="a">xpath</span>=<span class="v">"...//label[@name='value']"</span>
+  <span class="a">name</span>=<span class="v">"color"</span><span class="t">&gt;</span>[kuGold]<span class="t">&lt;/setattribute&gt;</span></pre>
+    </div>
+  </div>
+</section>
+
+<section class="wrap band" aria-labelledby="compare-title">
+  <div class="split">
+    <div>
+      <div class="eyebrow">Safe by default</div>
+      <h2 id="compare-title">Same window, two players</h2>
+      <p>Everything sits inside a <code>mod_loaded</code> check, so the player with KitsuneUI gets the glass and the player without it gets your window as you shipped it. Nobody gets a broken one.</p>
+      <div class="seg" role="group" aria-label="Show the window">
+        <button type="button" data-mode="glass" aria-pressed="true">With KitsuneUI</button>
+        <button type="button" data-mode="plain" aria-pressed="false">Without</button>
+      </div>
+    </div>
+    <div class="demo" role="img" aria-label="A trader window in KitsuneUI glass: gold title, rounded rows, green Buy and red Close buttons">
+      <div class="demo-head">Trader stock</div>
+      <div class="demo-body">
+        <div class="demo-title">Today's specials</div>
+        <div class="demo-rule"></div>
+        <div class="demo-row">Auger<span>18,400</span></div>
+        <div class="demo-row">Steel shotgun<span>6,250</span></div>
+        <div class="demo-row">Mega crush<span>420</span></div>
+        <div class="demo-row">Duct tape (5)<span>310</span></div>
+        <div class="demo-btns"><span>Buy</span><span>Close</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap band" aria-labelledby="kit-title">
+  <div class="center">
+    <div class="eyebrow">What you get</div>
+    <h2 id="kit-title">The kit</h2>
+  </div>
+  <div class="cols4">
+    <a class="card kit" href="guide.html#colours" style="text-decoration:none">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1 0 1.5-.8 1.5-1.6 0-.9-.6-1.2-.6-2 0-.9.7-1.4 1.6-1.4H17a4 4 0 0 0 4-4c0-5-4-9-9-9zM7.5 11.5h.01M9.5 7.5h.01M14.5 7.5h.01"/></svg>
+      <h3>Colours</h3><div class="count">28 names</div>
+      <p>Fox-fire, gold, text, edges, buttons and stat colours that follow each player's preset.</p>
+    </a>
+    <a class="card kit" href="guide.html#sprites" style="text-decoration:none">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/></svg>
+      <h3>Sprites</h3><div class="count">18 names</div>
+      <p>Glass panels, rounded cells, slots, bars and glows, already in the game's UI atlas.</p>
+    </a>
+    <a class="card kit" href="guide.html#blocks" style="text-decoration:none">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 16V8l-9-5-9 5v8l9 5 9-5zM3.3 7L12 12l8.7-5M12 22V12"/></svg>
+      <h3>Building blocks</h3><div class="count">4 templates</div>
+      <p>A window body, section titles, rows and toggles. One line each.</p>
+    </a>
+    <a class="card kit" href="guide.html#move" style="text-decoration:none">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></svg>
+      <h3>Move HUD</h3><div class="count">1 template</div>
+      <p>Let players drag, resize and hide your HUD pieces, saved in their layouts.</p>
+    </a>
+  </div>
+  <div class="cols2" style="margin-top:18px">
+    <img class="shot" src="img/crafting.webp" alt="The crafting window in KitsuneUI glass" loading="lazy" width="1912" height="1061" style="aspect-ratio:16/9">
+    <img class="shot" src="img/forge.webp" alt="The forge window in KitsuneUI glass" loading="lazy" width="1915" height="1059" style="aspect-ratio:16/9">
+  </div>
+</section>
+
+<section class="moveband" aria-labelledby="move-title">
+  <div class="wrap split">
+    <div class="move-stage grid-bg" role="img" aria-label="Move HUD over a game screen: dashed outlines around HUD pieces, with your mod's piece highlighted">
+      <div class="piece" style="left:8%;top:12%;width:44%;height:36px"><span>Compass</span></div>
+      <div class="piece mine" style="left:52%;top:40%;width:40%;height:58px"><span>Your mod</span><i class="grip"></i></div>
+      <div class="piece health" style="left:5%;top:76%;width:38%;height:48px"><span>Health</span></div>
+      <div class="piece" style="left:47%;top:79%;width:48%;height:42px"><span>Toolbelt</span></div>
+    </div>
+    <div>
+      <div class="eyebrow">Move HUD</div>
+      <h2 id="move-title">One handle. Players do the rest.</h2>
+      <p>Drop a <code>ku_move_handle</code> in your HUD window and players can drag it, resize it, hide it and save it in their layouts. It stays on screen and resets with everything else.</p>
+<pre><span class="t">&lt;ku_move_handle</span> <span class="a">pos</span>=<span class="v">"0,0"</span> <span class="a">width</span>=<span class="v">"320"</span> <span class="a">height</span>=<span class="v">"48"</span>
+  <span class="a">label_key</span>=<span class="v">"myHudStripName"</span> <span class="t">/&gt;</span></pre>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" aria-labelledby="built-title" style="padding-top:60px">
+  <h2 id="built-title" style="margin:0 0 24px;font-size:36px;color:var(--text-bright)">Built with KitsuneUI</h2>
+  <div class="mods">
+    <a class="mod" href="guide.html#example"><b>R</b><div>KitsuneRadio<small>Now-playing strip in the glass, in Move HUD</small></div></a>
+    <a class="mod gold" href="https://github.com/Kitsune-Den/KitsuneUI/issues/new?labels=framework"><b>?</b><div>Need a name we lack?<small>Open an issue with the framework label</small></div></a>
+    <a class="mod open" href="https://www.nexusmods.com/7daystodie/mods/12967"><b>+</b><div>Your mod here<small>Tell us on Nexus and we'll list it</small></div></a>
+  </div>
+</section>
+
+</main>
+
+<footer class="wrap footer">
+  <span>KitsuneUI by the Kitsune Den</span>
+  <a href="guide.html">Guide</a>
+  <a href="https://www.nexusmods.com/7daystodie/mods/12967">Nexus</a>
+  <a href="https://github.com/Kitsune-Den/KitsuneUI">GitHub</a>
+  <a href="https://github.com/Kitsune-Den/KitsuneUI/blob/main/NOTICE.md">Licence and NOTICE</a>
+  <span class="spacer"></span>
+  <span>Not affiliated with The Fun Pimps</span>
+</footer>
+
+<script src="site.js" defer></script>
+</body>
+</html>

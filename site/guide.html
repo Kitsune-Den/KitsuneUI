@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KitsuneUI guide for modders</title>
+<meta name="description" content="How to give your 7 Days to Die mod the KitsuneUI look: the mod_loaded rule, the colours, sprites and building blocks, and Move HUD.">
+<meta property="og:title" content="KitsuneUI guide for modders">
+<meta property="og:description" content="Colours, sprites, building blocks and Move HUD for your 7 Days to Die mod.">
+<meta property="og:image" content="https://ui.kitsuneden.net/img/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#080A18">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="guide-page">
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="topbar">
+  <a class="brand" href="./"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c1 3.5 5 5.5 5 10.5A5 5 0 0 1 12 18a5 5 0 0 1-5-5.5c0-2 1-3.5 2-4.5 0 2 1 3 2 3 0-3-1-5 1-9z"/></svg>KitsuneUI</a>
+  <span class="pill">framework</span>
+  <span class="spacer"></span>
+  <nav class="topnav" aria-label="Site">
+    <a href="./">Home</a>
+    <a href="guide.html" aria-current="page">Guide</a>
+    <a href="https://www.nexusmods.com/7daystodie/mods/12967">Nexus</a>
+    <a href="https://github.com/Kitsune-Den/KitsuneUI">GitHub</a>
+  </nav>
+  <span class="badge">1.x · 7DTD 3.3</span>
+</header>
+
+<div class="layout">
+
+<aside class="toc" aria-label="On this page">
+  <div class="toc-title">Guide</div>
+  <a href="#what"><i>00</i>What it is</a>
+  <a href="#rule"><i>01</i>The one rule</a>
+  <a href="#colours"><i>02</i>Colours</a>
+  <a href="#sprites"><i>03</i>Sprites</a>
+  <a href="#blocks"><i>04</i>Building blocks</a>
+  <a href="#move"><i>05</i>Move HUD</a>
+  <a href="#example"><i>06</i>KitsuneRadio</a>
+  <a href="#promises"><i>07</i>Promises</a>
+  <a href="#tips"><i>08</i>Tips</a>
+  <div class="card">
+    <h3>Need a name we don't have?</h3>
+    <p>Open an issue with the <a href="https://github.com/Kitsune-Den/KitsuneUI/issues/new?labels=framework">framework label</a> and we'll look at adding it.</p>
+  </div>
+</aside>
+
+<main id="main" class="content">
+
+<section id="what" aria-labelledby="what-title">
+  <div class="eyebrow">Building on KitsuneUI</div>
+  <h1 id="what-title">Make your mod's windows wear the glass</h1>
+  <p class="lede">KitsuneUI is a theme for 7 Days to Die, and also a small framework. Your windows can use its colours and glass, follow each player's look settings, and join Move HUD. Players without KitsuneUI see your mod exactly as they do today.</p>
+  <div class="cols2" style="margin-bottom:22px">
+    <div class="card"><h3>The look <span class="tag good">EAC on</span></h3><p>KitsuneUI: XML and images only. Colours, sprites and building blocks.</p></div>
+    <div class="card"><h3>Move HUD <span class="tag warn">EAC off</span></h3><p>KitsuneUI_Settings, a DLL: players drag, resize and hide your HUD pieces.</p></div>
+  </div>
+  <img class="shot" src="img/mainmenu.webp" alt="KitsuneUI's main menu: a glass side rail and news cards over the game's background" width="1920" height="1080" style="aspect-ratio:16/9">
+</section>
+
+<section id="rule" aria-labelledby="rule-title">
+  <h2 id="rule-title">1. The one rule: wrap it in a conditional</h2><div class="rule"></div>
+  <p>Use KitsuneUI's names only inside a <code>mod_loaded</code> check. A <code>[kuGold]</code> or a <code>ku_panel</code> outside one breaks your window for everyone who doesn't run KitsuneUI.</p>
+  <div class="code">
+    <div class="code-head"><span>Config/XUi/windows.xml</span><button class="copy" type="button">Copy</button></div>
+<pre><span class="t">&lt;configs&gt;</span>
+  <span class="c">&lt;!-- your mod's own patches stay out here, as they are --&gt;</span>
+  <span class="t">&lt;conditional&gt;</span>
+    <span class="t">&lt;if</span> <span class="a">cond</span>=<span class="v">"mod_loaded('KitsuneUI')"</span><span class="t">&gt;</span>
+      <span class="c">&lt;!-- KitsuneUI look here --&gt;</span>
+    <span class="t">&lt;/if&gt;</span>
+  <span class="t">&lt;/conditional&gt;</span>
+<span class="t">&lt;/configs&gt;</span></pre>
+  </div>
+  <div class="note"><b>Move HUD</b><span>Use <code>mod_loaded('KitsuneUI_Settings')</code> for <code>ku_move_handle</code>. A player can run the look without the DLL.</span></div>
+  <div class="note gold"><b>No dependency</b><span>You don't need to list KitsuneUI as a requirement. Players who don't have it get your mod exactly as you made it.</span></div>
+</section>
+
+<section id="colours" aria-labelledby="colours-title">
+  <h2 id="colours-title">2. Colours</h2><div class="rule"></div>
+  <p>Use them like the game's own: <code>color="[kuGold]"</code>. When a player picks another colour preset (Ember, Moss, Sakura) or a custom hue, your window follows. The swatches show the default Kitsunebi look.</p>
+  <div class="swatches">
+    <div class="swatch"><i style="--c:rgba(111,227,255,1)"></i><div><b>kuAccent</b>fox-fire: selection, focus</div></div>
+    <div class="swatch"><i style="--c:rgba(111,227,255,.25)"></i><div><b>kuAccentSoft</b>soft highlights</div></div>
+    <div class="swatch"><i style="--c:rgba(217,184,115,1)"></i><div><b>kuGold</b>titles, values</div></div>
+    <div class="swatch"><i style="--c:rgba(217,184,115,.35)"></i><div><b>kuGoldSoft</b>rules</div></div>
+    <div class="swatch"><i style="--c:rgba(242,245,252,1)"></i><div><b>kuTextBright</b>headlines</div></div>
+    <div class="swatch"><i style="--c:rgba(232,236,247,1)"></i><div><b>kuText</b>body text</div></div>
+    <div class="swatch"><i style="--c:rgba(195,202,224,1)"></i><div><b>kuTextMid</b>secondary text</div></div>
+    <div class="swatch"><i style="--c:rgba(154,163,191,1)"></i><div><b>kuTextMuted</b>hints</div></div>
+    <div class="swatch"><i style="--c:rgba(150,175,255,.27)"></i><div><b>kuEdge</b>outlines</div></div>
+    <div class="swatch"><i style="--c:rgba(150,175,255,.08)"></i><div><b>kuEdgeFaint</b>faint outlines</div></div>
+    <div class="swatch"><i style="--c:rgba(255,255,255,.055)"></i><div><b>kuCell</b>table cells</div></div>
+    <div class="swatch"><i style="--c:rgba(255,255,255,.027)"></i><div><b>kuCellAlt</b>alternate rows</div></div>
+    <div class="swatch"><i style="--c:rgba(217,184,115,.14)"></i><div><b>kuCellHeader</b>header cells</div></div>
+    <div class="swatch"><i style="--c:rgba(18,22,44,.78)"></i><div><b>kuBtn</b>plain buttons</div></div>
+    <div class="swatch"><i style="--c:rgba(40,92,112,.86)"></i><div><b>kuBtnHover</b>hovered buttons</div></div>
+    <div class="swatch"><i style="--c:rgba(18,22,44,.43)"></i><div><b>kuBtnDisabled</b>disabled buttons</div></div>
+    <div class="swatch"><i style="--c:rgba(34,92,52,.88)"></i><div><b>kuBtnGood</b>accept</div></div>
+    <div class="swatch"><i style="--c:rgba(58,140,78,.94)"></i><div><b>kuBtnGoodHover</b>accept, hovered</div></div>
+    <div class="swatch"><i style="--c:rgba(104,30,36,.88)"></i><div><b>kuBtnBad</b>decline</div></div>
+    <div class="swatch"><i style="--c:rgba(156,48,52,.94)"></i><div><b>kuBtnBadHover</b>decline, hovered</div></div>
+    <div class="swatch"><i style="--c:rgba(255,255,255,.08)"></i><div><b>kuTrack</b>the empty part of a bar</div></div>
+    <div class="swatch"><i style="--c:rgba(111,210,102,1)"></i><div><b>kuGood</b>good values</div></div>
+    <div class="swatch"><i style="--c:rgba(255,107,90,1)"></i><div><b>kuDanger</b>bad values</div></div>
+    <div class="swatch"><i style="--c:rgba(255,107,90,1)"></i><div><b>kuHealth</b>health</div></div>
+    <div class="swatch"><i style="--c:rgba(242,181,68,1)"></i><div><b>kuStamina</b>stamina</div></div>
+    <div class="swatch"><i style="--c:rgba(155,211,106,1)"></i><div><b>kuFood</b>food</div></div>
+    <div class="swatch"><i style="--c:rgba(89,180,255,1)"></i><div><b>kuWater</b>water</div></div>
+    <div class="swatch"><i style="--c:rgba(180,140,255,1)"></i><div><b>kuXP</b>experience</div></div>
+  </div>
+</section>
+
+<section id="sprites" aria-labelledby="sprites-title">
+  <h2 id="sprites-title">3. Sprites</h2><div class="rule"></div>
+  <p>They're in the game's UI atlas, so <code>sprite="ku_panel"</code> just works. Glass follows each player's glass strength and glass colour.</p>
+  <div class="sprites">
+    <div class="tiles" role="list" aria-label="The public sprites, white ones shown tinted fox-fire">
+      <figure role="listitem"><img src="img/sprites/ku_panel.png" alt="" loading="lazy"><figcaption>ku_panel</figcaption></figure>
+      <figure role="listitem"><img src="img/sprites/ku_panel_body.png" alt="" loading="lazy"><figcaption>ku_panel_body</figcaption></figure>
+      <figure role="listitem"><img src="img/sprites/ku_panel_sm.png" alt="" loading="lazy"><figcaption>ku_panel_sm</figcaption></figure>
+      <figure role="listitem"><img src="img/sprites/ku_round_sm.png" alt="" loading="lazy"><figcaption>ku_round_sm</figcaption></figure>
+      <figure role="listitem"><img src="img/sprites/ku_round_md.png" alt="" loading="lazy"><figcaption>ku_round_md</figcaption></figure>
+      <figure role="listitem"><img src="img/sprites/ku_round_md_ring.png" alt="" loading="lazy"><figcaption>ku_round_md_ring</figcaption></figure>
+      <figure role="listitem"><img src="img/sprites/ku_slot_fill.png" alt="" loading="lazy"><figcaption>ku_slot_fill</figcaption></figure>
+      <figure role="listitem"><img src="img/sprites/ku_slot_ring.png" alt="" loading="lazy"><figcaption>ku_slot_ring</figcaption></figure>
+      <figure role="listitem"><img src="img/sprites/ku_bar.png" alt="" loading="lazy"><figcaption>ku_bar</figcaption></figure>
+      <figure role="listitem"><img src="img/sprites/ku_pill.png" alt="" loading="lazy"><figcaption>ku_pill</figcaption></figure>
+      <figure role="listitem"><img src="img/sprites/ku_rule.png" alt="" loading="lazy"><figcaption>ku_rule</figcaption></figure>
+      <figure role="listitem"><img src="img/sprites/ku_dot.png" alt="" loading="lazy"><figcaption>ku_dot</figcaption></figure>
+      <figure role="listitem"><img src="img/sprites/ku_glow.png" alt="" loading="lazy"><figcaption>ku_glow</figcaption></figure>
+      <figure role="listitem"><img src="img/sprites/ku_shadow.png" alt="" loading="lazy"><figcaption>ku_shadow</figcaption></figure>
+      <figure role="listitem"><img src="img/sprites/ku_fade_l.png" alt="" loading="lazy"><figcaption>ku_fade_l</figcaption></figure>
+      <figure role="listitem"><img src="img/sprites/ku_fade_r.png" alt="" loading="lazy"><figcaption>ku_fade_r</figcaption></figure>
+      <figure role="listitem"><img src="img/sprites/ku_fade_up.png" alt="" loading="lazy"><figcaption>ku_fade_up</figcaption></figure>
+      <figure role="listitem"><img src="img/sprites/ku_icon_flame.png" alt="" loading="lazy"><figcaption>ku_icon_flame</figcaption></figure>
+    </div>
+    <div class="table">
+      <div><span>ku_panel, ku_panel_body, ku_panel_sm</span><span>glass panels (whole, body under a header, small); use <code>type="sliced"</code></span></div>
+      <div><span>ku_round_sm, ku_round_md</span><span>rounded cells</span></div>
+      <div><span>ku_round_md_ring</span><span>a rounded outline to go over them</span></div>
+      <div><span>ku_slot_fill, ku_slot_ring</span><span>an item slot and its ring</span></div>
+      <div><span>ku_bar, ku_pill</span><span>rounded bars</span></div>
+      <div><span>ku_rule</span><span>a thin divider</span></div>
+      <div><span>ku_dot, ku_glow, ku_shadow</span><span>a dot, a soft glow, a soft shadow</span></div>
+      <div><span>ku_fade_l, ku_fade_r, ku_fade_up</span><span>fades to transparent</span></div>
+      <div><span>ku_icon_flame</span><span>the KitsuneUI flame</span></div>
+    </div>
+  </div>
+  <div class="note"><b>Free glass</b><span>The game's own header (<code>&lt;headerbg /&gt;</code>) and <code>simplebutton</code> are already glass with KitsuneUI, so windows that use them match without any work.</span></div>
+</section>
+
+<section id="blocks" aria-labelledby="blocks-title">
+  <h2 id="blocks-title">4. Building blocks</h2><div class="rule"></div>
+  <p>Templates for the parts most windows need. All of them take <code>pos</code> and <code>depth</code>.</p>
+  <div class="table" style="margin-bottom:24px">
+    <div><span>&lt;ku_window_body /&gt;</span><span>the glass body under a 43-tall header, filling the rest of the window (<code>top</code> to change where it starts)</span></div>
+    <div><span>&lt;ku_section text_key="..." width="400" /&gt;</span><span>a gold section title with a rule under it</span></div>
+    <div><span>&lt;ku_row width="400" height="34" /&gt;</span><span>a rounded cell; <code>alt="true"</code> for alternate rows</span></div>
+    <div><span>&lt;ku_toggle_row name="tglThing" text_key="..." /&gt;</span><span>a glass toggle with its label (the label is <code>tglThingText</code>)</span></div>
+  </div>
+  <h3>Example: a glass window</h3>
+  <div class="cols2" style="align-items:start">
+    <div class="code">
+      <div class="code-head"><span>Inside your mod_loaded check</span><button class="copy" type="button">Copy</button></div>
+<pre><span class="c">&lt;!-- the glass body behind everything --&gt;</span>
+<span class="t">&lt;prepend</span> <span class="a">xpath</span>=<span class="v">"/windows/window[@name='myWindow']"</span><span class="t">&gt;</span>
+  <span class="t">&lt;ku_window_body /&gt;</span>
+<span class="t">&lt;/prepend&gt;</span>
+<span class="c">&lt;!-- the old grey background goes --&gt;</span>
+<span class="t">&lt;set</span> <span class="a">xpath</span>=<span class="v">"/windows/window[@name='myWindow']//sprite[@name='background']/@color"</span><span class="t">&gt;</span>[transparent]<span class="t">&lt;/set&gt;</span>
+<span class="c">&lt;!-- values in gold --&gt;</span>
+<span class="t">&lt;setattribute</span> <span class="a">xpath</span>=<span class="v">"/windows/window[@name='myWindow']//label[@name='value']"</span> <span class="a">name</span>=<span class="v">"color"</span><span class="t">&gt;</span>[kuGold]<span class="t">&lt;/setattribute&gt;</span></pre>
+    </div>
+    <div class="preview" role="img" aria-label="What it looks like: a glass window with a gold section title, three rows with gold values, and a toggle">
+      <div class="demo-head">My window</div>
+      <div class="demo-body">
+        <div class="demo-title">My stats</div>
+        <div class="demo-rule"></div>
+        <div class="demo-row">Zombies killed<span>1,284</span></div>
+        <div class="demo-row">Days survived<span>42</span></div>
+        <div class="demo-row">Distance walked<span>311 km</span></div>
+        <div class="toggle"><i></i>Show all</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="move" aria-labelledby="move-title">
+  <h2 id="move-title">5. Move HUD</h2><div class="rule"></div>
+  <p>Put a <code>ku_move_handle</code> in your HUD window and it joins Move HUD: players drag it, resize it (60 to 160%), hide it, snap it to the grid, and save it in their layouts. It's kept on screen, saved per player as <code>move.&lt;your window name&gt;</code>, and reset with everything else.</p>
+  <div class="cols2" style="align-items:stretch">
+    <div class="code">
+      <div class="code-head"><span>Config/XUi/windows.xml</span><button class="copy" type="button">Copy</button></div>
+<pre><span class="t">&lt;conditional&gt;</span>
+  <span class="t">&lt;if</span> <span class="a">cond</span>=<span class="v">"mod_loaded('KitsuneUI_Settings')"</span><span class="t">&gt;</span>
+    <span class="t">&lt;append</span> <span class="a">xpath</span>=<span class="v">"/windows/window[@name='myHudStrip']"</span><span class="t">&gt;</span>
+      <span class="t">&lt;ku_move_handle</span> <span class="a">pos</span>=<span class="v">"0,0"</span>
+        <span class="a">width</span>=<span class="v">"320"</span> <span class="a">height</span>=<span class="v">"48"</span>
+        <span class="a">label_key</span>=<span class="v">"myHudStripName"</span> <span class="t">/&gt;</span>
+    <span class="t">&lt;/append&gt;</span>
+  <span class="t">&lt;/if&gt;</span>
+<span class="t">&lt;/conditional&gt;</span></pre>
+    </div>
+    <div class="move-stage grid-bg" role="img" aria-label="Move HUD: a dashed fox-fire outline around a now-playing strip, with its name on a tab and a resize grip">
+      <div class="piece mine" style="left:10%;top:38%;width:76%;height:52px"><span>Now playing</span>Wasteland Radio · Dusty Roads<i class="grip"></i></div>
+    </div>
+  </div>
+  <div class="table" style="margin-top:18px">
+    <div><span>pos, width, height</span><span>the outline, in the window's coordinates; match your piece</span></div>
+    <div><span>label_key</span><span>your localization key for the piece's name on the outline (or <code>label</code> for plain text)</span></div>
+    <div><span>group</span><span>optional; several handles with the same group move one piece</span></div>
+    <div><span>open_for_moving="true"</span><span>for a window that's only open now and then (a now-playing box, a notification); Move HUD opens it while it's on, so there's something to drag, and closes it after</span></div>
+  </div>
+  <div class="note gold"><b>One window each</b><span>Your piece is moved by its window, so give it a window of its own.</span></div>
+</section>
+
+<section id="example" aria-labelledby="example-title">
+  <h2 id="example-title">6. Built with it: KitsuneRadio</h2><div class="rule"></div>
+  <p>KitsuneRadio's tuner and now-playing strip wear the glass when KitsuneUI is on, and the strip joins Move HUD. This is its real XML, shortened. Without KitsuneUI none of it applies and the radio looks as it always has.</p>
+  <div class="code">
+    <div class="code-head"><span>KitsuneRadio/Config/XUi_InGame/windows.xml</span><button class="copy" type="button">Copy</button></div>
+<pre><span class="t">&lt;conditional&gt;</span>
+  <span class="t">&lt;if</span> <span class="a">cond</span>=<span class="v">"mod_loaded('KitsuneUI')"</span><span class="t">&gt;</span>
+    <span class="t">&lt;prepend</span> <span class="a">xpath</span>=<span class="v">"/windows/window[@name='kitsuneRadioTuner']"</span><span class="t">&gt;</span>
+      <span class="t">&lt;ku_window_body /&gt;</span>
+    <span class="t">&lt;/prepend&gt;</span>
+    <span class="t">&lt;setattribute</span> <span class="a">xpath</span>=<span class="v">"/windows/window[@name='kitsuneRadioTuner']//label[@name='kr_now']"</span> <span class="a">name</span>=<span class="v">"color"</span><span class="t">&gt;</span>[kuGold]<span class="t">&lt;/setattribute&gt;</span>
+    <span class="c">&lt;!-- the station buttons: glass buttons --&gt;</span>
+    <span class="t">&lt;set</span> <span class="a">xpath</span>=<span class="v">"/windows/window[@name='kitsuneRadioTuner']//rect[contains(@name, 'Box')]/button/@sprite"</span><span class="t">&gt;</span>ku_round_sm<span class="t">&lt;/set&gt;</span>
+    <span class="t">&lt;set</span> <span class="a">xpath</span>=<span class="v">"/windows/window[@name='kitsuneRadioTuner']//rect[contains(@name, 'Box')]/button/@defaultcolor"</span><span class="t">&gt;</span>[kuBtn]<span class="t">&lt;/set&gt;</span>
+    <span class="t">&lt;set</span> <span class="a">xpath</span>=<span class="v">"/windows/window[@name='kitsuneRadioTuner']//rect[contains(@name, 'Box')]/button/@hovercolor"</span><span class="t">&gt;</span>[kuBtnHover]<span class="t">&lt;/set&gt;</span>
+    <span class="c">&lt;!-- the now-playing strip: a small glass panel --&gt;</span>
+    <span class="t">&lt;set</span> <span class="a">xpath</span>=<span class="v">"/windows/window[@name='kitsuneRadioStrip']/sprite[@depth='1']/@sprite"</span><span class="t">&gt;</span>ku_panel_sm<span class="t">&lt;/set&gt;</span>
+    <span class="t">&lt;setattribute</span> <span class="a">xpath</span>=<span class="v">"/windows/window[@name='kitsuneRadioStrip']/label[@name='kr_stripStation']"</span> <span class="a">name</span>=<span class="v">"color"</span><span class="t">&gt;</span>[kuTextBright]<span class="t">&lt;/setattribute&gt;</span>
+  <span class="t">&lt;/if&gt;</span>
+<span class="t">&lt;/conditional&gt;</span>
+
+<span class="t">&lt;conditional&gt;</span>
+  <span class="t">&lt;if</span> <span class="a">cond</span>=<span class="v">"mod_loaded('KitsuneUI_Settings')"</span><span class="t">&gt;</span>
+    <span class="t">&lt;append</span> <span class="a">xpath</span>=<span class="v">"/windows/window[@name='kitsuneRadioStrip']"</span><span class="t">&gt;</span>
+      <span class="t">&lt;ku_move_handle</span> <span class="a">pos</span>=<span class="v">"0,0"</span> <span class="a">width</span>=<span class="v">"320"</span> <span class="a">height</span>=<span class="v">"58"</span> <span class="a">label_key</span>=<span class="v">"krMoveStrip"</span> <span class="a">open_for_moving</span>=<span class="v">"true"</span> <span class="t">/&gt;</span>
+    <span class="t">&lt;/append&gt;</span>
+  <span class="t">&lt;/if&gt;</span>
+<span class="t">&lt;/conditional&gt;</span></pre>
+  </div>
+</section>
+
+<section id="promises" aria-labelledby="promises-title">
+  <h2 id="promises-title">7. Promises</h2><div class="rule"></div>
+  <div class="cols3">
+    <div class="card"><h3>Names stay put</h3><p>Everything in this guide keeps its name and meaning for all of 1.x. New names may come in minor releases; removing or renaming one would be KitsuneUI 2.0.</p></div>
+    <div class="card"><h3>Checked every release</h3><p>A script checks all 52 public names before each release, so nothing slips. Anything not in this guide is internal and can change.</p></div>
+    <div class="card"><h3>Your licence stays yours</h3><p>Using these names and templates doesn't make your mod a changed KitsuneUI. <a href="https://github.com/Kitsune-Den/KitsuneUI/blob/main/NOTICE.md">NOTICE.md</a> says so in writing. Copying KitsuneUI's own files or art is covered by its licence.</p></div>
+  </div>
+</section>
+
+<section id="tips" aria-labelledby="tips-title">
+  <h2 id="tips-title">8. Tips</h2><div class="rule"></div>
+  <ul>
+    <li><b>Test both ways.</b> Load your mod once with KitsuneUI and once without. The second run is the one that catches a name outside the conditional.</li>
+    <li><b><code>set</code> or <code>setattribute</code>?</b> <code>set</code> only changes an attribute that's already there. If your label has no <code>color</code> yet, use <code>setattribute</code>.</li>
+    <li><b>Grey where you expected glass?</b> Your window's own background sprite is drawn over the glass. Set its colour to <code>[transparent]</code>.</li>
+    <li><b>Faded text inside a glass box?</b> The game multiplies a child's alpha by its parent's, so text inside a see-through sprite fades with it. Keep the container's own sprite opaque.</li>
+    <li><b>Something missing?</b> Ask with the <a href="https://github.com/Kitsune-Den/KitsuneUI/issues/new?labels=framework">framework label</a> on GitHub, or on the <a href="https://www.nexusmods.com/7daystodie/mods/12967">Nexus page</a>.</li>
+  </ul>
+</section>
+
+<footer class="footer">
+  <span>KitsuneUI by the Kitsune Den</span>
+  <a href="./">Home</a>
+  <a href="https://www.nexusmods.com/7daystodie/mods/12967">Nexus</a>
+  <a href="https://github.com/Kitsune-Den/KitsuneUI">GitHub</a>
+  <a href="https://github.com/Kitsune-Den/KitsuneUI/blob/main/docs/framework.md">This guide as Markdown</a>
+  <span class="spacer"></span>
+  <span>Not affiliated with The Fun Pimps</span>
+</footer>
+
+</main>
+</div>
+
+<script src="site.js" defer></script>
+</body>
+</html>
