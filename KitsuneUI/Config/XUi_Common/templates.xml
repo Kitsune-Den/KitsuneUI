@@ -140,6 +140,20 @@
 	<!-- Combo boxes (Group / Preset and every option row): black box -> dark well. -->
 	<set xpath="/templates/combobox/@bg_color">[kuSlotWell]</set>
 	<setattribute xpath="/templates/combobox/rect/rect[@name='fills']/rect[@name='regularFill']/sprite[@name='background']" name="sprite">ku_round_sm</setattribute>
+	<!-- Value boxes (combo boxes, text fields): one rounded glass well with a matching rounded   -->
+	<!-- edge, instead of a rounded fill inside a square grey border (64,64,64 on the menus).    -->
+	<set xpath="/templates/combobox/rect/rect[@name='fills']/sprite[@name='border']/@sprite">ku_round_md_ring</set>
+	<set xpath="/templates/combobox/rect/rect[@name='fills']/sprite[@name='border']/@color">[kuEdge]</set>
+	<setattribute xpath="/templates/textfield/rect/sprite[@name='background']" name="sprite">ku_round_sm</setattribute>
+	<setattribute xpath="/templates/textfield/rect/sprite[@name='border']" name="sprite">ku_round_md_ring</setattribute>
+	<set xpath="/templates/textfield/rect/sprite[@name='border']/@color">[kuEdge]</set>
+	<!-- Read-only value boxes (styledlabel: New game's World Size, server info): the same well.  -->
+	<!-- Their fill and text sit INSIDE the border sprite, and NGUI multiplies a child's alpha by -->
+	<!-- its parent's, so the border must stay opaque: 55,65,104 is kuEdge's look over the glass. -->
+	<set xpath="/templates/styledlabel/@backgroundcolor">[kuSlotWell]</set>
+	<set xpath="/templates/styledlabel/@bordercolor">55,65,104,255</set>
+	<set xpath="/templates/styledlabel/@bordersprite">ku_round_md_ring</set>
+	<set xpath="/templates/styledlabel/sprite/sprite[@name='background']/@sprite">ku_round_sm</set>
 	<set xpath="/templates/combobox/rect/rect[@name='fills']/rect[@name='regularFill']/sprite[@name='fillBg']/@color">[kuTrack]</set>
 	<!-- Toggle buttons (Filter small POIs, debug toggles, ...): glass button, dark-well -->
 	<!-- tick box with a fox-fire tick. Vanilla: grey box, tan on hover, black edge.     -->

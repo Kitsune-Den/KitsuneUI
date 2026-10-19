@@ -54,4 +54,62 @@
 	<setattribute xpath="/templates/menu_paging_header/rect/label[@name='menuName']" name="color">[kuGold]</setattribute>
 	<set xpath="/templates/pagingheader_subheaderline/sprite[@name='subheader_line']/@color">[kuAccentGlow]</set>
 
+	<!-- ================================================================ -->
+	<!-- News cards (the "click to continue" splash): glass cards with a  -->
+	<!-- gold header and rule, white headline, muted date, fox-fire Read  -->
+	<!-- more and page bar. The pictures stay the game's own.             -->
+	<!-- ================================================================ -->
+	<set xpath="/templates/news_box/rect/sprite[@name='background']/@sprite">ku_panel</set>
+	<set xpath="/templates/news_box/rect/sprite[@name='background']/@color">[white]</set>
+	<set xpath="/templates/news_box/rect/label[@name='header']/@color">[kuGold]</set>
+	<set xpath="/templates/news_box/rect/label[@name='header']/@font_size">26</set>
+	<append xpath="/templates/news_box/rect">
+		<sprite depth="1" name="kuHeaderRule" sprite="ku_rule" type="sliced" color="[kuGoldSoft]" anchor_left="background,0,12" anchor_right="background,1,-12" anchor_bottom="background,1,-42" anchor_top="background,1,-40" />
+	</append>
+	<setattribute xpath="/templates/news_box//label[@name='headline1']" name="color">[kuTextBright]</setattribute>
+	<set xpath="/templates/news_box//label[@name='headline2']/@color">[kuText]</set>
+	<set xpath="/templates/news_box//label[@name='date']/@color">[kuTextMuted]</set>
+	<set xpath="/templates/news_box//label[@name='text']/@color">[kuTextMid]</set>
+	<set xpath="/templates/news_box//label[@name='readmore']/@color">[kuAccent]</set>
+	<set xpath="/templates/news_box//combobox[@name='entrySelection']/@bg_color">20,24,48</set>
+
+	<!-- ================================================================ -->
+	<!-- Main menu buttons (side rail): a glass row behind the caption     -->
+	<!-- with a fox-fire ring on hover, instead of the grunge strokes      -->
+	<!-- either side; the caption no longer jumps in size on hover.        -->
+	<!-- ================================================================ -->
+	<set xpath="/templates/mainmenubutton/@bg_sprite1">ku_round_md</set>
+	<set xpath="/templates/mainmenubutton/@bg_sprite2">ku_round_md_ring</set>
+	<set xpath="/templates/mainmenubutton/@color_hovered">30,84,118,220</set>
+	<set xpath="/templates/mainmenubutton/@text_color_hovered">242,245,252,255</set>
+	<set xpath="/templates/mainmenubutton/label/@font_size">{% btn_hovered ? ${height-16} : ${height-18} }</set>
+	<set xpath="/templates/mainmenubutton/label/sprite[@name='bgLeft']/@anchor_left">${name},0,-18</set>
+	<set xpath="/templates/mainmenubutton/label/sprite[@name='bgLeft']/@anchor_right">${name},0,${width-30}</set>
+	<set xpath="/templates/mainmenubutton/label/sprite[@name='bgLeft']/@anchor_bottom">${name},0.5,${-height/2-4}</set>
+	<set xpath="/templates/mainmenubutton/label/sprite[@name='bgLeft']/@anchor_top">${name},0.5,${height/2+4}</set>
+	<set xpath="/templates/mainmenubutton/label/sprite[@name='bgLeft']/@pivot">left</set>
+	<set xpath="/templates/mainmenubutton/label/sprite[@name='bgRight']/@anchor_left">${name},0,-18</set>
+	<set xpath="/templates/mainmenubutton/label/sprite[@name='bgRight']/@anchor_right">${name},0,${width-30}</set>
+	<set xpath="/templates/mainmenubutton/label/sprite[@name='bgRight']/@anchor_bottom">${name},0.5,${-height/2-4}</set>
+	<set xpath="/templates/mainmenubutton/label/sprite[@name='bgRight']/@anchor_top">${name},0.5,${height/2+4}</set>
+	<set xpath="/templates/mainmenubutton/label/sprite[@name='bgRight']/@pivot">left</set>
+	<set xpath="/templates/mainmenubutton/label/sprite[@name='bgRight']/@color">{% btn_enabled and btn_hovered ? color(111,227,255,255) : color(0,0,0,0) }</set>
+
+	<!-- ================================================================ -->
+	<!-- Continue Game: every save is a glass card (a faint cell always,  -->
+	<!-- the selection glass over it), the name larger, world and mode    -->
+	<!-- as "World · Mode", and the version in a softer green.            -->
+	<!-- KitsuneUI_Settings adds each world's map at the card's left.     -->
+	<!-- ================================================================ -->
+	<insertBefore xpath="/templates/savegames_list_entry/rect/sprite[@name='background']">
+		<sprite depth="1" name="kuCard" sprite="ku_round_sm" type="sliced" color="[kuCell]" visible="{hasentry}" />
+	</insertBefore>
+	<set xpath="/templates/savegames_list_entry/@matching_version_color">132,226,146,255</set>
+	<set xpath="/templates/savegames_list_entry/rect/label[@name='Name']/@font_size">34</set>
+	<set xpath="/templates/savegames_list_entry/rect/label[@name='Name']/@height">38</set>
+	<set xpath="/templates/savegames_list_entry/rect/label[@name='Name']/@color">[kuTextBright]</set>
+	<set xpath="/templates/savegames_list_entry/rect/rect/label[@name='World']/@text">{worldname} · {mode}</set>
+	<set xpath="/templates/savegames_list_entry/rect/rect/label[@name='World']/@font_size">24</set>
+	<set xpath="/templates/savegames_list_entry/rect/label[@name='LastPlayed']/@color">[kuTextMuted]</set>
+	<set xpath="/templates/savegames_list_entry/rect/label[@name='LastPlayed']/@font_size">24</set>
 </configs>

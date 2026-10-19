@@ -84,4 +84,99 @@
 	<set xpath="/windows/window[@name='spawnselection']/@anchor">BottomRight</set>
 	<set xpath="/windows/window[@name='spawnselection']/@pos">-530,380</set>
 	<set xpath="/windows/window[@name='spawnselection']//label[@name='lblCaption']/@color">[kuGold]</set>
+
+	<!-- ================================================================ -->
+	<!-- News splash ("click to continue"): the news boxes are glass      -->
+	<!-- cards (news_box template), and Continue is a fox-fire glass pill. -->
+	<!-- The background, logo and copyright line are the game's own.      -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='newsScreen']/rect[@name='continue']/sprite[@name='background']/@sprite">ku_round_md</set>
+	<set xpath="/windows/window[@name='newsScreen']/rect[@name='continue']/sprite[@name='background']/@color">30,84,118,235</set>
+	<set xpath="/windows/window[@name='newsScreen']/rect[@name='continue']/sprite[@name='background']/@anchor_left">continueButtonLabelController,0,-70</set>
+	<set xpath="/windows/window[@name='newsScreen']/rect[@name='continue']/sprite[@name='background']/@anchor_right">continueButtonLabelController,1,70</set>
+	<set xpath="/windows/window[@name='newsScreen']/rect[@name='continue']/sprite[@name='background']/@anchor_bottom">continueButtonLabelController,0,-14</set>
+	<set xpath="/windows/window[@name='newsScreen']/rect[@name='continue']/sprite[@name='background']/@anchor_top">continueButtonLabelController,1,14</set>
+	<insertAfter xpath="/windows/window[@name='newsScreen']/rect[@name='continue']/sprite[@name='background']">
+		<sprite depth="0" name="kuContinueRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" globalopacitymod="0" anchor_left="background,0,0" anchor_right="background,1,0" anchor_bottom="background,0,0" anchor_top="background,1,0" />
+	</insertAfter>
+	<set xpath="/windows/window[@name='newsScreen']/rect[@name='continue']/label/@color">[kuTextBright]</set>
+	<set xpath="/windows/window[@name='newsScreen']/rect[@name='continue']/button[@name='btnContinue']/@hovercolor">111,227,255,60</set>
+
+	<!-- ================================================================ -->
+	<!-- Main menu ("side rail"): a full-height glass column on the left   -->
+	<!-- edge of the screen at any width (16:9, ultrawide), holding the    -->
+	<!-- logo, the buttons, then version and profile at its foot.          -->
+	<!-- The news thumbnails move to the bottom right as glass cards, and  -->
+	<!-- the background video fills the screen (no black bars).           -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='mainMenu']/@anchor">TopLeft</set>
+	<set xpath="/windows/window[@name='mainMenu']/@pos">36,-40</set>
+	<prepend xpath="/windows/window[@name='mainMenu']">
+		<sprite depth="-2" name="kuRail" sprite="ku_panel_body" type="sliced" color="[white]" anchor_left="#cam,0,0" anchor_right="#cam,0,470" anchor_bottom="#cam,0,0" anchor_top="#cam,1,0" />
+		<sprite depth="-1" name="kuRailEdge" sprite="ku_px" type="simple" color="[kuGoldSoft]" anchor_left="#cam,0,469" anchor_right="#cam,0,470" anchor_bottom="#cam,0,0" anchor_top="#cam,1,0" />
+	</prepend>
+	<set xpath="/windows/window[@name='mainMenu']/texture[@name='gameLogo']/@height">310</set>
+	<set xpath="/windows/window[@name='mainMenu']/texture[@name='gameLogo']/@pos">105,0</set>
+	<!-- Bigger rows that fill more of the rail; the list still clears the foot at 100% UI scale on a 1080 screen. -->
+	<set xpath="/windows/window[@name='mainMenu']/grid/@pos">0,-360</set>
+	<set xpath="/windows/window[@name='mainMenu']/grid/@cell_height">70</set>
+	<set xpath="/windows/window[@name='mainMenu']/grid/@cell_width">398</set>
+	<set xpath="/windows/window[@name='mainMenu']/grid/mainmenubutton/@height">54</set>
+	<setattribute xpath="/windows/window[@name='mainMenu']/grid/mainmenubutton[@name='btnQuit']" name="text_color_default">255,179,168,255</setattribute>
+
+	<!-- Version and profile: at the foot of the rail. -->
+	<set xpath="/windows/window[@name='mainMenuVersion']/@anchor">BottomLeft</set>
+	<set xpath="/windows/window[@name='mainMenuVersion']/@pos">54,140</set>
+	<set xpath="/windows/window[@name='mainMenuVersion']/label[@name='version']/@font_size">20</set>
+	<setattribute xpath="/windows/window[@name='mainMenuVersion']/label[@name='version']" name="color">[kuTextMuted]</setattribute>
+	<append xpath="/windows/window[@name='mainMenuVersion']">
+		<sprite depth="2" name="kuFootRule" sprite="ku_rule" type="sliced" color="[kuGoldSoft]" pos="0,22" width="380" height="2" />
+	</append>
+	<set xpath="/windows/window[@name='mainMenuPlayerName']/@anchor">BottomLeft</set>
+	<set xpath="/windows/window[@name='mainMenuPlayerName']/@pos">54,104</set>
+	<set xpath="/windows/window[@name='mainMenuPlayerName']/label/@font_size">20</set>
+	<setattribute xpath="/windows/window[@name='mainMenuPlayerName']/label" name="color">[kuGold]</setattribute>
+	<!-- (Discord stays where the game puts it: that window is open on every menu page, -->
+	<!-- so moving it into the rail put it over Play Game's Back button.)               -->
+
+	<!-- News thumbnails: glass cards in the bottom right, each with a fox-fire frame and a gold label strip under it, -->
+	<!-- high enough to clear the Discord button (its window is the game's, open on every menu page).                  -->
+	<set xpath="/windows/window[@name='mainMenuNews']/@anchor">BottomRight</set>
+	<set xpath="/windows/window[@name='mainMenuNews']/@pos">-40,410</set>
+	<set xpath="/windows/window[@name='mainMenuNews']/rect/sprite[@name='border']/@sprite">ku_round_md_ring</set>
+	<set xpath="/windows/window[@name='mainMenuNews']/rect/sprite[@name='border']/@color">[kuAccentSoft]</set>
+	<set xpath="/windows/window[@name='mainMenuNews']/rect/sprite[@name='border']/@depth">4</set>
+	<append xpath="/windows/window[@name='mainMenuNews']/rect[@name='featured']">
+		<sprite depth="5" name="kuNewsStrip" sprite="ku_panel_sm" type="sliced" color="[white]" anchor_left="#parent,0,0" anchor_right="#parent,1,0" anchor_top="#parent,0,-6" anchor_bottom="#parent,0,-40" />
+		<label depth="6" name="kuNewsLabel" font_size="18" color="[kuGold]" upper_case="true" justify="center" pivot="center" text_key="xuiNewsHeaderFeatured" anchor_left="#parent,0,4" anchor_right="#parent,1,-4" anchor_top="#parent,0,-8" anchor_bottom="#parent,0,-38" />
+	</append>
+	<append xpath="/windows/window[@name='mainMenuNews']/rect[@name='game']">
+		<sprite depth="5" name="kuNewsStrip" sprite="ku_panel_sm" type="sliced" color="[white]" anchor_left="#parent,0,0" anchor_right="#parent,1,0" anchor_top="#parent,0,-6" anchor_bottom="#parent,0,-40" />
+		<label depth="6" name="kuNewsLabel" font_size="18" color="[kuGold]" upper_case="true" justify="center" pivot="center" text_key="xuiNewsHeaderGame" anchor_left="#parent,0,4" anchor_right="#parent,1,-4" anchor_top="#parent,0,-8" anchor_bottom="#parent,0,-38" />
+	</append>
+	<set xpath="/windows/window[@name='mainMenuNews']/rect/sprite[@name='background']/@sprite">ku_panel</set>
+	<set xpath="/windows/window[@name='mainMenuNews']/rect/sprite[@name='background']/@color">[white]</set>
+
+	<!-- The background video: fill the screen at any shape, cropping rather than letterboxing. -->
+	<set xpath="/windows/window[@name='menuBackground']/video[@name='videoTexture']/@anchor_left">#cam,0,0</set>
+	<set xpath="/windows/window[@name='menuBackground']/video[@name='videoTexture']/@anchor_right">#cam,1,0</set>
+	<set xpath="/windows/window[@name='menuBackground']/video[@name='videoTexture']/@anchor_bottom">#cam,0,0</set>
+	<set xpath="/windows/window[@name='menuBackground']/video[@name='videoTexture']/@anchor_top">#cam,1,0</set>
+	<set xpath="/windows/window[@name='menuBackground']/video[@name='videoTexture']/@videoaspect">FitOutside</set>
+
+	<!-- ================================================================ -->
+	<!-- Join a game: the filters panel sits below the paging header's     -->
+	<!-- band instead of running into it.                                 -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='serverBrowser']/panel[@name='serverfilters']/@pos">{# isprefilteredsearch ? -450 : 0},-56</set>
+	<!-- Taller, with rows 46 apart instead of 50, so the Server tab (13 rows with its gaps) fits  -->
+	<!-- without a scroll bar; the panel and its buttons still fit a 1080 screen at 100% UI scale. -->
+	<!-- Basic and Advanced are longer than any screen and keep theirs.                         -->
+	<set xpath="/windows/window[@name='serverBrowser']/panel[@name='serverfilters']/@height">850</set>
+	<set xpath="/windows/window[@name='serverBrowser']/panel[@name='serverfilters']//scrollview/grid/@cell_height">46</set>
+
+	<!-- Continue Game: taller rows for the save cards (savegames_list_entry), six to a page. -->
+	<set xpath="/windows/window[@name='continueGame']/rect[@name='saves']/grid[@name='list']/@cell_height">96</set>
+	<set xpath="/windows/window[@name='continueGame']/rect[@name='saves']/grid[@name='list']/@rows">6</set>
+	<set xpath="/windows/window[@name='continueGame']/rect[@name='saves']/grid[@name='list']/@height">576</set>
 </configs>
