@@ -23,7 +23,7 @@ The theme is XML and images only. It changes how the game looks, never how it pl
 - **Trader and quests:** trader stock, services, job offer, quest journal, turn-in rewards.
 - **Character:** character sheet, buffs, skills and perks (skills you can study bright, locked ones dim; with the Settings add-on, fully learned ones gold), challenges, cosmetics.
 - **Map:** map, waypoints, shared waypoints and the right-click menus.
-- **Menus:** main menu, Play Game, the in-game Esc menu, every Options page, death message and respawn screen.
+- **Menus:** the news screen (glass news cards and a Continue button), the main menu as a glass rail down the left edge (it fits 16:9 and ultrawide alike, and the background fills the screen), Play Game with your saves as cards (with KitsuneUI_Settings, each shows its world's map), the server browser and filters, the in-game Esc menu, every Options page, death message and respawn screen. With KitsuneUI_Settings the menus follow your glass colour and strength.
 - **Loading screen:** the picture fills the screen and the tip sits in a glass column down the right edge, with the spawn buttons docked at its foot.
 - **Everything else:** chat, the player list, power and trap windows, cameras, signs and the sign editor, keypads, tooltips, context menus, tips, message boxes, admin and debug panels.
 
