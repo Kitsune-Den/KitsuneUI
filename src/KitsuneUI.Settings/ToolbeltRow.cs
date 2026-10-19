@@ -10,8 +10,8 @@ using UnityEngine;
 /// the backpack. Only the drawing changes: number keys still pick the main bar and
 /// Shift + number the other, so it's per player and safe on any server.
 ///
-/// With two rows, the inventory windows (backpack, loot, crafting, trader...) move up by a
-/// bar's height while they're open, so the second row doesn't cover the bag either.
+/// With two rows, the windows that open with the backpack (inventory, loot, crafting, trader...)
+/// move up by a bar's height while they're open, so the second row doesn't cover the bag.
 /// </summary>
 public static class KitsuneToolbeltRow
 {
@@ -139,10 +139,12 @@ public static class KitsuneToolbeltRowPopups
 }
 
 /// <summary>
-/// With two rows, the inventory windows open a bar's height higher, so the second row
-/// doesn't cover the bottom of the backpack. The game sets the windows' top line to the
-/// group's offset (457, 83 under the top of the screen) every time it lays them out; this
-/// adds the lift to it, up to 75 so the headers stay on screen.
+/// With two rows, the windows that open with the backpack (inventory, loot, crafting, trader)
+/// open a bar's height higher, so the second row doesn't cover the bottom of the backpack.
+/// Windows without the backpack (skills, map, quests) stay where the game puts them. The
+/// game sets the windows' top line to the group's offset (457, 83 under the top of the
+/// screen) every time it lays them out; this adds the lift to it, up to 75 so the headers
+/// stay on screen.
 /// </summary>
 [HarmonyPatch(typeof(XUi), "calculateWindowGroupLayout")]
 public static class KitsuneInventoryLift
@@ -155,7 +157,8 @@ public static class KitsuneInventoryLift
         {
             return;
         }
-        if (ToolbeltConfig.CurrentConfig.BarsPerPage < 2 || KitsuneToolbeltRow.Active || KitsuneLayout.IsHidden("windowToolbelt"))
+        if (ToolbeltConfig.CurrentConfig.BarsPerPage < 2 || KitsuneToolbeltRow.Active || KitsuneLayout.IsHidden("windowToolbelt")
+            || !__instance.playerUI.windowManager.IsWindowOpen("backpack"))
         {
             return;
         }

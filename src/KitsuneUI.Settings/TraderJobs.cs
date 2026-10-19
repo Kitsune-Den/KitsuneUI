@@ -4,17 +4,22 @@ using HarmonyLib;
 using UnityEngine;
 
 /// <summary>
-/// "Hide job tiers" (Settings > Windows): scout a place's danger yourself.
+/// Trader jobs (Settings > Windows): By tier, By distance, or No tiers.
 ///
 /// The trader pages jobs by tier ("current jobs" shows tier I, with a button per unlocked
-/// tier). With this on, the jobs page instead lists the jobs of every tier you've unlocked
-/// together, nearest first and without the [TIER] tag, 8 at a time with a "Farther jobs"
-/// row to page on. The tier also leaves the job offer and quest log, and POIs lose their
-/// difficulty skulls in the location box and the "Entering" title (biome skulls stay).
+/// tier). By distance lists the jobs of every tier you've unlocked together instead, nearest
+/// first, 7 at a time with "Closer jobs" and "Farther jobs" rows to page through them. No
+/// tiers does the same without the [TIER] tags, so you scout a place's danger yourself: the
+/// tier also leaves the job offer and quest log, and POIs lose their difficulty skulls in the
+/// location box and the "Entering" title (biome skulls stay).
 /// </summary>
 public static class KitsuneHideTiers
 {
-    public static bool On => KitsuneSettingsFile.GetBool(KitsuneSettingsFile.HideQuestTier);
+    /// <summary>No tiers anywhere.</summary>
+    public static bool On => KitsuneSettingsFile.HideTiers;
+
+    /// <summary>Every unlocked tier in one list, nearest first (By distance or No tiers).</summary>
+    public static bool ByDistance => KitsuneSettingsFile.JobOrderValue != "tier";
 }
 
 [HarmonyPatch(typeof(DialogStatement), nameof(DialogStatement.GetResponses))]
@@ -36,7 +41,7 @@ public static class KitsuneTraderJobsByDistance
             page = 0;                 // leaving the jobs list starts it at the nearest again
             return;
         }
-        if (!KitsuneHideTiers.On || __result == null)
+        if (!KitsuneHideTiers.ByDistance || __result == null)
         {
             return;
         }
@@ -73,7 +78,10 @@ public static class KitsuneTraderJobsByDistance
                     {
                         continue;
                     }
-                    response.Text = TierTag.Replace(response.Text ?? "", "");
+                    if (KitsuneHideTiers.On)
+                    {
+                        response.Text = TierTag.Replace(response.Text ?? "", "");
+                    }
                     var entry = new DialogQuestResponseEntry(template.ID, template.questType, template.ReturnStatementID, i, tier)
                     {
                         Response = response,

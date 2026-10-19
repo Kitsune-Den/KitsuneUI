@@ -76,6 +76,11 @@ public static class KitsuneSettingsApplier
         {
             return;
         }
+        // hideQuestTier is what JobPreview 1.3.0 and older read: keep it in step with the job order.
+        if (KitsuneSettingsFile.GetBool(KitsuneSettingsFile.HideQuestTier) != KitsuneSettingsFile.HideTiers)
+        {
+            KitsuneSettingsFile.Set(KitsuneSettingsFile.HideQuestTier, KitsuneSettingsFile.HideTiers ? "true" : "false");
+        }
         bool slotNumbers = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.SlotNumbers);
         bool healthBarAlways = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.HealthBarAlways);
         float glass = KitsuneSettingsFile.GetInt(KitsuneSettingsFile.Glass, 30, 100) / 100f;
@@ -270,7 +275,6 @@ public class XUiC_KitsuneSettingsWindow : XUiController
     XUiC_ToggleButton combatText;
     XUiC_ToggleButton qualityRings;
     XUiC_ToggleButton questBars;
-    XUiC_ToggleButton hideTier;
     XUiC_ToggleButton buffSweep;
     XUiC_ToggleButton compareHeld;
     XUiView hueRing;
@@ -318,7 +322,8 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         {
             if (button.Button != null)
             {
-                button.Button.Selected = KitsuneSettingsFile.Get(key) == value;
+                string current = key == KitsuneSettingsFile.JobOrder ? KitsuneSettingsFile.JobOrderValue : KitsuneSettingsFile.Get(key);
+                button.Button.Selected = current == value;
             }
         }
     }
@@ -380,7 +385,7 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         combatText = Toggle("tglCombatText", KitsuneSettingsFile.CombatText);
         qualityRings = Toggle("tglQualityRings", KitsuneSettingsFile.QualityRings);
         questBars = Toggle("tglQuestBars", KitsuneSettingsFile.QuestBars);
-        hideTier = Toggle("tglHideTier", KitsuneSettingsFile.HideQuestTier);
+        ChoiceRow("btnJobOrder_", KitsuneSettingsFile.JobOrder, "tier", "distance", "hidden");
         buffSweep = Toggle("tglBuffSweep", KitsuneSettingsFile.BuffSweep);
         compareHeld = Toggle("tglCompareHeld", KitsuneSettingsFile.CompareHeld);
         ChoiceRow("btnMapShape_", KitsuneSettingsFile.MapShape, "square", "round");
@@ -757,7 +762,6 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         if (combatText != null) combatText.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.CombatText);
         if (qualityRings != null) qualityRings.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.QualityRings);
         if (questBars != null) questBars.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.QuestBars);
-        if (hideTier != null) hideTier.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.HideQuestTier);
         if (buffSweep != null) buffSweep.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.BuffSweep);
         if (compareHeld != null) compareHeld.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.CompareHeld);
         ShowChoices();

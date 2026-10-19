@@ -35,8 +35,8 @@
 	<!-- opens a window that only shows now and then while Move HUD is on. -->
 	<!-- ================================================================ -->
 	<append xpath="/templates">
-		<ku_move_handle pos="0,0" width="300" height="60" label_key="" label="" group="" open_for_moving="false">
-			<rect name="kuMoveHandle" depth="50" pos="${pos}" width="${width}" height="${height}" on_drag="true" group="${group}" open_for_moving="${open_for_moving}"
+		<ku_move_handle pos="0,0" width="300" height="60" label_key="" label="" group="" open_for_moving="false" target="window" mode="">
+			<rect name="kuMoveHandle" depth="50" pos="${pos}" width="${width}" height="${height}" on_drag="true" group="${group}" open_for_moving="${open_for_moving}" target="${target}" mode="${mode}"
 				controller="KitsuneMoveHandle, KitsuneUI_Settings">
 				<!-- the strip's controls; XUiC_KitsuneMoveHandle lays them out above (or below) the outline -->
 				<label depth="53" name="kuMoveScale" pos="0,0" width="64" height="24" pivot="right" justify="right" font_size="18" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="100%" />

@@ -147,3 +147,15 @@ kuCloserJobs,UI,XUi,,,,Closer jobs,,Nähere Aufträge,Trabajos más cercanos,Mis
 kuSetToolbeltLayout,UI,XUi,,,,Toolbelt,,Werkzeuggürtel,Cinturón,Ceinture,Cintura,ツールベルト,툴벨트,Pasek narzędzi,Cinto,Пояс,Alet kemeri,工具栏,工具列
 kuOptTwoRows,UI,XUi,,,,Two rows,,Zwei Reihen,Dos filas,Deux rangées,Due file,2段,두 줄,Dwa rzędy,Duas fileiras,Два ряда,İki sıra,两行,兩行
 kuOptOneRow,UI,XUi,,,,One row,,Eine Reihe,Una fila,Une rangée,Una fila,1段,한 줄,Jeden rząd,Uma fileira,Один ряд,Tek sıra,一行,一行
+kuSetJobOrder,UI,XUi,,,,Trader jobs,,Händleraufträge,Trabajos del comerciante,Missions du marchand,Lavori del mercante,トレーダーの依頼,상인 의뢰,Zlecenia handlarza,Trabalhos do comerciante,Задания торговца,Tüccar görevleri,商人任务,商人任務
+kuOptByTier,UI,XUi,,,,By tier,,Nach Stufe,Por nivel,Par palier,Per livello,ティア順,등급순,Wg poziomu,Por nível,По уровню,Seviyeye göre,按等级,按等級
+kuOptByDistance,UI,XUi,,,,By distance,,Nach Entfernung,Por distancia,Par distance,Per distanza,距離順,거리순,Wg odległości,Por distância,По расстоянию,Mesafeye göre,按距离,按距離
+kuOptNoTiers,UI,XUi,,,,No tiers,,Ohne Stufen,Sin niveles,Sans palier,Senza livelli,ティアなし,등급 숨김,Bez poziomów,Sem níveis,Без уровней,Seviyesiz,隐藏等级,隱藏等級
+kuMoveBarsTogether,UI,XUi,,,,Stat bars: together,,Leisten: zusammen,Barras: juntas,Barres : ensemble,Barre: unite,バー: まとめる,바: 함께,Paski: razem,Barras: juntas,Полосы: вместе,Çubuklar: birlikte,状态条：一起,狀態條：一起
+kuMoveBarsPairs,UI,XUi,,,,Stat bars: in pairs,,Leisten: paarweise,Barras: en pares,Barres : par paires,Barre: a coppie,バー: 2本ずつ,바: 두 개씩,Paski: parami,Barras: em pares,Полосы: парами,Çubuklar: çiftler,状态条：成对,狀態條：成對
+kuMoveBarsApart,UI,XUi,,,,Stat bars: apart,,Leisten: einzeln,Barras: separadas,Barres : séparées,Barre: separate,バー: 個別,바: 각각,Paski: osobno,Barras: separadas,Полосы: отдельно,Çubuklar: ayrı,状态条：分开,狀態條：分開
+kuMoveBuffs,UI,XUi,,,,BUFFS,,BUFFS,EFECTOS,EFFETS,EFFETTI,バフ,버프,EFEKTY,EFEITOS,ЭФФЕКТЫ,ETKİLER,状态效果,狀態效果
+kuMoveHealth,UI,XUi,,,,HEALTH,,GESUNDHEIT,SALUD,SANTÉ,SALUTE,体力,체력,ZDROWIE,SAÚDE,ЗДОРОВЬЕ,SAĞLIK,生命,生命
+kuMoveStamina,UI,XUi,,,,STAMINA,,AUSDAUER,AGUANTE,ENDURANCE,RESISTENZA,スタミナ,스태미나,WYTRZYMAŁOŚĆ,VIGOR,ВЫНОСЛИВОСТЬ,DAYANIKLILIK,耐力,耐力
+kuMoveFood,UI,XUi,,,,FOOD,,NAHRUNG,COMIDA,NOURRITURE,CIBO,食料,음식,JEDZENIE,COMIDA,ЕДА,YİYECEK,食物,食物
+kuMoveWater,UI,XUi,,,,WATER,,WASSER,AGUA,EAU,ACQUA,水分,물,WODA,ÁGUA,ВОДА,SU,水,水

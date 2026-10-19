@@ -46,9 +46,11 @@ public static class KitsuneSettingsFile
     public const string BuffSweep = "buffSweep";          // debuffs in their own row, countdown sweep on buff icons
     public const string TraderTileSize = "traderTileSize"; // trader option tiles, percent: 100, 125, 150
     public const string StatBarsSplit = "statBarsSplit";  // Move HUD: health, stamina, food, water as separate pieces
+    public const string StatBarsEach = "statBarsEach";    // with StatBarsSplit: a piece per bar instead of two pairs
     public const string BackpackWidth = "backpackWidth";  // backpack window: "normal", "wide" or "extra"
     public const string ToolbeltLayout = "toolbeltLayout"; // two toolbelt bars: "stacked" (two rows) or "row" (one row)
     public const string HideQuestTier = "hideQuestTier";  // trader jobs nearest first, no tiers or POI skulls
+    public const string JobOrder = "jobOrder";            // trader jobs: "tier" (the game's pages), "distance" (nearest first), "hidden" (nearest first, no tiers); "" = from HideQuestTier
     public const string QuestBars = "questBars";          // quest tracker progress bars and direction arrows
     public const string QualityRings = "qualityRings";    // ring in the item's quality colour in every slot
     public const string CompareHeld = "compareHeld";      // weapons and tools compare with the one in your hand
@@ -95,9 +97,11 @@ public static class KitsuneSettingsFile
         { BuffSweep, "false" },
         { TraderTileSize, "100" },
         { StatBarsSplit, "false" },
+        { StatBarsEach, "false" },
         { BackpackWidth, "normal" },
         { ToolbeltLayout, "stacked" },
         { HideQuestTier, "false" },
+        { JobOrder, "" },
         { QuestBars, "false" },
         { QualityRings, "false" },
         { CompareHeld, "false" },
@@ -116,6 +120,23 @@ public static class KitsuneSettingsFile
     public static int Version { get; private set; }
 
     public static bool GetBool(string key) => Get(key).Equals("true", StringComparison.OrdinalIgnoreCase);
+
+    /// <summary>
+    /// Trader jobs: "tier" (the game's pages), "distance" (every unlocked tier, nearest first)
+    /// or "hidden" (nearest first, and no tiers anywhere). Before jobOrder existed, the one
+    /// switch was hideQuestTier, which meant "hidden".
+    /// </summary>
+    public static string JobOrderValue
+    {
+        get
+        {
+            string v = Get(JobOrder);
+            return v == "tier" || v == "distance" || v == "hidden" ? v : GetBool(HideQuestTier) ? "hidden" : "tier";
+        }
+    }
+
+    /// <summary>No tiers on jobs, quests or places (JobOrderValue "hidden").</summary>
+    public static bool HideTiers => JobOrderValue == "hidden";
 
     public static int GetInt(string key, int min, int max)
     {

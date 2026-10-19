@@ -54,7 +54,8 @@ public static class KitsuneLayout
     public static readonly HashSet<string> OpenForMoving = new HashSet<string> { "subtitlesDisplay", "chatoutput" };
 
     static readonly Dictionary<string, Group> groups = new Dictionary<string, Group>();
-    static readonly Dictionary<XUiView, Group> byView = new Dictionary<XUiView, Group>();
+    // A view can be in several groups: a stat bar is in its pair ("split") and on its own ("each").
+    static readonly Dictionary<XUiView, List<Group>> byView = new Dictionary<XUiView, List<Group>>();
     static readonly List<XUiView> handles = new List<XUiView>();
     static readonly List<XUiC_KitsuneMoveHandle> handleControllers = new List<XUiC_KitsuneMoveHandle>();
 
@@ -124,9 +125,18 @@ public static class KitsuneLayout
 
     static string Key(string group) => "move." + group;
 
-    /// <summary>Whether pieces of this mode are in use ("" always; "split" / "joined" by the setting).</summary>
+    /// <summary>
+    /// How the stat bars come apart (Move HUD's stat bars button): "joined" (one piece),
+    /// "split" (health and stamina, food and water) or "each" (a piece per bar).
+    /// </summary>
+    public static string StatBarsMode =>
+        !KitsuneSettingsFile.GetBool(KitsuneSettingsFile.StatBarsSplit) ? "joined"
+        : KitsuneSettingsFile.GetBool(KitsuneSettingsFile.StatBarsEach) ? "each" : "split";
+
+    /// <summary>Whether pieces of this mode are in use: "" always, else when the stat bars mode is
+    /// one of the modes listed ("split|each" for a piece of both).</summary>
     public static bool ModeOn(string mode) =>
-        string.IsNullOrEmpty(mode) || (mode == "split") == KitsuneSettingsFile.GetBool(KitsuneSettingsFile.StatBarsSplit);
+        string.IsNullOrEmpty(mode) || System.Array.IndexOf(mode.Split('|'), StatBarsMode) >= 0;
 
     public static void Register(string group, XUiView window, string mode = "")
     {
@@ -150,7 +160,11 @@ public static class KitsuneLayout
             return;
         }
         g.Members.Add(new Member { View = window, Base = window.Position });
-        byView[window] = g;
+        if (!byView.TryGetValue(window, out List<Group> list))
+        {
+            byView[window] = list = new List<Group>();
+        }
+        list.Add(g);
     }
 
     public static void RegisterHandle(XUiView handle)
@@ -286,10 +300,11 @@ public static class KitsuneLayout
     /// </summary>
     public static void ReapplyScale(XUiView view)
     {
-        if (view == null || !byView.TryGetValue(view, out Group g))
+        if (view == null || !byView.TryGetValue(view, out List<Group> list) || list.Count == 0)
         {
             return;
         }
+        Group g = list.Find(x => ModeOn(x.Mode)) ?? list[0];
         Transform t = view.UiTransform;
         if (t != null)
         {
@@ -314,6 +329,11 @@ public static class KitsuneLayout
         int dy = on ? Mathf.RoundToInt(g.Offset.y) : 0;
         foreach (Member m in g.Members)
         {
+            // A piece that's off leaves a view alone while another piece, on, moves it.
+            if (!on && byView.TryGetValue(m.View, out List<Group> owners) && owners.Exists(o => o != g && ModeOn(o.Mode)))
+            {
+                continue;
+            }
             var want = new Vector2i(m.Base.x + dx, m.Base.y + dy);
             if (m.View.Position != want)
             {
@@ -746,21 +766,33 @@ public class XUiC_KitsuneMoveBar : XUiController
         {
             snap.OnValueChanged += (_s, _v) => KitsuneSettingsFile.Set(KitsuneSettingsFile.MoveSnap, _v ? "true" : "false");
         }
-        // Split stat bars: health, stamina, food and water as separate pieces.
-        XUiController sp = GetChildById("tglMoveSplit");
-        split = sp as XUiC_ToggleButton ?? sp?.GetChildByType<XUiC_ToggleButton>();
+        // The stat bars: together (one piece), in pairs (health and stamina, food and water)
+        // or apart (a piece per bar). Each click moves to the next.
+        split = Button("btnMoveSplit");
         if (split != null)
         {
-            split.OnValueChanged += (_s, _v) =>
+            split.OnPressed += (_s, _m) =>
             {
-                KitsuneSettingsFile.Set(KitsuneSettingsFile.StatBarsSplit, _v ? "true" : "false");
+                string next = KitsuneLayout.StatBarsMode == "joined" ? "split" : KitsuneLayout.StatBarsMode == "split" ? "each" : "joined";
+                KitsuneSettingsFile.Set(KitsuneSettingsFile.StatBarsSplit, next != "joined" ? "true" : "false");
+                KitsuneSettingsFile.Set(KitsuneSettingsFile.StatBarsEach, next == "each" ? "true" : "false");
+                ShowSplit();
                 KitsuneLayout.ShowHandles(KitsuneLayout.Active);
             };
         }
     }
 
     XUiC_ToggleButton snap;
-    XUiC_ToggleButton split;
+    XUiC_SimpleButton split;
+
+    void ShowSplit()
+    {
+        if (split != null)
+        {
+            split.Text = Localization.Get(KitsuneLayout.StatBarsMode == "joined" ? "kuMoveBarsTogether"
+                : KitsuneLayout.StatBarsMode == "split" ? "kuMoveBarsPairs" : "kuMoveBarsApart");
+        }
+    }
 
     XUiC_SimpleButton Button(string id)
     {
@@ -779,10 +811,7 @@ public class XUiC_KitsuneMoveBar : XUiController
         {
             snap.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.MoveSnap);
         }
-        if (split != null)
-        {
-            split.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.StatBarsSplit);
-        }
+        ShowSplit();
     }
 
     public override void OnClose()

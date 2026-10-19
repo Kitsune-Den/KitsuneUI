@@ -52,8 +52,8 @@ public sealed class JobInfo
             return info;
         }
 
-        // "Hide job tiers" (KitsuneUI_Settings): no badge, the player scouts the place instead.
-        info.Tier = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.HideQuestTier)
+        // Trader jobs: No tiers (KitsuneUI_Settings): no badge, the player scouts the place instead.
+        info.Tier = KitsuneSettingsFile.HideTiers
             ? ""
             : Localization.Get("xuiTier").ToUpper() + " " + ValueDisplayFormatters.RomanNumber(quest.QuestClass.DifficultyTier);
         info.Name = quest.GetPOIName();

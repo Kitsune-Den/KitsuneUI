@@ -325,7 +325,7 @@ public class XUiC_KitsunePlayerFrame : XUiController
 {
     const float RefreshSeconds = 0.1f;
     float sinceRefresh = RefreshSeconds;
-    string name = "", level = "", levelNum = "", hpText = "", pct = "", foodText = "", waterText = "";
+    string name = "", level = "", levelNum = "", hpText = "", pct = "", foodText = "", waterText = "", staminaText = "";
     float hp, stamina, food, water;
     XUiView portraitBox;
     XUiV_Texture portrait;
@@ -339,6 +339,21 @@ public class XUiC_KitsunePlayerFrame : XUiController
         frameGlass = GetChildById("kuPFGlass")?.ViewComponent;
         needsBig = GetChildById("kuPFNeedsBig")?.ViewComponent;
         needsHandle = GetChildById("kuMoveHandleNeeds")?.ViewComponent;
+        staPiece = GetChildById("kuPFStaPiece")?.ViewComponent;
+        foreach (string id in new[] { "kuPFStaTrack", "kuPFStaFill" })
+        {
+            if (GetChildById(id)?.ViewComponent is XUiView v)
+            {
+                thinStamina.Add(v);
+            }
+        }
+        foreach (string id in new[] { "kuPFFoodGlass", "kuPFWaterGlass" })
+        {
+            if (GetChildById(id)?.ViewComponent is XUiView v)
+            {
+                needGlasses.Add(v);
+            }
+        }
         foreach (string id in new[] { "kuPFFoodTrack", "kuPFFoodFill", "kuPFWaterTrack", "kuPFWaterFill" })
         {
             if (GetChildById(id)?.ViewComponent is XUiView v)
@@ -348,8 +363,18 @@ public class XUiC_KitsunePlayerFrame : XUiController
         }
     }
 
-    XUiView needsGlass, frameGlass, needsBig, needsHandle;
+    XUiView needsGlass, frameGlass, needsBig, needsHandle, staPiece;
     readonly List<XUiView> thinNeeds = new List<XUiView>();
+    readonly List<XUiView> thinStamina = new List<XUiView>();
+    readonly List<XUiView> needGlasses = new List<XUiView>();
+
+    static void Show(XUiView v, bool show)
+    {
+        if (v != null && v.IsVisible != show)
+        {
+            v.IsVisible = show;
+        }
+    }
 
     public override void Update(float _dt)
     {
@@ -363,31 +388,38 @@ public class XUiC_KitsunePlayerFrame : XUiController
         }
         if (on)
         {
-            // Split stat bars: food and water leave the frame for their own glass strip, and
-            // the frame's glass tucks up to close the gap they leave.
-            bool split = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.StatBarsSplit);
-            if (needsGlass != null && needsGlass.IsVisible != split)
+            // Move HUD's stat bars: together (all in the frame), in pairs (food and water leave
+            // the frame for a glass strip of their own) or apart (food, water and stamina each a
+            // glass piece of their own). The frame's glass tucks up to close the gaps they leave.
+            string mode = KitsuneLayout.StatBarsMode;
+            bool split = mode != "joined", apart = mode == "each";
+            Show(needsGlass, split && !apart);
+            Show(needsBig, split);
+            foreach (XUiView thin in thinNeeds)
             {
-                needsGlass.IsVisible = split;
-                // Split: full-height bars with icons and values, like health, on a taller
-                // strip; joined: the thin pair inside the frame.
-                if (needsBig != null)
-                {
-                    needsBig.IsVisible = split;
-                }
-                foreach (XUiView thin in thinNeeds)
-                {
-                    thin.IsVisible = !split;
-                }
+                Show(thin, !split);
+            }
+            foreach (XUiView glass in needGlasses)
+            {
+                Show(glass, apart);
+            }
+            foreach (XUiView thin in thinStamina)
+            {
+                Show(thin, !apart);
+            }
+            Show(staPiece, apart);
+            if (needsGlass != null && needsGlass.Size.y != (split ? 34 : 16))
+            {
                 needsGlass.Size = new Vector2i(needsGlass.Size.x, split ? 34 : 16);
                 if (needsHandle != null)
                 {
                     needsHandle.Size = new Vector2i(needsHandle.Size.x, split ? 42 : 24);
                 }
             }
-            if (frameGlass != null && frameGlass.Size.y != (split ? 68 : 80))
+            int frameHeight = apart ? 62 : split ? 68 : 80;
+            if (frameGlass != null && frameGlass.Size.y != frameHeight)
             {
-                frameGlass.Size = new Vector2i(frameGlass.Size.x, split ? 68 : 80);
+                frameGlass.Size = new Vector2i(frameGlass.Size.x, frameHeight);
             }
             KitsunePortrait.Tick(xui);
             KitsuneUnitFrames.ShowPortrait(portraitBox, portrait, null, KitsunePortrait.For(player), Color.white);
@@ -411,6 +443,7 @@ public class XUiC_KitsunePlayerFrame : XUiController
         water = s.Water.ValuePercentUI;
         foodText = KitsuneUnitFrames.HealthText(s.Food.Value, s.Food.Max);
         waterText = KitsuneUnitFrames.HealthText(s.Water.Value, s.Water.Max);
+        staminaText = KitsuneUnitFrames.HealthText(s.Stamina.Value, s.Stamina.Max);
         RefreshBindings();
         List<BuffValue> buffs = player.Buffs?.ActiveBuffs;
         if (KitsuneSettingsFile.GetBool(KitsuneSettingsFile.BuffSweep))
@@ -440,6 +473,7 @@ public class XUiC_KitsunePlayerFrame : XUiController
             case "kupffood": _value = Fill(food); return true;
             case "kupfwater": _value = Fill(water); return true;
             case "kupffoodtext": _value = foodText; return true;
+            case "kupfstatext": _value = staminaText; return true;
             case "kupfwatertext": _value = waterText; return true;
         }
         return base.GetBindingValueInternal(ref _value, _bindingName);
