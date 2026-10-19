@@ -2,6 +2,9 @@
 
 **Kitsunebi**, a night glass interface for 7 Days to Die V3.x: deep indigo glass panels, fox-fire cyan accents and gold titles, across every screen in the game.
 
+**Get it:** [Nexus Mods](https://www.nexusmods.com/7daystodie/mods/13190) · [7 Days to Die Mods](https://7daystodiemods.com/mods/kitsuneui) · [GitHub releases](https://github.com/Kitsune-Den/KitsuneUI/releases/latest)  
+**Modders:** [ui.kitsuneden.net](https://ui.kitsuneden.net), the guide to building on KitsuneUI
+
 ![Crafting, inventory, toolbelt and HUD](docs/screenshots/crafting.webp)
 
 | | |
@@ -152,7 +155,7 @@ Edit `KitsuneUI_Toolbelt20/Config/toolbelt.xml`. The game clamps `slot_per_bar` 
 
 ### Building on KitsuneUI
 
-Your mod's windows can wear the Kitsunebi glass, follow each player's look settings, and join Move HUD, while staying vanilla for players without KitsuneUI. See **[Building on KitsuneUI](docs/framework.md)**: the colours, sprites and templates you can use, the one rule (wrap them in `mod_loaded('KitsuneUI')`), and the one-line Move HUD handle. KitsuneRadio is the first mod built this way.
+Your mod's windows can wear the Kitsunebi glass, follow each player's look settings, and join Move HUD, while staying vanilla for players without KitsuneUI. See **[ui.kitsuneden.net](https://ui.kitsuneden.net)** (or [Building on KitsuneUI](docs/framework.md) here in the repo): the colours, sprites and templates you can use, the one rule (wrap them in `mod_loaded('KitsuneUI')`), and the one-line Move HUD handle. KitsuneRadio is the first mod built this way.
 
 ### Ground rules
 
