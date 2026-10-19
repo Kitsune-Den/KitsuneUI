@@ -179,4 +179,7 @@
 	<set xpath="/windows/window[@name='continueGame']/rect[@name='saves']/grid[@name='list']/@cell_height">96</set>
 	<set xpath="/windows/window[@name='continueGame']/rect[@name='saves']/grid[@name='list']/@rows">6</set>
 	<set xpath="/windows/window[@name='continueGame']/rect[@name='saves']/grid[@name='list']/@height">576</set>
+
+	<!-- Server info: the website box only when the server has a link (otherwise an empty well). -->
+	<setattribute xpath="/windows/window[@name='serverBrowserServerInfo']//styledlabel[@name='ServerWebsiteURL']" name="visible">{% serverurl != '' }</setattribute>
 </configs>

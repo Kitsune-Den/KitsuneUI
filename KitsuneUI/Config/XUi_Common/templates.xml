@@ -154,6 +154,9 @@
 	<set xpath="/templates/styledlabel/@bordercolor">55,65,104,255</set>
 	<set xpath="/templates/styledlabel/@bordersprite">ku_round_md_ring</set>
 	<set xpath="/templates/styledlabel/sprite/sprite[@name='background']/@sprite">ku_round_sm</set>
+	<!-- A show/hide switch for these boxes (vanilla has none); on by default. -->
+	<setattribute xpath="/templates/styledlabel" name="visible">true</setattribute>
+	<setattribute xpath="/templates/styledlabel/sprite" name="visible">${visible}</setattribute>
 	<set xpath="/templates/combobox/rect/rect[@name='fills']/rect[@name='regularFill']/sprite[@name='fillBg']/@color">[kuTrack]</set>
 	<!-- Toggle buttons (Filter small POIs, debug toggles, ...): glass button, dark-well -->
 	<!-- tick box with a fox-fire tick. Vanilla: grey box, tan on hover, black edge.     -->
