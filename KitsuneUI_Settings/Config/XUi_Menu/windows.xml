@@ -1,0 +1,13 @@
+<configs>
+
+	<!-- The player's glass strength, glass colour and colour preset in the menus: a 1x1 hook  -->
+	<!-- in the main menu and the news splash (XUiC_KitsuneMenuLook). Without KitsuneUI_Settings -->
+	<!-- the menus wear the default Kitsunebi glass.                                            -->
+	<append xpath="/windows/window[@name='mainMenu']">
+		<rect name="kuMenuLook" width="1" height="1" controller="KitsuneMenuLook, KitsuneUI_Settings" />
+	</append>
+	<append xpath="/windows/window[@name='newsScreen']">
+		<rect name="kuMenuLook" width="1" height="1" controller="KitsuneMenuLook, KitsuneUI_Settings" />
+	</append>
+
+</configs>

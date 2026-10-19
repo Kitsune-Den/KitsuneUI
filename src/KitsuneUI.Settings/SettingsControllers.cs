@@ -108,16 +108,55 @@ public static class KitsuneSettingsApplier
         }
     }
 
+    /// <summary>
+    /// The menus' share of the settings (main menu, news splash, options): glass strength and
+    /// glass colour. The colour preset stays Kitsunebi there: many menu colours come from the
+    /// game's own colour formulas (selected rows, tab lines, sandbox values), which a preset
+    /// can't reach, so recolouring the rest gave a mix. Text size, bar styles, slot numbers
+    /// and the bag are the game's business, so they're left alone too.
+    /// </summary>
+    public static void ApplyLook(XUi xui)
+    {
+        if (xui?.WindowGroups == null)
+        {
+            return;
+        }
+        float glass = KitsuneSettingsFile.GetInt(KitsuneSettingsFile.Glass, 30, 100) / 100f;
+        KitsunePalette palette = KitsunePalette.Kitsunebi;
+        glassColour = KitsuneSettingsFile.Get(KitsuneSettingsFile.GlassColour);
+        if (System.Array.IndexOf(GlassColours, glassColour) < 0)
+        {
+            glassColour = "midnight";
+        }
+        lookOnly = true;
+        try
+        {
+            foreach (XUiWindowGroup group in xui.WindowGroups)
+            {
+                if (group?.Controller != null)
+                {
+                    Walk(group.Controller, false, false, glass, palette, false);
+                }
+            }
+        }
+        finally
+        {
+            lookOnly = false;
+        }
+    }
+
+    static bool lookOnly;
+
     static void Walk(XUiController c, bool slotNumbers, bool healthBarAlways, float glass, KitsunePalette palette, bool wholeBackpack)
     {
         XUiView view = c.ViewComponent;
         if (view != null)
         {
-            if (view.ID == "kuSlotKeys" || view.ID == "kuTopBarKeys")
+            if (!lookOnly && (view.ID == "kuSlotKeys" || view.ID == "kuTopBarKeys"))
             {
                 view.IsVisible = slotNumbers;
             }
-            if (view is XUiV_Grid grid)
+            if (!lookOnly && view is XUiV_Grid grid)
             {
                 KitsuneWholeBackpack.Apply(grid, c, wholeBackpack);
             }
@@ -135,7 +174,10 @@ public static class KitsuneSettingsApplier
             else if (view is XUiV_Sprite sprite)
             {
                 Original o = originals.GetValue(sprite, _ => new Original { A = sprite.Color, Sprite = sprite.SpriteName });
-                if (o.Sprite == "ku_bar" && sprite.ID != null && sprite.ID.StartsWith("ku") && sprite.ID.EndsWith("Fill")
+                if (lookOnly)
+                {
+                }
+                else if (o.Sprite == "ku_bar" && sprite.ID != null && sprite.ID.StartsWith("ku") && sprite.ID.EndsWith("Fill")
                     && sprite.SpriteName != barSprite)
                 {
                     sprite.SpriteName = barSprite;
@@ -171,13 +213,13 @@ public static class KitsuneSettingsApplier
                     label.Color = palette.Map(o.A);
                 }
                 int size = Mathf.Max(1, Mathf.RoundToInt(o.Size * textScale));
-                if (o.Size > 0 && label.FontSize != size)
+                if (!lookOnly && o.Size > 0 && label.FontSize != size)
                 {
                     label.FontSize = size;
                 }
             }
         }
-        if (c is XUiC_ItemStack stack)
+        if (!lookOnly && c is XUiC_ItemStack stack)
         {
             Original o = originals.GetValue(stack, _ => new Original
             {
@@ -188,11 +230,11 @@ public static class KitsuneSettingsApplier
             if (KitsunePalette.IsPalette(o.C)) stack.holdingColor = palette.Map(o.C);
             stack.RefreshBindings();
         }
-        if (c is XUiC_HUDStatBar statBar)
+        if (!lookOnly && c is XUiC_HUDStatBar statBar)
         {
             statBar.RefreshBindings();
         }
-        if (c is XUiC_TargetBar bar)
+        if (!lookOnly && c is XUiC_TargetBar bar)
         {
             bar.visibility = healthBarAlways ? XUiC_TargetBar.EVisibility.Always : XUiC_TargetBar.EVisibility.GodMode;
         }
@@ -229,6 +271,42 @@ public class XUiC_KitsuneSettingsHook : XUiController
         KitsuneLayout.ApplyAll();
         KitsuneAutoFade.Update(xui, _dt);
         KitsuneWearWarning.Update(this, _dt);
+    }
+}
+
+/// <summary>
+/// A 1x1 element in the main menu and the news splash: brings the player's glass and colour
+/// settings to the menus (the in-game hook only runs once a game is loaded).
+/// </summary>
+public class XUiC_KitsuneMenuLook : XUiController
+{
+    int appliedVersion = -1;
+    bool failed;
+
+    public override void Update(float _dt)
+    {
+        base.Update(_dt);
+        KitsuneSettingsFile.Get(KitsuneSettingsFile.Glass);
+        if (failed || appliedVersion == KitsuneSettingsFile.Version)
+        {
+            return;
+        }
+        appliedVersion = KitsuneSettingsFile.Version;
+        try
+        {
+            KitsuneSettingsApplier.ApplyLook(xui);
+        }
+        catch (System.Exception ex)
+        {
+            failed = true;
+            Log.Warning($"[KitsuneUI] Menu look: {ex.Message}");
+        }
+    }
+
+    public override void OnOpen()
+    {
+        base.OnOpen();
+        appliedVersion = -1;   // windows opened since the last pass get the look too
     }
 }
 

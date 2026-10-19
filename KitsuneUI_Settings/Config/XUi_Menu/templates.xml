@@ -1,0 +1,17 @@
+<configs>
+
+	<!-- Continue Game: each save card gets its world's map at the left (XUiC_KitsuneSaveMap: the -->
+	<!-- world's biome map, shrunk once and cached), and the name and world move over for it.  -->
+	<append xpath="/templates/savegames_list_entry/rect">
+		<rect name="kuSaveMapBox" depth="3" pos="0,0" width="84" height="84" controller="KitsuneSaveMap, KitsuneUI_Settings" visible="{hasentry}">
+			<sprite depth="3" name="kuSaveMapWell" sprite="ku_round_sm" type="sliced" color="[kuSlotWell]" />
+			<texture depth="4" name="kuSaveMap" pos="3,-3" width="78" height="78" material="Materials/Transparent Colored" />
+			<sprite depth="5" name="kuSaveMapRing" sprite="ku_round_md_ring" type="sliced" color="[kuEdge]" />
+		</rect>
+	</append>
+	<set xpath="/templates/savegames_list_entry/rect/label[@name='Name']/@pos">96,0</set>
+	<set xpath="/templates/savegames_list_entry/rect/label[@name='Name']/@width">${parentinnerwidth-150-20-96}</set>
+	<set xpath="/templates/savegames_list_entry/rect/rect/label[@name='World']/@pos">96,${-parentinnerheight-1}</set>
+	<set xpath="/templates/savegames_list_entry/rect/rect/label[@name='World']/@width">${parentinnerwidth-250-20-96}</set>
+
+</configs>
