@@ -130,6 +130,16 @@ public class XUiC_KitsunePracticeRow : XUiController
                 tooltip += "\n" + KitsunePractice.TiredLine;
             }
         }
+        // Where the practice came from (Shugyō 0.5.0 and up). Every source that adds to a
+        // meter also moves it, so this is fresh whenever the row is.
+        if (tooltip.Length > 0)
+        {
+            string top = KitsunePractice.TopSources(player, Skill);
+            if (top.Length > 0)
+            {
+                tooltip += "\n" + top;
+            }
+        }
         RefreshBindings();
     }
 

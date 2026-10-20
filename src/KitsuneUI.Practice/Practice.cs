@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 using UnityEngine;
@@ -173,4 +174,64 @@ public static class KitsunePractice
     }
 
     public static string TiredLine => Localization.Get("kuPracticeTiredTip");
+
+    // Shugyō 0.5.0 and up: $shugyo_src_<meter>_<source> totals what each source has
+    // added to a meter (levels for crafting skills, practice points for attributes).
+    public const string SourcePrefix = "$shugyo_src_";
+
+    // Sources that mean the same thing for a skill and an attribute share a label.
+    static readonly Dictionary<string, string> SourceLabels = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+    {
+        { "weapon", "kill" },
+        { "tool", "hit" },
+    };
+
+    static readonly List<KeyValuePair<string, float>> sources = new List<KeyValuePair<string, float>>();
+
+    /// <summary>
+    /// The top three sources of a meter's practice, each as its share of everything
+    /// recorded for it: "Kills 62% · Tool hits 30% · Magazines 8%". Empty when nothing is
+    /// recorded (Shugyō before 0.5.0, or nothing practised since).
+    /// </summary>
+    public static string TopSources(EntityPlayerLocal player, string progressionName)
+    {
+        if (player?.Buffs == null)
+        {
+            return "";
+        }
+        string prefix = SourcePrefix + Canonical(progressionName) + "_";
+        sources.Clear();
+        float total = 0f;
+        foreach (KeyValuePair<string, float> cvar in player.Buffs.EnumerateCustomVars(prefix, true))
+        {
+            if (cvar.Value > 0f && cvar.Key.Length > prefix.Length)
+            {
+                sources.Add(new KeyValuePair<string, float>(cvar.Key.Substring(prefix.Length), cvar.Value));
+                total += cvar.Value;
+            }
+        }
+        if (total <= 0f)
+        {
+            return "";
+        }
+        sources.Sort((a, b) => b.Value.CompareTo(a.Value));
+        var line = new System.Text.StringBuilder();
+        for (int i = 0; i < sources.Count && i < 3; i++)
+        {
+            if (i > 0)
+            {
+                line.Append(" · ");
+            }
+            line.Append(SourceLabel(sources[i].Key)).Append(' ')
+                .Append(Mathf.RoundToInt(sources[i].Value / total * 100f).ToString(CultureInfo.InvariantCulture)).Append('%');
+        }
+        return line.ToString();
+    }
+
+    static string SourceLabel(string source)
+    {
+        string key = "kuPracticeSrc_" + (SourceLabels.TryGetValue(source, out string shared) ? shared : source.ToLowerInvariant());
+        string label = Localization.Get(key);
+        return string.IsNullOrEmpty(label) || label == key ? source : label;   // a source this version doesn't know
+    }
 }
