@@ -44,6 +44,7 @@ The theme is XML and images only. It changes how the game looks, never how it pl
 | `KitsuneUI_JobPreview` (optional) | Trader jobs as picture tiles, and a job offer with the location's picture | Small DLL, needs EAC off, needs `KitsuneUI` |
 | `KitsuneUI_Settings` (optional) | An in-game settings window (Esc menu > KitsuneUI), saved per player | Small DLL, needs EAC off, needs `KitsuneUI` |
 | `KitsuneUI_Loading` (optional) | Six Kitsunebi night paintings for the loading screen | Works with EAC on |
+| `KitsuneUI_Practice` (optional) | For Kitsune Shugyō: a Practice tab with every practice meter, and practice bars on the skills screen | Small DLL, needs EAC off, needs `KitsuneUI`; does nothing without Kitsune Shugyō |
 
 ### Languages
 
@@ -78,6 +79,22 @@ Six night paintings in the Kitsunebi colours replace the vanilla loading picture
 It is XML and images only (EAC on). The server sends its list of loading pictures to everyone who joins, so on a server install it on the **server and every client**; a player without it sees an empty background instead of a picture. To mix the paintings in with the vanilla ones rather than replace them, delete the `remove` line in `Config/loadingscreen.xml`.
 
 The game picks a loading picture at random, but it seeds that pick from the frame count, so a launcher that starts the game and connects straight away lands on the same picture every time. With `KitsuneUI_Settings` installed, the pictures take turns instead, so you see every one before any repeats.
+
+## KitsuneUI_Practice
+
+For [Kitsune Shugyō](https://github.com/Kitsune-Den/KitsuneShugyo), where you get better at what you do. Its practice meters fill quietly in the background, and practice you can't see feels like nothing is happening, so this add-on puts them on screen.
+
+- **Practice tab.** A flame tab in the top bar, after Players, opens a window with the five attributes and all 24 crafting skills. Each row has the rank or level, a bar towards the next one and its percentage. A tired attribute gets an amber bar and a **Tired** tag (practice counts at a quarter until it rests). A skill at its maximum says **Mastered**. Hover a row for "42% of the way to rank 5". The window keeps up while it's open, so a magazine a party member reads shows straight away.
+- **Skills screen, attributes.** Ranks are earned, not bought, so the Buy cart and its "Buy: N skill points" tooltip are gone from the ranks you don't have yet (ranks you have keep their check mark). The next rank's row carries the practice bar along its bottom and the percentage where the cart was, the column says **Practice** instead of Buy, and hovering it says "Earned by practice, not bought." In the skill list on the left, an attribute's Cost column shows its practice percentage.
+- **Perks.** A perk's next rank says which attribute rank unlocks it while that rank is still to earn: "Unlocks at Perception Level 5".
+
+Level-up, rank-up and fatigue messages come from Shugyō itself; this add-on only shows what's there.
+
+It reads Shugyō's meters (`$shugyo_<skill>`, `$shugyo_<attribute>` and `$shugyo_fatigue_<attribute>`, see Shugyō's README), so it works with any Shugyō from 0.1.0: before 0.2.0 attributes are still bought, so the attribute screen stays as it is and the Practice tab shows just their ranks. Tired tags need 0.3.0.
+
+**Without Kitsune Shugyō** it does nothing: no Practice tab, and the game's attribute rows, Buy button and skill list stay as they are. The same goes when Shugyō is installed but refuses to start (it does while a mod it replaces is still installed).
+
+Needs `KitsuneUI`. Install on the **server and every client**, with EAC off, like Shugyō itself.
 
 ## KitsuneUI_Settings
 
@@ -180,8 +197,10 @@ python tools/gen_sprites.py
 `tools/check_patches.py` (Python 3 + lxml) applies every patch to the vanilla XUi files in load order and lists any XPath that matches nothing. A dedicated server never loads the menu XUi or the atlases, so this is the only check that covers everything:
 
 ```
-python tools/check_patches.py "<game>/Data/Config" KitsuneUI/Config KitsuneUI_JobPreview/Config KitsuneUI_Settings/Config KitsuneUI_Toolbelt20/Config KitsuneUI_Loading/Config
+python tools/check_patches.py "<game>/Data/Config" KitsuneUI/Config KitsuneUI_JobPreview/Config KitsuneUI_Practice/Config KitsuneUI_Settings/Config KitsuneUI_Toolbelt20/Config KitsuneUI_Loading/Config --loaded KitsuneShugyo
 ```
+
+A `<conditional>` takes its first branch whose `mod_loaded()` passes, counting the folders given and the `--loaded` names as installed. Leave `--loaded KitsuneShugyo` off to check the Practice add-on without Shugyō (nothing of it applies).
 
 ### Building the DLLs
 
@@ -191,6 +210,7 @@ The projects reference the game's DLLs from `7dtd-binaries/` (not committed). Co
 dotnet build src/KitsuneUI.Toolbelt20 -c Release
 dotnet build src/KitsuneUI.JobPreview -c Release
 dotnet build src/KitsuneUI.Settings -c Release
+dotnet build src/KitsuneUI.Practice -c Release
 ```
 
 `src/Shared/KitsuneSettingsFile.cs` (the settings file) is compiled into both JobPreview and Settings, so neither DLL needs the other.

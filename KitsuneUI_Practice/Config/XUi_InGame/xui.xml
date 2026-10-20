@@ -1,0 +1,15 @@
+<configs>
+
+	<!-- The Practice window, opened by the Practice tab in the top tab bar (the tab -->
+	<!-- opens the window group with its own name). Only with Kitsune Shugyō.        -->
+	<conditional>
+		<if cond="mod_loaded('KitsuneShugyo')">
+			<append xpath="/xui">
+				<window_group name="kuPractice">
+					<window name="kuPracticeWindow" />
+				</window_group>
+			</append>
+		</if>
+	</conditional>
+
+</configs>

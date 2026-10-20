@@ -1,0 +1,75 @@
+<configs>
+
+	<!-- Everything here is for Kitsune Shugyō's practice meters. Without it, the game's -->
+	<!-- templates are left exactly as they are.                                        -->
+	<conditional>
+		<if cond="mod_loaded('KitsuneShugyo')">
+
+			<!-- ================================================================ -->
+			<!-- A row of the Practice window: icon, name, level or rank, a bar   -->
+			<!-- towards the next one and its percentage. Tired attributes get an -->
+			<!-- amber bar and a Tired tag; mastered rows say so in gold. The     -->
+			<!-- column positions are parameters, so the wide attribute rows and -->
+			<!-- the two columns of crafting rows share it. The fills are named   -->
+			<!-- ku...Fill and drawn with ku_bar, so they follow KitsuneUI        -->
+			<!-- Settings' bar style.                                             -->
+			<!-- ================================================================ -->
+			<append xpath="/templates">
+				<ku_practice_row kind="crafting" width="480" height="34" font_size="22" icon_size="22"
+						name_w="160" level_x="200" level_w="96" bar_x="300" bar_w="120" pct_x="424" pct_w="52" tired_x="0">
+					<rect controller="KitsunePracticeRow, KitsuneUI_Practice" kind="${kind}" width="${width}" height="${height}" visible="{kp_show}">
+						<sprite depth="1" name="kuPracticeCell" sprite="ku_round_sm" type="sliced" color="[kuCell]" width="${width}" height="${height - 4}" />
+						<sprite depth="2" name="kuPracticeIcon" pos="${Round(icon_size / 2, 0) + 8},-${Round((height - 4) / 2, 0)}" width="${icon_size}" height="${icon_size}" pivot="center" sprite="{kp_icon}" color="[kuIcon]" foregroundlayer="true" />
+						<label depth="2" name="kuPracticeName" pos="${icon_size + 16},-${Round((height - 4) / 2, 0)}" width="${name_w}" height="${height - 8}" pivot="left" justify="left" font_size="${font_size}" max_line_count="1" overflow="shrinkcontent" color="[kuText]" text="{kp_name}" />
+						<label depth="2" name="kuPracticeLevel" pos="${level_x},-${Round((height - 4) / 2, 0)}" width="${level_w}" height="${height - 8}" pivot="left" justify="right" font_size="${font_size - 2}" max_line_count="1" overflow="shrinkcontent" color="[kuTextMid]" text="{kp_level}" />
+
+						<!-- the bar -->
+						<sprite depth="2" name="kuPracticeTrack" pos="${bar_x},-${Round((height - 4) / 2, 0) - 4}" width="${bar_w}" height="8" sprite="ku_bar" type="sliced" color="[kuTrack]" visible="{kp_hasbar}" />
+						<sprite depth="3" name="kuPracticeFill" pos="${bar_x},-${Round((height - 4) / 2, 0) - 4}" width="${bar_w}" height="8" sprite="ku_bar" type="filled" fill="{kp_fill}" color="[kuAccent]" visible="{kp_fresh}" />
+						<sprite depth="3" name="kuPracticeTiredFill" pos="${bar_x},-${Round((height - 4) / 2, 0) - 4}" width="${bar_w}" height="8" sprite="ku_bar" type="filled" fill="{kp_fill}" color="[kuStamina]" visible="{kp_tired}" />
+						<label depth="2" name="kuPracticePct" pos="${pct_x},-${Round((height - 4) / 2, 0)}" width="${pct_w}" height="${height - 8}" pivot="left" justify="right" font_size="${font_size - 2}" color="[kuAccent]" text="{kp_pct}" visible="{kp_fresh}" />
+						<label depth="2" name="kuPracticeTiredPct" pos="${pct_x},-${Round((height - 4) / 2, 0)}" width="${pct_w}" height="${height - 8}" pivot="left" justify="right" font_size="${font_size - 2}" color="[kuStamina]" text="{kp_pct}" visible="{kp_tired}" />
+
+						<!-- mastered: the word in gold where the bar was -->
+						<sprite depth="2" name="kuPracticeMasteredIcon" pos="${bar_x + 9},-${Round((height - 4) / 2, 0)}" width="18" height="18" pivot="center" sprite="ui_game_symbol_check" color="[kuGold]" foregroundlayer="true" visible="{kp_mastered}" />
+						<label depth="2" name="kuPracticeMastered" pos="${bar_x + 24},-${Round((height - 4) / 2, 0)}" width="${pct_x + pct_w - bar_x - 24}" height="${height - 8}" pivot="left" justify="left" font_size="${font_size - 2}" max_line_count="1" overflow="shrinkcontent" color="[kuGold]" text_key="kuPracticeMastered" visible="{kp_mastered}" />
+
+						<!-- tired (attributes): practice counts at a quarter until it rests -->
+						<rect depth="2" name="kuPracticeTired" pos="${tired_x},-${Round((height - 4) / 2, 0) - 13}" width="92" height="26" visible="{kp_tired}">
+							<sprite depth="2" name="kuPracticeTiredPill" sprite="ku_pill" type="sliced" color="242,181,68,60" width="92" height="26" />
+							<sprite depth="3" name="kuPracticeTiredIcon" pos="15,-13" width="18" height="18" pivot="center" sprite="ui_game_symbol_fatigued" color="[kuStamina]" foregroundlayer="true" />
+							<label depth="3" name="kuPracticeTiredText" pos="28,-13" width="60" height="22" pivot="left" justify="left" font_size="18" max_line_count="1" overflow="shrinkcontent" color="[kuStamina]" text_key="kuPracticeTired" />
+						</rect>
+
+						<!-- hover anywhere on the row for "42% of the way to rank 5" -->
+						<sprite depth="6" name="kuPracticeHover" width="${width}" height="${height - 4}" color="0,0,0,1" on_hover="true" tooltip="{kp_tooltip}" />
+					</rect>
+				</ku_practice_row>
+			</append>
+
+			<!-- ================================================================ -->
+			<!-- Attribute levels (skills screen, attribute selected). Ranks are  -->
+			<!-- earned by practice, so the next rank's row carries the practice  -->
+			<!-- bar along the bottom of its text and the percentage where the    -->
+			<!-- Buy cart was. The DLL hides the cart and lock on ranks you don't -->
+			<!-- have (ranks you have keep the check mark).                       -->
+			<!-- ================================================================ -->
+			<append xpath="/templates/skill_attribute_level/rect">
+				<sprite depth="3" name="kuPracticeTrack" pos="77,-${height - 7}" width="490" height="4" sprite="ku_bar" type="sliced" color="[kuTrack]" visible="{kp_next}" />
+				<sprite depth="4" name="kuPracticeFill" pos="77,-${height - 7}" width="490" height="4" sprite="ku_bar" type="filled" fill="{kp_fill}" color="[kuAccent]" visible="{kp_fresh}" />
+				<sprite depth="4" name="kuPracticeTiredFill" pos="77,-${height - 7}" width="490" height="4" sprite="ku_bar" type="filled" fill="{kp_fill}" color="[kuStamina]" visible="{kp_tired}" />
+				<label depth="3" name="kuPracticePct" pos="${width - 38},-${Round(height / 2, 0)}" width="70" height="28" pivot="center" justify="center" font_size="22" color="[kuAccent]" text="{kp_pct}" visible="{kp_fresh}" />
+				<label depth="3" name="kuPracticeTiredPct" pos="${width - 38},-${Round(height / 2, 0)}" width="70" height="28" pivot="center" justify="center" font_size="22" color="[kuStamina]" text="{kp_pct}" visible="{kp_tired}" />
+				<sprite depth="5" name="kuPracticeHover" pos="${width - 75},0" width="73" height="${height}" color="0,0,0,1" on_hover="true" tooltip="{kp_tooltip}" visible="{kp_next}" />
+			</append>
+
+			<!-- Perk levels: the next rank says which attribute rank unlocks it, while that -->
+			<!-- rank is still to earn ("Unlocks at Perception Level 5").                    -->
+			<append xpath="/templates/skill_perk_level/rect">
+				<label depth="3" name="kuPracticeNeeds" pos="570,-${height - 4}" width="420" height="24" pivot="bottomright" justify="right" font_size="18" max_line_count="1" overflow="shrinkcontent" color="[kuGold]" text="{kp_needs}" visible="{kp_hasneeds}" />
+			</append>
+
+		</if>
+	</conditional>
+
+</configs>
