@@ -128,6 +128,18 @@ public static class KitsunePractice
         return found ?? progressionName;
     }
 
+    /// <summary>
+    /// "Perception" from the game's "Attribute: Perception". Every language writes the
+    /// attribute names as a prefix, a colon and the name ("Attribut : Force", "属性：力量"),
+    /// so everything up to the first colon goes and the game's own translations stay.
+    /// </summary>
+    public static string ShortName(string localized)
+    {
+        int colon = localized.IndexOfAny(new[] { ':', '：' });
+        string rest = colon >= 0 ? localized.Substring(colon + 1).Trim() : "";
+        return rest.Length > 0 ? rest : localized;
+    }
+
     /// <summary>The way to the next level or rank, 0..1.</summary>
     public static float Meter(EntityPlayerLocal player, string progressionName)
     {

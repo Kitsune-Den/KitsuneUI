@@ -112,7 +112,7 @@ public class XUiC_KitsunePracticeRow : XUiController
         hasBar = nowHasBar;
         tired = nowTired;
         icon = string.IsNullOrEmpty(cls.Icon) ? "ui_game_filled_circle" : cls.Icon;
-        name = Localization.Get(cls.NameKey);
+        name = IsAttribute ? KitsunePractice.ShortName(Localization.Get(cls.NameKey)) : Localization.Get(cls.NameKey);
         levelText = string.Format(Localization.Get(IsAttribute ? "kuPracticeRankOf" : "kuPracticeLevelOf"), level, max);
         if (mastered)
         {
