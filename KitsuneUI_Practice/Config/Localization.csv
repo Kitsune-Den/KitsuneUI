@@ -14,3 +14,22 @@ kuPracticeToLevel,UI,XUi,,,,{0} of the way to level {1},,{0} auf dem Weg zu Stuf
 kuPracticeEarned,UI,XUi,,,,"Earned by practice, not bought.",,"Durch Übung verdient, nicht gekauft.","Se gana practicando, no se compra.","Gagné par la pratique, pas acheté.","Si guadagna con la pratica, non si compra.",修行で得るもの。購入はできない。,"수련으로 얻으며, 구매할 수 없습니다.","Zdobywane praktyką, nie kupowane.","Conquistado com prática, não comprado.","Зарабатывается практикой, а не покупается.","Pratikle kazanılır, satın alınmaz.",靠练习获得，无法购买。,靠練習獲得，無法購買。
 kuPracticeColumn,UI,XUi,,,,Practice,,Übung,Práctica,Pratique,Pratica,修行,수련,Praktyka,Prática,Практика,Pratik,修炼,修煉
 kuPracticeUnlocksAt,UI,XUi,,,,Unlocks at {0},,Freigeschaltet ab {0},Se desbloquea con {0},Débloqué à {0},Si sblocca con {0},{0} で解放,{0}에서 해금,Odblokowane przy: {0},Desbloqueia com {0},Открывается при: {0},{0} ile açılır,{0} 时解锁,{0} 時解鎖
+kuPracticeSrc_kill,UI,XUi,,,,Kills,,Tötungen,Muertes,Éliminations,Uccisioni,キル,처치,Zabójstwa,Abates,Убийства,Öldürmeler,击杀,擊殺
+kuPracticeSrc_hit,UI,XUi,,,,Tool hits,,Werkzeugschläge,Golpes con herramientas,Coups d'outil,Colpi con attrezzi,ツールでの打撃,도구 타격,Uderzenia narzędziem,Golpes com ferramentas,Удары инструментом,Alet vuruşları,工具敲击,工具敲擊
+kuPracticeSrc_wreck,UI,XUi,,,,Salvaging wrecks,,Wracks ausschlachten,Desguazar chatarra,Démontage d'épaves,Smontare relitti,残骸の解体,잔해 분해,Rozbieranie wraków,Desmontar sucatas,Разбор обломков,Enkaz sökme,拆解残骸,拆解殘骸
+kuPracticeSrc_use,UI,XUi,,,,Eating and medicine,,Essen und Medizin,Comida y medicina,Nourriture et soins,Cibo e medicine,食事と薬,음식과 의약품,Jedzenie i leki,Comida e remédios,Еда и лекарства,Yemek ve ilaç,进食与药品,進食與藥品
+kuPracticeSrc_craft,UI,XUi,,,,Crafting,,Herstellen,Fabricación,Fabrication,Creazione,クラフト,제작,Wytwarzanie,Fabricação,Создание,Üretim,制作,製作
+kuPracticeSrc_station,UI,XUi,,,,Workstations,,Werkbänke,Estaciones de trabajo,Établis,Banchi da lavoro,作業台,작업대,Stanowiska,Bancadas,Верстаки,Tezgâhlar,工作台,工作台
+kuPracticeSrc_vehicle,UI,XUi,,,,Vehicle repairs,,Fahrzeugreparaturen,Reparar vehículos,Réparations de véhicules,Riparazioni di veicoli,乗り物の修理,차량 수리,Naprawy pojazdów,Reparos de veículos,Ремонт техники,Araç onarımı,修理载具,修理載具
+kuPracticeSrc_wire,UI,XUi,,,,Wiring,,Verkabeln,Cableado,Câblage,Cablaggio,配線,배선,Okablowanie,Fiação,Проводка,Kablolama,接线,接線
+kuPracticeSrc_loot,UI,XUi,,,,Looting,,Plündern,Saqueo,Pillage,Saccheggio,物色,약탈,Przeszukiwanie,Saque,Обыск,Yağmalama,搜刮,搜刮
+kuPracticeSrc_magazine,UI,XUi,,,,Magazines,,Magazine,Revistas,Magazines,Riviste,雑誌,잡지,Czasopisma,Revistas,Журналы,Dergiler,杂志,雜誌
+kuPracticeSrc_shared,UI,XUi,,,,Party reads,,Gruppenlektüre,Lecturas del grupo,Lectures du groupe,Letture del gruppo,パーティーの読書,파티 독서,Lektury drużyny,Leituras do grupo,Чтение группы,Grup okumaları,队伍阅读,隊伍閱讀
+kuPracticeSrc_upgrade,UI,XUi,,,,Upgrading blocks,,Blöcke verbessern,Mejorar bloques,Amélioration de blocs,Migliorare blocchi,ブロックの強化,블록 강화,Ulepszanie bloków,Melhorar blocos,Улучшение блоков,Blok yükseltme,升级方块,升級方塊
+kuPracticeSrc_hurt,UI,XUi,,,,Taking hits,,Treffer einstecken,Recibir golpes,Encaisser des coups,Subire colpi,被弾,피격,Przyjmowanie ciosów,Levar golpes,Полученные удары,Darbe almak,受到攻击,受到攻擊
+kuPracticeSrc_heal,UI,XUi,,,,Healing injuries,,Verletzungen heilen,Curar heridas,Soigner ses blessures,Guarire le ferite,怪我の治療,부상 치료,Leczenie urazów,Curar ferimentos,Лечение травм,Yaraları iyileştirme,治疗伤势,治療傷勢
+kuPracticeSrc_sneak,UI,XUi,,,,Sneak attacks,,Schleichangriffe,Ataques furtivos,Attaques furtives,Attacchi furtivi,不意打ち,기습 공격,Ataki z ukrycia,Ataques furtivos,Скрытные атаки,Gizli saldırılar,偷袭,偷襲
+kuPracticeSrc_stealth,UI,XUi,,,,Sneaking,,Schleichen,Sigilo,Discrétion,Furtività,忍び歩き,은신,Skradanie,Furtividade,Скрытность,Gizlenme,潜行,潛行
+kuPracticeSrc_headshot,UI,XUi,,,,Headshots,,Kopfschüsse,Disparos a la cabeza,Tirs à la tête,Colpi alla testa,ヘッドショット,헤드샷,Strzały w głowę,Tiros na cabeça,Выстрелы в голову,Kafadan vuruşlar,爆头,爆頭
+kuPracticeSrc_read,UI,XUi,,,,Reading,,Lesen,Lectura,Lecture,Lettura,読書,독서,Czytanie,Leitura,Чтение,Okuma,阅读,閱讀
+kuPracticeSrc_trade,UI,XUi,,,,Trading,,Handeln,Comercio,Commerce,Commercio,取引,거래,Handel,Comércio,Торговля,Ticaret,交易,交易
