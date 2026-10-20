@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xml>
+	<Name value="KitsuneUI_Practice" />
+	<DisplayName value="KitsuneUI Practice" />
+	<Description value="Makes Kitsune Shugyō's practice visible: a Practice tab with every attribute and crafting skill, its level or rank, a bar towards the next one and a Tired tag on tired attributes, and on the skills screen the attribute rows show the practice bar where the Buy button was. Does nothing without Kitsune Shugyō. Needs KitsuneUI. Contains a DLL: play with EAC off, and install on the server and every client." />
+	<Website value="https://github.com/Kitsune-Den/KitsuneUI" />
+	<Author value="AdaInTheLab" />
+	<Version value="1.0.0" />
+</xml>
