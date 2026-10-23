@@ -1,6 +1,6 @@
 # Toolbelt20: a configurable slot count (plan)
 
-Status: built, not yet tested in game. Builds on the tray fix (the toolbelt tray, the Settings tray override and the Move HUD outline size from `beltslots`).
+Status: shipped in KitsuneUI 1.16.0 (Toolbelt20 1.1.0, Settings 1.19.0). Builds on the tray fix (the toolbelt tray, the Settings tray override and the Move HUD outline size from `beltslots`).
 
 What shipped differs from the plan below in a few places:
 

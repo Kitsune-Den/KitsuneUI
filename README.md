@@ -20,7 +20,7 @@ The theme is XML and images only. It changes how the game looks, never how it pl
 ## What it covers
 
 - **HUD:** health, stamina, food and water bars with an injury hatch, buff pop-outs lined up with the bars, compass, location box, quest and recipe trackers, party bars, enemy health bar.
-- **Toolbelt:** a glass tray that grows to fit one or two bars.
+- **Toolbelt:** a glass tray that grows to fit one or two bars, or one bar of up to 20 slots.
 - **Inventory:** backpack, loot, vehicle and drone storage, with rounded slots that glow fox-fire when selected and gold on hover.
 - **Crafting:** recipe list, recipe and item details, crafting queue, the creative menu, every workstation (workbench, forge, campfire, chemistry station, cement mixer, dew collector).
 - **Trader and quests:** trader stock, services, job offer, quest journal, turn-in rewards.
@@ -40,7 +40,7 @@ The theme is XML and images only. It changes how the game looks, never how it pl
 | Mod | What it does | EAC |
 |---|---|---|
 | `KitsuneUI` | The theme | Works with EAC on |
-| `KitsuneUI_Toolbelt20` (optional) | Two toolbelt bars of 10 | Small DLL, needs EAC off |
+| `KitsuneUI_Toolbelt20` (optional) | Two toolbelt bars of 10, or one bar of up to 20 | Small DLL, needs EAC off |
 | `KitsuneUI_JobPreview` (optional) | Trader jobs as picture tiles, and a job offer with the location's picture | Small DLL, needs EAC off, needs `KitsuneUI` |
 | `KitsuneUI_Settings` (optional) | An in-game settings window (Esc menu > KitsuneUI), saved per player | Small DLL, needs EAC off, needs `KitsuneUI` |
 | `KitsuneUI_Loading` (optional) | Six Kitsunebi night paintings for the loading screen | Works with EAC on |
@@ -167,7 +167,7 @@ Safe for items: when the game loads a 20-slot belt into a 10-slot one, the extra
 
 ### Changing the size
 
-Edit `KitsuneUI_Toolbelt20/Config/toolbelt.xml` on the server (it sends the size to every player):
+Pick it in KitsuneUI Settings (**Toolbelt & bars > Size**), which saves it into `KitsuneUI_Toolbelt20/Config/toolbelt.xml`, or edit that file yourself. It applies from the next time a world loads. On a server, the server's file decides and it sends the size to every player:
 
 - **Two bars of 10** (the default): `slot_per_bar="10" bar_per_page="2"`.
 - **One bar of 11 to 20**: say `slot_per_bar="15" bar_per_page="1"`. 1 to 0 pick slots 1-10, Shift + 1, 2, ... pick slot 11, 12, ... The bar stays centred, and with KitsuneUI slots 11 and up get gold numbers and a SHIFT tag at the end. A wide bar meets the bottom corners of the HUD on 16:9 screens, like the one-row layout.
