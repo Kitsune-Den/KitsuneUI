@@ -3,7 +3,7 @@ using System.IO;
 using UnityEngine;
 
 /// <summary>
-/// Player portraits on the unit frames (Settings > Look > Portrait: Off / Clean / Painted):
+/// Player portraits on the unit frames (Settings > Unit frames > Portrait: Off / Clean / Painted):
 /// you on the player frame, party members on the party frames, and a player you target.
 ///
 /// Each is a still picture, not a live camera: the same machinery as the character

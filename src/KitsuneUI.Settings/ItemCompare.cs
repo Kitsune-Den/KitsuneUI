@@ -1,7 +1,7 @@
 using HarmonyLib;
 
 /// <summary>
-/// "Quality rings" (Settings > Windows): a thin ring inside every item slot in the item's
+/// "Quality rings" (Settings > Backpack & items): a thin ring inside every item slot in the item's
 /// quality colour (the same colour as its durability bar), so a good drop stands out in a
 /// crate. The ring (kuQualityRing) is patched into the item slot template; this adds the
 /// kuqualityring binding that shows it, only for items that have a quality.
@@ -24,7 +24,7 @@ public static class KitsuneQualityRings
 }
 
 /// <summary>
-/// "Compare with the item in your hand" (Settings > Windows): the item info panel already
+/// "Compare with the item in your hand" (Settings > Backpack & items): the item info panel already
 /// compares armour with what you're wearing, and an item with another you hover while
 /// one is selected. This adds the everyday case: a weapon or tool compares with the one
 /// you're holding, shown the game's own way (the differences after each stat).

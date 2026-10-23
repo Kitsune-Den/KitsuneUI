@@ -3,7 +3,7 @@ using HarmonyLib;
 using UnityEngine;
 
 /// <summary>
-/// Toolbelt layout (Settings > HUD), for two toolbelt bars (KitsuneUI_Toolbelt20).
+/// Toolbelt layout (Settings > Toolbelt & bars > Two bars), for two toolbelt bars (KitsuneUI_Toolbelt20).
 ///
 /// "Two rows" is the game's own layout: the Shift bar sits on top of the main one. "One row"
 /// puts it to the right instead, so all 20 slots are in a line and nothing reaches up into

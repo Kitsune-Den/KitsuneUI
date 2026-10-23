@@ -50,7 +50,7 @@ public static class KitsuneSettingsApplier
     static float textScale = 1f;
 
     /// <summary>
-    /// Bar styles (Look > Bar style): textures for KitsuneUI's own bars. A bar is any
+    /// Bar styles (Toolbelt & bars > Bar style): textures for KitsuneUI's own bars. A bar is any
     /// "ku...Fill" sprite drawn with ku_bar (unit frames, XP bar, crafting card, the
     /// preview in the settings window), plus the fills of the HUD's pill-shaped bars;
     /// "kitsunebi" keeps each bar's own sprite.
@@ -324,8 +324,10 @@ public class XUiC_KitsuneSettingsOpener : XUiController
 }
 
 /// <summary>
-/// The settings window, in five tabs (HUD, Map, Combat, Windows, Look): fourteen toggles, bar style, minimap zoom and view, bar text style, text size, a four-step glass strength and Close.
-/// Every change is saved and applied straight away.
+/// The settings window: a rail of eight pages (HUD, Toolbelt &amp; bars, Map, Unit frames, Combat,
+/// Backpack &amp; items, Traders &amp; quests, Look), a strip that says what the option under the
+/// mouse does, and rows that dim while the option they need is off. Every change is saved
+/// and applied straight away.
 /// </summary>
 public class XUiC_KitsuneSettingsWindow : XUiController
 {
@@ -410,8 +412,8 @@ public class XUiC_KitsuneSettingsWindow : XUiController
     readonly List<(int blocks, XUiC_SimpleButton button)> zoomButtons = new List<(int, XUiC_SimpleButton)>();
     readonly List<(bool rotate, XUiC_SimpleButton button)> viewButtons = new List<(bool, XUiC_SimpleButton)>();
 
-    // Tabs: each shows one rect of rows; the last one picked is shown again next time.
-    static readonly string[] Tabs = { "hud", "map", "combat", "windows", "look" };
+    // Pages on the rail: each shows one rect of rows; the last one picked is shown again next time.
+    static readonly string[] Tabs = { "hud", "belt", "map", "frames", "combat", "bag", "trade", "look" };
     static string currentTab = "hud";
     readonly List<(string tab, XUiC_SimpleButton button, XUiView page)> tabs = new List<(string, XUiC_SimpleButton, XUiView)>();
     readonly List<(int percent, XUiC_SimpleButton button)> glassButtons = new List<(int, XUiC_SimpleButton)>();
@@ -566,6 +568,10 @@ public class XUiC_KitsuneSettingsWindow : XUiController
                 tabs.Add((tab, b, page));
             }
         }
+        descTitle = GetChildById("kuDescTitle")?.ViewComponent as XUiV_Label;
+        descText = GetChildById("kuDescText")?.ViewComponent as XUiV_Label;
+        SetUpRows(this);
+        SetUpToolbeltSize();
         foreach (int percent in GlassSteps)
         {
             if (FindButton("btnGlass" + percent) is XUiC_SimpleButton b)
@@ -752,9 +758,184 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         }
     }
 
+    // The strip under each page: pointing at a row (a kuRow_<name> rect) shows the row's
+    // name and what it does (kuDesc_<name>).
+    XUiV_Label descTitle;
+    XUiV_Label descText;
+
+    // Rows that only matter with another option on (kuDep_<key> rects): while it's off, a veil
+    // covers them and their buttons switch off, or, in a rect with a note, the buttons hide and
+    // the note shows in their place. kuShow_<key> rects just show or hide. See Condition.
+    readonly List<(string key, XUiView veil, XUiView note, List<XUiController> controls)> dependents = new List<(string, XUiView, XUiView, List<XUiController>)>();
+    readonly List<(string key, XUiView view)> shown = new List<(string, XUiView)>();
+
+    // A setting key, or "toolbelt20" (that mod is loaded) or "twoBars" (the toolbelt in use
+    // has two bars: Two bars shown as is only for those).
+    static bool Condition(string key)
+    {
+        switch (key)
+        {
+            case "toolbelt20": return KitsuneToolbeltSize.Available;
+            case "twoBars": return ToolbeltConfig.CurrentConfig.BarsPerPage > 1;
+            default: return KitsuneSettingsFile.GetBool(key);
+        }
+    }
+
+    void SetUpRows(XUiController c)
+    {
+        string id = c.ViewComponent?.ID;
+        if (id != null && id.StartsWith("kuRow_"))
+        {
+            string name = id.Substring("kuRow_".Length);
+            XUiController row = c;
+            foreach (XUiController button in Descendants(c))
+            {
+                if (button.ViewComponent is XUiV_Button)
+                {
+                    button.OnHover += (_sender, _isOver) =>
+                    {
+                        if (_isOver)
+                        {
+                            ShowDescription(row, name);
+                        }
+                    };
+                }
+            }
+        }
+        else if (id != null && id.StartsWith("kuDep_"))
+        {
+            List<XUiController> controls = new List<XUiController>();
+            foreach (XUiController d in Descendants(c))
+            {
+                if (d is XUiC_ToggleButton || d is XUiC_SimpleButton)
+                {
+                    controls.Add(d);
+                }
+            }
+            dependents.Add((id.Substring("kuDep_".Length), c.GetChildById("kuDepVeil")?.ViewComponent, c.GetChildById("kuDepNote")?.ViewComponent, controls));
+        }
+        else if (id != null && id.StartsWith("kuShow_"))
+        {
+            shown.Add((id.Substring("kuShow_".Length), c.ViewComponent));
+        }
+        if (c.Children != null)
+        {
+            foreach (XUiController child in c.Children)
+            {
+                SetUpRows(child);
+            }
+        }
+    }
+
+    static IEnumerable<XUiController> Descendants(XUiController c)
+    {
+        if (c.Children == null)
+        {
+            yield break;
+        }
+        foreach (XUiController child in c.Children)
+        {
+            yield return child;
+            foreach (XUiController d in Descendants(child))
+            {
+                yield return d;
+            }
+        }
+    }
+
+    void ShowDescription(XUiController row, string name)
+    {
+        if (descTitle == null || descText == null)
+        {
+            return;
+        }
+        // The row's name is its first label with text outside its buttons (a toggle's own
+        // caption is empty); a row with no label of its own (the length stepper) has a
+        // kuDescTitle_<name> string instead.
+        string title = RowLabel(row) ?? Localization.Get("kuDescTitle_" + name);
+        descTitle.Text = title;
+        descText.Text = Localization.Get("kuDesc_" + name);
+    }
+
+    static string RowLabel(XUiController c)
+    {
+        if (c.Children == null)
+        {
+            return null;
+        }
+        foreach (XUiController child in c.Children)
+        {
+            if (child.ViewComponent is XUiV_Label label && !string.IsNullOrEmpty(label.Text))
+            {
+                return label.Text;
+            }
+            // skip into anything but buttons (btn... / tgl... elements, whatever their template's root)
+            string id = child.ViewComponent?.ID ?? "";
+            bool button = child is XUiC_SimpleButton || child is XUiC_ToggleButton || id.StartsWith("btn") || id.StartsWith("tgl");
+            if (!button && RowLabel(child) is string inner)
+            {
+                return inner;
+            }
+        }
+        return null;
+    }
+
+    void ShowIdleDescription()
+    {
+        if (descTitle != null && descText != null)
+        {
+            descTitle.Text = "";
+            descText.Text = Localization.Get("kuDescIdle");
+        }
+    }
+
+    void ShowDependents()
+    {
+        foreach ((string key, XUiView view) in shown)
+        {
+            bool on = Condition(key);
+            if (view.IsVisible != on)
+            {
+                view.IsVisible = on;
+            }
+        }
+        foreach ((string key, XUiView veil, XUiView note, List<XUiController> controls) in dependents)
+        {
+            bool on = Condition(key);
+            if (veil != null && veil.IsVisible == on)
+            {
+                veil.IsVisible = !on;
+            }
+            if (note != null && note.IsVisible == on)
+            {
+                note.IsVisible = !on;
+            }
+            foreach (XUiController c in controls)
+            {
+                if (note != null)
+                {
+                    // a row with a note says why instead: its buttons make way for it
+                    if (c.ViewComponent != null && c.ViewComponent.IsVisible != on)
+                    {
+                        c.ViewComponent.IsVisible = on;
+                    }
+                }
+                else if (c is XUiC_ToggleButton toggle)
+                {
+                    toggle.Enabled = on;
+                }
+                else if (c is XUiC_SimpleButton button)
+                {
+                    button.Enabled = on;
+                }
+            }
+        }
+    }
+
     void ShowTab(string tab)
     {
         currentTab = tab;
+        ShowIdleDescription();
         foreach ((string t, XUiC_SimpleButton button, XUiView page) in tabs)
         {
             page.IsVisible = t == tab;
@@ -791,9 +972,133 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         }
     }
 
+    // Toolbelt size (KitsuneToolbeltSize): what toolbelt.xml says, read when the window opens
+    // and after every save. Switching to One bar picks up the last length used here.
+    XUiC_SimpleButton beltStacked, beltOneBar;
+    XUiView beltLength, beltNote;
+    XUiV_Label beltLengthValue, beltNow;
+    bool beltSavedStacked = true;
+    int beltSavedSlots = KitsuneToolbeltSize.MaxSlots;
+    static int beltOneBarSlots = KitsuneToolbeltSize.MaxSlots;
+    string beltError;
+
+    void SetUpToolbeltSize()
+    {
+        beltStacked = FindButton("btnBeltSize_stacked");
+        beltOneBar = FindButton("btnBeltSize_one");
+        beltLength = GetChildById("kuBeltLength")?.ViewComponent;
+        beltLengthValue = GetChildById("kuBeltLengthValue")?.ViewComponent as XUiV_Label;
+        beltNow = GetChildById("kuBeltNow")?.ViewComponent as XUiV_Label;
+        beltNote = GetChildById("kuBeltNote")?.ViewComponent;
+        if (beltStacked != null)
+        {
+            beltStacked.OnPressed += (_sender, _mouseButton) => SaveToolbeltSize(true, beltSavedSlots);
+        }
+        if (beltOneBar != null)
+        {
+            beltOneBar.OnPressed += (_sender, _mouseButton) => SaveToolbeltSize(false, beltOneBarSlots);
+        }
+        foreach (int step in new[] { -1, 1 })
+        {
+            if (FindButton(step < 0 ? "btnBeltLengthPrev" : "btnBeltLengthNext") is XUiC_SimpleButton b)
+            {
+                int s = step;
+                b.OnPressed += (_sender, _mouseButton) =>
+                {
+                    if (!beltSavedStacked)
+                    {
+                        SaveToolbeltSize(false, Mathf.Clamp(beltSavedSlots + s, KitsuneToolbeltSize.MinSlots, KitsuneToolbeltSize.MaxSlots));
+                    }
+                };
+            }
+        }
+    }
+
+    void ReadToolbeltSize()
+    {
+        KitsuneToolbeltSize.Read(out beltSavedStacked, out beltSavedSlots);
+        if (!beltSavedStacked)
+        {
+            beltOneBarSlots = beltSavedSlots;
+        }
+    }
+
+    void SaveToolbeltSize(bool stacked, int slots)
+    {
+        beltError = KitsuneToolbeltSize.Write(stacked, slots);
+        ReadToolbeltSize();
+        ShowToolbeltSize();
+    }
+
+    void ShowToolbeltSize()
+    {
+        bool available = KitsuneToolbeltSize.Available;
+        if (beltStacked?.Button != null) beltStacked.Button.Selected = beltSavedStacked;
+        if (beltOneBar?.Button != null) beltOneBar.Button.Selected = !beltSavedStacked;
+        bool showLength = available && !beltSavedStacked;
+        if (beltLength != null && beltLength.IsVisible != showLength)
+        {
+            beltLength.IsVisible = showLength;
+        }
+        if (beltLengthValue != null)
+        {
+            beltLengthValue.Text = beltSavedSlots.ToString();
+        }
+        if (beltNow == null)
+        {
+            return;
+        }
+        // One note at a time: what's in use now (gold) while it differs, else when a size applies.
+        string now = BeltNowText();
+        beltNow.Text = now;
+        bool showNow = now.Length > 0;
+        if (beltNow.IsVisible != showNow)
+        {
+            beltNow.IsVisible = showNow;
+        }
+        if (beltNote != null && beltNote.IsVisible == showNow)
+        {
+            beltNote.IsVisible = !showNow;
+        }
+    }
+
+    string BeltNowText()
+    {
+        if (beltError != null)
+        {
+            return string.Format(Localization.Get("kuBeltSaveFailed"), beltError);
+        }
+        // The belt in use, against the one saved: say what's in use until the next world load,
+        // who decides it on someone else's server, and what a smaller belt does to items.
+        ToolbeltConfig now = ToolbeltConfig.CurrentConfig;
+        bool nowStacked = now.BarsPerPage > 1;
+        int savedTotal = beltSavedStacked ? 20 : beltSavedSlots;
+        if (nowStacked == beltSavedStacked && now.TotalSlots == savedTotal)
+        {
+            return "";
+        }
+        string text = nowStacked
+            ? string.Format(Localization.Get("kuBeltNowBars"), now.BarsPerPage, now.SlotsPerBar)
+            : string.Format(Localization.Get("kuBeltNowOne"), now.SlotsPerBar);
+        if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
+        {
+            text += " " + Localization.Get("kuBeltByServer");
+        }
+        else
+        {
+            text += " " + Localization.Get("kuBeltReload");
+            if (savedTotal < now.TotalSlots)
+            {
+                text += " " + Localization.Get("kuBeltSmaller");
+            }
+        }
+        return text;
+    }
+
     public override void OnOpen()
     {
         base.OnOpen();
+        ReadToolbeltSize();
         Sync();
         ShowTab(currentTab);
     }
@@ -847,5 +1152,7 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         ShowMap();
         ShowGlass();
         ShowGlassColour();
+        ShowDependents();
+        ShowToolbeltSize();
     }
 }

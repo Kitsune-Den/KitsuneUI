@@ -4,7 +4,7 @@ using HarmonyLib;
 using UnityEngine;
 
 /// <summary>
-/// Trader jobs (Settings > Windows): By tier, By distance, or No tiers.
+/// Trader jobs (Settings > Traders & quests): By tier, By distance, or No tiers.
 ///
 /// The trader pages jobs by tier ("current jobs" shows tier I, with a button per unlocked
 /// tier). By distance lists the jobs of every tier you've unlocked together instead, nearest
