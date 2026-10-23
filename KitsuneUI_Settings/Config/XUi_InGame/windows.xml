@@ -1145,13 +1145,22 @@
 	<!-- Backpack search (Settings > Backpack & items): a search field in the      -->
 	<!-- backpack header; XUiC_KitsuneBagSearch dims slots that don't      -->
 	<!-- match (kuSearchDim, patched into the item slot template).         -->
+	<!-- V3.4 has its own category and text filters over the backpack, so   -->
+	<!-- ours is V3.3 only, and its Settings row goes on V3.4.              -->
 	<!-- ================================================================ -->
-	<append xpath="/windows/window[@name='windowBackpack']/rect[@name='header']">
-		<rect name="kuBagSearch" pos="190,0" width="114" height="43" controller="KitsuneBagSearch, KitsuneUI_Settings">
-			<sprite depth="4" name="kuBagSearchIcon" style="icon30px" pos="0,-22" sprite="ui_game_symbol_search" pivot="center" color="[kuTextMid]" />
-			<textfield depth="5" name="kuBagSearchInput" pos="18,-7" width="62" height="30" font_size="20" character_limit="24" search_field="true" clear_button="true" />
-		</rect>
-	</append>
+	<conditional>
+		<if cond="game_version() &lt; version(3,40)">
+			<append xpath="/windows/window[@name='windowBackpack']/rect[@name='header']">
+				<rect name="kuBagSearch" pos="190,0" width="114" height="43" controller="KitsuneBagSearch, KitsuneUI_Settings">
+					<sprite depth="4" name="kuBagSearchIcon" style="icon30px" pos="0,-22" sprite="ui_game_symbol_search" pivot="center" color="[kuTextMid]" />
+					<textfield depth="5" name="kuBagSearchInput" pos="18,-7" width="62" height="30" font_size="20" character_limit="24" search_field="true" clear_button="true" />
+				</rect>
+			</append>
+		</if>
+		<else>
+			<remove xpath="/windows/window[@name='kuSettingsWindow']//rect[@name='kuRow_bagSearch']" />
+		</else>
+	</conditional>
 
 	<!-- Whole-backpack toggle in the header (works with the inventory open). -->
 	<append xpath="/windows/window[@name='windowBackpack']/rect[@name='header']">
