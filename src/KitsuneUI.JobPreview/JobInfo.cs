@@ -81,8 +81,8 @@ public sealed class JobInfo
             {
                 info.Name = Localization.Get(prefab.location.Name);
             }
-            string jpg = prefab.location.FullPathNoExtension + ".jpg";
-            if (File.Exists(jpg))
+            string jpg = PreviewPicture(prefab);
+            if (jpg != null)
             {
                 // XUiV_Texture loads "@file:<uri>" itself; an absolute file URI works on every platform.
                 info.Image = "@" + new Uri(Path.GetFullPath(jpg)).AbsoluteUri;
@@ -226,10 +226,39 @@ public sealed class JobInfo
         return buriedPicture;
     }
 
+    /// <summary>
+    /// The POI's preview picture (&lt;prefab&gt;.jpg, 280x210, next to its files), or null.
+    /// In single player the prefab instance knows its real location. On a client of a
+    /// dedicated server it knows only the name (its location comes out as "/barn_03"),
+    /// so the name is looked up in the game's own prefab folders, as its console
+    /// commands do. Mod POIs are in those folders too.
+    /// </summary>
+    static string PreviewPicture(PrefabInstance prefab)
+    {
+        string jpg = prefab.location.FullPathNoExtension + ".jpg";
+        if (File.Exists(jpg))
+        {
+            return jpg;
+        }
+        string name = string.IsNullOrEmpty(prefab.location.Name) ? prefab.location.FileNameNoExtension : prefab.location.Name;
+        if (string.IsNullOrEmpty(name))
+        {
+            return null;
+        }
+        PathAbstractions.AbstractedLocation found = PathAbstractions.PrefabsSearchPaths.GetLocation(name);
+        if (found.Type == PathAbstractions.EAbstractedLocationType.None)
+        {
+            return null;
+        }
+        jpg = found.FullPathNoExtension + ".jpg";
+        return File.Exists(jpg) ? jpg : null;
+    }
+
     static PrefabInstance FindPrefab(Quest quest, out Vector3 center, out bool hasPosition)
     {
         center = Vector3.zero;
-        hasPosition = quest.GetPositionData(out Vector3 corner, Quest.PositionDataTypes.POIPosition);
+        bool hasCorner = quest.GetPositionData(out Vector3 corner, Quest.PositionDataTypes.POIPosition);
+        hasPosition = hasCorner;
         if (hasPosition)
         {
             center = corner;
@@ -252,7 +281,35 @@ public sealed class JobInfo
         {
             return null;
         }
-        // Offered jobs usually carry their prefab; fall back to the world's lookup.
-        return GameManager.Instance?.GetDynamicPrefabDecorator()?.GetPrefabFromWorldPosInside((int)center.x, (int)center.z);
+        // Offered jobs usually carry their prefab, but not on a client of a dedicated server.
+        // There the world's own lookup by position can return the city block a house sits in
+        // (the Lopez Residence came back as diersville_city_blk_01, a flat lot picture), so
+        // take the building the job's POI corner starts, else the smallest one around it.
+        DynamicPrefabDecorator decorator = GameManager.Instance?.GetDynamicPrefabDecorator();
+        if (decorator == null)
+        {
+            return null;
+        }
+        int x = (int)center.x, z = (int)center.z;
+        decorator.GetPrefabsAtXZ(x, x, z, z, nearby);
+        PrefabInstance best = null;
+        foreach (PrefabInstance p in nearby)
+        {
+            if (hasCorner && p.boundingBoxPosition.x == (int)corner.x && p.boundingBoxPosition.z == (int)corner.z)
+            {
+                best = p;
+                break;
+            }
+            if (best == null || Area(p) < Area(best))
+            {
+                best = p;
+            }
+        }
+        nearby.Clear();
+        return best ?? decorator.GetPrefabFromWorldPosInside(x, z);
     }
+
+    static readonly System.Collections.Generic.List<PrefabInstance> nearby = new System.Collections.Generic.List<PrefabInstance>();
+
+    static long Area(PrefabInstance p) => (long)p.boundingBoxSize.x * p.boundingBoxSize.z;
 }
