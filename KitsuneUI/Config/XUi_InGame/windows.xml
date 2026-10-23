@@ -33,7 +33,7 @@
 	     the bag down from -46 to -83. The body glass reaches up under that row (37px more, so it
 	     still meets the header), and the row itself is a soft cell like the crafting categories. -->
 	<conditional>
-		<if cond="game_version() &gt;= version(3,40)">
+		<if cond="game_version() &gt;= version(1,3,40)">
 			<setattribute xpath="/windows/window[@name='windowBackpack']/rect[@name='content']/sprite[@name='sprBackground']" name="pos">0,40</setattribute>
 			<setattribute xpath="/windows/window[@name='windowBackpack']/rect[@name='content']/sprite[@name='sprBackground']" name="height">{% is_prefab_editor ? 335 : 408 }</setattribute>
 			<setattribute xpath="/windows/window[@name='windowBackpack']/rect[@name='actions']/boxbg" name="backsprite">ku_round_sm</setattribute>
@@ -57,7 +57,7 @@
 	<!-- from -49 to -83, so its body starts 34px higher (depth -1: under that row's cell)    -->
 	<!-- and the visible area grows to 800. Bag storage keeps its V3.3 layout.              -->
 	<conditional>
-		<if cond="game_version() &gt;= version(3,40)">
+		<if cond="game_version() &gt;= version(1,3,40)">
 			<prepend xpath="/windows/window[@name='windowLooting']/rect[@name='content']">
 				<sprite depth="-1" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,40"
 					width="{% v2i_x(gridDimensions) * 75 + 19 }"
