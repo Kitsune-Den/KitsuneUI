@@ -3,7 +3,7 @@ using HarmonyLib;
 using UnityEngine;
 
 /// <summary>
-/// "Party frames" (Settings > Combat, with unit frames): ElvUI-style frames for the
+/// "Party frames" (Settings > Unit frames): ElvUI-style frames for the
 /// other members of your party, stacked under your player frame: name, distance and a
 /// health bar each, greyed out while they're dead. The vanilla party bars hide while
 /// these show.

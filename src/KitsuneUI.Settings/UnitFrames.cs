@@ -173,7 +173,7 @@ public static class KitsuneUnitFrames
         }
     }
 
-    // ---- Frame width and buff icon size (Settings > Combat). The XML is laid out at the
+    // ---- Frame width and buff icon size (Settings > Unit frames). The XML is laid out at the
     // normal 320 px; this stretches the glass, bars and right-hand labels to the chosen
     // width (the player frame grows leftward, so its inner edge stays by the crosshair),
     // and sizes and spaces the buff icons.

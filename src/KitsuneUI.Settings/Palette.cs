@@ -51,7 +51,7 @@ public sealed class KitsunePalette
             new Color32(255, 234, 244, 255)),
     };
 
-    /// <summary>The 12 hues offered as custom colours (Look > Custom), in degrees.</summary>
+    /// <summary>The 12 hues offered as custom colours (Settings > Look > Custom), in degrees.</summary>
     public static readonly int[] CustomHues = { 0, 30, 50, 80, 120, 160, 185, 200, 220, 250, 280, 320 };
 
     /// <summary>

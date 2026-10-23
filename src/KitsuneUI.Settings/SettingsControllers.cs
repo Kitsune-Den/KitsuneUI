@@ -50,7 +50,7 @@ public static class KitsuneSettingsApplier
     static float textScale = 1f;
 
     /// <summary>
-    /// Bar styles (Look > Bar style): textures for KitsuneUI's own bars. A bar is any
+    /// Bar styles (Toolbelt & bars > Bar style): textures for KitsuneUI's own bars. A bar is any
     /// "ku...Fill" sprite drawn with ku_bar (unit frames, XP bar, crafting card, the
     /// preview in the settings window), plus the fills of the HUD's pill-shaped bars;
     /// "kitsunebi" keeps each bar's own sprite.
@@ -324,8 +324,10 @@ public class XUiC_KitsuneSettingsOpener : XUiController
 }
 
 /// <summary>
-/// The settings window, in five tabs (HUD, Map, Combat, Windows, Look): fourteen toggles, bar style, minimap zoom and view, bar text style, text size, a four-step glass strength and Close.
-/// Every change is saved and applied straight away.
+/// The settings window: a rail of eight pages (HUD, Toolbelt &amp; bars, Map, Unit frames, Combat,
+/// Backpack &amp; items, Traders &amp; quests, Look), a strip that says what the option under the
+/// mouse does, and rows that dim while the option they need is off. Every change is saved
+/// and applied straight away.
 /// </summary>
 public class XUiC_KitsuneSettingsWindow : XUiController
 {
@@ -410,8 +412,8 @@ public class XUiC_KitsuneSettingsWindow : XUiController
     readonly List<(int blocks, XUiC_SimpleButton button)> zoomButtons = new List<(int, XUiC_SimpleButton)>();
     readonly List<(bool rotate, XUiC_SimpleButton button)> viewButtons = new List<(bool, XUiC_SimpleButton)>();
 
-    // Tabs: each shows one rect of rows; the last one picked is shown again next time.
-    static readonly string[] Tabs = { "hud", "map", "combat", "windows", "look" };
+    // Pages on the rail: each shows one rect of rows; the last one picked is shown again next time.
+    static readonly string[] Tabs = { "hud", "belt", "map", "frames", "combat", "bag", "trade", "look" };
     static string currentTab = "hud";
     readonly List<(string tab, XUiC_SimpleButton button, XUiView page)> tabs = new List<(string, XUiC_SimpleButton, XUiView)>();
     readonly List<(int percent, XUiC_SimpleButton button)> glassButtons = new List<(int, XUiC_SimpleButton)>();
@@ -566,6 +568,9 @@ public class XUiC_KitsuneSettingsWindow : XUiController
                 tabs.Add((tab, b, page));
             }
         }
+        descTitle = GetChildById("kuDescTitle")?.ViewComponent as XUiV_Label;
+        descText = GetChildById("kuDescText")?.ViewComponent as XUiV_Label;
+        SetUpRows(this);
         foreach (int percent in GlassSteps)
         {
             if (FindButton("btnGlass" + percent) is XUiC_SimpleButton b)
@@ -752,9 +757,129 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         }
     }
 
+    // The strip under each page: pointing at a row (a kuRow_<name> rect) shows the row's
+    // name and what it does (kuDesc_<name>).
+    XUiV_Label descTitle;
+    XUiV_Label descText;
+
+    // Rows that only matter with another option on (kuDep_<setting key> rects): while it's
+    // off, a veil covers them and their buttons switch off.
+    readonly List<(string key, XUiView veil, List<XUiController> controls)> dependents = new List<(string, XUiView, List<XUiController>)>();
+
+    void SetUpRows(XUiController c)
+    {
+        string id = c.ViewComponent?.ID;
+        if (id != null && id.StartsWith("kuRow_"))
+        {
+            string name = id.Substring("kuRow_".Length);
+            XUiController row = c;
+            foreach (XUiController button in Descendants(c))
+            {
+                if (button.ViewComponent is XUiV_Button)
+                {
+                    button.OnHover += (_sender, _isOver) =>
+                    {
+                        if (_isOver)
+                        {
+                            ShowDescription(row, name);
+                        }
+                    };
+                }
+            }
+        }
+        else if (id != null && id.StartsWith("kuDep_"))
+        {
+            List<XUiController> controls = new List<XUiController>();
+            foreach (XUiController d in Descendants(c))
+            {
+                if (d is XUiC_ToggleButton || d is XUiC_SimpleButton)
+                {
+                    controls.Add(d);
+                }
+            }
+            dependents.Add((id.Substring("kuDep_".Length), c.GetChildById("kuDepVeil")?.ViewComponent, controls));
+        }
+        if (c.Children != null)
+        {
+            foreach (XUiController child in c.Children)
+            {
+                SetUpRows(child);
+            }
+        }
+    }
+
+    static IEnumerable<XUiController> Descendants(XUiController c)
+    {
+        if (c.Children == null)
+        {
+            yield break;
+        }
+        foreach (XUiController child in c.Children)
+        {
+            yield return child;
+            foreach (XUiController d in Descendants(child))
+            {
+                yield return d;
+            }
+        }
+    }
+
+    void ShowDescription(XUiController row, string name)
+    {
+        if (descTitle == null || descText == null)
+        {
+            return;
+        }
+        // The row's name is its first label with text (a toggle's own caption is empty).
+        string title = "";
+        foreach (XUiController d in Descendants(row))
+        {
+            if (d.ViewComponent is XUiV_Label label && !string.IsNullOrEmpty(label.Text))
+            {
+                title = label.Text;
+                break;
+            }
+        }
+        descTitle.Text = title;
+        descText.Text = Localization.Get("kuDesc_" + name);
+    }
+
+    void ShowIdleDescription()
+    {
+        if (descTitle != null && descText != null)
+        {
+            descTitle.Text = "";
+            descText.Text = Localization.Get("kuDescIdle");
+        }
+    }
+
+    void ShowDependents()
+    {
+        foreach ((string key, XUiView veil, List<XUiController> controls) in dependents)
+        {
+            bool on = KitsuneSettingsFile.GetBool(key);
+            if (veil != null && veil.IsVisible == on)
+            {
+                veil.IsVisible = !on;
+            }
+            foreach (XUiController c in controls)
+            {
+                if (c is XUiC_ToggleButton toggle)
+                {
+                    toggle.Enabled = on;
+                }
+                else if (c is XUiC_SimpleButton button)
+                {
+                    button.Enabled = on;
+                }
+            }
+        }
+    }
+
     void ShowTab(string tab)
     {
         currentTab = tab;
+        ShowIdleDescription();
         foreach ((string t, XUiC_SimpleButton button, XUiView page) in tabs)
         {
             page.IsVisible = t == tab;
@@ -847,5 +972,6 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         ShowMap();
         ShowGlass();
         ShowGlassColour();
+        ShowDependents();
     }
 }

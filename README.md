@@ -98,7 +98,7 @@ Needs `KitsuneUI`. Install on the **server and every client**, with EAC off, lik
 
 ## KitsuneUI_Settings
 
-Adds a **KitsuneUI** button to the Esc menu, under Options. It opens a settings window in five tabs, **HUD**, **Map**, **Combat**, **Windows** and **Look**:
+Adds a **KitsuneUI** button to the Esc menu, under Options. It opens a settings window with eight pages on a rail down the left: **HUD**, **Toolbelt & bars**, **Map**, **Unit frames**, **Combat**, **Backpack & items**, **Traders & quests** and **Look**. Each page groups its options under headings, a strip at the bottom says what the option under the mouse does, and options that need another one (the minimap's, the unit frames') dim while it's off:
 
 | Setting | Off means |
 |---|---|
@@ -114,7 +114,7 @@ Adds a **KitsuneUI** button to the Esc menu, under Options. It opens a settings 
 | Time left beside buffs | Icon-only buffs show just the icon. On, buffs with an end show their time left (4:32) |
 | Warn when a toolbelt item is nearly worn out | No warning. On, a toolbelt slot gets an amber ring under 20% durability and a red one under 5% |
 | Action bar | Nothing extra. On, while you reload, eat, drink or use medicine (on yourself or someone in front of you), a glass bar above the toolbelt shows the item, what you're doing, the time left and a filling bar |
-| Toolbelt | For two toolbelt bars (`KitsuneUI_Toolbelt20`). **Two rows** stacks them, and while the backpack is open the windows with it (inventory, loot, crafting, trader) sit higher, so the top row doesn't cover the bag; skills, map and quests stay where they are. **One row** puts all 20 slots side by side: 1 to 0 on the left, Shift + 1 to 0 (gold numbers) on the right, same keys. One row is about 1,500 wide, so it suits 16:9 and wider screens |
+| Two bars | For two toolbelt bars (`KitsuneUI_Toolbelt20`). **Two rows** stacks them, and while the backpack is open the windows with it (inventory, loot, crafting, trader) sit higher, so the top row doesn't cover the bag; skills, map and quests stay where they are. **One row** puts all 20 slots side by side: 1 to 0 on the left, Shift + 1 to 0 (gold numbers) on the right, same keys. One row is about 1,500 wide, so it suits 16:9 and wider screens |
 | Item slots ringed in their quality colour | No rings. On, every item with a quality gets a thin ring inside its slot in its quality colour (the colour of its durability bar), in the backpack, toolbelt, loot and workstations |
 | Compare with the item in your hand | Weapons and tools compare only with another item you've selected. On, hovering a weapon or tool also shows how its stats differ from the one in your hand, like armour compares with what you wear |
 | Quest tracker: progress bars and a direction arrow | The game's tracker. On, objectives that count ("3/10") get a thin progress bar, and "go to" objectives get an arrow pointing the way from where you're facing |

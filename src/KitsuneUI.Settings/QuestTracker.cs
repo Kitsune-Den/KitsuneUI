@@ -2,7 +2,7 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 
 /// <summary>
-/// Quest tracker extras (Settings > Windows), one per objective line in the tracker:
+/// Quest tracker extras (Settings > Traders & quests), one per objective line in the tracker:
 /// a thin progress bar under objectives that count something ("3/10" kills, items,
 /// challenge steps), and an arrow beside "go to" objectives pointing the way to the
 /// target from where you're facing. Lives in a child rect of the game's objective

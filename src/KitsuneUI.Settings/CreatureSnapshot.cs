@@ -96,7 +96,7 @@ public static class KitsuneCreatureSnapshots
     {
         if (!KitsunePortrait.On)
         {
-            return "Portraits are off (Esc > KitsuneUI > Look > Portrait).";
+            return "Portraits are off (Esc > KitsuneUI > Unit frames > Portrait).";
         }
         if (!Photographed(e.GetType()))
         {

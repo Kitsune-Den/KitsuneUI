@@ -14,7 +14,7 @@
 			pos="1,-1" width="${-2+cell_size}" height="${-2+cell_size}" />
 	</append>
 
-	<!-- Quest tracker objective lines (Settings > Windows): a thin progress bar under   -->
+	<!-- Quest tracker objective lines (Settings > Traders & quests): a thin progress bar under   -->
 	<!-- objectives that count ("3/10"), and an arrow beside "go to" objectives pointing -->
 	<!-- the way. XUiC_KitsuneQuestObjective reads the line's objective.                 -->
 	<append xpath="/templates/quest_objective_tracker_entry/rect">

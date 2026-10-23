@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 
 /// <summary>
-/// "Backpack width" (Settings > Windows: Normal / Wide / Extra wide): the backpack window
+/// "Backpack width" (Settings > Backpack & items: Normal / Wide / Extra wide): the backpack window
 /// gets wider, so the whole-backpack view has bigger slots and the scrolling view more
 /// slots per row. The inventory screen lays its three columns out from each window's
 /// current width every time it opens (XUi.layoutWindowsInPanel), so the loot and
