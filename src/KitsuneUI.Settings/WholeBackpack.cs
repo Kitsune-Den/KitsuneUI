@@ -53,7 +53,8 @@ public static class KitsuneWholeBackpack
         // Lay out for the slots the bag really has: a grid made for bigger bags (KitsuneBackpack's
         // is 8 x 17) shows only the player's current backpack size, the rest stay blank.
         int slotCount = o.Columns * o.Rows;
-        if (controller is XUiC_Backpack bag && bag.BackpackSlots > 0)
+        XUiC_Backpack bag = FindBackpack(controller);
+        if (bag != null && bag.BackpackSlots > 0)
         {
             slotCount = Mathf.Min(slotCount, bag.BackpackSlots);
             shownSlots = bag.BackpackSlots;
@@ -114,6 +115,24 @@ public static class KitsuneWholeBackpack
         {
             scroll.ResetPosition();
         }
+    }
+
+    // V3.3 puts the Backpack controller on the grid itself; V3.4 moved it to the content
+    // rect, two levels up (content > scrollview > grid).
+    static XUiC_Backpack FindBackpack(XUiController c)
+    {
+        for (XUiController p = c; p != null; p = p.Parent)
+        {
+            if (p is XUiC_Backpack bag)
+            {
+                return bag;
+            }
+            if (p.ViewComponent is XUiV_Window)
+            {
+                break;
+            }
+        }
+        return null;
     }
 
     static bool InBackpack(XUiController c)
