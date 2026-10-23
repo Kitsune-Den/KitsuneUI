@@ -500,10 +500,12 @@
 	<!-- A glass tray that grows with the number of bars (1, or 2 with KitsuneUI_Toolbelt20). -->
 	<!-- Bars stack upward 82px apart, so the tray's top follows beltCount; it sits inside  -->
 	<!-- the Toolbelt controller, which is what provides beltCount.                         -->
+	<!-- Its width follows beltslots (slots per bar, 75px each), so mods that widen the bar  -->
+	<!-- (a 15-slot toolbelt) keep every slot on the glass. 10 slots is 768, as before.      -->
 	<set xpath="/windows/window[@name='windowToolbelt']/rect/sprite[@name='backgroundMain']/@color">[transparent]</set>
 	<prepend xpath="/windows/window[@name='windowToolbelt']/rect/rect[@controller='Toolbelt']">
 		<sprite depth="0" name="kuTray" sprite="ku_panel" type="sliced" color="[white]"
-			pos="{%'-9, ' + ((beltCount - 1) * 82 + 9)}" width="768" height="{%beltCount * 82 + 11}" />
+			pos="{%'-9, ' + ((beltCount - 1) * 82 + 9)}" width="{% int(beltslots) * 75 + 18 }" height="{%beltCount * 82 + 11}" />
 	</prepend>
 
 	<!-- XP bar: a rounded strip in the XP colour just above the tray, where vanilla has it (on -->
@@ -535,6 +537,22 @@
 			<label depth="12" pos="583,-3" width="14" height="18" font_size="18" justify="right" color="[kuTextMuted]" effect="outline" effect_color="0,0,0,220" text="8" visible="{% int(beltslots) &gt;= 8 }" />
 			<label depth="12" pos="658,-3" width="14" height="18" font_size="18" justify="right" color="[kuTextMuted]" effect="outline" effect_color="0,0,0,220" text="9" visible="{% int(beltslots) &gt;= 9 }" />
 			<label depth="12" pos="733,-3" width="14" height="18" font_size="18" justify="right" color="[kuTextMuted]" effect="outline" effect_color="0,0,0,220" text="0" visible="{% int(beltslots) &gt;= 10 }" />
+			<!-- One bar of more than 10 (KitsuneUI_Toolbelt20): slots 11-20 are shift + 1..0, -->
+			<!-- so they get gold numbers like the Shift bar, and a SHIFT tag past the tray's end. -->
+			<label depth="12" pos="808,-3" width="14" height="18" font_size="18" justify="right" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="1" visible="{% int(beltslots) &gt;= 11 }" />
+			<label depth="12" pos="883,-3" width="14" height="18" font_size="18" justify="right" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="2" visible="{% int(beltslots) &gt;= 12 }" />
+			<label depth="12" pos="958,-3" width="14" height="18" font_size="18" justify="right" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="3" visible="{% int(beltslots) &gt;= 13 }" />
+			<label depth="12" pos="1033,-3" width="14" height="18" font_size="18" justify="right" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="4" visible="{% int(beltslots) &gt;= 14 }" />
+			<label depth="12" pos="1108,-3" width="14" height="18" font_size="18" justify="right" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="5" visible="{% int(beltslots) &gt;= 15 }" />
+			<label depth="12" pos="1183,-3" width="14" height="18" font_size="18" justify="right" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="6" visible="{% int(beltslots) &gt;= 16 }" />
+			<label depth="12" pos="1258,-3" width="14" height="18" font_size="18" justify="right" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="7" visible="{% int(beltslots) &gt;= 17 }" />
+			<label depth="12" pos="1333,-3" width="14" height="18" font_size="18" justify="right" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="8" visible="{% int(beltslots) &gt;= 18 }" />
+			<label depth="12" pos="1408,-3" width="14" height="18" font_size="18" justify="right" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="9" visible="{% int(beltslots) &gt;= 19 }" />
+			<label depth="12" pos="1483,-3" width="14" height="18" font_size="18" justify="right" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="0" visible="{% int(beltslots) &gt;= 20 }" />
+			<rect name="kuShiftHintEnd" depth="13" pos="{%'' + (int(beltslots) * 75 + 16) + ', -25'}" width="56" height="24" visible="{% int(beltslots) &gt;= 11 }">
+				<sprite depth="13" name="kuShiftChip" sprite="ku_round_sm" type="sliced" color="14,16,32,235" />
+				<label depth="14" pos="28,-12" pivot="center" width="56" height="20" font_size="16" justify="center" color="[kuGold]" effect="outline" effect_color="0,0,0,220" overflow="shrinkcontent" text_key="kuShift" />
+			</rect>
 		</rect>
 	</append>
 

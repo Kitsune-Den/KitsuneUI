@@ -553,7 +553,7 @@
 	<!-- bar's gold numbers and its SHIFT tag follow the rows shown (kurows) and the extra width    -->
 	<!-- (kuwide), two bindings the DLL adds to the Toolbelt controller.                             -->
 	<set xpath="/windows/window[@name='windowToolbelt']//sprite[@name='kuTray']/@pos">{%'-9, ' + ((int(kurows) - 1) * 82 + 9)}</set>
-	<set xpath="/windows/window[@name='windowToolbelt']//sprite[@name='kuTray']/@width">{% 768 + int(kuwide) * 757 }</set>
+	<set xpath="/windows/window[@name='windowToolbelt']//sprite[@name='kuTray']/@width">{% int(beltslots) * 75 + 18 + int(kuwide) * 757 }</set>
 	<set xpath="/windows/window[@name='windowToolbelt']//sprite[@name='kuTray']/@height">{% int(kurows) * 82 + 11 }</set>
 	<set xpath="/windows/window[@name='windowToolbelt']//rect[@name='kuTopBarKeys']/@pos">{%'' + ((beltCount - 2) * 5000 + int(kuwide) * 757) + ', ' + ((int(kurows) - 1) * 82)}</set>
 	<set xpath="/windows/window[@name='windowToolbelt']//rect[@name='kuShiftHint']/@pos">{%'' + (int(kuwide) * 838 - 72) + ', -25'}</set>
@@ -561,9 +561,9 @@
 		<rect name="kuToolbeltRow" width="1" height="1" controller="KitsuneToolbeltRow, KitsuneUI_Settings" />
 	</append>
 
-	<!-- Toolbelt: the handle follows the tray, which grows with the number of bars (or widens in one row). -->
+	<!-- Toolbelt: the handle follows the tray, which grows with the number of bars and slots (or widens in one row). -->
 	<append xpath="/windows/window[@name='windowToolbelt']/rect/rect[@controller='Toolbelt']">
-		<rect name="kuMoveHandle" depth="50" pos="{%'-12, ' + ((int(kurows) - 1) * 82 + 12)}" width="{% 774 + int(kuwide) * 757 }" height="{% int(kurows) * 82 + 17 }" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
+		<rect name="kuMoveHandle" depth="50" pos="{%'-12, ' + ((int(kurows) - 1) * 82 + 12)}" width="{% int(beltslots) * 75 + 24 + int(kuwide) * 757 }" height="{% int(kurows) * 82 + 17 }" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
 			<!-- size readout and the -, +, show/hide buttons (XUiC_KitsuneMoveHandle) -->
 			<label depth="53" name="kuMoveScale" pos="670,-19" width="64" height="24" pivot="right" justify="right" font_size="18" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="100%" />
 			<sprite depth="54" name="kuChipSmaller" pos="674,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
@@ -572,8 +572,8 @@
 			<button depth="55" name="kuBtnBigger" pos="721,-19" sprite="ui_game_symbol_add" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
 			<sprite depth="54" name="kuChipHide" pos="738,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
 			<button depth="55" name="kuBtnHide" pos="753,-19" sprite="ku_icon_eye" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
-			<sprite depth="50" name="kuMoveFill" width="{% 774 + int(kuwide) * 757 }" height="{% int(kurows) * 82 + 17 }" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
-			<sprite depth="51" name="kuMoveRing" width="{% 774 + int(kuwide) * 757 }" height="{% int(kurows) * 82 + 17 }" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
+			<sprite depth="50" name="kuMoveFill" width="{% int(beltslots) * 75 + 24 + int(kuwide) * 757 }" height="{% int(kurows) * 82 + 17 }" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
+			<sprite depth="51" name="kuMoveRing" width="{% int(beltslots) * 75 + 24 + int(kuwide) * 757 }" height="{% int(kurows) * 82 + 17 }" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
 			<label depth="52" name="kuMoveName" pos="12,-19" width="584" height="30" pivot="left" justify="left" font_size="24" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveToolbelt" />
 		</rect>
 	</append>

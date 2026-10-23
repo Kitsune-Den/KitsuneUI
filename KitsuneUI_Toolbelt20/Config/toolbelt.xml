@@ -1,8 +1,15 @@
 <configs>
 
-	<!-- In-game toolbelt size. The game clamps these to 1-10 slots per bar, 1-2 bars per page -->
-	<!-- and 1-10 pages. Vanilla only ever reads <editorconfig>; the DLL makes it read this too. -->
-	<!-- Bar 2 is shift + 1..0. More than one page shows the vanilla page arrows.             -->
+	<!-- In-game toolbelt size. Vanilla only ever reads <editorconfig>; the DLL makes it read -->
+	<!-- this too. Pick one:                                                                    -->
+	<!--   Two bars of 10 (the default): slot_per_bar="10" bar_per_page="2"                     -->
+	<!--     Bar 2 is shift + 1..0. KitsuneUI Settings can stack them or put them in one row.   -->
+	<!--   One bar of 11 to 20: slot_per_bar="15" bar_per_page="1" (any number from 11 to 20)  -->
+	<!--     1..0 pick slots 1-10, shift + 1, 2, ... pick slot 11, 12, ...                     -->
+	<!-- Two bars of 10 and one bar of 20 keep every item in the same place, so you can switch -->
+	<!-- between them. Going smaller moves the extra items into the backpack.                   -->
+	<!-- The game clamps 10 or fewer slots to 1-10 per bar, 1-2 bars and 1-10 pages; more than -->
+	<!-- one page shows the vanilla page arrows.                                                -->
 	<append xpath="/toolbelt">
 		<gameconfig>
 			<slots slot_per_bar="10" bar_per_page="2" page_count="1" />
