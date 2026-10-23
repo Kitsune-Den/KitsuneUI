@@ -7,11 +7,13 @@ in the game's order (top to bottom), and lists every patch that matched no node.
 
     python tools/check_patches.py "<7 Days To Die>/Data/Config" [KitsuneUI/Config]
     python tools/check_patches.py <vanilla Config> KitsuneUI/Config KitsuneUI_Practice/Config --loaded KitsuneShugyo
+    python tools/check_patches.py <V3.4 Config> KitsuneUI/Config --game-version 3.40.6
 
 Handles set, setattribute, append, prepend, insertBefore, insertAfter, remove,
-removeattribute. <conditional> blocks take their first branch whose mod_loaded()
-test passes, counting the mod folders given and any --loaded names as installed;
-a condition it can't read is reported as skipped.
+removeattribute. <conditional> blocks take their first branch whose test passes:
+mod_loaded() counts the mod folders given and any --loaded names as installed, and
+game_version() compares --game-version (V3.3 = 3.30.18, V3.4 = 3.40.6) against
+version(a,b[,c]). A condition it can't read is reported as skipped.
 """
 
 import copy
@@ -25,13 +27,24 @@ ROOT = Path(__file__).resolve().parent.parent
 
 # Mods treated as installed for <conditional> (mod_loaded tests).
 LOADED = set()
+# The game's version as the patcher sees it, e.g. V3.4 = 3.40.6 (Constants.cVersionInformation).
+# Set with --game-version; without it, game_version() conditions are reported as skipped.
+GAME_VERSION = None
 
 
 def condition(cond):
-    """True / False for a mod_loaded() expression (with !, && and ||), None if it's anything else."""
+    """True / False for a mod_loaded() / game_version() expression (with !, &&, || and
+    comparisons against version(a,b[,c])), None if it's anything else."""
     expr = re.sub(r"mod_loaded\('([^']+)'\)", lambda m: str(m.group(1) in LOADED), cond)
-    expr = expr.replace("&&", " and ").replace("||", " or ").replace("!", " not ")
-    if not re.fullmatch(r"[\s()]*((True|False|and|or|not)[\s()]*)+", expr):
+    if "game_version()" in expr:
+        if GAME_VERSION is None:
+            return None
+        expr = expr.replace("game_version()", repr(GAME_VERSION))
+    expr = re.sub(r"version\(\s*(\d+)\s*,\s*(\d+)\s*(?:,\s*(\d+)\s*)?\)",
+                  lambda m: repr(tuple(int(g) for g in m.groups() if g is not None)), expr)
+    expr = expr.replace("&&", " and ").replace("||", " or ")
+    expr = re.sub(r"!(?!=)", " not ", expr)
+    if not re.fullmatch(r"[\s()]*((True|False|and|or|not|<=|>=|==|!=|<|>|\(\d+(, \d+)*\))[\s()]*)+", expr):
         return None
     return eval(expr)
 
@@ -106,7 +119,12 @@ def main():
     """Usage: check_patches.py <vanilla Config> [mod Config dir ...] [--loaded Mod1,Mod2]
     Several mod dirs are applied in the order given (the game's load order), so an
     add-on's patches can target what the core theme added."""
+    global GAME_VERSION
     args = sys.argv[1:]
+    if "--game-version" in args:
+        i = args.index("--game-version")
+        GAME_VERSION = tuple(int(p) for p in args[i + 1].split("."))
+        del args[i:i + 2]
     if "--loaded" in args:
         i = args.index("--loaded")
         LOADED.update(n for n in args[i + 1].split(",") if n)
