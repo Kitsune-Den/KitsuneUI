@@ -146,7 +146,7 @@ Needs `KitsuneUI`. Install on the **server and every client**, with EAC off (the
 
 ## KitsuneUI_Toolbelt20
 
-Two toolbelt bars of 10 slots. Number keys use the bottom bar, shift + number uses the top bar (marked with a SHIFT tag, and its slot numbers are gold).
+Two toolbelt bars of 10 slots. Number keys use the bottom bar, shift + number uses the top bar (marked with a SHIFT tag, and its slot numbers are gold). Or one bar of 11 to 20 slots, see [Changing the size](#changing-the-size).
 
 V3.3 already supports up to 2 bars of 10 and up to 10 pages, and the vanilla toolbelt window already draws them. The setting lives in `Data/Config/toolbelt.xml`, but the game only reads its `<editorconfig>` section (the prefab editor). The DLL makes it read a `<gameconfig>` section too, and `Config/toolbelt.xml` adds one with 2 bars of 10.
 
@@ -166,7 +166,14 @@ Safe for items: when the game loads a 20-slot belt into a 10-slot one, the extra
 
 ### Changing the size
 
-Edit `KitsuneUI_Toolbelt20/Config/toolbelt.xml`. The game clamps `slot_per_bar` to 1-10, `bar_per_page` to 1-2 and `page_count` to 1-10. More than one page shows the vanilla page arrows. The death bag sizes above assume 20 slots.
+Edit `KitsuneUI_Toolbelt20/Config/toolbelt.xml` on the server (it sends the size to every player):
+
+- **Two bars of 10** (the default): `slot_per_bar="10" bar_per_page="2"`.
+- **One bar of 11 to 20**: say `slot_per_bar="15" bar_per_page="1"`. 1 to 0 pick slots 1-10, Shift + 1, 2, ... pick slot 11, 12, ... The bar stays centred, and with KitsuneUI slots 11 and up get gold numbers and a SHIFT tag at the end. A wide bar meets the bottom corners of the HUD on 16:9 screens, like the one-row layout.
+
+Two bars of 10 and one bar of 20 keep every item where it is, so you can switch between them. Going smaller moves the extra items into the backpack. For 10 or fewer, the game clamps `slot_per_bar` to 1-10, `bar_per_page` to 1-2 and `page_count` to 1-10, and more than one page shows the vanilla page arrows. The death bag sizes above cover up to 20 slots.
+
+Don't combine it with another mod that changes the toolbelt size (a 15-slot toolbelt mod, say): both change how the game reads it.
 
 ## For modders
 

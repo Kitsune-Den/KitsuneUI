@@ -4,6 +4,12 @@
 	<!-- and never shows slots past it, so the pool has to cover the biggest death bag in      -->
 	<!-- loot.xml. Vanilla is 9 wide: 9x16 = 144 covers 136. KitsuneBackpack(200) and          -->
 	<!-- KitsuneStorage make it 12 wide: 12x20 = 240 covers 240. Rows only ever go up.         -->
+	<!-- One bar of more than 10 (toolbelt.xml): the window is laid out for 10 slots, so the -->
+	<!-- DLL moves the belt left by half the extra width and stretches its frame and XP strip. -->
+	<append xpath="/windows/window[@name='windowToolbelt']/rect/rect[@controller='Toolbelt']">
+		<rect name="kuBeltWiden" width="1" height="1" controller="KitsuneBeltWiden, KitsuneUI_Toolbelt20" />
+	</append>
+
 	<conditional>
 		<if cond="mod_loaded('KitsuneBackpack') || mod_loaded('KitsuneBackpack200') || mod_loaded('KitsuneStorage')">
 			<set xpath="/windows/window[@name='windowLooting']//grid[@name='queue'][@cols='12'][@rows &lt; 20]/@rows">20</set>
