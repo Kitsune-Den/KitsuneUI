@@ -500,10 +500,12 @@
 	<!-- A glass tray that grows with the number of bars (1, or 2 with KitsuneUI_Toolbelt20). -->
 	<!-- Bars stack upward 82px apart, so the tray's top follows beltCount; it sits inside  -->
 	<!-- the Toolbelt controller, which is what provides beltCount.                         -->
+	<!-- Its width follows beltslots (slots per bar, 75px each), so mods that widen the bar  -->
+	<!-- (a 15-slot toolbelt) keep every slot on the glass. 10 slots is 768, as before.      -->
 	<set xpath="/windows/window[@name='windowToolbelt']/rect/sprite[@name='backgroundMain']/@color">[transparent]</set>
 	<prepend xpath="/windows/window[@name='windowToolbelt']/rect/rect[@controller='Toolbelt']">
 		<sprite depth="0" name="kuTray" sprite="ku_panel" type="sliced" color="[white]"
-			pos="{%'-9, ' + ((beltCount - 1) * 82 + 9)}" width="768" height="{%beltCount * 82 + 11}" />
+			pos="{%'-9, ' + ((beltCount - 1) * 82 + 9)}" width="{% int(beltslots) * 75 + 18 }" height="{%beltCount * 82 + 11}" />
 	</prepend>
 
 	<!-- XP bar: a rounded strip in the XP colour just above the tray, where vanilla has it (on -->
