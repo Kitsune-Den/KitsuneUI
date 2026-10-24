@@ -53,7 +53,9 @@
 			<!-- earned by practice, so the next rank's row carries the practice  -->
 			<!-- bar along the bottom of its text and the percentage where the    -->
 			<!-- Buy cart was. The DLL hides the cart and lock on ranks you don't -->
-			<!-- have (ranks you have keep the check mark).                       -->
+			<!-- have (ranks you have keep the check mark). When the server lets  -->
+			<!-- skill points buy ranks too, the cart stays and only the bar is   -->
+			<!-- added: kp_pct is empty and kp_hover false, so neither covers it. -->
 			<!-- ================================================================ -->
 			<append xpath="/templates/skill_attribute_level/rect">
 				<sprite depth="3" name="kuPracticeTrack" pos="77,-${height - 7}" width="490" height="4" sprite="ku_bar" type="sliced" color="[kuSlotWell]" visible="{kp_next}" />
@@ -61,7 +63,7 @@
 				<sprite depth="4" name="kuPracticeTiredFill" pos="77,-${height - 7}" width="490" height="4" sprite="ku_bar" type="filled" fill="{kp_fill}" color="[kuStamina]" visible="{kp_tired}" />
 				<label depth="3" name="kuPracticePct" pos="${width - 38},-${Round(height / 2, 0)}" width="70" height="28" pivot="center" justify="center" font_size="22" color="[kuAccent]" text="{kp_pct}" visible="{kp_fresh}" />
 				<label depth="3" name="kuPracticeTiredPct" pos="${width - 38},-${Round(height / 2, 0)}" width="70" height="28" pivot="center" justify="center" font_size="22" color="[kuStamina]" text="{kp_pct}" visible="{kp_tired}" />
-				<sprite depth="5" name="kuPracticeHover" pos="${width - 75},0" width="73" height="${height}" color="0,0,0,1" on_hover="true" tooltip="{kp_tooltip}" visible="{kp_next}" />
+				<sprite depth="5" name="kuPracticeHover" pos="${width - 75},0" width="73" height="${height}" color="0,0,0,1" on_hover="true" tooltip="{kp_tooltip}" visible="{kp_hover}" />
 			</append>
 
 			<!-- Perk levels: the next rank says which attribute rank unlocks it, while that -->
