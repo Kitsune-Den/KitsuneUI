@@ -55,15 +55,20 @@ public static class KitsuneCompareWithHeld
     }
 }
 
-/// <summary>The comparison's pure green and red, in the theme's softer green and red.</summary>
+/// <summary>
+/// The comparison's pure green and red, in the theme's softer green and red. NGUI multiplies
+/// coloured text by the label's own colour, so on a tinted stat label (a pink theme, say) the
+/// green came out a muddy grey; [c]..[/c] shows the difference in its true colour.
+/// </summary>
 [HarmonyPatch(typeof(XUiC_ItemInfoWindow), nameof(XUiC_ItemInfoWindow.GetStatValue))]
 public static class KitsuneCompareColours
 {
     static void Postfix(ref string __result)
     {
-        if (!string.IsNullOrEmpty(__result) && __result.IndexOf('[') >= 0)
+        if (string.IsNullOrEmpty(__result) || (__result.IndexOf("[00FF00]") < 0 && __result.IndexOf("[FF0000]") < 0))
         {
-            __result = __result.Replace("[00FF00]", "[6FD98A]").Replace("[FF0000]", "[FF6B5A]");
+            return;
         }
+        __result = __result.Replace("[00FF00]", "[c][6FD98A]").Replace("[FF0000]", "[c][FF6B5A]").Replace("[-]", "[-][/c]");
     }
 }
