@@ -8,11 +8,14 @@
 	<!--     1..0 pick slots 1-10, shift + 1, 2, ... pick slot 11, 12, ...                     -->
 	<!-- Two bars of 10 and one bar of 20 keep every item in the same place, so you can switch -->
 	<!-- between them. Going smaller moves the extra items into the backpack.                   -->
+	<!-- shift_keys enabled="false" turns shift + number off (for sprinting on shift): 1..0    -->
+	<!-- always pick slots 1-10 and the rest are reached with the mouse wheel.                  -->
 	<!-- The game clamps 10 or fewer slots to 1-10 per bar, 1-2 bars and 1-10 pages; more than -->
 	<!-- one page shows the vanilla page arrows.                                                -->
 	<append xpath="/toolbelt">
 		<gameconfig>
 			<slots slot_per_bar="10" bar_per_page="2" page_count="1" />
+			<shift_keys enabled="true" />
 		</gameconfig>
 	</append>
 

@@ -174,6 +174,10 @@ Pick it in KitsuneUI Settings (**Toolbelt & bars > Size**), which saves it into 
 
 Two bars of 10 and one bar of 20 keep every item where it is, so you can switch between them. Going smaller moves the extra items into the backpack. For 10 or fewer, the game clamps `slot_per_bar` to 1-10, `bar_per_page` to 1-2 and `page_count` to 1-10, and more than one page shows the vanilla page arrows. The death bag sizes above cover up to 20 slots.
 
+### Turning off the Shift keys
+
+If Shift is also your sprint key, Shift + number can pick a slot past 10 when you meant 1 to 0. To stop that, set `<shift_keys enabled="false" />` in the same file's `<gameconfig>`. Then 1 to 0 always pick slots 1-10, whether Shift is held or not, and the other slots are reached with the mouse wheel. The belt keeps its size. Like the size, the server's file decides for everyone, and it applies from the next time a world loads.
+
 Don't combine it with another mod that changes the toolbelt size (a 15-slot toolbelt mod, say): both change how the game reads it.
 
 ## For modders
