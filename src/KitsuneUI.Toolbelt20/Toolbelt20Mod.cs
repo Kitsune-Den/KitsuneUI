@@ -15,6 +15,10 @@ using HarmonyLib;
 ///
 /// It also allows one bar of 11 to 20 (the game stops a bar at 10): slots
 /// past 10 are shift + 1, 2, ... and the bar is re-centred on screen.
+///
+/// &lt;shift_keys enabled="false" /&gt; in &lt;gameconfig&gt; turns shift + number
+/// off, for players who sprint with shift: number keys always pick slots 1-10
+/// and the rest are reached with the mouse wheel.
 /// </summary>
 public class KitsuneUIToolbelt20Mod : IModApi
 {
@@ -30,6 +34,9 @@ public static class KitsuneBelt
 {
     public const int MaxSlots = 20;
     public const int SlotWidth = 75;
+
+    /// <summary>Whether shift + number picks the slots past 10 (&lt;shift_keys enabled="..." /&gt;).</summary>
+    public static bool ShiftKeys = true;
 
     /// <summary>Slots past 10 in a single bar (0 with two bars, or 10 or fewer).</summary>
     public static int ExtraSlots
@@ -75,20 +82,34 @@ public static class ToolbeltFromXml_ParseConfig_Patch
         }
         ToolbeltConfig.GameConfig = config;
 
-        Log.Out($"[KitsuneUI_Toolbelt20] In-game toolbelt: {config.BarsPerPage} bar(s) of {config.SlotsPerBar}, {config.PageCount} page(s), {config.TotalSlots} slots");
+        // Read on every reload too, so a server without the line gets the default (on).
+        string shiftKeys = (string)root.Element("gameconfig")?.Element("shift_keys")?.Attribute("enabled");
+        KitsuneBelt.ShiftKeys = !string.Equals(shiftKeys?.Trim(), "false", StringComparison.OrdinalIgnoreCase);
+
+        Log.Out($"[KitsuneUI_Toolbelt20] In-game toolbelt: {config.BarsPerPage} bar(s) of {config.SlotsPerBar}, {config.PageCount} page(s), {config.TotalSlots} slots, shift + number {(KitsuneBelt.ShiftKeys ? "on" : "off")}");
     }
 }
 
 /// <summary>
 /// Shift + number. The game only adds a bar's worth of slots for shift when there are two
 /// bars; with one bar of more than 10, shift + 1, 2, ... picks slot 11, 12, ...
+/// With shift keys off, shift is ignored either way, so 1..0 always pick slots 1-10.
 /// </summary>
 [HarmonyPatch(typeof(XUiC_Toolbelt), nameof(XUiC_Toolbelt.ResolveShortcutSlot))]
 public static class XUiC_Toolbelt_ResolveShortcutSlot_Patch
 {
+    // The game's own two-bar shift is in the original, so it has to be switched off going in.
+    public static void Prefix(ref bool shiftPressed)
+    {
+        if (!KitsuneBelt.ShiftKeys)
+        {
+            shiftPressed = false;
+        }
+    }
+
     public static void Postfix(int key, bool shiftPressed, ref int __result)
     {
-        if (shiftPressed && key >= 0 && key < KitsuneBelt.ExtraSlots)
+        if (KitsuneBelt.ShiftKeys && shiftPressed && key >= 0 && key < KitsuneBelt.ExtraSlots)
         {
             __result = 10 + key;
         }
