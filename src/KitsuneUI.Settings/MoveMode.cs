@@ -50,14 +50,44 @@ public static class KitsuneLayout
     /// <summary>The grid window; its top-left corner is a grid intersection.</summary>
     public static Transform GridRoot;
 
+    static readonly string[] DefaultOpenForMoving = { "subtitlesDisplay", "chatoutput" };
+
     /// <summary>Window groups Move HUD opens while it's on (subtitles, chat, and any handle with open_for_moving).</summary>
-    public static readonly HashSet<string> OpenForMoving = new HashSet<string> { "subtitlesDisplay", "chatoutput" };
+    public static readonly HashSet<string> OpenForMoving = new HashSet<string>(DefaultOpenForMoving);
 
     static readonly Dictionary<string, Group> groups = new Dictionary<string, Group>();
     // A view can be in several groups: a stat bar is in its pair ("split") and on its own ("each").
     static readonly Dictionary<XUiView, List<Group>> byView = new Dictionary<XUiView, List<Group>>();
     static readonly List<XUiView> handles = new List<XUiView>();
     static readonly List<XUiC_KitsuneMoveHandle> handleControllers = new List<XUiC_KitsuneMoveHandle>();
+
+    // The XUi everything here was registered from. The game builds a fresh XUi for every
+    // world and throws the old one away, while these statics live for the whole game
+    // launch: without this, the second world of a launch would keep the first world's
+    // dead views and handles next to its own.
+    static XUi boundXui;
+
+    /// <summary>
+    /// Called before anything registers (and every frame by the guard): the first call
+    /// from a new XUi forgets everything the old one registered. Positions, sizes and
+    /// hidden flags live in the settings file, so they come back with the new views.
+    /// </summary>
+    public static void Bind(XUi xui)
+    {
+        if (xui == null || ReferenceEquals(boundXui, xui))
+        {
+            return;
+        }
+        boundXui = xui;
+        Active = false;
+        GridRoot = null;
+        groups.Clear();
+        byView.Clear();
+        handles.Clear();
+        handleControllers.Clear();
+        OpenForMoving.Clear();
+        OpenForMoving.UnionWith(DefaultOpenForMoving);
+    }
 
     public static void RegisterHandleController(XUiC_KitsuneMoveHandle handle)
     {
@@ -395,6 +425,7 @@ public class XUiC_KitsuneMoveHandle : XUiController
     public override void Init()
     {
         base.Init();
+        KitsuneLayout.Bind(xui);
         if (target == "parent")
         {
             window = Parent?.ViewComponent;
@@ -698,6 +729,7 @@ public static class KitsuneMoveModeGuard
 {
     public static void Update(XUi xui)
     {
+        KitsuneLayout.Bind(xui);
         GUIWindowManager wm = xui?.playerUI?.windowManager;
         if (wm == null)
         {
@@ -741,6 +773,7 @@ public class XUiC_KitsuneMoveMember : XUiController
     public override void Init()
     {
         base.Init();
+        KitsuneLayout.Bind(xui);
         KitsuneLayout.Register(group, Parent?.ViewComponent, mode);
     }
 }
@@ -752,6 +785,7 @@ public class XUiC_KitsuneMoveBar : XUiController
     public override void Init()
     {
         base.Init();
+        KitsuneLayout.Bind(xui);
         if (Button("btnMoveReset") is XUiC_SimpleButton reset)
         {
             reset.OnPressed += (_s, _m) => KitsuneLayout.ResetAll();
@@ -868,6 +902,7 @@ public class XUiC_KitsuneMoveGrid : XUiController
     public override void Init()
     {
         base.Init();
+        KitsuneLayout.Bind(xui);
         KitsuneLayout.GridRoot = ViewComponent?.UiTransform;
     }
 }
