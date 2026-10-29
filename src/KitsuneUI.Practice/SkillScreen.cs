@@ -7,6 +7,10 @@ using HarmonyLib;
 /// tooltip go, and the next rank's row carries the practice bar instead: a bar along the
 /// row and the percentage in the column that said Buy (now "Practice"). Ranks you have
 /// keep their check mark. Presentation only; nothing here changes what a press does.
+///
+/// When the server lets skill points buy ranks too (Shugyō 1.2.0's buy_attributes), the
+/// cart, its tooltip and the Buy header stay, and only the bar along the row is added:
+/// the percentage and its hover would sit on top of the cart.
 /// </summary>
 [HarmonyPatch(typeof(XUiC_SkillAttributeLevel), nameof(XUiC_SkillAttributeLevel.GetBindingValueInternal))]
 public static class KitsunePracticeAttributeRow
@@ -20,9 +24,10 @@ public static class KitsunePracticeAttributeRow
         ProgressionValue skill = __instance.CurrentSkill;
         bool practiced = KitsunePractice.AttributesPracticed && skill != null && KitsunePractice.IsPracticedAttribute(skill.ProgressionClass);
         int level = __instance.Level;
-        bool unowned = practiced && level > skill.Level && level <= skill.ProgressionClass.MaxLevel;
-        bool next = practiced && level == skill.Level + 1 && level <= skill.ProgressionClass.MaxLevel;
         EntityPlayerLocal player = __instance.xui?.playerUI?.entityPlayer;
+        bool buyable = practiced && KitsunePractice.CanBuy(player);
+        bool unowned = practiced && !buyable && level > skill.Level && level <= skill.ProgressionClass.MaxLevel;
+        bool next = practiced && level == skill.Level + 1 && level <= skill.ProgressionClass.MaxLevel;
         float meter = next ? KitsunePractice.Meter(player, skill.Name) : 0f;
         bool tired = next && KitsunePractice.Tired(player, skill.Name);
 
@@ -43,6 +48,9 @@ public static class KitsunePracticeAttributeRow
             case "kp_next":
                 __0 = next.ToString();
                 break;
+            case "kp_hover":
+                __0 = (next && !buyable).ToString();
+                break;
             case "kp_fresh":
                 __0 = (next && !tired).ToString();
                 break;
@@ -53,7 +61,7 @@ public static class KitsunePracticeAttributeRow
                 __0 = KitsunePractice.Fill(meter);
                 break;
             case "kp_pct":
-                __0 = next ? KitsunePractice.Percent(meter) : "";
+                __0 = next && !buyable ? KitsunePractice.Percent(meter) : "";
                 break;
             case "kp_tooltip":
                 __0 = next ? Localization.Get("kuPracticeEarned") + "\n" + KitsunePractice.ToNext(meter, level, true) + (tired ? "\n" + KitsunePractice.TiredLine : "") : "";
@@ -65,17 +73,21 @@ public static class KitsunePracticeAttributeRow
     }
 }
 
-/// <summary>The attribute window's "Buy" column header reads "Practice" with Shugyō.</summary>
+/// <summary>
+/// The attribute window's "Buy" column header reads "Practice" with Shugyō, unless ranks
+/// can be bought too.
+/// </summary>
 [HarmonyPatch(typeof(XUiC_SkillAttributeInfoWindow), nameof(XUiC_SkillAttributeInfoWindow.GetBindingValueInternal))]
 public static class KitsunePracticeAttributeHeader
 {
-    static void Postfix(ref string __0, string __1, ref bool __result)
+    static void Postfix(XUiC_SkillAttributeInfoWindow __instance, ref string __0, string __1, ref bool __result)
     {
         if (__1 != "kp_buyheader")
         {
             return;
         }
-        __0 = Localization.Get(KitsunePractice.AttributesPracticed ? "kuPracticeColumn" : "xuiSkillBuy");
+        bool practiceOnly = KitsunePractice.AttributesPracticed && !KitsunePractice.CanBuy(__instance.xui?.playerUI?.entityPlayer);
+        __0 = Localization.Get(practiceOnly ? "kuPracticeColumn" : "xuiSkillBuy");
         __result = true;
     }
 }
@@ -83,7 +95,8 @@ public static class KitsunePracticeAttributeHeader
 /// <summary>
 /// The skill list (left side): an attribute's row has a Cost column with the points its
 /// next rank costs. With Shugyō it shows how far the practice is instead ("42%"), and
-/// the check mark once the attribute is at its maximum.
+/// the check mark once the attribute is at its maximum. When ranks can be bought too, the
+/// column keeps its price.
 /// </summary>
 [HarmonyPatch(typeof(XUiC_SkillEntry), nameof(XUiC_SkillEntry.GetBindingValueInternal))]
 public static class KitsunePracticeSkillListRow
@@ -95,7 +108,8 @@ public static class KitsunePracticeSkillListRow
             return;
         }
         ProgressionValue skill = __instance.currentSkill;
-        if (!KitsunePractice.AttributesPracticed || skill == null || !KitsunePractice.IsPracticedAttribute(skill.ProgressionClass))
+        if (!KitsunePractice.AttributesPracticed || skill == null || !KitsunePractice.IsPracticedAttribute(skill.ProgressionClass)
+            || KitsunePractice.CanBuy(__instance.xui?.playerUI?.entityPlayer))
         {
             return;
         }
