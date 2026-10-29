@@ -2,8 +2,8 @@
 <xml>
 	<Name value="KitsuneUI_Toolbelt20" />
 	<DisplayName value="KitsuneUI Toolbelt 20" />
-	<Description value="Two toolbelt bars of 10 (hold shift with a number key to use the second bar), or one bar of 11 to 20 slots (shift + 1, 2, ... for slots 11 and up). Turns on the toolbelt size setting the game already has but only reads in the prefab editor. Works with or without KitsuneUI. Contains a DLL: play with EAC off, and install on the server and every client." />
+	<Description value="Two toolbelt bars of 10 (hold shift with a number key to use the second bar), or one bar of 11 to 20 slots (shift + 1, 2, ... for slots 11 and up). The shift keys can be turned off in Config/toolbelt.xml. Turns on the toolbelt size setting the game already has but only reads in the prefab editor. Works with or without KitsuneUI. Contains a DLL: play with EAC off, and install on the server and every client." />
 	<Website value="https://github.com/Kitsune-Den/KitsuneUI" />
 	<Author value="AdaInTheLab" />
-	<Version value="1.1.0" />
+	<Version value="1.2.0" />
 </xml>
