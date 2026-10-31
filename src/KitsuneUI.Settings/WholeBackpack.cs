@@ -51,13 +51,21 @@ public static class KitsuneWholeBackpack
             bar.IsVisible = !whole;
         }
         // Lay out for the slots the bag really has: a grid made for bigger bags (KitsuneBackpack's
-        // is 8 x 17) shows only the player's current backpack size, the rest stay blank.
+        // is 8 x 17) shows only the player's current backpack size, the rest stay blank. Read
+        // from the player's bag, not XUiC_Backpack.BackpackSlots: that stays 0 until the
+        // backpack is first opened, and the settings are applied as soon as the HUD shows, so
+        // the whole grid got squeezed in (tiny slots) and Watch never woke up to fix it.
         int slotCount = o.Columns * o.Rows;
-        XUiC_Backpack bag = FindBackpack(controller);
-        if (bag != null && bag.BackpackSlots > 0)
+        int bagSlots = controller.xui?.PlayerInventory?.Backpack?.SlotCount ?? 0;
+        if (bagSlots <= 0 && FindBackpack(controller) is XUiC_Backpack bag)
         {
-            slotCount = Mathf.Min(slotCount, bag.BackpackSlots);
-            shownSlots = bag.BackpackSlots;
+            bagSlots = bag.BackpackSlots;
+        }
+        // Remembered even when unknown (0), so Watch re-lays the bag once the player has one.
+        shownSlots = bagSlots;
+        if (bagSlots > 0)
+        {
+            slotCount = Mathf.Min(slotCount, bagSlots);
         }
         if (!whole)
         {
