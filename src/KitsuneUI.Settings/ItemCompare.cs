@@ -67,3 +67,32 @@ public static class KitsuneCompareColours
         }
     }
 }
+
+/// <summary>
+/// Food stats in the item info panel are right every time (a fix for the game, not for KitsuneUI).
+///
+/// A food's Food row (and any other row worked out from what eating it does) only counts an
+/// effect that has someone to act on: the game checks MinEventParams.CachedEventParam.Self,
+/// but the panel never sets it. It's whatever entity the game last worked a stat out for, so
+/// a click could show the Old Sham Sandwich's Food as 0 and a hover 15. The panel is about
+/// the local player, so the player stands in while each row is worked out, then the shared
+/// value goes back to what it was.
+/// </summary>
+[HarmonyPatch(typeof(XUiC_ItemInfoWindow), nameof(XUiC_ItemInfoWindow.GetStatValue))]
+public static class KitsuneItemStatsForPlayer
+{
+    static void Prefix(XUiC_ItemInfoWindow __instance, out EntityAlive __state)
+    {
+        __state = MinEventParams.CachedEventParam.Self;
+        EntityAlive player = __instance.xui?.playerUI?.entityPlayer;
+        if (player != null)
+        {
+            MinEventParams.CachedEventParam.Self = player;
+        }
+    }
+
+    static void Postfix(EntityAlive __state)
+    {
+        MinEventParams.CachedEventParam.Self = __state;
+    }
+}
