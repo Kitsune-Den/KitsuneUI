@@ -27,6 +27,7 @@ public class KitsuneUIPracticeMod : IModApi
 ///   $shugyo_&lt;crafting skill&gt;      0..1 of the way to the next level
 ///   $shugyo_&lt;attribute&gt;           0..1 of the way to the next rank (0.2.0 and up)
 ///   $shugyo_fatigue_&lt;attribute&gt;   0 fresh, 1 or more tired (0.3.0 and up)
+///   $shugyo_buy_attributes        1 when skill points can buy ranks too (1.2.0 and up)
 /// An absent CVar is 0.
 /// </summary>
 public static class KitsunePractice
@@ -34,6 +35,7 @@ public static class KitsunePractice
     public const string ShugyoMod = "KitsuneShugyo";
     public const string MeterPrefix = "$shugyo_";
     public const string FatiguePrefix = "$shugyo_fatigue_";
+    public const string BuyVar = "$shugyo_buy_attributes";
 
     // Shugyō levels a skill at 0.999, so a bar never reads 100% without the level-up.
     const float Threshold = 0.999f;
@@ -149,6 +151,15 @@ public static class KitsunePractice
             return 0f;
         }
         return Mathf.Clamp(player.Buffs.GetCustomVar(MeterPrefix + Canonical(progressionName)), 0f, Threshold);
+    }
+
+    /// <summary>
+    /// The server lets skill points buy attribute ranks as well (Shugyō's buy_attributes):
+    /// the attribute screen keeps its Buy cart and prices, with the practice bar alongside.
+    /// </summary>
+    public static bool CanBuy(EntityPlayerLocal player)
+    {
+        return player?.Buffs != null && player.Buffs.GetCustomVar(BuyVar) >= 0.5f;
     }
 
     /// <summary>The attribute is tired: practice counts at a quarter until it rests.</summary>
