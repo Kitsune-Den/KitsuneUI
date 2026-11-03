@@ -271,8 +271,29 @@ public static class KitsuneBuffTimers
 /// </summary>
 public static class KitsuneBuffSweep
 {
-    const int Size = 40;
     static readonly Color Red = new Color(0.9f, 0.27f, 0.24f, 1f);
+
+    // The sweep covers the icon: 40 on the game's rows, smaller on Buff style's tiles.
+    static int Size => KitsuneBuffStyle.Tiled ? KitsuneBuffStyle.IconSize + 2 : 40;
+
+    /// <summary>Lines an item's sweep and ring back up with its icon (after Buff style moves it).</summary>
+    public static void Fit(GameObject item)
+    {
+        Transform icon = item.transform.Find("Icon");
+        if (icon == null)
+        {
+            return;
+        }
+        foreach (string name in new[] { "kuSweep", "kuDebuffRing" })
+        {
+            UISprite s = item.transform.Find(name)?.GetComponent<UISprite>();
+            if (s != null)
+            {
+                s.transform.localPosition = icon.localPosition;
+                s.width = s.height = Size + (s.type == UIBasicSprite.Type.Sliced ? 6 : 0);
+            }
+        }
+    }
 
     public static void Show(XUi xui, GameObject item, BuffValue buff, bool on)
     {
@@ -325,4 +346,178 @@ public static class KitsuneBuffSweep
         }
         return s;
     }
+}
+
+/// <summary>
+/// "Buff style" (Combat page): the buffs above the stat bars as the game's rows ("bars"),
+/// or as small tiles ("icons"), four to a row and growing upward, with the time or value
+/// under the icon. Every pop-out is a copy of the list's template item, so going back to
+/// rows copies the template's own layout back onto each one.
+/// </summary>
+[HarmonyPatch(typeof(XUiC_BuffPopoutList))]
+public static class KitsuneBuffStyle
+{
+    public const int IconSize = 32;
+    const int Cols = 4, TileW = 48, TileH = 60, Gap = 3;   // four tiles span the rows' 201
+    const float RefreshSeconds = 0.25f;
+    static float sinceRefresh = RefreshSeconds;
+
+    // The list laid out as tiles (null: rows). A list, not a flag: each world brings a new
+    // list, which starts out as rows.
+    static XUiC_BuffPopoutList tiled;
+
+    public static bool Tiled => tiled != null;
+
+    [HarmonyPatch(nameof(XUiC_BuffPopoutList.Update))]
+    [HarmonyPostfix]
+    static void AfterUpdate(XUiC_BuffPopoutList __instance, float _dt)
+    {
+        sinceRefresh += _dt;
+        if (sinceRefresh < RefreshSeconds)
+        {
+            return;
+        }
+        sinceRefresh = 0f;
+        Sync(__instance);
+    }
+
+    [HarmonyPatch(nameof(XUiC_BuffPopoutList.AddNotification))]
+    [HarmonyPrefix]
+    static void BeforeAdd(XUiC_BuffPopoutList __instance, out int __state)
+    {
+        __state = __instance.items.Count;
+    }
+
+    [HarmonyPatch(nameof(XUiC_BuffPopoutList.AddNotification))]
+    [HarmonyPostfix]
+    static void AfterAdd(XUiC_BuffPopoutList __instance, int __state)
+    {
+        if (__instance.items.Count <= __state || Sync(__instance) || !ReferenceEquals(tiled, __instance))
+        {
+            return;
+        }
+        GameObject item = __instance.items[__state].Item;
+        if (item == null)
+        {
+            return;
+        }
+        Restyle(__instance, item, true);
+        item.transform.localPosition = Spot(__instance, __state);
+    }
+
+    // The game slides every pop-out to its row; on tiles, to its tile instead.
+    [HarmonyPatch(nameof(XUiC_BuffPopoutList.updateEntries))]
+    [HarmonyPostfix]
+    static void AfterLayout(XUiC_BuffPopoutList __instance)
+    {
+        if (!ReferenceEquals(tiled, __instance))
+        {
+            return;
+        }
+        int n = 0;
+        foreach (XUiC_BuffPopoutList.Data data in __instance.items)
+        {
+            if (data?.Item == null || data.Notification?.Buff?.Paused == true)
+            {
+                continue;
+            }
+            Vector3 to = Spot(__instance, n++);
+            // The game destroys the old tween at the end of the frame, so both are still here.
+            foreach (TweenPosition tween in data.Item.GetComponents<TweenPosition>())
+            {
+                tween.to = to;
+            }
+        }
+    }
+
+    /// <summary>Puts the list in the style the setting asks for; true if it changed.</summary>
+    static bool Sync(XUiC_BuffPopoutList list)
+    {
+        bool want = KitsuneSettingsFile.Get(KitsuneSettingsFile.BuffStyle) == "icons";
+        if (want == ReferenceEquals(tiled, list) || list.PrefabItems == null)
+        {
+            return false;
+        }
+        tiled = want ? list : null;
+        // The game sizes every icon (and a buff's own bar, for the few that have one) from these.
+        UISprite icon = Part<UISprite>(list.PrefabItems, "Icon");
+        if (icon != null)
+        {
+            list.spriteSize = want ? new Vector2(IconSize, IconSize) : new Vector2(icon.width, icon.height);
+        }
+        UISprite bar = Part<UISprite>(list.PrefabItems, "BarContent");
+        if (bar != null)
+        {
+            list.barSpriteSize = want ? new Vector2(TileW - 6, 4) : new Vector2(bar.width, bar.height);
+        }
+        foreach (XUiC_BuffPopoutList.Data data in list.items)
+        {
+            if (data?.Item == null)
+            {
+                continue;
+            }
+            Restyle(list, data.Item, want);
+            if (!want)
+            {
+                Vector3 p = data.Item.transform.localPosition;
+                data.Item.transform.localPosition = new Vector3(0f, p.y, p.z);   // rows are centred on the list
+            }
+        }
+        list.updateEntries();
+        return true;
+    }
+
+    // Tile n's centre: left to right along the bottom row, then the row above. The bottom
+    // row's bottom edge is where the game's first row has it.
+    static Vector3 Spot(XUiC_BuffPopoutList list, int n)
+    {
+        float x = (n % Cols - (Cols - 1) / 2f) * (TileW + Gap);
+        float y = n / Cols * (TileH + Gap) + (TileH - (list.height - 2f)) / 2f + list.yOffset;
+        return new Vector3(x, y, 0f);
+    }
+
+    static void Restyle(XUiC_BuffPopoutList list, GameObject item, bool tiles)
+    {
+        Transform prefab = list.PrefabItems;
+        Transform t = item.transform;
+
+        UISprite bg = Part<UISprite>(t, "Background"), bg0 = Part<UISprite>(prefab, "Background");
+        if (bg != null && bg0 != null)
+        {
+            bg.SetDimensions(tiles ? TileW : bg0.width, tiles ? TileH : bg0.height);
+        }
+
+        // Icon on top, the time or value under it, and a buff's own bar (rare) along the bottom.
+        UISprite icon = Part<UISprite>(t, "Icon"), icon0 = Part<UISprite>(prefab, "Icon");
+        if (icon != null && icon0 != null)
+        {
+            icon.transform.localPosition = tiles ? new Vector3(0f, 9f, 0f) : icon0.transform.localPosition;
+        }
+
+        UILabel text = Part<UILabel>(t, "TextContent"), text0 = Part<UILabel>(prefab, "TextContent");
+        if (text != null && text0 != null)
+        {
+            text.rawPivot = tiles ? UIWidget.Pivot.Center : text0.rawPivot;
+            text.transform.localPosition = tiles ? new Vector3(0f, -16f, 0f) : text0.transform.localPosition;
+            text.alignment = tiles ? NGUIText.Alignment.Center : text0.alignment;
+            text.overflowMethod = tiles ? UILabel.Overflow.ShrinkContent : text0.overflowMethod;
+            text.fontSize = tiles ? 15 : text0.fontSize;
+            text.SetDimensions(tiles ? TileW - 2 : text0.width, tiles ? 16 : text0.height);
+        }
+
+        UISprite bar = Part<UISprite>(t, "BarContent"), bar0 = Part<UISprite>(prefab, "BarContent");
+        if (bar != null && bar0 != null)
+        {
+            bar.transform.localPosition = tiles ? new Vector3(3f - TileW / 2f, -26f, 0f) : bar0.transform.localPosition;
+            bar.SetDimensions((int)(list.barSpriteSize.x * bar.fillAmount), (int)list.barSpriteSize.y);
+        }
+
+        // The hover box (for the buff's tooltip) fits the tile or the row again.
+        NGUITools.UpdateWidgetCollider(item);
+
+        KitsuneBuffSweep.Fit(item);
+    }
+
+    static T Part<T>(Transform parent, string name) where T : Component =>
+        parent?.Find(name)?.GetComponent<T>();
 }

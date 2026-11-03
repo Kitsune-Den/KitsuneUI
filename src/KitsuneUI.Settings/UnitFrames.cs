@@ -598,10 +598,14 @@ public static class KitsuneTargetBarHide
 /// <summary>
 /// Hides the vanilla buff list while unit frames are on (they have their own). The list
 /// switches itself visible every frame, so it's shrunk to nothing rather than hidden.
+/// Otherwise its size is Move HUD's (the buffs piece), so it's only handed back when the
+/// unit frames go off, never set every frame.
 /// </summary>
 [HarmonyPatch(typeof(XUiC_BuffPopoutList), nameof(XUiC_BuffPopoutList.Update))]
 public static class KitsuneBuffListHide
 {
+    static bool shrunk;
+
     static void Postfix(XUiC_BuffPopoutList __instance)
     {
         Transform t = __instance.ViewComponent?.UiTransform;
@@ -609,10 +613,19 @@ public static class KitsuneBuffListHide
         {
             return;
         }
-        float scale = KitsuneUnitFrames.On ? 0.0001f : 1f;
-        if (!Mathf.Approximately(t.localScale.x, scale))
+        if (KitsuneUnitFrames.On)
         {
-            t.localScale = new Vector3(scale, scale, 1f);
+            shrunk = true;
+            if (!Mathf.Approximately(t.localScale.x, 0.0001f))
+            {
+                t.localScale = new Vector3(0.0001f, 0.0001f, 1f);
+            }
+        }
+        else if (shrunk)
+        {
+            shrunk = false;
+            t.localScale = Vector3.one;
+            KitsuneLayout.ReapplyScale(__instance.ViewComponent);
         }
     }
 }
