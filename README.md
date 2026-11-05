@@ -144,6 +144,8 @@ Adds a **KitsuneUI** button to the Esc menu, under Options. It opens a settings 
 
 Changes apply straight away. They are saved per player in `%APPDATA%\7DaysToDie\KitsuneUI\settings.txt`, so on a server every player picks their own. The defaults match KitsuneUI without the add-on, so nothing changes until someone flips a switch.
 
+Reporting a bug? Type `kui report` in the console (F1). It prints the game's version, your loaded mods, your screen size and any patch that didn't apply, and copies it all to the clipboard to paste into your report. It has no file paths or player names in it.
+
 Needs `KitsuneUI`. Install on the **server and every client**, with EAC off (the server sends the window's layout; the DLL does the work on each player's game).
 
 ## KitsuneUI_Toolbelt20
