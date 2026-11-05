@@ -232,6 +232,14 @@ dotnet build src/KitsuneUI.Practice -c Release
 
 Each DLL is copied into its mod folder.
 
+### Before a release
+
+```
+python tools/check_release.py --game 1.3.40.10 "<V3.4>/Data/Config" --game 1.3.30.17 "<V3.3>/Data/Config"
+```
+
+runs the checks a release needs and fails if any of them fails or couldn't run: the public names, the patches on both game versions, DLLs older than their source, and anything uncommitted in a mod folder or `src`. It needs both game versions' files. Pull requests run the public names check on their own, since that one doesn't need the game.
+
 ### Release zips
 
 ```

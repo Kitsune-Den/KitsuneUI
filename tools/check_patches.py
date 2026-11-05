@@ -133,6 +133,9 @@ def main():
         LOADED.update(n for n in args[i + 1].split(",") if n)
         del args[i:i + 2]
     vanilla = Path(args[0])
+    # Otherwise a wrong path skips every file and exits 0, which reads as a pass.
+    if not vanilla.is_dir():
+        sys.exit(f"{vanilla} isn't a folder")
     mods = [Path(p) for p in args[1:]] or [ROOT / "KitsuneUI" / "Config"]
     LOADED.update(m.resolve().parent.name for m in mods)
     parser = etree.XMLParser(remove_comments=False)
