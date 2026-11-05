@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xml>
+	<Name value="KitsuneUI_ServerPolicy" />
+	<DisplayName value="KitsuneUI Server Policy" />
+	<Description value="For server admins: turn off minimap creature dots, coordinates and nameplates for everyone on your server, and set a starting look for new players. Edit Config/ui_display.xml. Install on the server only; the server and every player need KitsuneUI_Settings 1.23 or newer." />
+	<Website value="https://github.com/Kitsune-Den/KitsuneUI" />
+	<Author value="AdaInTheLab" />
+	<Version value="1.0.0" />
+</xml>

@@ -45,6 +45,7 @@ The theme is XML and images only. It changes how the game looks, never how it pl
 | `KitsuneUI_Settings` (optional) | An in-game settings window (Esc menu > KitsuneUI), saved per player | Small DLL, needs EAC off, needs `KitsuneUI` |
 | `KitsuneUI_Loading` (optional) | Six Kitsunebi night paintings for the loading screen | Works with EAC on |
 | `KitsuneUI_Practice` (optional) | For Kitsune Shugyō: a Practice tab with every practice meter, and practice bars on the skills screen | Small DLL, needs EAC off, needs `KitsuneUI`; does nothing without Kitsune Shugyō |
+| `KitsuneUI_ServerPolicy` (optional) | For server admins: turn off creature dots, coordinates and nameplates on your server, and set a starting look for new players | One XML file on the server; the server and players need `KitsuneUI_Settings` 1.23 or newer |
 
 ### Languages
 
@@ -142,11 +143,42 @@ Adds a **KitsuneUI** button to the Esc menu, under Options. It opens a settings 
 
 **Profiles** save the whole layout (positions, sizes, hidden pieces, glass, toggles, colours) under a name, up to 8, to load or delete later. **Export** copies a layout to the clipboard as one line of text you can paste to other players; **Import** reads one back (only KitsuneUI's own settings are accepted). **Presets** switch HUD pieces on and off in one click: **Minimal**, **Full** or **Streamer** (Full minus combat text, text at 115%, a round minimap with the clock, and no coordinates or player names on the map). Presets never move or recolour anything.
 
-Changes apply straight away. They are saved per player in `%APPDATA%\7DaysToDie\KitsuneUI\settings.txt`, so on a server every player picks their own. The defaults match KitsuneUI without the add-on, so nothing changes until someone flips a switch.
+Changes apply straight away. They are saved per player in `%APPDATA%\7DaysToDie\KitsuneUI\settings.txt`, so on a server every player picks their own (a server can decide a few of them with [KitsuneUI_ServerPolicy](#kitsuneui_serverpolicy)). The defaults match KitsuneUI without the add-on, so nothing changes until someone flips a switch.
 
-Reporting a bug? Type `kui report` in the console (F1). It prints the game's version, your loaded mods, your screen size and any patch that didn't apply, and copies it all to the clipboard to paste into your report. It has no file paths or player names in it.
+Reporting a bug? Type `kui report` in the console (F1). It prints the game's version, your loaded mods, your screen size, any patch that didn't apply and the server's policy, and copies it all to the clipboard to paste into your report. It has no file paths or player names in it. The game sends console commands to the server first, so on a server this needs `KitsuneUI_Settings` 1.22 or newer there too; otherwise you get "Unknown command".
 
 Needs `KitsuneUI`. Install on the **server and every client**, with EAC off (the server sends the window's layout; the DLL does the work on each player's game).
+
+## KitsuneUI_ServerPolicy
+
+For server admins. It turns off the parts of `KitsuneUI_Settings` that don't suit a hardcore or PvP server, for everyone on that server, and can give new players a starting look. It's one XML file, with no DLL.
+
+Install it on the **server only**: the game sends the file to everyone who joins. The server and every player need `KitsuneUI_Settings` 1.23 or newer: each player's copy does the reading, and the server's copy sends the Settings window with the "set by this server" notes. With an older copy on the server, players' rows don't show the note. If you host from your own game, or want it in single player, install it in your own game. A copy in your own game has no effect on other people's servers.
+
+Edit `Config/ui_display.xml`. As it comes, it turns off creature dots, coordinates and nameplates:
+
+```xml
+<kitsune_policy>
+	<force key="mapCreatures" value="off" />
+	<force key="mapCoords" value="false" />
+	<force key="nameplates" value="false" />
+</kitsune_policy>
+```
+
+**`force`** holds a setting at a value. The setting's row in the Settings window shows the value and "set by this server" in place of its buttons. Players keep their own choice, and get it back on other servers. Five settings can be forced: `minimap`, `mapNames`, `mapCoords` and `nameplates` (`true` or `false`) and `mapCreatures` (`off`, `animals` or `all`).
+
+**`default`** is what a player gets until they change it. Anything a player has already set stays as they set it. Use one setting, or a whole look: arrange it in game, press **Export** in the Profiles window, and paste the text in:
+
+```xml
+<default key="palette" value="ember" />
+<default profile="KitsuneUI-layout:..." />
+```
+
+Move HUD positions are saved as distances from where each piece normally sits, so a layout can land differently on another screen shape. Trader job settings can't be defaults, since `KitsuneUI_JobPreview` reads them on its own.
+
+To check your file, join the server and look at your own game's log: `KitsuneUI_Settings` does the reading, so that's where it says what it read and warns about anything it couldn't use. `kui report` shows the policy a player is under.
+
+This keeps a game fair for players who play along. It isn't anti-cheat: `KitsuneUI_Settings` runs on each player's game with EAC off, so someone who changes their own mods can get around it.
 
 ## KitsuneUI_Toolbelt20
 
@@ -212,7 +244,7 @@ python tools/gen_sprites.py
 `tools/check_patches.py` (Python 3 + lxml) applies every patch to the vanilla XUi files in load order and lists any XPath that matches nothing. A dedicated server never loads the menu XUi or the atlases, so this is the only check that covers everything:
 
 ```
-python tools/check_patches.py "<game>/Data/Config" KitsuneUI/Config KitsuneUI_JobPreview/Config KitsuneUI_Practice/Config KitsuneUI_Settings/Config KitsuneUI_Toolbelt20/Config KitsuneUI_Loading/Config --loaded KitsuneShugyo
+python tools/check_patches.py "<game>/Data/Config" KitsuneUI/Config KitsuneUI_JobPreview/Config KitsuneUI_Practice/Config KitsuneUI_ServerPolicy/Config KitsuneUI_Settings/Config KitsuneUI_Toolbelt20/Config KitsuneUI_Loading/Config --loaded KitsuneShugyo
 ```
 
 A `<conditional>` takes its first branch whose `mod_loaded()` passes, counting the folders given and the `--loaded` names as installed. Leave `--loaded KitsuneShugyo` off to check the Practice add-on without Shugyō (nothing of it applies).

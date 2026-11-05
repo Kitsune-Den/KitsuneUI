@@ -5,8 +5,9 @@ using UnityEngine;
 /// quiet seconds and come straight back when something needs them. The toolbelt wakes
 /// when you switch, use, pick up or fire something; the stat bars wake while health or
 /// stamina are below full, food or water run low, or you crouch (the stealth meter).
-/// Both stay up while a menu is open and in move mode. Runs every frame from the
-/// toolbelt hook; it only sets each window's target alpha, which the game then shows.
+/// Both stay up while a menu is open, while you hold an item on the mouse and in move
+/// mode. Runs every frame from the toolbelt hook; it only sets each window's target
+/// alpha, which the game then shows.
 /// </summary>
 public static class KitsuneAutoFade
 {
@@ -66,7 +67,10 @@ public static class KitsuneAutoFade
             return;
         }
         wasFading = true;
-        bool menu = xui.playerUI.windowManager.IsCursorWindowOpen();
+        // Modal or cursor is the game's own test for showing the mouse: inventory pages only count as modal.
+        GUIWindowManager windows = xui.playerUI.windowManager;
+        ItemStack held = xui.DragAndDropWindow?.CurrentStack;
+        bool menu = windows.IsCursorWindowOpen() || windows.IsModalWindowOpen() || (held != null && !held.IsEmpty());
 
         int signature = BeltSignature(player.inventory);
         int slot = player.inventory.holdingItemIdx;

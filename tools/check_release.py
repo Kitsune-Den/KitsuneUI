@@ -32,7 +32,7 @@ ROOT = Path(__file__).resolve().parent.parent
 LINES = {(1, 3, 30): "V3.3", (1, 3, 40): "V3.4"}
 
 # The game's load order. Practice's patches only apply with Shugyō, so count it as loaded.
-PATCH_ORDER = ["KitsuneUI", "KitsuneUI_JobPreview", "KitsuneUI_Practice", "KitsuneUI_Settings", "KitsuneUI_Toolbelt20", "KitsuneUI_Loading"]
+PATCH_ORDER = ["KitsuneUI", "KitsuneUI_JobPreview", "KitsuneUI_Practice", "KitsuneUI_ServerPolicy", "KitsuneUI_Settings", "KitsuneUI_Toolbelt20", "KitsuneUI_Loading"]
 LOADED = "KitsuneShugyo"
 
 

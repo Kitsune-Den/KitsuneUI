@@ -5,7 +5,7 @@ using UnityEngine;
 
 /// <summary>
 /// What a bug report needs: the game's version, every loaded mod and its version, the
-/// screen, and any patch that didn't apply. It gets pasted in public, so it leaves out
+/// screen, any patch that didn't apply and the server's policy. It gets pasted in public, so it leaves out
 /// file paths (they can hold a Windows user name) and the player's name.
 /// </summary>
 public static class KitsuneReport
@@ -32,6 +32,7 @@ public static class KitsuneReport
         {
             report.AppendLine("  " + line);
         }
+        report.AppendLine(KitsuneServerPolicy.Summary);
         return report.ToString().TrimEnd();
     }
 
@@ -74,7 +75,7 @@ public class ConsoleCmdKitsuneUI : ConsoleCmdAbstract
     public override string getDescription() => "KitsuneUI: copy a report for a bug report (kui report)";
 
     public override string getHelp() =>
-        "kui report - prints the game's version, your loaded mods, your screen size and any patch that didn't apply, " +
+        "kui report - prints the game's version, your loaded mods, your screen size, any patch that didn't apply and the server's policy, " +
         "and copies it all to the clipboard to paste into a bug report. It has no file paths or player names in it.";
 
     public override void Execute(List<string> _params, CommandSenderInfo _senderInfo)

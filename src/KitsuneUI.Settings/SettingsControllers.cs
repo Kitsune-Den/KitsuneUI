@@ -769,6 +769,7 @@ public class XUiC_KitsuneSettingsWindow : XUiController
     // the note shows in their place. kuShow_<key> rects just show or hide. See Condition.
     readonly List<(string key, XUiView veil, XUiView note, List<XUiController> controls)> dependents = new List<(string, XUiView, XUiView, List<XUiController>)>();
     readonly List<(string key, XUiView view)> shown = new List<(string, XUiView)>();
+    readonly List<(string key, XUiController row, XUiV_Label note, List<XUiView> parts)> locks = new List<(string, XUiController, XUiV_Label, List<XUiView>)>();
 
     // A setting key, or "toolbelt20" (that mod is loaded) or "twoBars" (the toolbelt in use
     // has two bars: Two bars shown as is only for those).
@@ -801,6 +802,18 @@ public class XUiC_KitsuneSettingsWindow : XUiController
                         }
                     };
                 }
+            }
+            if (c.GetChildById("kuLockNote")?.ViewComponent is XUiV_Label lockNote)
+            {
+                List<XUiView> parts = new List<XUiView>();
+                foreach (XUiController child in c.Children)
+                {
+                    if (child.ViewComponent != null && child.ViewComponent != lockNote)
+                    {
+                        parts.Add(child.ViewComponent);
+                    }
+                }
+                locks.Add((name, row, lockNote, parts));
             }
         }
         else if (id != null && id.StartsWith("kuDep_"))
@@ -929,6 +942,32 @@ public class XUiC_KitsuneSettingsWindow : XUiController
                 {
                     button.Enabled = on;
                 }
+            }
+        }
+    }
+
+    // A setting the server decides: the row makes way for one line saying so.
+    void ShowLocks()
+    {
+        foreach ((string key, XUiController row, XUiV_Label note, List<XUiView> parts) in locks)
+        {
+            bool locked = KitsuneSettingsFile.IsForced(key);
+            if (locked)
+            {
+                string value = KitsuneSettingsFile.Get(key);
+                string word = value == "true" ? "kuOptOn" : value == "animals" ? "kuOptAnimals" : value == "all" ? "kuOptAll" : "kuOptOff";
+                note.Text = string.Format(Localization.Get("kuPolicySet"), RowLabel(row), Localization.Get(word));
+            }
+            foreach (XUiView part in parts)
+            {
+                if (part.IsVisible == locked)
+                {
+                    part.IsVisible = !locked;
+                }
+            }
+            if (note.IsVisible != locked)
+            {
+                note.IsVisible = locked;
             }
         }
     }
@@ -1154,6 +1193,7 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         ShowGlass();
         ShowGlassColour();
         ShowDependents();
+        ShowLocks();
         ShowToolbeltSize();
     }
 }
