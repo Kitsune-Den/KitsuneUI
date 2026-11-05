@@ -512,7 +512,7 @@ public static class KitsuneBuffStyle
             bar.SetDimensions((int)(list.barSpriteSize.x * bar.fillAmount), (int)list.barSpriteSize.y);
         }
 
-        // The hover box (for the buff's tooltip) fits the tile or the row again.
+        // The click box (opens the buff in Status Effects) fits the tile or the row again.
         NGUITools.UpdateWidgetCollider(item);
 
         KitsuneBuffSweep.Fit(item);
