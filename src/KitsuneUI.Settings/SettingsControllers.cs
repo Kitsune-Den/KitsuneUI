@@ -12,7 +12,7 @@ public class KitsuneUISettingsMod : IModApi
     public void InitMod(Mod _modInstance)
     {
         Log.Out($"[KitsuneUI_Settings] Loaded - settings in {KitsuneSettingsFile.Path}");
-        new HarmonyLib.Harmony("com.adainthelab.kitsuneui.settings").PatchAll(typeof(KitsuneUISettingsMod).Assembly);
+        KitsunePatches.Apply("com.adainthelab.kitsuneui.settings", typeof(KitsuneUISettingsMod).Assembly);
     }
 }
 

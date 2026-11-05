@@ -54,6 +54,11 @@
     <Compile Include="..\Shared\KitsuneSettingsFile.cs" Link="KitsuneSettingsFile.cs" />
   </ItemGroup>
 
+  <!-- Applies the patches one class at a time; every add-on with a DLL compiles it in. -->
+  <ItemGroup>
+    <Compile Include="..\Shared\KitsunePatches.cs" Link="KitsunePatches.cs" />
+  </ItemGroup>
+
   <Target Name="CopyToModFolder" AfterTargets="Build">
     <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ModFolder)" />
   </Target>

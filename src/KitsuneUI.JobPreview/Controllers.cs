@@ -10,7 +10,7 @@ public class KitsuneUIJobPreviewMod : IModApi
 {
     public void InitMod(Mod _modInstance)
     {
-        new HarmonyLib.Harmony("com.adainthelab.kitsuneui.jobpreview").PatchAll(typeof(KitsuneUIJobPreviewMod).Assembly);
+        KitsunePatches.Apply("com.adainthelab.kitsuneui.jobpreview", typeof(KitsuneUIJobPreviewMod).Assembly);
         Log.Out("[KitsuneUI_JobPreview] Loaded - trader jobs show as tiles with location previews (or the game's list, per KitsuneUI settings)");
     }
 }
