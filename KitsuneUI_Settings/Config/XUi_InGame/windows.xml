@@ -302,6 +302,11 @@
 					<togglebutton name="tglBuffTimers" depth="3" pos="254,-334" width="630" height="40" font_size="26" caption="" />
 					<label depth="4" name="tglBuffTimersText" pos="300,-354" width="576" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetBuffTimers" />
 				</rect>
+				<rect name="kuRow_buffStyle" width="900" height="680">
+					<label depth="3" name="lblBuffStyle" pos="256,-400" width="164" height="30" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetBuffStyle" />
+					<simplebutton name="btnBuffStyle_bars" depth="3" pos="424,-382" width="149" height="36" font_size="20" caption_key="kuOptBars" />
+					<simplebutton name="btnBuffStyle_icons" depth="3" pos="579,-382" width="149" height="36" font_size="20" caption_key="kuOptIcons" />
+				</rect>
 			</rect>
 
 			<rect name="kuTab_bag" width="900" height="680" visible="false">
@@ -681,9 +686,9 @@
 		</window>
 	</append>
 
-	<!-- Stat bars (bottom left): the handle covers the bars and the buff pop-outs above them. -->
+	<!-- Stat bars (bottom left): the handle covers the bars; the buff pop-outs above them are a piece of their own. -->
 	<append xpath="/windows/window[@name='HUDLeftStatBars']">
-		<rect name="kuMoveHandle" depth="50" pos="0,180" width="230" height="186" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings" mode="joined">
+		<rect name="kuMoveHandle" depth="50" pos="0,108" width="230" height="114" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings" mode="joined">
 			<!-- size readout and the -, +, show/hide buttons (XUiC_KitsuneMoveHandle) -->
 			<label depth="53" name="kuMoveScale" pos="126,-19" width="64" height="24" pivot="right" justify="right" font_size="18" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="100%" />
 			<sprite depth="54" name="kuChipSmaller" pos="130,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
@@ -753,10 +758,11 @@
 		<ku_move_handle pos="-4,4" width="91" height="38" label_key="kuMoveWater" target="parent" group="statBarWater" mode="each" />
 	</append>
 
-	<!-- The buff pop-outs: part of the stat bars piece when they're together, their own piece
-	     when the bars come apart (in pairs or each). They stack upward from the list's origin. -->
+	<!-- The buff pop-outs: always a piece of their own, so they size apart from the bars. While
+	     the bars are together the pop-outs ride along with them (they sit in the bars' window)
+	     but keep their own size (own_size). They stack upward from the list's origin. -->
 	<append xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']">
-		<ku_move_handle pos="-104,260" width="208" height="290" label_key="kuMoveBuffs" target="parent" group="statBarBuffs" mode="split|each" />
+		<ku_move_handle pos="-104,260" width="208" height="282" label_key="kuMoveBuffs" target="parent" group="statBarBuffs" own_size="true" />
 	</append>
 
 	<!-- Toolbelt layout (Toolbelt & bars page): with two bars, "One row" puts the Shift bar to the right of the -->

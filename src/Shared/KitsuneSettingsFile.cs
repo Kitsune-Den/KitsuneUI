@@ -58,6 +58,7 @@ public static class KitsuneSettingsFile
     public const string FrameWidth = "frameWidth";        // unit frame width: 260, 320, 400
     public const string BuffSize = "buffSize";            // unit frame buff icon size, percent: 75, 100, 125
     public const string BuffCount = "buffCount";          // buff icons shown per frame: 4, 6, 8
+    public const string BuffStyle = "buffStyle";          // buffs above the stat bars: "bars" (a row each) or "icons" (a grid of chips)
 
     static readonly Dictionary<string, string> Defaults = new Dictionary<string, string>
     {
@@ -108,6 +109,7 @@ public static class KitsuneSettingsFile
         { FrameWidth, "320" },
         { BuffSize, "100" },
         { BuffCount, "8" },
+        { BuffStyle, "bars" },
     };
 
     static Dictionary<string, string> values;

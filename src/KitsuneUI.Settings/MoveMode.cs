@@ -19,6 +19,7 @@ public static class KitsuneLayout
     {
         public XUiView View;   // a whole window, or one element inside a window
         public Vector2i Base;
+        public XUiView Window; // the window an element sits in (null for a whole window)
     }
 
     sealed class Group
@@ -39,6 +40,9 @@ public static class KitsuneLayout
         // mode, so it never fights the game's own show / hide bindings.
         public float Scale = 1f;
         public bool Hidden;
+        // An element whose size and place are its own (own_size="true"), not a share of its
+        // window's: the buff pop-outs keep their size while the stat bars around them change.
+        public bool OwnSize;
     }
 
     public const float MinScale = 0.6f;
@@ -168,7 +172,7 @@ public static class KitsuneLayout
     public static bool ModeOn(string mode) =>
         string.IsNullOrEmpty(mode) || System.Array.IndexOf(mode.Split('|'), StatBarsMode) >= 0;
 
-    public static void Register(string group, XUiView window, string mode = "")
+    public static void Register(string group, XUiView window, string mode = "", bool ownSize = false)
     {
         if (window == null || string.IsNullOrEmpty(group))
         {
@@ -185,17 +189,63 @@ public static class KitsuneLayout
             };
             groups[group] = g;
         }
+        g.OwnSize |= ownSize;
         if (g.Members.Exists(m => m.View == window))
         {
             return;
         }
-        g.Members.Add(new Member { View = window, Base = window.Position });
+        g.Members.Add(new Member { View = window, Base = window.Position, Window = WindowOf(window) });
         if (!byView.TryGetValue(window, out List<Group> list))
         {
             byView[window] = list = new List<Group>();
         }
         list.Add(g);
     }
+
+    static XUiView WindowOf(XUiView view)
+    {
+        if (view is XUiV_Window)
+        {
+            return null;
+        }
+        for (XUiController c = view?.Controller?.Parent; c != null; c = c.Parent)
+        {
+            if (c.ViewComponent is XUiV_Window w)
+            {
+                return w;
+            }
+        }
+        return null;
+    }
+
+    /// <summary>
+    /// For an own_size piece, the size its window (and anything between) gives it: the buff
+    /// pop-outs sit inside the stat bars window, which is sized as a whole while the bars are
+    /// together. The piece's offset and size are kept in screen terms, so the element is
+    /// moved and sized against this. 1 for any other piece, a whole window, and a window
+    /// that's hidden (shrunk to nothing: the element goes with it).
+    /// </summary>
+    static float ParentScale(Group g, Member m)
+    {
+        Transform t = m.View.UiTransform, top = m.Window?.UiTransform;
+        if (!g.OwnSize || t == null || top == null)
+        {
+            return 1f;
+        }
+        float s = 1f;
+        for (Transform p = t.parent; p != null; p = p.parent)
+        {
+            s *= p.localScale.x;
+            if (p == top)
+            {
+                break;
+            }
+        }
+        return s < 0.01f ? 1f : s;
+    }
+
+    static float ScaleFor(Group g, Member m, bool on) =>
+        !on ? 1f : !Active && g.Hidden ? 0.0001f : g.Scale / ParentScale(g, m);
 
     public static void RegisterHandle(XUiView handle)
     {
@@ -335,10 +385,11 @@ public static class KitsuneLayout
             return;
         }
         Group g = list.Find(x => ModeOn(x.Mode)) ?? list[0];
+        Member m = g.Members.Find(x => x.View == view);
         Transform t = view.UiTransform;
-        if (t != null)
+        if (t != null && m != null)
         {
-            float s = !ModeOn(g.Mode) ? 1f : !Active && g.Hidden ? 0.0001f : g.Scale;
+            float s = ScaleFor(g, m, ModeOn(g.Mode));
             t.localScale = new Vector3(s, s, 1f);
         }
     }
@@ -355,8 +406,6 @@ public static class KitsuneLayout
     static void Apply(Group g)
     {
         bool on = ModeOn(g.Mode);
-        int dx = on ? Mathf.RoundToInt(g.Offset.x) : 0;
-        int dy = on ? Mathf.RoundToInt(g.Offset.y) : 0;
         foreach (Member m in g.Members)
         {
             // A piece that's off leaves a view alone while another piece, on, moves it.
@@ -364,6 +413,9 @@ public static class KitsuneLayout
             {
                 continue;
             }
+            float ps = on ? ParentScale(g, m) : 1f;
+            int dx = on ? Mathf.RoundToInt(g.Offset.x / ps) : 0;
+            int dy = on ? Mathf.RoundToInt(g.Offset.y / ps) : 0;
             var want = new Vector2i(m.Base.x + dx, m.Base.y + dy);
             if (m.View.Position != want)
             {
@@ -372,7 +424,7 @@ public static class KitsuneLayout
             Transform t = m.View.UiTransform;
             if (t != null)
             {
-                float s = !on ? 1f : !Active && g.Hidden ? 0.0001f : g.Scale;
+                float s = ScaleFor(g, m, on);
                 if (!Mathf.Approximately(t.localScale.x, s))
                 {
                     t.localScale = new Vector3(s, s, 1f);
@@ -415,12 +467,18 @@ public class XUiC_KitsuneMoveHandle : XUiController
             case "open_for_moving":
                 openForMoving = _value == "true";
                 return true;
+            // "true": an element (target parent / grandparent) keeps its own size and place on
+            // screen when its window is resized, instead of growing and shrinking with it.
+            case "own_size":
+                ownSize = _value == "true";
+                return true;
             default:
                 return base.ParseAttribute(_name, _value);
         }
     }
 
     bool openForMoving;
+    bool ownSize;
 
     public override void Init()
     {
@@ -449,7 +507,7 @@ public class XUiC_KitsuneMoveHandle : XUiController
         {
             group = window.ID;
         }
-        KitsuneLayout.Register(group, window, Mode);
+        KitsuneLayout.Register(group, window, Mode, ownSize);
         if (openForMoving && !string.IsNullOrEmpty(WindowGroup?.Id))
         {
             KitsuneLayout.OpenForMoving.Add(WindowGroup.Id);

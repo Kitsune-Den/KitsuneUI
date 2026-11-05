@@ -476,6 +476,7 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         ChoiceRow("btnFrameWidth_", KitsuneSettingsFile.FrameWidth, "260", "320", "400");
         ChoiceRow("btnBuffSize_", KitsuneSettingsFile.BuffSize, "75", "100", "125");
         ChoiceRow("btnBuffCount_", KitsuneSettingsFile.BuffCount, "4", "6", "8");
+        ChoiceRow("btnBuffStyle_", KitsuneSettingsFile.BuffStyle, "bars", "icons");
         hueRing = GetChildById("kuHueRing")?.ViewComponent;
         glassRing = GetChildById("kuGlassRing")?.ViewComponent;
         foreach (string colour in KitsuneSettingsApplier.GlassColours)
