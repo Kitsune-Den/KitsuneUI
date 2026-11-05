@@ -9,6 +9,7 @@ obj/
 *.bak
 .DS_Store
 Thumbs.db
+__pycache__/
 
 # Release packaging artifacts
 *.zip
