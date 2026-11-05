@@ -14,7 +14,7 @@ public class KitsuneUIPracticeMod : IModApi
 {
     public void InitMod(Mod _modInstance)
     {
-        new HarmonyLib.Harmony("com.adainthelab.kitsuneui.practice").PatchAll(typeof(KitsuneUIPracticeMod).Assembly);
+        KitsunePatches.Apply("com.adainthelab.kitsuneui.practice", typeof(KitsuneUIPracticeMod).Assembly);
         Log.Out(ModManager.ModLoaded(KitsunePractice.ShugyoMod)
             ? "[KitsuneUI_Practice] Loaded - Kitsune Shugyō's practice on the skills screen and the Practice tab"
             : "[KitsuneUI_Practice] Loaded - Kitsune Shugyō isn't installed, so the game's screens stay as they are");

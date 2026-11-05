@@ -24,7 +24,7 @@ public class KitsuneUIToolbelt20Mod : IModApi
 {
     public void InitMod(Mod _modInstance)
     {
-        new Harmony("com.adainthelab.kitsuneui.toolbelt20").PatchAll(typeof(KitsuneUIToolbelt20Mod).Assembly);
+        KitsunePatches.Apply("com.adainthelab.kitsuneui.toolbelt20", typeof(KitsuneUIToolbelt20Mod).Assembly);
         Log.Out("[KitsuneUI_Toolbelt20] Loaded - toolbelt.xml <gameconfig> is read in game");
     }
 }
