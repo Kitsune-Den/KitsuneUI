@@ -115,6 +115,11 @@ public static class KitsuneSettingsFile
     static Dictionary<string, string> values;
     static DateTime loadedStamp;
 
+    // What a server says (KitsuneServerPolicy, Settings only). In memory only, so none of
+    // it reaches the player's file and their own choices come back on the next server.
+    static Dictionary<string, string> forced = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+    static Dictionary<string, string> serverDefaults = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
     public static string Path =>
         System.IO.Path.Combine(GameIO.GetDefaultUserGameDataPath(), "KitsuneUI", "settings.txt");
 
@@ -152,11 +157,51 @@ public static class KitsuneSettingsFile
     public static string Get(string key)
     {
         Load();
+        if (forced.TryGetValue(key, out string f))
+        {
+            return f;
+        }
         if (values.TryGetValue(key, out string v))
         {
             return v;
         }
+        if (serverDefaults.TryGetValue(key, out string s))
+        {
+            return s;
+        }
         return Defaults.TryGetValue(key, out string d) ? d : "";
+    }
+
+    /// <summary>Whether the server decides this setting, whatever the player has saved.</summary>
+    public static bool IsForced(string key) => forced.ContainsKey(key);
+
+    /// <summary>Replaces what the server says. False if that's what it already said.</summary>
+    public static bool SetPolicy(Dictionary<string, string> newForced, Dictionary<string, string> newDefaults)
+    {
+        if (Same(forced, newForced) && Same(serverDefaults, newDefaults))
+        {
+            return false;
+        }
+        forced = newForced;
+        serverDefaults = newDefaults;
+        Version++;
+        return true;
+    }
+
+    static bool Same(Dictionary<string, string> a, Dictionary<string, string> b)
+    {
+        if (a.Count != b.Count)
+        {
+            return false;
+        }
+        foreach (KeyValuePair<string, string> kv in a)
+        {
+            if (!b.TryGetValue(kv.Key, out string other) || other != kv.Value)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     public static void Set(string key, string value)

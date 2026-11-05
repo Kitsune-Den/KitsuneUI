@@ -177,6 +177,7 @@
 				<rect name="kuRow_minimap" width="900" height="680">
 					<togglebutton name="tglMinimap" depth="3" pos="254,-128" width="630" height="40" font_size="26" caption="" />
 					<label depth="4" name="tglMinimapText" pos="300,-148" width="576" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetMinimap" />
+					<label depth="4" name="kuLockNote" pos="256,-148" width="630" height="34" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuTextMuted]" visible="false" />
 				</rect>
 				<label depth="3" name="kuSec_map_Minimap" pos="256,-182" width="630" height="24" font_size="17" upper_case="true" color="[kuGold]" text_key="kuSecMinimap" />
 				<sprite depth="2" pos="254,-207" width="630" height="1" sprite="ku_px" type="simple" color="[kuGoldSoft]" />
@@ -201,12 +202,14 @@
 					<rect name="kuRow_mapNames" width="900" height="680">
 						<togglebutton name="tglMapNames" depth="3" pos="254,-350" width="630" height="40" font_size="26" caption="" />
 						<label depth="4" name="tglMapNamesText" pos="300,-370" width="576" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetMapNames" />
+						<label depth="4" name="kuLockNote" pos="256,-370" width="630" height="34" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuTextMuted]" visible="false" />
 					</rect>
 					<rect name="kuRow_mapCreatures" width="900" height="680">
 						<label depth="3" name="lblMapCreatures" pos="256,-416" width="164" height="30" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetMapCreatures" />
 						<simplebutton name="btnMapCreatures_off" depth="3" pos="424,-398" width="149" height="36" font_size="20" caption_key="kuOptOff" />
 						<simplebutton name="btnMapCreatures_animals" depth="3" pos="579,-398" width="149" height="36" font_size="20" caption_key="kuOptAnimals" />
 						<simplebutton name="btnMapCreatures_all" depth="3" pos="734,-398" width="149" height="36" font_size="20" caption_key="kuOptAll" />
+						<label depth="4" name="kuLockNote" pos="256,-416" width="630" height="34" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuTextMuted]" visible="false" />
 					</rect>
 					<sprite depth="7" name="kuDepVeil" pos="252,-210" width="634" height="228" sprite="ku_round_sm" type="sliced" color="10,12,26,175" globalopacitymod="0" visible="false" />
 				</rect>
@@ -217,6 +220,7 @@
 					<rect name="kuRow_mapCoords" width="900" height="680">
 						<togglebutton name="tglMapCoords" depth="3" pos="254,-480" width="630" height="40" font_size="26" caption="" />
 						<label depth="4" name="tglMapCoordsText" pos="300,-500" width="576" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetMapCoords" />
+						<label depth="4" name="kuLockNote" pos="256,-500" width="630" height="34" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuTextMuted]" visible="false" />
 					</rect>
 					<rect name="kuRow_mapClock" width="900" height="680">
 						<togglebutton name="tglMapClock" depth="3" pos="254,-526" width="630" height="40" font_size="26" caption="" />
@@ -291,6 +295,7 @@
 				<rect name="kuRow_nameplates" width="900" height="680">
 					<togglebutton name="tglNameplates" depth="3" pos="254,-204" width="630" height="40" font_size="26" caption="" />
 					<label depth="4" name="tglNameplatesText" pos="300,-224" width="576" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetNameplates" />
+					<label depth="4" name="kuLockNote" pos="256,-224" width="630" height="34" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuTextMuted]" visible="false" />
 				</rect>
 				<rect name="kuRow_combatText" width="900" height="680">
 					<togglebutton name="tglCombatText" depth="3" pos="254,-250" width="630" height="40" font_size="26" caption="" />

@@ -1,0 +1,26 @@
+<configs>
+
+	<!-- What KitsuneUI_Settings lets players see and change on this server. The game sends -->
+	<!-- this file to everyone who joins, so only the server needs this folder.             -->
+	<!-- Left as it is, it turns off creature dots, coordinates and nameplates.             -->
+	<!--                                                                                    -->
+	<!-- force: the setting stays at this value and its row in the Settings window says so. -->
+	<!-- Players get their own choice back on other servers. These five can be forced:      -->
+	<!--   minimap, mapNames, mapCoords, nameplates: true or false                          -->
+	<!--   mapCreatures: off, animals or all                                                -->
+	<!--                                                                                    -->
+	<!-- default: what a player gets until they change it. Anything they've set stays.      -->
+	<!--   One setting: <default key="palette" value="ember" />                             -->
+	<!--   A whole look: arrange it in game, press Export in the Profiles window, and paste -->
+	<!--   it in: <default profile="KitsuneUI-layout:..." />                                -->
+	<!-- Trader job settings can't be defaults, since KitsuneUI_JobPreview reads them.      -->
+	<!-- Join and check your game's log: it says what it read and warns about bad lines.    -->
+	<append xpath="/ui_display_info">
+		<kitsune_policy>
+			<force key="mapCreatures" value="off" />
+			<force key="mapCoords" value="false" />
+			<force key="nameplates" value="false" />
+		</kitsune_policy>
+	</append>
+
+</configs>

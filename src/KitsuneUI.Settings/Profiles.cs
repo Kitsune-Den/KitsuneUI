@@ -20,7 +20,7 @@ public static class KitsuneProfiles
     static readonly HashSet<string> SettingKeys = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
     {
         KitsuneSettingsFile.SlotNumbers, KitsuneSettingsFile.HealthBarAlways, KitsuneSettingsFile.JobTiles,
-        KitsuneSettingsFile.Glass, KitsuneSettingsFile.MoveSnap, KitsuneSettingsFile.Palette, KitsuneSettingsFile.BackpackAll, KitsuneSettingsFile.AutoFade, KitsuneSettingsFile.BarText, KitsuneSettingsFile.TextSize, KitsuneSettingsFile.Minimap, KitsuneSettingsFile.HordeCountdown, KitsuneSettingsFile.CraftingHud, KitsuneSettingsFile.ActionBar, KitsuneSettingsFile.MapZoom, KitsuneSettingsFile.MapRotate, KitsuneSettingsFile.MapNames, KitsuneSettingsFile.MapShape, KitsuneSettingsFile.MapCreatures, KitsuneSettingsFile.MapCoords, KitsuneSettingsFile.MapClock, KitsuneSettingsFile.BagSearch, KitsuneSettingsFile.WearWarning, KitsuneSettingsFile.BuffTimers, KitsuneSettingsFile.UnitFrames, KitsuneSettingsFile.XpBar, KitsuneSettingsFile.BarStyle, KitsuneSettingsFile.PartyFrames, KitsuneSettingsFile.Nameplates, KitsuneSettingsFile.CombatText, KitsuneSettingsFile.CustomHue, KitsuneSettingsFile.GlassColour, KitsuneSettingsFile.QuestBars, KitsuneSettingsFile.HideQuestTier, KitsuneSettingsFile.JobOrder, KitsuneSettingsFile.StatBarsSplit, KitsuneSettingsFile.StatBarsEach, KitsuneSettingsFile.BackpackWidth, KitsuneSettingsFile.ToolbeltLayout, KitsuneSettingsFile.TraderTileSize, KitsuneSettingsFile.BuffSweep, KitsuneSettingsFile.Portrait, KitsuneSettingsFile.QualityRings, KitsuneSettingsFile.CompareHeld, KitsuneSettingsFile.FrameWidth, KitsuneSettingsFile.BuffSize, KitsuneSettingsFile.BuffCount,
+        KitsuneSettingsFile.Glass, KitsuneSettingsFile.MoveSnap, KitsuneSettingsFile.Palette, KitsuneSettingsFile.BackpackAll, KitsuneSettingsFile.AutoFade, KitsuneSettingsFile.BarText, KitsuneSettingsFile.TextSize, KitsuneSettingsFile.Minimap, KitsuneSettingsFile.HordeCountdown, KitsuneSettingsFile.CraftingHud, KitsuneSettingsFile.ActionBar, KitsuneSettingsFile.MapZoom, KitsuneSettingsFile.MapRotate, KitsuneSettingsFile.MapNames, KitsuneSettingsFile.MapShape, KitsuneSettingsFile.MapCreatures, KitsuneSettingsFile.MapCoords, KitsuneSettingsFile.MapClock, KitsuneSettingsFile.BagSearch, KitsuneSettingsFile.WearWarning, KitsuneSettingsFile.BuffTimers, KitsuneSettingsFile.UnitFrames, KitsuneSettingsFile.XpBar, KitsuneSettingsFile.BarStyle, KitsuneSettingsFile.PartyFrames, KitsuneSettingsFile.Nameplates, KitsuneSettingsFile.CombatText, KitsuneSettingsFile.CustomHue, KitsuneSettingsFile.GlassColour, KitsuneSettingsFile.QuestBars, KitsuneSettingsFile.HideQuestTier, KitsuneSettingsFile.JobOrder, KitsuneSettingsFile.StatBarsSplit, KitsuneSettingsFile.StatBarsEach, KitsuneSettingsFile.BackpackWidth, KitsuneSettingsFile.ToolbeltLayout, KitsuneSettingsFile.TraderTileSize, KitsuneSettingsFile.BuffSweep, KitsuneSettingsFile.Portrait, KitsuneSettingsFile.QualityRings, KitsuneSettingsFile.CompareHeld, KitsuneSettingsFile.FrameWidth, KitsuneSettingsFile.BuffSize, KitsuneSettingsFile.BuffCount, KitsuneSettingsFile.BuffStyle,
     };
     static readonly Regex SafeKey = new Regex(@"^(move|scale|hide)\.[A-Za-z0-9_]{1,40}$");
     static readonly Regex SafeValue = new Regex(@"^[A-Za-z0-9.,\-]{1,24}$");
@@ -87,7 +87,7 @@ public static class KitsuneProfiles
     }
 
     /// <summary>Only KitsuneUI's own settings, with plain values, are ever saved or imported.</summary>
-    static bool Portable(string key, string value) =>
+    public static bool Portable(string key, string value) =>
         (SettingKeys.Contains(key) || SafeKey.IsMatch(key)) && value != null && SafeValue.IsMatch(value);
 
     /// <summary>Letters, digits, spaces, _ and -, at most 24 characters (it's also the file name).</summary>
@@ -187,21 +187,28 @@ public static class KitsuneProfiles
     /// <summary>Reads a layout string; false if it isn't one (or holds nothing usable).</summary>
     public static bool Import(string text)
     {
+        Dictionary<string, string> layout = Decode(text);
+        return layout != null && Apply(layout);
+    }
+
+    /// <summary>The settings in a layout string; null if it isn't one.</summary>
+    public static Dictionary<string, string> Decode(string text)
+    {
         text = (text ?? "").Trim();
         int at = text.IndexOf(ExportPrefix, StringComparison.Ordinal);
         if (at < 0)
         {
-            return false;
+            return null;
         }
         string payload = new string(text.Substring(at + ExportPrefix.Length).TakeWhile(ch => !char.IsWhiteSpace(ch)).ToArray());
         try
         {
             string decoded = Encoding.UTF8.GetString(Convert.FromBase64String(payload));
-            return Apply(Parse(decoded.Split('\n')));
+            return Parse(decoded.Split('\n'));
         }
         catch (FormatException)
         {
-            return false;
+            return null;
         }
     }
 
