@@ -10,7 +10,7 @@ using HarmonyLib;
 [HarmonyPatch(typeof(XUiC_LoadingScreen), nameof(XUiC_LoadingScreen.OnOpen))]
 public static class KitsuneLoadingRotation
 {
-    const string Key = "loadingNext";
+    public const string Key = "loadingNext";
 
     static void Postfix(XUiC_LoadingScreen __instance)
     {

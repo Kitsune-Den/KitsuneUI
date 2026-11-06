@@ -271,6 +271,7 @@ public class XUiC_KitsuneSettingsHook : XUiController
         KitsuneLayout.ApplyAll();
         KitsuneAutoFade.Update(xui, _dt);
         KitsuneWearWarning.Update(this, _dt);
+        KitsuneWelcome.Update(xui, _dt);
     }
 }
 
