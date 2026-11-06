@@ -9,6 +9,10 @@
 		<window_group name="kuProfiles">
 			<window name="kuProfilesWindow" />
 		</window_group>
+		<!-- First-run card: a preset, or keep the HUD as it is. -->
+		<window_group name="kuWelcome">
+			<window name="kuWelcomeWindow" />
+		</window_group>
 		<!-- HUD move mode: the bar at the top with Reset and Done (Settings > Move HUD). -->
 		<window_group name="kuMove">
 			<window name="kuMoveGrid" />

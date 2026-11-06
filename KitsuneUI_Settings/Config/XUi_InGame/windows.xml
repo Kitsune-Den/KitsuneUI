@@ -499,6 +499,38 @@
 	</append>
 
 	<!-- ================================================================ -->
+	<!-- First-run card: shown once to a player with no settings yet.     -->
+	<!-- ================================================================ -->
+	<append xpath="/windows">
+		<window name="kuWelcomeWindow" width="640" height="396" pos="-320,198" anchor="Center" depth="40" cursor_area="true" controller="KitsuneWelcomeWindow, KitsuneUI_Settings">
+			<rect name="header" height="43" depth="1">
+				<headerbg />
+				<sprite depth="2" name="windowIcon" pos="6,-6" width="30" height="30" sprite="ku_icon_flame" color="[kuAccent]" />
+				<label style="header.name" pos="44,-6" width="480" text_key="kuWelcomeTitle" />
+			</rect>
+			<sprite depth="-1" name="kuBacking" sprite="ku_round_md" type="sliced" color="7,9,22,230" globalopacitymod="0" pos="2,-42" width="636" height="352" />
+			<sprite depth="0" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,-40" width="640" height="356" />
+			<label depth="3" name="lblWelcomeIntro" pos="24,-54" width="592" height="60" font_size="24" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuWelcomeIntro" />
+			<rect name="kuWelcomeRow0" depth="3" pos="24,-122" width="592" height="58">
+				<sprite depth="3" name="kuProfRowBg" sprite="ku_round_sm" type="sliced" color="[kuCell]" />
+				<simplebutton name="btnWelcome_minimal" depth="5" pos="10,-11" width="130" height="36" font_size="20" caption_key="kuPresetMinimal" />
+				<label depth="4" name="lblWelcomeMinimal" pos="154,-29" width="428" height="50" pivot="left" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" text_key="kuWelcomeMinimal" />
+			</rect>
+			<rect name="kuWelcomeRow1" depth="3" pos="24,-188" width="592" height="58">
+				<sprite depth="3" name="kuProfRowBg" sprite="ku_round_sm" type="sliced" color="[kuCell]" />
+				<simplebutton name="btnWelcome_full" depth="5" pos="10,-11" width="130" height="36" font_size="20" caption_key="kuPresetFull" />
+				<label depth="4" name="lblWelcomeFull" pos="154,-29" width="428" height="50" pivot="left" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" text_key="kuWelcomeFull" />
+			</rect>
+			<rect name="kuWelcomeRow2" depth="3" pos="24,-254" width="592" height="58">
+				<sprite depth="3" name="kuProfRowBg" sprite="ku_round_sm" type="sliced" color="[kuCell]" />
+				<simplebutton name="btnWelcome_streamer" depth="5" pos="10,-11" width="130" height="36" font_size="20" caption_key="kuPresetStreamer" />
+				<label depth="4" name="lblWelcomeStreamer" pos="154,-29" width="428" height="50" pivot="left" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" text_key="kuWelcomeStreamer" />
+			</rect>
+			<simplebutton name="btnWelcomeKeep" depth="3" pos="396,-332" width="220" height="40" font_size="24" caption_key="kuWelcomeKeep" />
+		</window>
+	</append>
+
+	<!-- ================================================================ -->
 	<!-- HUD move mode                                                    -->
 	<!-- Each movable HUD window carries a drag handle: a glass outline   -->
 	<!-- with the piece's name, shown only while the move bar is open.    -->
