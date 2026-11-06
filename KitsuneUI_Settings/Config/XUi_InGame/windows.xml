@@ -20,8 +20,9 @@
 	<!-- The settings window: glass header and body like every KitsuneUI  -->
 	<!-- window. A rail of eight pages on the left (HUD, Toolbelt & bars, -->
 	<!-- Map, Unit frames, Combat, Backpack & items, Traders & quests,    -->
-	<!-- Look) with Move HUD, Profiles and Close under it; each page has  -->
-	<!-- gold section headings, and the strip at the bottom says what the -->
+	<!-- Look), a search box, then Move HUD, Profiles and Close. Each    -->
+	<!-- page has gold section headings and a Reset page button, and    -->
+	<!-- the strip at the bottom says what the                          -->
 	<!-- option under the mouse does. Changes save and apply straight away. -->
 	<!-- ================================================================ -->
 	<append xpath="/windows">
@@ -60,6 +61,11 @@
 			<simplebutton name="btnTab_look" depth="3" pos="16,-409" width="208" height="44" caption="" />
 			<sprite depth="4" name="kuTabIcon_look" pos="28,-419" width="24" height="24" sprite="ui_game_symbol_paint_brush" color="[kuAccent]" />
 			<label depth="4" name="kuTabText_look" pos="62,-431" width="154" height="30" pivot="left" font_size="22" overflow="shrinkcontent" color="[kuText]" text_key="kuTabLook" />
+			<!-- search: while the box has text, kuTab_search replaces the page -->
+			<sprite depth="2" name="kuSearchBg" pos="16,-472" width="208" height="40" sprite="ku_round_sm" type="sliced" color="[kuCell]" />
+			<sprite depth="3" name="kuSearchIcon" style="icon30px" pos="34,-492" sprite="ui_game_symbol_search" pivot="center" color="[kuTextMid]" />
+			<label depth="4" name="kuSearchHint" pos="54,-492" width="164" height="30" pivot="left" font_size="20" overflow="shrinkcontent" color="[kuTextMuted]" text_key="kuSearchHint" />
+			<textfield depth="5" name="kuSearchInput" pos="52,-477" width="166" height="30" font_size="22" character_limit="30" search_field="true" clear_button="true" />
 			<simplebutton name="btnMoveHUD" depth="3" pos="16,-532" width="208" height="40" font_size="24" caption_key="kuSetMoveHUD" />
 			<simplebutton name="btnProfiles" depth="3" pos="16,-578" width="208" height="40" font_size="24" caption_key="kuSetProfiles" />
 			<simplebutton name="btnClose" depth="3" pos="16,-624" width="208" height="40" font_size="24" caption_key="xuiClose" />
@@ -70,6 +76,63 @@
 			<label depth="3" name="kuDescTitle" pos="268,-592" width="602" height="26" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" text="" />
 			<label depth="3" name="kuDescText" pos="268,-618" width="602" height="40" font_size="19" overflow="shrinkcontent" color="[kuTextMuted]" text_key="kuDescIdle" />
 
+			<!-- top right of every page: Reset page, which turns into Undo for a few seconds -->
+			<rect name="kuRow_pageReset" width="900" height="680">
+				<simplebutton name="btnPageReset" depth="3" pos="714,-56" width="170" height="32" font_size="20" caption_key="kuPageReset" />
+			</rect>
+			<!-- soft gold behind the row a search result jumped to -->
+			<sprite depth="2" name="kuFoundMark" pos="248,-158" width="642" height="48" sprite="ku_round_sm" type="sliced" color="217,184,115,80" visible="false" />
+
+			<rect name="kuTab_search" width="900" height="680" visible="false">
+				<label depth="3" name="kuPageTitle_search" pos="254,-74" width="630" height="38" pivot="left" font_size="32" overflow="shrinkcontent" color="[kuTextBright]" text_key="kuSearchTitle" />
+				<label depth="3" name="kuSearchSub" pos="254,-104" width="630" height="26" pivot="left" font_size="20" overflow="shrinkcontent" color="[kuTextMuted]" text="" />
+				<rect name="kuResult0" width="900" height="680" visible="false">
+					<simplebutton name="btnResult0" depth="3" pos="254,-128" width="630" height="40" font_size="26" caption="" />
+					<label depth="4" name="kuResultName0" pos="268,-148" width="400" height="34" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuText]" text="" />
+					<label depth="4" name="kuResultPage0" pos="678,-148" width="194" height="30" pivot="left" justify="right" font_size="19" overflow="shrinkcontent" color="[kuTextMuted]" text="" />
+				</rect>
+				<rect name="kuResult1" width="900" height="680" visible="false">
+					<simplebutton name="btnResult1" depth="3" pos="254,-174" width="630" height="40" font_size="26" caption="" />
+					<label depth="4" name="kuResultName1" pos="268,-194" width="400" height="34" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuText]" text="" />
+					<label depth="4" name="kuResultPage1" pos="678,-194" width="194" height="30" pivot="left" justify="right" font_size="19" overflow="shrinkcontent" color="[kuTextMuted]" text="" />
+				</rect>
+				<rect name="kuResult2" width="900" height="680" visible="false">
+					<simplebutton name="btnResult2" depth="3" pos="254,-220" width="630" height="40" font_size="26" caption="" />
+					<label depth="4" name="kuResultName2" pos="268,-240" width="400" height="34" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuText]" text="" />
+					<label depth="4" name="kuResultPage2" pos="678,-240" width="194" height="30" pivot="left" justify="right" font_size="19" overflow="shrinkcontent" color="[kuTextMuted]" text="" />
+				</rect>
+				<rect name="kuResult3" width="900" height="680" visible="false">
+					<simplebutton name="btnResult3" depth="3" pos="254,-266" width="630" height="40" font_size="26" caption="" />
+					<label depth="4" name="kuResultName3" pos="268,-286" width="400" height="34" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuText]" text="" />
+					<label depth="4" name="kuResultPage3" pos="678,-286" width="194" height="30" pivot="left" justify="right" font_size="19" overflow="shrinkcontent" color="[kuTextMuted]" text="" />
+				</rect>
+				<rect name="kuResult4" width="900" height="680" visible="false">
+					<simplebutton name="btnResult4" depth="3" pos="254,-312" width="630" height="40" font_size="26" caption="" />
+					<label depth="4" name="kuResultName4" pos="268,-332" width="400" height="34" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuText]" text="" />
+					<label depth="4" name="kuResultPage4" pos="678,-332" width="194" height="30" pivot="left" justify="right" font_size="19" overflow="shrinkcontent" color="[kuTextMuted]" text="" />
+				</rect>
+				<rect name="kuResult5" width="900" height="680" visible="false">
+					<simplebutton name="btnResult5" depth="3" pos="254,-358" width="630" height="40" font_size="26" caption="" />
+					<label depth="4" name="kuResultName5" pos="268,-378" width="400" height="34" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuText]" text="" />
+					<label depth="4" name="kuResultPage5" pos="678,-378" width="194" height="30" pivot="left" justify="right" font_size="19" overflow="shrinkcontent" color="[kuTextMuted]" text="" />
+				</rect>
+				<rect name="kuResult6" width="900" height="680" visible="false">
+					<simplebutton name="btnResult6" depth="3" pos="254,-404" width="630" height="40" font_size="26" caption="" />
+					<label depth="4" name="kuResultName6" pos="268,-424" width="400" height="34" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuText]" text="" />
+					<label depth="4" name="kuResultPage6" pos="678,-424" width="194" height="30" pivot="left" justify="right" font_size="19" overflow="shrinkcontent" color="[kuTextMuted]" text="" />
+				</rect>
+				<rect name="kuResult7" width="900" height="680" visible="false">
+					<simplebutton name="btnResult7" depth="3" pos="254,-450" width="630" height="40" font_size="26" caption="" />
+					<label depth="4" name="kuResultName7" pos="268,-470" width="400" height="34" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuText]" text="" />
+					<label depth="4" name="kuResultPage7" pos="678,-470" width="194" height="30" pivot="left" justify="right" font_size="19" overflow="shrinkcontent" color="[kuTextMuted]" text="" />
+				</rect>
+				<rect name="kuResult8" width="900" height="680" visible="false">
+					<simplebutton name="btnResult8" depth="3" pos="254,-496" width="630" height="40" font_size="26" caption="" />
+					<label depth="4" name="kuResultName8" pos="268,-516" width="400" height="34" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuText]" text="" />
+					<label depth="4" name="kuResultPage8" pos="678,-516" width="194" height="30" pivot="left" justify="right" font_size="19" overflow="shrinkcontent" color="[kuTextMuted]" text="" />
+				</rect>
+			</rect>
+
 			<rect name="kuTab_hud" width="900" height="680">
 				<label depth="3" name="kuPageTitle_hud" pos="254,-74" width="630" height="38" pivot="left" font_size="32" overflow="shrinkcontent" color="[kuTextBright]" text_key="kuTabHud" />
 				<label depth="3" name="kuPageSub_hud" pos="254,-104" width="630" height="26" pivot="left" font_size="20" overflow="shrinkcontent" color="[kuTextMuted]" text_key="kuSub_hud" />
@@ -79,26 +142,38 @@
 					<togglebutton name="tglHorde" depth="3" pos="254,-158" width="630" height="40" font_size="26" caption="" />
 					<label depth="4" name="tglHordeText" pos="300,-178" width="576" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetHorde" />
 				</rect>
+				<rect name="kuRow_traderHours" width="900" height="680">
+					<togglebutton name="tglTraderHours" depth="3" pos="254,-204" width="630" height="40" font_size="26" caption="" />
+					<label depth="4" name="tglTraderHoursText" pos="300,-224" width="576" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetTraderHours" />
+				</rect>
 				<rect name="kuRow_crafting" width="900" height="680">
-					<togglebutton name="tglCrafting" depth="3" pos="254,-204" width="630" height="40" font_size="26" caption="" />
-					<label depth="4" name="tglCraftingText" pos="300,-224" width="576" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetCrafting" />
+					<togglebutton name="tglCrafting" depth="3" pos="254,-250" width="630" height="40" font_size="26" caption="" />
+					<label depth="4" name="tglCraftingText" pos="300,-270" width="576" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetCrafting" />
+				</rect>
+				<rect name="kuRow_workstations" width="900" height="680">
+					<togglebutton name="tglWorkstations" depth="3" pos="254,-296" width="630" height="40" font_size="26" caption="" />
+					<label depth="4" name="tglWorkstationsText" pos="300,-316" width="576" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetWorkstations" />
 				</rect>
 				<rect name="kuRow_actionBar" width="900" height="680">
-					<togglebutton name="tglActionBar" depth="3" pos="254,-250" width="630" height="40" font_size="26" caption="" />
-					<label depth="4" name="tglActionBarText" pos="300,-270" width="576" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetActionBar" />
+					<togglebutton name="tglActionBar" depth="3" pos="254,-342" width="630" height="40" font_size="26" caption="" />
+					<label depth="4" name="tglActionBarText" pos="300,-362" width="576" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetActionBar" />
 				</rect>
-				<label depth="3" name="kuSec_hud_Behaviour" pos="256,-304" width="630" height="24" font_size="17" upper_case="true" color="[kuGold]" text_key="kuSecBehaviour" />
-				<sprite depth="2" pos="254,-329" width="630" height="1" sprite="ku_px" type="simple" color="[kuGoldSoft]" />
+				<rect name="kuRow_ammo" width="900" height="680">
+					<togglebutton name="tglAmmo" depth="3" pos="254,-388" width="630" height="40" font_size="26" caption="" />
+					<label depth="4" name="tglAmmoText" pos="300,-408" width="576" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetAmmo" />
+				</rect>
+				<label depth="3" name="kuSec_hud_Behaviour" pos="256,-442" width="630" height="24" font_size="17" upper_case="true" color="[kuGold]" text_key="kuSecBehaviour" />
+				<sprite depth="2" pos="254,-467" width="630" height="1" sprite="ku_px" type="simple" color="[kuGoldSoft]" />
 				<rect name="kuRow_autoFade" width="900" height="680">
-					<togglebutton name="tglAutoFade" depth="3" pos="254,-334" width="630" height="40" font_size="26" caption="" />
-					<label depth="4" name="tglAutoFadeText" pos="300,-354" width="576" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetAutoFade" />
+					<togglebutton name="tglAutoFade" depth="3" pos="254,-472" width="630" height="40" font_size="26" caption="" />
+					<label depth="4" name="tglAutoFadeText" pos="300,-492" width="576" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetAutoFade" />
 				</rect>
 				<rect name="kuRow_textSize" width="900" height="680">
-					<label depth="3" name="lblTextSize" pos="256,-400" width="164" height="30" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetTextSize" />
-					<simplebutton name="btnTextSize90" depth="3" pos="424,-382" width="110" height="36" font_size="22" caption="90%" />
-					<simplebutton name="btnTextSize100" depth="3" pos="540,-382" width="110" height="36" font_size="22" caption="100%" />
-					<simplebutton name="btnTextSize115" depth="3" pos="656,-382" width="110" height="36" font_size="22" caption="115%" />
-					<simplebutton name="btnTextSize130" depth="3" pos="772,-382" width="110" height="36" font_size="22" caption="130%" />
+					<label depth="3" name="lblTextSize" pos="256,-538" width="164" height="30" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetTextSize" />
+					<simplebutton name="btnTextSize90" depth="3" pos="424,-520" width="110" height="36" font_size="22" caption="90%" />
+					<simplebutton name="btnTextSize100" depth="3" pos="540,-520" width="110" height="36" font_size="22" caption="100%" />
+					<simplebutton name="btnTextSize115" depth="3" pos="656,-520" width="110" height="36" font_size="22" caption="115%" />
+					<simplebutton name="btnTextSize130" depth="3" pos="772,-520" width="110" height="36" font_size="22" caption="130%" />
 				</rect>
 			</rect>
 
@@ -537,7 +612,7 @@
 	<!-- Dragging it moves its window; the offset is saved per player.    -->
 	<!-- ================================================================ -->
 	<append xpath="/windows">
-		<window name="kuMoveBar" width="1120" height="64" pos="-560,150" anchor="Center" depth="60" cursor_area="true" controller="KitsuneMoveBar, KitsuneUI_Settings">
+		<window name="kuMoveBar" width="1200" height="64" pos="-600,150" anchor="Center" depth="60" cursor_area="true" controller="KitsuneMoveBar, KitsuneUI_Settings">
 			<sprite depth="0" name="kuBody" sprite="ku_panel" type="sliced" color="[white]" />
 			<sprite depth="1" name="kuIcon" sprite="ku_icon_flame" pos="14,-17" width="30" height="30" color="[kuAccent]" />
 			<label depth="2" name="lblMove" pos="52,-32" width="300" height="30" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuTextBright]" text_key="kuMoveHint" />
@@ -545,8 +620,8 @@
 			<label depth="4" name="lblMoveSnap" pos="408,-32" width="160" height="30" pivot="left" font_size="22" overflow="shrinkcontent" color="[kuText]" text_key="kuMoveSnap" />
 			<!-- the stat bars: together, in pairs or apart (each click moves to the next) -->
 			<simplebutton name="btnMoveSplit" depth="3" pos="584,-12" width="210" height="40" font_size="20" caption_key="kuMoveBarsTogether" />
-			<simplebutton name="btnMoveReset" depth="3" pos="804,-12" width="150" height="40" font_size="24" caption_key="kuMoveReset" />
-			<simplebutton name="btnMoveDone" depth="3" pos="962,-12" width="146" height="40" font_size="24" caption_key="kuMoveDone" />
+			<simplebutton name="btnMoveReset" depth="3" pos="804,-12" width="230" height="40" font_size="22" caption_key="kuMoveReset" />
+			<simplebutton name="btnMoveDone" depth="3" pos="1042,-12" width="146" height="40" font_size="24" caption_key="kuMoveDone" />
 		</window>
 	</append>
 
@@ -834,7 +909,7 @@
 
 	<!-- Compass and the day / time line under it (top centre). -->
 	<append xpath="/windows/window[@name='windowCompass']">
-		<rect name="kuMoveHandle" depth="50" pos="-8,8" width="496" height="112" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
+		<rect name="kuMoveHandle" depth="50" pos="-8,8" width="496" height="140" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
 			<!-- size readout and the -, +, show/hide buttons (XUiC_KitsuneMoveHandle) -->
 			<label depth="53" name="kuMoveScale" pos="392,-19" width="64" height="24" pivot="right" justify="right" font_size="18" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="100%" />
 			<sprite depth="54" name="kuChipSmaller" pos="396,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
@@ -1117,6 +1192,9 @@
 		<rect name="kuHorde" pos="0,-74" width="480" height="28" controller="KitsuneHordeCountdown, KitsuneUI_Settings">
 			<label depth="2" name="kuHordeText" pos="240,-14" width="460" height="26" pivot="center" justify="center" font_size="22" color="[kuGold]" effect="outline" effect_color="0,0,0,220" upper_case="true" text="" />
 		</rect>
+		<rect name="kuTrader" pos="0,-100" width="480" height="28" controller="KitsuneTraderHours, KitsuneUI_Settings">
+			<label depth="2" name="kuTraderText" pos="240,-14" width="460" height="26" pivot="center" justify="center" font_size="22" color="[kuGold]" effect="outline" effect_color="0,0,0,220" upper_case="true" text="" />
+		</rect>
 	</append>
 
 	<!-- ================================================================ -->
@@ -1125,7 +1203,7 @@
 	<!-- being made. XUiC_KitsuneCraftingHud fills the kucraft* bindings.  -->
 	<!-- ================================================================ -->
 	<append xpath="/windows">
-		<window name="kuCraftingHud" anchor="TopLeft" pos="24,-24" width="300" height="64" depth="-20">
+		<window name="kuCraftingHud" anchor="TopRight" pos="-685,-8" width="300" height="64" depth="-20">
 			<rect name="kuCraftBody" width="300" height="64" controller="KitsuneCraftingHud, KitsuneUI_Settings">
 				<sprite depth="0" name="kuCraftGlass" sprite="ku_panel_sm" type="sliced" color="[white]" width="300" height="64" />
 				<sprite depth="1" name="kuCraftSlot" pos="8,-8" width="48" height="48" sprite="ku_slot_fill" type="sliced" color="12,14,30,200" />
@@ -1136,7 +1214,8 @@
 				<sprite depth="2" name="kuCraftTrack" pos="140,-38" width="152" height="8" sprite="ku_bar" type="sliced" color="12,14,30,220" />
 				<sprite depth="3" name="kuCraftFill" pos="140,-38" width="152" height="8" sprite="ku_bar" type="filled" fill="{kucraftfill}" fillinvert="false" color="[kuAccent]" />
 			</rect>
-			<rect name="kuMoveHandle" depth="50" pos="-6,6" width="312" height="76" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
+			<!-- group: spots saved under the window's name were measured from the left edge -->
+			<rect name="kuMoveHandle" group="kuCraftingCard" depth="50" pos="-6,6" width="312" height="76" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
 				<!-- size readout and the -, +, show/hide buttons (XUiC_KitsuneMoveHandle) -->
 				<label depth="53" name="kuMoveScale" pos="208,-19" width="64" height="24" pivot="right" justify="right" font_size="18" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="100%" />
 				<sprite depth="54" name="kuChipSmaller" pos="212,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
@@ -1148,6 +1227,65 @@
 				<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
 				<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
 				<label depth="52" name="kuMoveName" pos="12,-50" width="190" height="30" pivot="left" justify="left" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveCrafting" />
+			</rect>
+		</window>
+	</append>
+
+	<!-- ================================================================ -->
+	<!-- Workstation timers (Settings > HUD): a small card for each        -->
+	<!-- station you closed with something crafting, with the item, the    -->
+	<!-- station and the time left. XUiC_KitsuneWorkstationRow.            -->
+	<!-- ================================================================ -->
+	<append xpath="/windows">
+		<window name="kuWorkstationHud" anchor="TopRight" pos="-685,-83" width="300" height="220" depth="-20">
+			<rect name="kuWsRow0" pos="0,0" width="300" height="52" controller="KitsuneWorkstationRow, KitsuneUI_Settings" index="0">
+				<sprite depth="0" name="kuWsGlass" sprite="ku_panel_sm" type="sliced" color="[white]" width="300" height="52" />
+				<sprite depth="1" name="kuWsSlot" pos="6,-6" width="40" height="40" sprite="ku_slot_fill" type="sliced" color="12,14,30,200" />
+				<sprite depth="2" name="kuWsIcon" pos="8,-8" width="36" height="36" atlas="ItemIconAtlas" sprite="{kuwsicon}" color="{kuwstint}" foregroundlayer="true" />
+				<label depth="2" name="kuWsName" pos="54,-6" width="180" height="22" pivot="topleft" justify="left" font_size="18" overflow="shrinkcontent" max_line_count="1" color="[kuTextBright]" text="{kuwsname}" />
+				<label depth="2" name="kuWsCount" pos="292,-6" width="56" height="22" pivot="topright" justify="right" font_size="18" color="[kuGold]" text="{kuwscount}" />
+				<label depth="2" name="kuWsStation" pos="54,-28" width="116" height="20" pivot="topleft" justify="left" font_size="15" overflow="shrinkcontent" max_line_count="1" color="[kuTextMuted]" text="{kuwsstation}" />
+				<label depth="2" name="kuWsTime" pos="292,-26" width="120" height="22" pivot="topright" justify="right" font_size="18" overflow="shrinkcontent" max_line_count="1" color="[kuTextMid]" text="{kuwstime}" />
+			</rect>
+			<rect name="kuWsRow1" pos="0,-56" width="300" height="52" controller="KitsuneWorkstationRow, KitsuneUI_Settings" index="1">
+				<sprite depth="0" name="kuWsGlass" sprite="ku_panel_sm" type="sliced" color="[white]" width="300" height="52" />
+				<sprite depth="1" name="kuWsSlot" pos="6,-6" width="40" height="40" sprite="ku_slot_fill" type="sliced" color="12,14,30,200" />
+				<sprite depth="2" name="kuWsIcon" pos="8,-8" width="36" height="36" atlas="ItemIconAtlas" sprite="{kuwsicon}" color="{kuwstint}" foregroundlayer="true" />
+				<label depth="2" name="kuWsName" pos="54,-6" width="180" height="22" pivot="topleft" justify="left" font_size="18" overflow="shrinkcontent" max_line_count="1" color="[kuTextBright]" text="{kuwsname}" />
+				<label depth="2" name="kuWsCount" pos="292,-6" width="56" height="22" pivot="topright" justify="right" font_size="18" color="[kuGold]" text="{kuwscount}" />
+				<label depth="2" name="kuWsStation" pos="54,-28" width="116" height="20" pivot="topleft" justify="left" font_size="15" overflow="shrinkcontent" max_line_count="1" color="[kuTextMuted]" text="{kuwsstation}" />
+				<label depth="2" name="kuWsTime" pos="292,-26" width="120" height="22" pivot="topright" justify="right" font_size="18" overflow="shrinkcontent" max_line_count="1" color="[kuTextMid]" text="{kuwstime}" />
+			</rect>
+			<rect name="kuWsRow2" pos="0,-112" width="300" height="52" controller="KitsuneWorkstationRow, KitsuneUI_Settings" index="2">
+				<sprite depth="0" name="kuWsGlass" sprite="ku_panel_sm" type="sliced" color="[white]" width="300" height="52" />
+				<sprite depth="1" name="kuWsSlot" pos="6,-6" width="40" height="40" sprite="ku_slot_fill" type="sliced" color="12,14,30,200" />
+				<sprite depth="2" name="kuWsIcon" pos="8,-8" width="36" height="36" atlas="ItemIconAtlas" sprite="{kuwsicon}" color="{kuwstint}" foregroundlayer="true" />
+				<label depth="2" name="kuWsName" pos="54,-6" width="180" height="22" pivot="topleft" justify="left" font_size="18" overflow="shrinkcontent" max_line_count="1" color="[kuTextBright]" text="{kuwsname}" />
+				<label depth="2" name="kuWsCount" pos="292,-6" width="56" height="22" pivot="topright" justify="right" font_size="18" color="[kuGold]" text="{kuwscount}" />
+				<label depth="2" name="kuWsStation" pos="54,-28" width="116" height="20" pivot="topleft" justify="left" font_size="15" overflow="shrinkcontent" max_line_count="1" color="[kuTextMuted]" text="{kuwsstation}" />
+				<label depth="2" name="kuWsTime" pos="292,-26" width="120" height="22" pivot="topright" justify="right" font_size="18" overflow="shrinkcontent" max_line_count="1" color="[kuTextMid]" text="{kuwstime}" />
+			</rect>
+			<rect name="kuWsRow3" pos="0,-168" width="300" height="52" controller="KitsuneWorkstationRow, KitsuneUI_Settings" index="3">
+				<sprite depth="0" name="kuWsGlass" sprite="ku_panel_sm" type="sliced" color="[white]" width="300" height="52" />
+				<sprite depth="1" name="kuWsSlot" pos="6,-6" width="40" height="40" sprite="ku_slot_fill" type="sliced" color="12,14,30,200" />
+				<sprite depth="2" name="kuWsIcon" pos="8,-8" width="36" height="36" atlas="ItemIconAtlas" sprite="{kuwsicon}" color="{kuwstint}" foregroundlayer="true" />
+				<label depth="2" name="kuWsName" pos="54,-6" width="180" height="22" pivot="topleft" justify="left" font_size="18" overflow="shrinkcontent" max_line_count="1" color="[kuTextBright]" text="{kuwsname}" />
+				<label depth="2" name="kuWsCount" pos="292,-6" width="56" height="22" pivot="topright" justify="right" font_size="18" color="[kuGold]" text="{kuwscount}" />
+				<label depth="2" name="kuWsStation" pos="54,-28" width="116" height="20" pivot="topleft" justify="left" font_size="15" overflow="shrinkcontent" max_line_count="1" color="[kuTextMuted]" text="{kuwsstation}" />
+				<label depth="2" name="kuWsTime" pos="292,-26" width="120" height="22" pivot="topright" justify="right" font_size="18" overflow="shrinkcontent" max_line_count="1" color="[kuTextMid]" text="{kuwstime}" />
+			</rect>
+			<rect name="kuMoveHandle" depth="50" pos="-6,6" width="312" height="232" on_drag="true" controller="KitsuneMoveHandle, KitsuneUI_Settings">
+				<!-- size readout and the -, +, show/hide buttons (XUiC_KitsuneMoveHandle) -->
+				<label depth="53" name="kuMoveScale" pos="208,-19" width="64" height="24" pivot="right" justify="right" font_size="18" color="[kuGold]" effect="outline" effect_color="0,0,0,220" text="100%" />
+				<sprite depth="54" name="kuChipSmaller" pos="212,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+				<button depth="55" name="kuBtnSmaller" pos="227,-19" sprite="ui_game_symbol_subtract" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+				<sprite depth="54" name="kuChipBigger" pos="244,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+				<button depth="55" name="kuBtnBigger" pos="259,-19" sprite="ui_game_symbol_add" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+				<sprite depth="54" name="kuChipHide" pos="276,-4" sprite="ku_round_sm" type="sliced" width="30" height="30" color="12,14,30,225" />
+				<button depth="55" name="kuBtnHide" pos="291,-19" sprite="ku_icon_eye" width="22" height="22" pivot="center" defaultcolor="[kuTextBright]" hovercolor="[kuAccent]" style="press, hover" sound="[paging_click]" />
+				<sprite depth="50" name="kuMoveFill" sprite="ku_round_md" type="sliced" color="30,84,118,120" />
+				<sprite depth="51" name="kuMoveRing" sprite="ku_round_md_ring" type="sliced" color="[kuAccent]" />
+				<label depth="52" name="kuMoveName" pos="12,-50" width="190" height="30" pivot="left" justify="left" font_size="22" overflow="shrinkcontent" color="[kuTextBright]" effect="outline" effect_color="0,0,0,220" text_key="kuMoveWorkstations" />
 			</rect>
 		</window>
 	</append>

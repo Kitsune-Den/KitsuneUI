@@ -124,6 +124,8 @@ public class XUiC_KitsuneBagSearch : XUiController
 /// item is under 20% durability (amber) or 5% (red), so a tool or weapon doesn't break
 /// mid-fight. The ring (kuWearRing) is patched into the item slot template, hidden by
 /// default; this runs from the toolbelt hook.
+/// "Warn when a toolbelt gun is low on ammo" works the same way: kuAmmoLeft shows the
+/// rounds loaded and carried once they won't fill the magazine, amber, then red at none.
 /// </summary>
 public static class KitsuneWearWarning
 {
@@ -145,11 +147,12 @@ public static class KitsuneWearWarning
         }
         sinceRefresh = 0f;
         bool on = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.WearWarning);
-        if (!on && !wasOn)
+        bool ammoOn = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.AmmoWarning);
+        if (!on && !ammoOn && !wasOn)
         {
             return;
         }
-        wasOn = on;
+        wasOn = on || ammoOn;
         XUiController window = hook;
         while (window.Parent != null && !(window.ViewComponent is XUiV_Window))
         {
@@ -161,8 +164,10 @@ public static class KitsuneWearWarning
             stacks.Clear();
             Collect(window);
         }
+        EntityPlayerLocal player = ammoOn ? hook.xui?.playerUI?.entityPlayer : null;
         foreach (XUiC_ItemStack stack in stacks)
         {
+            ShowAmmo(stack, player);
             XUiView ring = stack.GetChildById("kuWearRing")?.ViewComponent;
             if (ring == null)
             {
@@ -183,6 +188,58 @@ public static class KitsuneWearWarning
                 }
             }
         }
+    }
+
+    static void ShowAmmo(XUiC_ItemStack stack, EntityPlayerLocal player)
+    {
+        if (!(stack.GetChildById("kuAmmoLeft")?.ViewComponent is XUiV_Label label))
+        {
+            return;
+        }
+        int left = player != null ? LowAmmo(stack.ItemStack, player) : -1;
+        bool show = left >= 0;
+        if (label.IsVisible != show)
+        {
+            label.IsVisible = show;
+        }
+        if (show)
+        {
+            string text = left.ToString();
+            if (label.Text != text)
+            {
+                label.Text = text;
+            }
+            Color color = left == 0 ? Red : Amber;
+            if (label.Color != color)
+            {
+                label.Color = color;
+            }
+        }
+    }
+
+    // Rounds loaded and carried for the ammo the gun has selected, or -1 unless they're
+    // running low: too few to fill the magazine, or under 5 for a bow's magazine of one.
+    static int LowAmmo(ItemStack item, EntityPlayerLocal player)
+    {
+        if (item == null || item.IsEmpty())
+        {
+            return -1;
+        }
+        ItemValue value = item.itemValue;
+        ItemClass itemClass = value.ItemClass;
+        if (itemClass == null || !itemClass.IsGun() || !(itemClass.Actions[0] is ItemActionAttack gun) || gun is ItemActionMelee || gun.IsEditingTool() || gun.InfiniteAmmo)
+        {
+            return -1;
+        }
+        string[] rounds = gun.MagazineItemNames;
+        int magazine = (int)EffectManager.GetValue(PassiveEffects.MagazineSize, value, 0f, player);
+        if (rounds == null || rounds.Length == 0 || magazine <= 0)
+        {
+            return -1;
+        }
+        ItemValue round = ItemClass.GetItem(rounds[Mathf.Clamp(value.SelectedAmmoTypeIndex, 0, rounds.Length - 1)]);
+        int left = value.Meta + player.bag.GetItemCount(round) + player.inventory.GetItemCount(round);
+        return left < Mathf.Max(magazine, 5) ? left : -1;
     }
 
     // Share of uses left, 1 for items without durability.

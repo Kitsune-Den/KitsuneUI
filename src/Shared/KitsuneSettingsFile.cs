@@ -23,12 +23,15 @@ public static class KitsuneSettingsFile
     public const string TextSize = "textSize";            // in-game text size, percent: 90, 100, 115, 130
     public const string Minimap = "minimap";              // show the minimap (top right)
     public const string HordeCountdown = "hordeCountdown";  // horde night countdown under the compass
+    public const string TraderHours = "traderHours";      // trader open and close times under the compass
     public const string CraftingHud = "craftingHud";      // crafting progress card on the HUD
+    public const string WorkstationHud = "workstationHud";  // workstation timers on the HUD
     public const string MapZoom = "mapZoom";              // minimap blocks across: 64, 128, 256
     public const string MapRotate = "mapRotate";          // minimap turns with the player
     public const string MapNames = "mapNames";            // names by player and waypoint markers
     public const string BagSearch = "bagSearch";          // search box in the backpack header
     public const string WearWarning = "wearWarning";      // ring on nearly worn-out toolbelt items
+    public const string AmmoWarning = "ammoWarning";      // rounds left on toolbelt guns running low
     public const string BuffTimers = "buffTimers";        // time left beside icon-only buffs
     public const string UnitFrames = "unitFrames";        // ElvUI-style player and target frames
     public const string XpBar = "xpBar";                  // the XP bar as its own piece above the toolbelt
@@ -74,12 +77,15 @@ public static class KitsuneSettingsFile
         { TextSize, "100" },
         { Minimap, "false" },
         { HordeCountdown, "false" },
+        { TraderHours, "false" },
         { CraftingHud, "false" },
+        { WorkstationHud, "false" },
         { MapZoom, "128" },
         { MapRotate, "false" },
         { MapNames, "true" },
         { BagSearch, "false" },
         { WearWarning, "false" },
+        { AmmoWarning, "false" },
         { BuffTimers, "false" },
         { UnitFrames, "false" },
         { XpBar, "true" },
@@ -230,6 +236,28 @@ public static class KitsuneSettingsFile
         foreach (KeyValuePair<string, string> kv in changes)
         {
             values[kv.Key] = kv.Value;
+        }
+        Version++;
+        Save();
+    }
+
+    /// <summary>
+    /// Puts these keys back as they are in <paramref name="stored"/> and saves once: a key
+    /// that isn't there goes back to its default (the server's, if it set one).
+    /// </summary>
+    public static void RestoreKeys(IEnumerable<string> keys, IDictionary<string, string> stored)
+    {
+        Load();
+        foreach (string key in keys)
+        {
+            if (stored != null && stored.TryGetValue(key, out string value))
+            {
+                values[key] = value;
+            }
+            else
+            {
+                values.Remove(key);
+            }
         }
         Version++;
         Save();

@@ -3,6 +3,7 @@
 	<!-- Item slots, added to the shared template (bag, toolbelt, loot, workstations) and -->
 	<!-- hidden until KitsuneUI_Settings shows them:                                       -->
 	<!--   kuWearRing:  toolbelt items under 20% durability (amber) or 5% (red)            -->
+	<!--   kuAmmoLeft:  rounds left on toolbelt guns running low (amber), none left (red)  -->
 	<!--   kuSearchDim: dims backpack slots that don't match the search box                -->
 	<!--   kuQualityRing: a thin ring in the item's quality colour, set in from the edge   -->
 	<append xpath="/templates/item_stack/rect">
@@ -10,6 +11,7 @@
 			pos="4,-4" width="${-8+cell_size}" height="${-8+cell_size}" />
 		<sprite depth="10" name="kuWearRing" sprite="ku_slot_ring2" type="sliced" color="255,178,74,255" visible="false" globalopacitymod="0"
 			pos="1,-1" width="${-2+cell_size}" height="${-2+cell_size}" />
+		<label depth="11" name="kuAmmoLeft" pos="2,-2" width="${-6+cell_size}" height="22" justify="right" font_size="20" color="255,178,74,255" effect="outline" effect_color="0,0,0,255" visible="false" text="" />
 		<sprite depth="12" name="kuSearchDim" sprite="ku_slot_fill" type="sliced" color="6,8,20,190" visible="false" globalopacitymod="0"
 			pos="1,-1" width="${-2+cell_size}" height="${-2+cell_size}" />
 	</append>

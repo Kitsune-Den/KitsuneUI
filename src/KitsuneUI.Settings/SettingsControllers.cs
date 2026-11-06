@@ -341,7 +341,10 @@ public class XUiC_KitsuneSettingsWindow : XUiController
     XUiC_ToggleButton autoFade;
     XUiC_ToggleButton minimap;
     XUiC_ToggleButton horde;
+    XUiC_ToggleButton traderHours;
+    XUiC_ToggleButton ammoWarning;
     XUiC_ToggleButton crafting;
+    XUiC_ToggleButton workstations;
     XUiC_ToggleButton mapNames;
     XUiC_ToggleButton mapCoords;
     XUiC_ToggleButton actionBar;
@@ -417,6 +420,38 @@ public class XUiC_KitsuneSettingsWindow : XUiController
     static readonly string[] Tabs = { "hud", "belt", "map", "frames", "combat", "bag", "trade", "look" };
     static string currentTab = "hud";
     readonly List<(string tab, XUiC_SimpleButton button, XUiView page)> tabs = new List<(string, XUiC_SimpleButton, XUiView)>();
+
+    // What Reset page puts back on each page. Not the toolbelt size (toolbelt.xml, and it
+    // needs a restart), Move HUD positions or profiles.
+    static readonly Dictionary<string, string[]> PageKeys = new Dictionary<string, string[]>
+    {
+        { "hud", new[] { KitsuneSettingsFile.HordeCountdown, KitsuneSettingsFile.TraderHours, KitsuneSettingsFile.CraftingHud, KitsuneSettingsFile.WorkstationHud, KitsuneSettingsFile.ActionBar, KitsuneSettingsFile.AmmoWarning, KitsuneSettingsFile.AutoFade, KitsuneSettingsFile.TextSize } },
+        { "belt", new[] { KitsuneSettingsFile.SlotNumbers, KitsuneSettingsFile.WearWarning, KitsuneSettingsFile.ToolbeltLayout, KitsuneSettingsFile.XpBar, KitsuneSettingsFile.BarText, KitsuneSettingsFile.BarStyle } },
+        { "map", new[] { KitsuneSettingsFile.Minimap, KitsuneSettingsFile.MapZoom, KitsuneSettingsFile.MapRotate, KitsuneSettingsFile.MapShape, KitsuneSettingsFile.MapNames, KitsuneSettingsFile.MapCreatures, KitsuneSettingsFile.MapCoords, KitsuneSettingsFile.MapClock } },
+        { "frames", new[] { KitsuneSettingsFile.UnitFrames, KitsuneSettingsFile.PartyFrames, KitsuneSettingsFile.Portrait, KitsuneSettingsFile.FrameWidth, KitsuneSettingsFile.BuffSize, KitsuneSettingsFile.BuffCount, KitsuneSettingsFile.BuffSweep } },
+        { "combat", new[] { KitsuneSettingsFile.HealthBarAlways, KitsuneSettingsFile.Nameplates, KitsuneSettingsFile.CombatText, KitsuneSettingsFile.BuffTimers, KitsuneSettingsFile.BuffStyle } },
+        { "bag", new[] { KitsuneSettingsFile.BackpackAll, KitsuneSettingsFile.BackpackWidth, KitsuneSettingsFile.BagSearch, KitsuneSettingsFile.QualityRings, KitsuneSettingsFile.CompareHeld } },
+        { "trade", new[] { KitsuneSettingsFile.JobTiles, KitsuneSettingsFile.TraderTileSize, KitsuneSettingsFile.JobOrder, KitsuneSettingsFile.HideQuestTier, KitsuneSettingsFile.QuestBars } },
+        { "look", new[] { KitsuneSettingsFile.Glass, KitsuneSettingsFile.GlassColour, KitsuneSettingsFile.Palette, KitsuneSettingsFile.CustomHue } },
+    };
+    const float UndoSeconds = 8f;
+    XUiC_SimpleButton resetButton;
+    XUiView resetRow;
+    List<string> undoKeys;
+    Dictionary<string, string> undoValues;
+    float undoLeft;
+
+    // The search box: while it has text, a page of matching rows replaces the current page.
+    const int SearchResults = 9;
+    XUiC_TextInput searchInput;
+    XUiView searchHint;
+    XUiView searchPage;
+    XUiV_Label searchSub;
+    XUiView foundMark;
+    string shownQuery = "";
+    readonly List<(string name, string tab, string showWhen, XUiController row)> searchRows = new List<(string, string, string, XUiController)>();
+    readonly List<(string name, string tab, XUiController row)> found = new List<(string, string, XUiController)>();
+    readonly List<(XUiView view, XUiV_Label name, XUiV_Label page)> resultRows = new List<(XUiView, XUiV_Label, XUiV_Label)>();
     readonly List<(int percent, XUiC_SimpleButton button)> glassButtons = new List<(int, XUiC_SimpleButton)>();
     readonly List<(string palette, XUiC_SimpleButton button)> paletteButtons = new List<(string, XUiC_SimpleButton)>();
     readonly List<(string style, XUiC_SimpleButton button)> barTextButtons = new List<(string, XUiC_SimpleButton)>();
@@ -451,7 +486,10 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         autoFade = Toggle("tglAutoFade", KitsuneSettingsFile.AutoFade);
         minimap = Toggle("tglMinimap", KitsuneSettingsFile.Minimap);
         horde = Toggle("tglHorde", KitsuneSettingsFile.HordeCountdown);
+        traderHours = Toggle("tglTraderHours", KitsuneSettingsFile.TraderHours);
+        ammoWarning = Toggle("tglAmmo", KitsuneSettingsFile.AmmoWarning);
         crafting = Toggle("tglCrafting", KitsuneSettingsFile.CraftingHud);
+        workstations = Toggle("tglWorkstations", KitsuneSettingsFile.WorkstationHud);
         actionBar = Toggle("tglActionBar", KitsuneSettingsFile.ActionBar);
         mapNames = Toggle("tglMapNames", KitsuneSettingsFile.MapNames);
         mapCoords = Toggle("tglMapCoords", KitsuneSettingsFile.MapCoords);
@@ -573,6 +611,8 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         descTitle = GetChildById("kuDescTitle")?.ViewComponent as XUiV_Label;
         descText = GetChildById("kuDescText")?.ViewComponent as XUiV_Label;
         SetUpRows(this);
+        SetUpSearch();
+        SetUpReset();
         SetUpToolbeltSize();
         foreach (int percent in GlassSteps)
         {
@@ -973,9 +1013,248 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         }
     }
 
+    void SetUpSearch()
+    {
+        XUiController c = GetChildById("kuSearchInput");
+        searchInput = c as XUiC_TextInput ?? c?.GetChildByType<XUiC_TextInput>();
+        searchHint = GetChildById("kuSearchHint")?.ViewComponent;
+        searchPage = GetChildById("kuTab_search")?.ViewComponent;
+        searchSub = GetChildById("kuSearchSub")?.ViewComponent as XUiV_Label;
+        foundMark = GetChildById("kuFoundMark")?.ViewComponent;
+        foreach (string tab in Tabs)
+        {
+            if (GetChildById("kuTab_" + tab) is XUiController page)
+            {
+                IndexRows(page, tab, null);
+            }
+        }
+        for (int i = 0; i < SearchResults; i++)
+        {
+            XUiController result = GetChildById("kuResult" + i);
+            if (result?.ViewComponent == null)
+            {
+                break;
+            }
+            int index = i;
+            foreach (XUiController button in Descendants(result))
+            {
+                if (button.ViewComponent is XUiV_Button)
+                {
+                    button.OnHover += (_sender, _isOver) =>
+                    {
+                        if (_isOver && index < found.Count)
+                        {
+                            ShowDescription(found[index].row, found[index].name);
+                        }
+                    };
+                }
+            }
+            if (FindButton("btnResult" + i) is XUiC_SimpleButton b)
+            {
+                b.OnPressed += (_sender, _mouseButton) =>
+                {
+                    if (index < found.Count)
+                    {
+                        JumpTo(found[index].name, found[index].tab, found[index].row);
+                    }
+                };
+            }
+            resultRows.Add((result.ViewComponent, GetChildById("kuResultName" + i)?.ViewComponent as XUiV_Label, GetChildById("kuResultPage" + i)?.ViewComponent as XUiV_Label));
+        }
+    }
+
+    void IndexRows(XUiController c, string tab, string showWhen)
+    {
+        string id = c.ViewComponent?.ID ?? "";
+        if (id.StartsWith("kuRow_"))
+        {
+            searchRows.Add((id.Substring("kuRow_".Length), tab, showWhen, c));
+            return;
+        }
+        if (id.StartsWith("kuShow_"))
+        {
+            showWhen = id.Substring("kuShow_".Length);
+        }
+        if (c.Children != null)
+        {
+            foreach (XUiController child in c.Children)
+            {
+                IndexRows(child, tab, showWhen);
+            }
+        }
+    }
+
+    // Words in any order, in the player's language: option names first, then rows that
+    // only match on their description or page. A row hidden right now isn't offered.
+    void ShowSearch(string query)
+    {
+        shownQuery = query;
+        if (query.Length == 0)
+        {
+            ShowTab(currentTab);
+            return;
+        }
+        EndUndo();
+        SetVisible(resetRow, false);
+        SetVisible(foundMark, false);
+        foreach ((string t, XUiC_SimpleButton button, XUiView page) in tabs)
+        {
+            page.IsVisible = false;
+            if (button.Button != null)
+            {
+                button.Button.Selected = false;
+            }
+        }
+        SetVisible(searchPage, true);
+        ShowIdleDescription();
+
+        string[] words = query.Split((char[])null, System.StringSplitOptions.RemoveEmptyEntries);
+        found.Clear();
+        List<(string name, string tab, XUiController row)> weaker = new List<(string, string, XUiController)>();
+        foreach ((string name, string tab, string showWhen, XUiController row) in searchRows)
+        {
+            if (showWhen != null && !Condition(showWhen))
+            {
+                continue;
+            }
+            string title = RowTitle(row, name);
+            if (HasAll(title, words))
+            {
+                found.Add((name, tab, row));
+            }
+            else if (HasAll(title + " " + Localization.Get("kuDesc_" + name) + " " + PageName(tab), words))
+            {
+                weaker.Add((name, tab, row));
+            }
+        }
+        found.AddRange(weaker);
+
+        for (int i = 0; i < resultRows.Count; i++)
+        {
+            (XUiView view, XUiV_Label label, XUiV_Label page) = resultRows[i];
+            bool on = i < found.Count;
+            if (on)
+            {
+                if (label != null) label.Text = RowTitle(found[i].row, found[i].name);
+                if (page != null) page.Text = PageName(found[i].tab);
+            }
+            SetVisible(view, on);
+        }
+        if (searchSub != null)
+        {
+            searchSub.Text = found.Count == 0 ? Localization.Get("kuSearchNone")
+                : found.Count > resultRows.Count ? string.Format(Localization.Get("kuSearchMore"), resultRows.Count, found.Count)
+                : string.Format(Localization.Get("kuSearchFound"), found.Count);
+        }
+    }
+
+    static bool HasAll(string text, string[] words)
+    {
+        foreach (string word in words)
+        {
+            if (text.IndexOf(word, System.StringComparison.OrdinalIgnoreCase) < 0)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    static void SetVisible(XUiView view, bool on)
+    {
+        if (view != null && view.IsVisible != on)
+        {
+            view.IsVisible = on;
+        }
+    }
+
+    static string RowTitle(XUiController row, string name) => RowLabel(row) ?? Localization.Get("kuDescTitle_" + name);
+
+    string PageName(string tab) => (GetChildById("kuTabText_" + tab)?.ViewComponent as XUiV_Label)?.Text ?? "";
+
+    // Go to a result's page, say what it does and light up the row.
+    void JumpTo(string name, string tab, XUiController row)
+    {
+        ShowTab(tab);
+        ShowDescription(row, name);
+        foreach (XUiController c in Descendants(row))
+        {
+            if (c.ViewComponent is XUiV_Button button && foundMark != null)
+            {
+                int y = 0;
+                for (XUiController up = c; up != null && up != this; up = up.Parent)
+                {
+                    y += up.ViewComponent?.Position.y ?? 0;
+                }
+                foundMark.Position = new Vector2i(foundMark.Position.x, y + (foundMark.Size.y - button.Size.y) / 2);
+                SetVisible(foundMark, true);
+                break;
+            }
+        }
+    }
+
+    void SetUpReset()
+    {
+        resetRow = GetChildById("kuRow_pageReset")?.ViewComponent;
+        resetButton = FindButton("btnPageReset");
+        if (resetButton != null)
+        {
+            resetButton.OnPressed += (_sender, _mouseButton) => ResetOrUndo();
+        }
+    }
+
+    void ResetOrUndo()
+    {
+        if (undoValues != null)
+        {
+            KitsuneSettingsFile.RestoreKeys(undoKeys, undoValues);
+            KitsuneSettingsApplier.ApplyAll(xui);
+            EndUndo();
+            return;
+        }
+        if (!PageKeys.TryGetValue(currentTab, out string[] keys))
+        {
+            return;
+        }
+        // What the server decides stays as it is, for when the player next plays elsewhere.
+        List<string> free = new List<string>();
+        foreach (string key in keys)
+        {
+            if (!KitsuneSettingsFile.IsForced(key))
+            {
+                free.Add(key);
+            }
+        }
+        undoKeys = free;
+        undoValues = KitsuneSettingsFile.Snapshot();
+        undoLeft = UndoSeconds;
+        KitsuneSettingsFile.RestoreKeys(free, null);
+        KitsuneSettingsApplier.ApplyAll(xui);
+        resetButton.Text = Localization.Get("kuPageUndo");
+    }
+
+    void EndUndo()
+    {
+        if (undoValues != null)
+        {
+            undoKeys = null;
+            undoValues = null;
+            resetButton.Text = Localization.Get("kuPageReset");
+        }
+    }
+
     void ShowTab(string tab)
     {
         currentTab = tab;
+        EndUndo();
+        if (searchInput != null && !string.IsNullOrEmpty(searchInput.Text))
+        {
+            searchInput.Text = "";
+        }
+        shownQuery = "";
+        SetVisible(searchPage, false);
+        SetVisible(foundMark, false);
+        SetVisible(resetRow, true);
         ShowIdleDescription();
         foreach ((string t, XUiC_SimpleButton button, XUiView page) in tabs)
         {
@@ -1155,6 +1434,19 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         {
             Sync();
         }
+        if (undoValues != null && (undoLeft -= _dt) <= 0f)
+        {
+            EndUndo();
+        }
+        if (searchInput != null)
+        {
+            string text = searchInput.Text ?? "";
+            SetVisible(searchHint, text.Length == 0);
+            if (text.Trim() != shownQuery)
+            {
+                ShowSearch(text.Trim());
+            }
+        }
     }
 
     void Sync()
@@ -1171,7 +1463,10 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         if (autoFade != null) autoFade.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.AutoFade);
         if (minimap != null) minimap.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.Minimap);
         if (horde != null) horde.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.HordeCountdown);
+        if (traderHours != null) traderHours.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.TraderHours);
+        if (ammoWarning != null) ammoWarning.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.AmmoWarning);
         if (crafting != null) crafting.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.CraftingHud);
+        if (workstations != null) workstations.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.WorkstationHud);
         if (actionBar != null) actionBar.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.ActionBar);
         if (mapNames != null) mapNames.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.MapNames);
         if (mapCoords != null) mapCoords.Value = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.MapCoords);

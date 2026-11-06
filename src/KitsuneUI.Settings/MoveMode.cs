@@ -287,14 +287,37 @@ public static class KitsuneLayout
             if (Mathf.Abs(x) > MaxOffset || Mathf.Abs(y) > MaxOffset)
             {
                 Log.Warning($"[KitsuneUI] {group} was saved off screen ({x:0},{y:0}); put back in its default spot.");
-                return Vector2.zero;
+                return DefaultOffset(group);
             }
             return new Vector2(x, y);
         }
-        return Vector2.zero;
+        return DefaultOffset(group);
     }
 
     const float MaxOffset = 5000f;
+
+    /// <summary>
+    /// Where a piece sits until the player moves it, as an offset from its window's own
+    /// place. For pieces whose window stays where the game and the theme put it, so a spot
+    /// someone already saved keeps its meaning and players without this add-on see no change.
+    /// </summary>
+    static Vector2 DefaultOffset(string group)
+    {
+        switch (group)
+        {
+            case "chat":
+                return new Vector2(-8f, -67f);
+            case "windowGroupBars":
+                return new Vector2(0f, 60f);
+            case "kuMinimap":
+                return new Vector2(15f, -7f);
+            // Below the map and its coordinates row, while there is a map.
+            case "trackers":
+                return KitsuneSettingsFile.GetBool(KitsuneSettingsFile.Minimap) ? new Vector2(4f, -245f) : Vector2.zero;
+            default:
+                return Vector2.zero;
+        }
+    }
 
     public static void BeginDrag(string group, XUiView handle)
     {
@@ -359,12 +382,17 @@ public static class KitsuneLayout
 
     public static void ResetAll()
     {
+        var moved = new List<string>();
+        foreach (string group in groups.Keys)
+        {
+            moved.Add(Key(group));
+        }
+        KitsuneSettingsFile.RestoreKeys(moved, null);
         foreach (KeyValuePair<string, Group> kv in groups)
         {
-            kv.Value.Offset = Vector2.zero;
+            kv.Value.Offset = Load(kv.Key);
             kv.Value.Scale = 1f;
             kv.Value.Hidden = false;
-            KitsuneSettingsFile.Set(Key(kv.Key), "0,0");
             KitsuneSettingsFile.Set("scale." + kv.Key, "1.0");
             KitsuneSettingsFile.Set("hide." + kv.Key, "false");
             Apply(kv.Value);
@@ -397,11 +425,23 @@ public static class KitsuneLayout
     /// <summary>Called every frame: puts each piece back where the player left it.</summary>
     public static void ApplyAll()
     {
+        bool minimap = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.Minimap);
+        if (minimap != lastMinimap)
+        {
+            lastMinimap = minimap;
+            if (groups.TryGetValue("trackers", out Group trackers))
+            {
+                trackers.Offset = Load("trackers");
+            }
+        }
         foreach (Group g in groups.Values)
         {
             Apply(g);
         }
     }
+
+    // The trackers' default spot depends on the map: see DefaultOffset.
+    static bool lastMinimap;
 
     static void Apply(Group g)
     {

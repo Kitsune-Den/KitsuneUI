@@ -20,7 +20,7 @@ public static class KitsuneProfiles
     static readonly HashSet<string> SettingKeys = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
     {
         KitsuneSettingsFile.SlotNumbers, KitsuneSettingsFile.HealthBarAlways, KitsuneSettingsFile.JobTiles,
-        KitsuneSettingsFile.Glass, KitsuneSettingsFile.MoveSnap, KitsuneSettingsFile.Palette, KitsuneSettingsFile.BackpackAll, KitsuneSettingsFile.AutoFade, KitsuneSettingsFile.BarText, KitsuneSettingsFile.TextSize, KitsuneSettingsFile.Minimap, KitsuneSettingsFile.HordeCountdown, KitsuneSettingsFile.CraftingHud, KitsuneSettingsFile.ActionBar, KitsuneSettingsFile.MapZoom, KitsuneSettingsFile.MapRotate, KitsuneSettingsFile.MapNames, KitsuneSettingsFile.MapShape, KitsuneSettingsFile.MapCreatures, KitsuneSettingsFile.MapCoords, KitsuneSettingsFile.MapClock, KitsuneSettingsFile.BagSearch, KitsuneSettingsFile.WearWarning, KitsuneSettingsFile.BuffTimers, KitsuneSettingsFile.UnitFrames, KitsuneSettingsFile.XpBar, KitsuneSettingsFile.BarStyle, KitsuneSettingsFile.PartyFrames, KitsuneSettingsFile.Nameplates, KitsuneSettingsFile.CombatText, KitsuneSettingsFile.CustomHue, KitsuneSettingsFile.GlassColour, KitsuneSettingsFile.QuestBars, KitsuneSettingsFile.HideQuestTier, KitsuneSettingsFile.JobOrder, KitsuneSettingsFile.StatBarsSplit, KitsuneSettingsFile.StatBarsEach, KitsuneSettingsFile.BackpackWidth, KitsuneSettingsFile.ToolbeltLayout, KitsuneSettingsFile.TraderTileSize, KitsuneSettingsFile.BuffSweep, KitsuneSettingsFile.Portrait, KitsuneSettingsFile.QualityRings, KitsuneSettingsFile.CompareHeld, KitsuneSettingsFile.FrameWidth, KitsuneSettingsFile.BuffSize, KitsuneSettingsFile.BuffCount, KitsuneSettingsFile.BuffStyle,
+        KitsuneSettingsFile.Glass, KitsuneSettingsFile.MoveSnap, KitsuneSettingsFile.Palette, KitsuneSettingsFile.BackpackAll, KitsuneSettingsFile.AutoFade, KitsuneSettingsFile.BarText, KitsuneSettingsFile.TextSize, KitsuneSettingsFile.Minimap, KitsuneSettingsFile.HordeCountdown, KitsuneSettingsFile.TraderHours, KitsuneSettingsFile.AmmoWarning, KitsuneSettingsFile.CraftingHud, KitsuneSettingsFile.WorkstationHud, KitsuneSettingsFile.ActionBar, KitsuneSettingsFile.MapZoom, KitsuneSettingsFile.MapRotate, KitsuneSettingsFile.MapNames, KitsuneSettingsFile.MapShape, KitsuneSettingsFile.MapCreatures, KitsuneSettingsFile.MapCoords, KitsuneSettingsFile.MapClock, KitsuneSettingsFile.BagSearch, KitsuneSettingsFile.WearWarning, KitsuneSettingsFile.BuffTimers, KitsuneSettingsFile.UnitFrames, KitsuneSettingsFile.XpBar, KitsuneSettingsFile.BarStyle, KitsuneSettingsFile.PartyFrames, KitsuneSettingsFile.Nameplates, KitsuneSettingsFile.CombatText, KitsuneSettingsFile.CustomHue, KitsuneSettingsFile.GlassColour, KitsuneSettingsFile.QuestBars, KitsuneSettingsFile.HideQuestTier, KitsuneSettingsFile.JobOrder, KitsuneSettingsFile.StatBarsSplit, KitsuneSettingsFile.StatBarsEach, KitsuneSettingsFile.BackpackWidth, KitsuneSettingsFile.ToolbeltLayout, KitsuneSettingsFile.TraderTileSize, KitsuneSettingsFile.BuffSweep, KitsuneSettingsFile.Portrait, KitsuneSettingsFile.QualityRings, KitsuneSettingsFile.CompareHeld, KitsuneSettingsFile.FrameWidth, KitsuneSettingsFile.BuffSize, KitsuneSettingsFile.BuffCount, KitsuneSettingsFile.BuffStyle,
     };
     static readonly Regex SafeKey = new Regex(@"^(move|scale|hide)\.[A-Za-z0-9_]{1,40}$");
     static readonly Regex SafeValue = new Regex(@"^[A-Za-z0-9.,\-]{1,24}$");
@@ -36,7 +36,8 @@ public static class KitsuneProfiles
         ["minimal"] = new Dictionary<string, string>
         {
             [KitsuneSettingsFile.AutoFade] = "true", [KitsuneSettingsFile.Minimap] = "false",
-            [KitsuneSettingsFile.HordeCountdown] = "false", [KitsuneSettingsFile.CraftingHud] = "false",
+            [KitsuneSettingsFile.HordeCountdown] = "false", [KitsuneSettingsFile.TraderHours] = "false", [KitsuneSettingsFile.CraftingHud] = "false",
+            [KitsuneSettingsFile.WorkstationHud] = "false",
             [KitsuneSettingsFile.ActionBar] = "false", [KitsuneSettingsFile.UnitFrames] = "false",
             [KitsuneSettingsFile.PartyFrames] = "false", [KitsuneSettingsFile.Nameplates] = "false",
             [KitsuneSettingsFile.CombatText] = "false", [KitsuneSettingsFile.XpBar] = "false",
@@ -47,13 +48,14 @@ public static class KitsuneProfiles
         ["full"] = new Dictionary<string, string>
         {
             [KitsuneSettingsFile.AutoFade] = "false", [KitsuneSettingsFile.Minimap] = "true",
-            [KitsuneSettingsFile.HordeCountdown] = "true", [KitsuneSettingsFile.CraftingHud] = "true",
+            [KitsuneSettingsFile.HordeCountdown] = "true", [KitsuneSettingsFile.TraderHours] = "true", [KitsuneSettingsFile.CraftingHud] = "true",
+            [KitsuneSettingsFile.WorkstationHud] = "true",
             [KitsuneSettingsFile.ActionBar] = "true", [KitsuneSettingsFile.UnitFrames] = "true",
             [KitsuneSettingsFile.PartyFrames] = "true", [KitsuneSettingsFile.Nameplates] = "true",
             [KitsuneSettingsFile.CombatText] = "true", [KitsuneSettingsFile.XpBar] = "true",
             [KitsuneSettingsFile.BuffTimers] = "true", [KitsuneSettingsFile.MapCoords] = "true",
             [KitsuneSettingsFile.MapClock] = "true", [KitsuneSettingsFile.QuestBars] = "true",
-            [KitsuneSettingsFile.WearWarning] = "true", [KitsuneSettingsFile.SlotNumbers] = "true",
+            [KitsuneSettingsFile.WearWarning] = "true", [KitsuneSettingsFile.AmmoWarning] = "true", [KitsuneSettingsFile.SlotNumbers] = "true",
             [KitsuneSettingsFile.BuffSweep] = "true",
         },
         // For streaming and videos: everything a viewer needs to follow, a little larger,
@@ -64,7 +66,9 @@ public static class KitsuneProfiles
             [KitsuneSettingsFile.MapShape] = "round", [KitsuneSettingsFile.MapClock] = "true",
             [KitsuneSettingsFile.MapCoords] = "false", [KitsuneSettingsFile.MapNames] = "false",
             [KitsuneSettingsFile.MapCreatures] = "off", [KitsuneSettingsFile.HordeCountdown] = "true",
-            [KitsuneSettingsFile.CraftingHud] = "true", [KitsuneSettingsFile.ActionBar] = "true",
+            [KitsuneSettingsFile.TraderHours] = "true",
+            [KitsuneSettingsFile.CraftingHud] = "true", [KitsuneSettingsFile.WorkstationHud] = "true",
+            [KitsuneSettingsFile.ActionBar] = "true",
             [KitsuneSettingsFile.UnitFrames] = "true", [KitsuneSettingsFile.PartyFrames] = "true",
             [KitsuneSettingsFile.Nameplates] = "true", [KitsuneSettingsFile.CombatText] = "false",
             [KitsuneSettingsFile.XpBar] = "true", [KitsuneSettingsFile.BuffTimers] = "true",
@@ -220,13 +224,22 @@ public static class KitsuneProfiles
         }
         // A profile replaces the whole layout: pieces it doesn't mention go back to default.
         var changes = new Dictionary<string, string>(layout, StringComparer.OrdinalIgnoreCase);
+        var unplaced = new List<string>();
         foreach (string key in KitsuneSettingsFile.Snapshot().Keys)
         {
             if (SafeKey.IsMatch(key) && !changes.ContainsKey(key))
             {
-                changes[key] = key.StartsWith("scale.") ? "1.0" : key.StartsWith("hide.") ? "false" : "0,0";
+                if (key.StartsWith("move."))
+                {
+                    unplaced.Add(key);
+                }
+                else
+                {
+                    changes[key] = key.StartsWith("scale.") ? "1.0" : "false";
+                }
             }
         }
+        KitsuneSettingsFile.RestoreKeys(unplaced, null);
         KitsuneSettingsFile.SetMany(changes);
         KitsuneLayout.ReloadFromSettings();
         return true;
