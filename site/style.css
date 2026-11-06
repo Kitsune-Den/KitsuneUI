@@ -248,6 +248,21 @@ a.mod:hover { border-color: var(--accent); }
 .toggle i::after { content: ""; position: absolute; right: 3px; top: 3px; width: 16px; height: 16px; border-radius: 50%; background: var(--accent); }
 .content .footer { max-width: 980px; }
 
+/* ---------- layouts ---------- */
+.gallery { padding-top: 56px; }
+.gallery h1 { margin: 8px 0 14px; font-size: 56px; line-height: 1.05; color: var(--text-bright); }
+.gallery .lede { margin: 0 0 24px; color: var(--text-mid); }
+.howto { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin: 0 0 40px; padding: 0; list-style: none; font-size: 18px; color: var(--text-mid); }
+.howto b { display: block; font-size: 21px; color: var(--gold); }
+.layout-card { display: flex; flex-direction: column; gap: 12px; }
+.layout-card h2 { margin: 4px 0 0; font-size: 28px; color: var(--text-bright); }
+.layout-card p { flex: 1; margin: 0; }
+.layout-card .code pre { padding: 12px 14px; font-size: 13px; }
+.move-stage.layout-stage { min-height: 0; aspect-ratio: 16 / 9; border-radius: 12px; }
+.layout-stage .piece { justify-content: center; padding: 0; border-width: 1px; border-radius: 5px; }
+.layout-stage .piece > span { position: static; padding: 0; font-size: 13px; font-weight: 600; color: var(--text); background: none; }
+.gallery-notes { margin-top: 26px; }
+
 /* ---------- small screens ---------- */
 @media (max-width: 1100px) {
   .cols4 { grid-template-columns: repeat(2, 1fr); }
@@ -270,7 +285,8 @@ a.mod:hover { border-color: var(--accent); }
   .wrap { padding-left: 16px; padding-right: 16px; }
   .band { padding-top: 72px; }
   .band h2, .split h2 { font-size: 34px; }
-  .cols3, .cols2, .cols4, .split, .moveband .split, .mods, .sprites { grid-template-columns: 1fr; }
+  .cols3, .cols2, .cols4, .split, .moveband .split, .mods, .sprites, .howto { grid-template-columns: 1fr; }
+  .gallery h1 { font-size: 40px; }
   .moveband { margin-top: 72px; padding: 56px 0; }
   .content { padding: 24px 16px 0; }
   .content h1 { font-size: 40px; }
