@@ -120,14 +120,18 @@ public static class KitsuneSettingsFile
 
     static Dictionary<string, string> values;
     static DateTime loadedStamp;
+    const int RecheckMilliseconds = 1000;
+    static int lastCheck;
 
     // What a server says (KitsuneServerPolicy, Settings only). In memory only, so none of
     // it reaches the player's file and their own choices come back on the next server.
     static Dictionary<string, string> forced = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
     static Dictionary<string, string> serverDefaults = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
+    static string path;
+
     public static string Path =>
-        System.IO.Path.Combine(GameIO.GetDefaultUserGameDataPath(), "KitsuneUI", "settings.txt");
+        path ?? (path = System.IO.Path.Combine(GameIO.GetDefaultUserGameDataPath(), "KitsuneUI", "settings.txt"));
 
     /// <summary>Bumped on every change, so appliers can tell when to re-apply.</summary>
     public static int Version { get; private set; }
@@ -212,7 +216,7 @@ public static class KitsuneSettingsFile
 
     public static void Set(string key, string value)
     {
-        Load();
+        Refresh();   // a write saves the whole file, so start from what's on disk now
         if (values.TryGetValue(key, out string old) && old == value)
         {
             return;
@@ -232,7 +236,7 @@ public static class KitsuneSettingsFile
     /// <summary>Sets many keys at once and saves once (for loading a profile).</summary>
     public static void SetMany(IDictionary<string, string> changes)
     {
-        Load();
+        Refresh();
         foreach (KeyValuePair<string, string> kv in changes)
         {
             values[kv.Key] = kv.Value;
@@ -247,7 +251,7 @@ public static class KitsuneSettingsFile
     /// </summary>
     public static void RestoreKeys(IEnumerable<string> keys, IDictionary<string, string> stored)
     {
-        Load();
+        Refresh();
         foreach (string key in keys)
         {
             if (stored != null && stored.TryGetValue(key, out string value))
@@ -264,11 +268,26 @@ public static class KitsuneSettingsFile
     }
 
     /// <summary>
-    /// (Re)reads the file when it changed on disk, so a second DLL sees writes made by
-    /// the first. Never throws: an unreadable file just means defaults.
+    /// Settings are read many times a frame, so this asks the disk at most once a second.
+    /// A second DLL or a hand edit can take that long to show; changes made through this
+    /// class are in memory straight away.
     /// </summary>
     static void Load()
     {
+        if (values != null && unchecked(Environment.TickCount - lastCheck) < RecheckMilliseconds)
+        {
+            return;
+        }
+        Refresh();
+    }
+
+    /// <summary>
+    /// (Re)reads the file when it changed on disk, so a second DLL sees writes made by
+    /// the first. Never throws: an unreadable file just means defaults.
+    /// </summary>
+    static void Refresh()
+    {
+        lastCheck = Environment.TickCount;
         try
         {
             DateTime stamp = File.Exists(Path) ? File.GetLastWriteTimeUtc(Path) : DateTime.MinValue;
