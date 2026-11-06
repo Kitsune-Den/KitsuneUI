@@ -76,11 +76,96 @@ public class XUiC_KitsuneHordeCountdown : XUiController
 }
 
 /// <summary>
+/// "Trader hours": a line under the horde countdown, or in its place while that's hidden,
+/// with when the traders close or next open, amber in their last hour. It reads the same
+/// trader and times the game does, so it follows the server's trader settings, and it's
+/// hidden when the server keeps them open.
+/// </summary>
+public class XUiC_KitsuneTraderHours : XUiController
+{
+    const float RefreshSeconds = 1f;
+    const ulong TicksPerDay = 24000;
+    const ulong TicksPerHour = 1000;
+    static readonly Vector2i UnderHorde = new Vector2i(0, -100);
+    static readonly Vector2i InHordesPlace = new Vector2i(0, -74);
+
+    XUiV_Label label;
+    XUiView horde;
+    float sinceRefresh = RefreshSeconds;
+
+    public override void Init()
+    {
+        base.Init();
+        label = GetChildById("kuTraderText")?.ViewComponent as XUiV_Label;
+        horde = Parent?.GetChildById("kuHorde")?.ViewComponent;
+    }
+
+    public override void Update(float _dt)
+    {
+        base.Update(_dt);
+        sinceRefresh += _dt;
+        if (sinceRefresh < RefreshSeconds)
+        {
+            return;
+        }
+        sinceRefresh = 0f;
+        string text = KitsuneSettingsFile.GetBool(KitsuneSettingsFile.TraderHours) ? Text() : null;
+        bool show = !string.IsNullOrEmpty(text);
+        if (ViewComponent.IsVisible != show)
+        {
+            ViewComponent.IsVisible = show;
+        }
+        if (!show)
+        {
+            return;
+        }
+        Vector2i at = horde != null && horde.IsVisible ? UnderHorde : InHordesPlace;
+        if (ViewComponent.Position != at)
+        {
+            ViewComponent.Position = at;
+        }
+        if (label != null && label.Text != text)
+        {
+            label.Text = text;
+        }
+    }
+
+    static string Text()
+    {
+        World world = GameManager.Instance?.World;
+        TraderInfo info = TraderInfo.traderInfoList?[1];
+        if (world == null || info == null || !XUi.IsGameRunning())
+        {
+            return null;
+        }
+        TraderInfo.TraderHourPresets preset = TraderInfo.TraderHoursPreset;
+        bool closedOnlyForHorde = preset == TraderInfo.TraderHourPresets.OnlyClosedOnBM;
+        if (!closedOnlyForHorde && (!info.UseOpenHours || preset == TraderInfo.TraderHourPresets.AlwaysOpen || World.SandboxUseTraderArea != TraderAreaStates.Default))
+        {
+            return null;
+        }
+        bool open = info.IsOpen;
+        if (closedOnlyForHorde && open && GameUtils.WorldTimeToDays(world.worldTime) != GameStats.GetInt(EnumGameStats.BloodMoonDay))
+        {
+            return null;
+        }
+        if (!open)
+        {
+            return "[9AA3BF]" + string.Format(Localization.Get("kuTraderOpens"), GameUtils.WorldTimeToHourMinutesString(info.GetOpenTime())) + "[-]";
+        }
+        ulong close = info.GetCloseTime();
+        string text = string.Format(Localization.Get("kuTraderOpen"), GameUtils.WorldTimeToHourMinutesString(close));
+        ulong left = (close % TicksPerDay + TicksPerDay - world.worldTime % TicksPerDay) % TicksPerDay;
+        return left < TicksPerHour ? "[FFB26B]" + text + "[-]" : text;
+    }
+}
+
+/// <summary>
 /// "Crafting progress on the HUD": while the player's own crafting queue (the backpack
 /// crafting window, which keeps going with the window closed) has something in it, a
 /// small glass card shows the item, how many are left, the time left for all of them
-/// and a bar for the one being made. Workstations are not covered: their queues live
-/// in their blocks. It has its own move-mode handle.
+/// and a bar for the one being made. Workstations have their own timers
+/// (KitsuneWorkstationTimers). It has its own move-mode handle.
 /// </summary>
 public class XUiC_KitsuneCraftingHud : XUiController
 {
@@ -158,7 +243,7 @@ public class XUiC_KitsuneCraftingHud : XUiController
         return true;
     }
 
-    static string Format(float seconds)
+    internal static string Format(float seconds)
     {
         int s = Mathf.Max(0, Mathf.CeilToInt(seconds));
         return s >= 3600 ? $"{s / 3600}:{s / 60 % 60:00}:{s % 60:00}" : $"{s / 60}:{s % 60:00}";
