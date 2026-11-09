@@ -1,15 +1,21 @@
 <configs>
-	<!-- The loading screen picks one picture at random from this list. These replace -->
-	<!-- the vanilla four; drop the remove line to mix them in with the vanilla ones. -->
-	<remove xpath="/doc/backgrounds/tex" />
-	<append xpath="/doc/backgrounds">
-		<tex file="@modfolder:Textures/ku_loading_den.jpg" />
-		<tex file="@modfolder:Textures/ku_loading_town.jpg" />
-		<tex file="@modfolder:Textures/ku_loading_forest.jpg" />
-		<tex file="@modfolder:Textures/ku_loading_desert.jpg" />
-		<tex file="@modfolder:Textures/ku_loading_snow.jpg" />
-		<tex file="@modfolder:Textures/ku_loading_bloodmoon.jpg" />
-	</append>
+	<!-- Kitsune Lights Out brings its own pictures for a world where the sun never rises, -->
+	<!-- so with it loaded these paintings stay out and only the tips below join in. -->
+	<conditional>
+		<if cond="not mod_loaded('KitsuneLightsOut')">
+			<!-- The loading screen picks one picture at random from this list. These replace -->
+			<!-- the vanilla four; drop the remove line to mix them in with the vanilla ones. -->
+			<remove xpath="/doc/backgrounds/tex" />
+			<append xpath="/doc/backgrounds">
+				<tex file="@modfolder:Textures/ku_loading_den.jpg" />
+				<tex file="@modfolder:Textures/ku_loading_town.jpg" />
+				<tex file="@modfolder:Textures/ku_loading_forest.jpg" />
+				<tex file="@modfolder:Textures/ku_loading_desert.jpg" />
+				<tex file="@modfolder:Textures/ku_loading_snow.jpg" />
+				<tex file="@modfolder:Textures/ku_loading_bloodmoon.jpg" />
+			</append>
+		</if>
+	</conditional>
 	<!-- Four KitsuneUI tips join the game's loading tips (text in Localization.csv). -->
 	<append xpath="/doc/tips">
 		<tip key="kuTipMoveHud" />
