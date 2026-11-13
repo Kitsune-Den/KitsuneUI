@@ -62,6 +62,7 @@ public static class KitsuneSettingsFile
     public const string BuffSize = "buffSize";            // unit frame buff icon size, percent: 75, 100, 125
     public const string BuffCount = "buffCount";          // buff icons shown per frame: 4, 6, 8
     public const string BuffStyle = "buffStyle";          // buffs above the stat bars: "bars" (a row each) or "icons" (a grid of chips)
+    public const string SlotBacking = "slotBacking";      // item slot fill: "glass" (see-through), "dark" or "solid"
 
     static readonly Dictionary<string, string> Defaults = new Dictionary<string, string>
     {
@@ -116,6 +117,7 @@ public static class KitsuneSettingsFile
         { BuffSize, "100" },
         { BuffCount, "8" },
         { BuffStyle, "bars" },
+        { SlotBacking, "glass" },
     };
 
     static Dictionary<string, string> values;
