@@ -35,9 +35,19 @@ public static class KitsuneSettingsApplier
     sealed class Original
     {
         public Color A, B, C;
+        public Color32 Well;
         public int Size;
         public string Sprite;
     }
+
+    // An item slot's fill (background_color) is kuSlotWell, a see-through dark well. Slot
+    // backing (Backpack & items) makes it darker, for bags over bright scenes and loot
+    // windows. Only slots still on our well are touched, so other mods' colours stay.
+    static readonly Color32 SlotWell = new Color32(6, 8, 20, 150);
+    static byte slotWellAlpha = 150;
+
+    public static byte SlotWellAlphaFor(string backing) =>
+        backing == "solid" ? (byte)250 : backing == "dark" ? (byte)215 : SlotWell.a;
 
     static readonly ConditionalWeakTable<object, Original> originals = new ConditionalWeakTable<object, Original>();
 
@@ -99,6 +109,7 @@ public static class KitsuneSettingsApplier
             barStyle = "kitsunebi";
         }
         barSprite = BarSpriteFor(barStyle);
+        slotWellAlpha = SlotWellAlphaFor(KitsuneSettingsFile.Get(KitsuneSettingsFile.SlotBacking));
         foreach (XUiWindowGroup group in xui.WindowGroups)
         {
             if (group?.Controller != null)
@@ -223,11 +234,17 @@ public static class KitsuneSettingsApplier
         {
             Original o = originals.GetValue(stack, _ => new Original
             {
-                A = stack.selectColor, B = stack.highlightColor, C = stack.holdingColor,
+                A = stack.selectColor, B = stack.highlightColor, C = stack.holdingColor, Well = stack.backgroundColor,
             });
             if (KitsunePalette.IsPalette(o.A)) stack.selectColor = palette.Map(o.A);
             if (KitsunePalette.IsPalette(o.B)) stack.highlightColor = palette.Map(o.B);
             if (KitsunePalette.IsPalette(o.C)) stack.holdingColor = palette.Map(o.C);
+            if (o.Well.r == SlotWell.r && o.Well.g == SlotWell.g && o.Well.b == SlotWell.b && o.Well.a == SlotWell.a
+                && stack.backgroundColor.a != slotWellAlpha)
+            {
+                stack.backgroundColor = new Color32(SlotWell.r, SlotWell.g, SlotWell.b, slotWellAlpha);
+                stack.updateBorderColor();   // an idle slot's ring and glow take the fill colour too
+            }
             stack.RefreshBindings();
         }
         if (!lookOnly && c is XUiC_HUDStatBar statBar)
@@ -430,7 +447,7 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         { "map", new[] { KitsuneSettingsFile.Minimap, KitsuneSettingsFile.MapZoom, KitsuneSettingsFile.MapRotate, KitsuneSettingsFile.MapShape, KitsuneSettingsFile.MapNames, KitsuneSettingsFile.MapCreatures, KitsuneSettingsFile.MapCoords, KitsuneSettingsFile.MapClock } },
         { "frames", new[] { KitsuneSettingsFile.UnitFrames, KitsuneSettingsFile.PartyFrames, KitsuneSettingsFile.Portrait, KitsuneSettingsFile.FrameWidth, KitsuneSettingsFile.BuffSize, KitsuneSettingsFile.BuffCount, KitsuneSettingsFile.BuffSweep } },
         { "combat", new[] { KitsuneSettingsFile.HealthBarAlways, KitsuneSettingsFile.Nameplates, KitsuneSettingsFile.CombatText, KitsuneSettingsFile.BuffTimers, KitsuneSettingsFile.BuffStyle } },
-        { "bag", new[] { KitsuneSettingsFile.BackpackAll, KitsuneSettingsFile.BackpackWidth, KitsuneSettingsFile.BagSearch, KitsuneSettingsFile.QualityRings, KitsuneSettingsFile.CompareHeld } },
+        { "bag", new[] { KitsuneSettingsFile.BackpackAll, KitsuneSettingsFile.BackpackWidth, KitsuneSettingsFile.BagSearch, KitsuneSettingsFile.QualityRings, KitsuneSettingsFile.CompareHeld, KitsuneSettingsFile.SlotBacking } },
         { "trade", new[] { KitsuneSettingsFile.JobTiles, KitsuneSettingsFile.TraderTileSize, KitsuneSettingsFile.JobOrder, KitsuneSettingsFile.HideQuestTier, KitsuneSettingsFile.QuestBars } },
         { "look", new[] { KitsuneSettingsFile.Glass, KitsuneSettingsFile.GlassColour, KitsuneSettingsFile.Palette, KitsuneSettingsFile.CustomHue } },
     };
@@ -516,6 +533,7 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         ChoiceRow("btnBuffSize_", KitsuneSettingsFile.BuffSize, "75", "100", "125");
         ChoiceRow("btnBuffCount_", KitsuneSettingsFile.BuffCount, "4", "6", "8");
         ChoiceRow("btnBuffStyle_", KitsuneSettingsFile.BuffStyle, "bars", "icons");
+        ChoiceRow("btnSlotBacking_", KitsuneSettingsFile.SlotBacking, "glass", "dark", "solid");
         hueRing = GetChildById("kuHueRing")?.ViewComponent;
         glassRing = GetChildById("kuGlassRing")?.ViewComponent;
         foreach (string colour in KitsuneSettingsApplier.GlassColours)

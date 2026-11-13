@@ -418,6 +418,12 @@
 					<togglebutton name="tglCompareHeld" depth="3" pos="254,-380" width="630" height="40" font_size="26" caption="" />
 					<label depth="4" name="tglCompareHeldText" pos="300,-400" width="576" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetCompareHeld" />
 				</rect>
+				<rect name="kuRow_slotBacking" width="900" height="680">
+					<label depth="3" name="lblSlotBacking" pos="256,-446" width="164" height="30" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetSlotBacking" />
+					<simplebutton name="btnSlotBacking_glass" depth="3" pos="424,-428" width="149" height="36" font_size="20" caption_key="kuSetGlass" />
+					<simplebutton name="btnSlotBacking_dark" depth="3" pos="579,-428" width="149" height="36" font_size="20" caption_key="kuOptDark" />
+					<simplebutton name="btnSlotBacking_solid" depth="3" pos="734,-428" width="149" height="36" font_size="20" caption_key="kuOptSolid" />
+				</rect>
 			</rect>
 
 			<rect name="kuTab_trade" width="900" height="680" visible="false">
