@@ -198,13 +198,16 @@ V3.3 already supports up to 2 bars of 10 and up to 10 pages, and the vanilla too
 
 Install on the **server and every client**, with EAC off. It works with or without KitsuneUI.
 
-It also makes room for the extra slots when you die. With drop-on-death set to everything, the bag, the toolbelt and your equipment go into one dropped bag, and anything that doesn't fit is lost. So it grows the death bag by 2 rows, and the loot window's slot pool to match:
+It also makes room for the extra slots when you die. With drop-on-death set to everything, the bag, the toolbelt and your equipment go into one dropped bag, and anything that doesn't fit is lost. The game and every backpack mod size that bag for a 10-slot belt, so the DLL adds whole rows for the belt slots past 10. It works from whatever size the bag has, so it doesn't matter which backpack mod you use or where it loads:
 
-| Installed with | Death bag | Loot window pool |
-|---|---|---|
-| nothing else | 8x15 to 8x17 | 9x10 to 9x16 |
-| KitsuneBackpack | 8x20 to 8x22 | 12x14 to 12x20 |
-| KitsuneBackpack200 | 8x28 to 8x30 | 12x19 to 12x20 |
+| Death bag from | With a 20-slot belt |
+|---|---|
+| the game | 8x15 to 8x17 |
+| KitsuneBackpack | 8x20 to 8x22 |
+| KitsuneBackpack200 | 8x28 to 8x30 |
+| a 17-wide bag mod's 17x15 | 17x16 |
+
+A dropped death bag opens in the bag window, the one vehicles use. That window can only show as many slots as its grid was built with, 150 in the game, so this builds 320 (unless another mod already built more) and hides the ones a bag doesn't have.
 
 ### Removing it
 
@@ -217,7 +220,7 @@ Pick it in KitsuneUI Settings (**Toolbelt & bars > Size**), which saves it into 
 - **Two bars of 10** (the default): `slot_per_bar="10" bar_per_page="2"`.
 - **One bar of 11 to 20**: say `slot_per_bar="15" bar_per_page="1"`. 1 to 0 pick slots 1-10, Shift + 1, 2, ... pick slot 11, 12, ... The bar stays centred, and with KitsuneUI slots 11 and up get gold numbers and a SHIFT tag at the end. A wide bar meets the bottom corners of the HUD on 16:9 screens, like the one-row layout.
 
-Two bars of 10 and one bar of 20 keep every item where it is, so you can switch between them. Going smaller moves the extra items into the backpack. For 10 or fewer, the game clamps `slot_per_bar` to 1-10, `bar_per_page` to 1-2 and `page_count` to 1-10, and more than one page shows the vanilla page arrows. The death bag sizes above cover up to 20 slots.
+Two bars of 10 and one bar of 20 keep every item where it is, so you can switch between them. Going smaller moves the extra items into the backpack. For 10 or fewer, the game clamps `slot_per_bar` to 1-10, `bar_per_page` to 1-2 and `page_count` to 1-10, and more than one page shows the vanilla page arrows. The death bag follows the belt: a 15-slot belt adds room for 5.
 
 ### Turning off the Shift keys
 

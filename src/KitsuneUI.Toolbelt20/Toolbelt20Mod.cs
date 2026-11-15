@@ -91,6 +91,109 @@ public static class ToolbeltFromXml_ParseConfig_Patch
 }
 
 /// <summary>
+/// Room in the death bag for the belt slots past 10.
+///
+/// With drop-on-death set to everything, the dying player's own game makes the dropped bag,
+/// sized from the "playerBackpack" loot container, and puts the bag, the toolbelt and the
+/// equipment in it; whatever doesn't fit is lost. Vanilla sizes that container for a 10-slot
+/// belt, and so does every bag mod. So whatever size it has, from vanilla or from any bag mod
+/// in any load order, it gets enough extra rows of its own width for the extra belt slots.
+///
+/// Done here and not in loot.xml because an XML patch can only match sizes it knows.
+/// </summary>
+public static class KitsuneDeathBag
+{
+    public const string LootList = "playerBackpack";
+    private const int VanillaBeltSlots = 10;
+
+    // The container this last grew, the size it had before and the size it was given. Loot is
+    // parsed again on a reload (joining a server, say), which makes a new container.
+    private static LootContainer seen;
+    private static Vector2i baseSize;
+    private static Vector2i grownSize;
+    private static bool warnedPool;
+
+    public static void Grow(LootContainer container)
+    {
+        // A new container, or someone else resized it since: what it has now is the base.
+        if (!ReferenceEquals(container, seen) || container.size != grownSize)
+        {
+            seen = container;
+            baseSize = container.size;
+        }
+
+        int extra = Math.Max(0, ToolbeltConfig.CurrentConfig.TotalSlots - VanillaBeltSlots);
+        Vector2i wanted = baseSize;
+        if (extra > 0 && baseSize.x > 0 && baseSize.y > 0)
+        {
+            wanted = new Vector2i(baseSize.x, baseSize.y + (extra + baseSize.x - 1) / baseSize.x);
+        }
+
+        grownSize = wanted;
+        if (container.size != wanted)
+        {
+            container.size = wanted;
+            Log.Out($"[KitsuneUI_Toolbelt20] Death bag is {wanted.x}x{wanted.y}: {baseSize.x}x{baseSize.y} plus room for {extra} more toolbelt slot(s)");
+        }
+    }
+
+    /// <summary>Says so once when a bag has more slots than the window showing it can draw.</summary>
+    public static void CheckPool(int pool, int slots)
+    {
+        if (pool >= slots || warnedPool)
+        {
+            return;
+        }
+        warnedPool = true;
+        Log.Warning($"[KitsuneUI_Toolbelt20] This bag has {slots} slots but the bag window can only show {pool}. Another mod set the grid of windowBagStorage; the slots past {pool} are reached by sorting the bag.");
+    }
+}
+
+/// <summary>Every reader of the death bag's size goes through here: making the bag, and opening it.</summary>
+[HarmonyPatch(typeof(LootContainer), nameof(LootContainer.GetLootContainer))]
+public static class LootContainer_GetLootContainer_Patch
+{
+    public static void Postfix(string _name, LootContainer __result)
+    {
+        if (__result != null && _name == KitsuneDeathBag.LootList)
+        {
+            KitsuneDeathBag.Grow(__result);
+        }
+    }
+}
+
+/// <summary>
+/// The bag window (death bags, vehicles, the drone) only fills the slots its grid was built
+/// with, and Config/XUi_InGame/windows.xml builds more of them so a big death bag fits. The
+/// spare ones must not be drawn. V3.3 hides them itself; V3.4's SetBag no longer does, so
+/// this does it on both: a slot shows exactly when the bag has it.
+/// </summary>
+[HarmonyPatch(typeof(XUiC_BagContainer), nameof(XUiC_BagContainer.SetBag))]
+public static class XUiC_BagContainer_SetBag_Patch
+{
+    public static void Postfix(XUiC_BagContainer __instance, Bag _bag, LootContainer _lootContainer)
+    {
+        // The original does nothing without both.
+        XUiC_ItemStack[] pool = __instance.GetItemStackControllers();
+        if (_bag == null || _lootContainer == null || pool == null)
+        {
+            return;
+        }
+
+        int slots = _bag.ItemGrid.Length;
+        for (int i = 0; i < pool.Length; i++)
+        {
+            XUiView view = pool[i]?.ViewComponent;
+            if (view != null)
+            {
+                view.IsVisible = i < slots;
+            }
+        }
+        KitsuneDeathBag.CheckPool(pool.Length, slots);
+    }
+}
+
+/// <summary>
 /// Shift + number. The game only adds a bar's worth of slots for shift when there are two
 /// bars; with one bar of more than 10, shift + 1, 2, ... picks slot 11, 12, ...
 /// With shift keys off, shift is ignored either way, so 1..0 always pick slots 1-10.
