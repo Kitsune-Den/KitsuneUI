@@ -2,8 +2,8 @@
 <xml>
 	<Name value="KitsuneUI_Loading" />
 	<DisplayName value="KitsuneUI Loading Pictures" />
-	<Description value="Optional add-on for KitsuneUI: six Kitsunebi night paintings for the loading screen (a hilltop den, a ghost town, a burnt forest, a desert gas station, a frozen radio tower and horde night) in place of the vanilla pictures, plus four KitsuneUI loading tips. XML and images only, so it works with EAC on. Client side." />
+	<Description value="Optional add-on for KitsuneUI: six Kitsunebi night paintings for the loading screen (a hilltop den, a ghost town, a burnt forest, a desert gas station, a frozen radio tower and horde night) in place of the vanilla pictures, plus four KitsuneUI loading tips. With Kitsune Lights Out loaded it leaves the pictures to Lights Out and only adds the tips. XML and images only, so it works with EAC on. Client side." />
 	<Website value="https://github.com/Kitsune-Den/KitsuneUI" />
 	<Author value="AdaInTheLab" />
-	<Version value="1.1.0" />
+	<Version value="1.2.0" />
 </xml>

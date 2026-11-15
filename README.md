@@ -83,6 +83,8 @@ Six night paintings in the Kitsunebi colours replace the vanilla loading picture
 
 It is XML and images only (EAC on). The server sends its list of loading pictures to everyone who joins, so on a server install it on the **server and every client**; a player without it sees an empty background instead of a picture. To mix the paintings in with the vanilla ones rather than replace them, delete the `remove` line in `Config/loadingscreen.xml`.
 
+With [Kitsune Lights Out](https://github.com/Kitsune-Den/KitsuneLightsOut) loaded, the paintings stay out: Lights Out brings its own pictures for a world where the sun never rises, and only the four tips join in.
+
 The game picks a loading picture at random, but it seeds that pick from the frame count, so a launcher that starts the game and connects straight away lands on the same picture every time. With `KitsuneUI_Settings` installed, the pictures take turns instead, so you see every one before any repeats.
 
 ## KitsuneUI_Practice
