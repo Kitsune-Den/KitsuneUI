@@ -26,16 +26,22 @@
 	<set xpath="/windows/window[@name='windowBackpack']/rect[@name='content']/defaultscrollbar/@background_color_inactive">[kuTrack]</set>
 	<!-- Whole rows: vanilla's bag area is 365 tall (V3.4: 390) with a 6px inset, so 359 / 73 = 4.9
 	     rows (V3.4: 5.3) and the last row is always clipped. 371 gives exactly 5 rows of 73 (4 in
-	     the prefab editor), on both versions. -->
-	<set xpath="/windows/window[@name='windowBackpack']/rect[@name='content']/@height">{% is_prefab_editor ? 298 : 371 }</set>
+	     the prefab editor), on both versions.
+	     Only while the height is still vanilla's (365 or 390): a bag mod that loaded before this
+	     one and set its own height keeps it. The game then logs one "did not apply" warning for
+	     this line, which is expected. -->
+	<set xpath="/windows/window[@name='windowBackpack']/rect[@name='content'][contains(@height,'365') or contains(@height,'390')]/@height">{% is_prefab_editor ? 298 : 371 }</set>
 
 	<!-- V3.4 puts a 40px filter / sort row ("actions") between the header and the bag, and moves
 	     the bag down from -46 to -83. The body glass reaches up under that row (37px more, so it
-	     still meets the header), and the row itself is a soft cell like the crafting categories. -->
+	     still meets the header), and the row itself is a soft cell like the crafting categories.
+	     The glass takes its height from the bag area when the window is built (as vanilla's
+	     scrollview does), not from a fixed number, so it also fits a bag area that another mod
+	     has resized, whichever of the two loads first. -->
 	<conditional>
 		<if cond="game_version() &gt;= version(1,3,40)">
 			<setattribute xpath="/windows/window[@name='windowBackpack']/rect[@name='content']/sprite[@name='sprBackground']" name="pos">0,40</setattribute>
-			<setattribute xpath="/windows/window[@name='windowBackpack']/rect[@name='content']/sprite[@name='sprBackground']" name="height">{% is_prefab_editor ? 335 : 408 }</setattribute>
+			<setattribute xpath="/windows/window[@name='windowBackpack']/rect[@name='content']/sprite[@name='sprBackground']" name="height">${parentouterheight+37}</setattribute>
 			<setattribute xpath="/windows/window[@name='windowBackpack']/rect[@name='actions']/boxbg" name="backsprite">ku_round_sm</setattribute>
 			<setattribute xpath="/windows/window[@name='windowBackpack']/rect[@name='actions']/boxbg" name="backcolor">[kuCell]</setattribute>
 			<setattribute xpath="/windows/window[@name='windowBackpack']/rect[@name='actions']/boxbg" name="bordercolor">[transparent]</setattribute>
@@ -56,17 +62,21 @@
 	<!-- V3.4: the loot window gets a 40px filter / sort row ("actions") and the grid moves  -->
 	<!-- from -49 to -83, so its body starts 34px higher (depth -1: under that row's cell)    -->
 	<!-- and the visible area grows to 800. Bag storage keeps its V3.3 layout.              -->
+	<!-- The body is pinned to the grid and the scrollbar, the way vanilla pins the header:   -->
+	<!-- left edge 3px before the grid, right edge on the scrollbar's, top and bottom from   -->
+	<!-- the scrollbar's (its height is the visible rows). Nothing here knows the slot size,  -->
+	<!-- so it also fits a mod that changes the slots from 75px or resizes the window.       -->
 	<conditional>
 		<if cond="game_version() &gt;= version(1,3,40)">
 			<prepend xpath="/windows/window[@name='windowLooting']/rect[@name='content']">
 				<sprite depth="-1" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,40"
-					width="{% v2i_x(gridDimensions) * 75 + 19 }"
-					height="{% Min( v2i_y(gridDimensions) * 75 + 3, 800 ) + 46 }" />
+					anchor_left="queue,0,-3" anchor_right="scrollbarborder,1,0"
+					anchor_top="scrollbarborder,1,40" anchor_bottom="scrollbarborder,0,-6" />
 			</prepend>
 			<prepend xpath="/windows/window[@name='windowBagStorage']/rect[@name='content']">
 				<sprite depth="0" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,6"
-					width="{% v2i_x(gridDimensions) * 75 + 19 }"
-					height="{% Min( v2i_y(gridDimensions) * 75 + 3, 800 ) + 12 }" />
+					anchor_left="queue,0,-3" anchor_right="scrollbarborder,1,0"
+					anchor_top="scrollbarborder,1,6" anchor_bottom="scrollbarborder,0,-6" />
 			</prepend>
 			<!-- V3.4's own grey box and black frame around the loot grid: the glass replaces them. -->
 			<set xpath="/windows/window[@name='windowLooting']/rect[@name='content']/sprite[@name='sprBackground' or @name='sprBorder']/@color">[transparent]</set>
@@ -77,8 +87,8 @@
 		<else>
 			<prepend xpath="/windows/window[@name='windowLooting' or @name='windowBagStorage']/rect[@name='content']">
 				<sprite depth="0" name="kuBody" sprite="ku_panel_body" type="sliced" color="[white]" pos="0,6"
-					width="{% v2i_x(gridDimensions) * 75 + 19 }"
-					height="{% Min( v2i_y(gridDimensions) * 75 + 3, 753 ) + 12 }" />
+					anchor_left="queue,0,-3" anchor_right="scrollbarborder,1,0"
+					anchor_top="scrollbarborder,1,6" anchor_bottom="scrollbarborder,0,-6" />
 			</prepend>
 		</else>
 	</conditional>
