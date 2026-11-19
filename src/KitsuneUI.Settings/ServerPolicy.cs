@@ -23,7 +23,7 @@ public static class KitsuneServerPolicy
         { KitsuneSettingsFile.MapNames, OnOff },
         { KitsuneSettingsFile.MapCoords, OnOff },
         { KitsuneSettingsFile.Nameplates, OnOff },
-        { KitsuneSettingsFile.MapCreatures, new[] { "off", "animals", "all" } },
+        { KitsuneSettingsFile.MapCreatures, new[] { "off", "animals", "npcs", "all" } },
     };
 
     // JobPreview reads these through its own copy of KitsuneSettingsFile, which never sees a policy.

@@ -7,7 +7,7 @@
 	<!-- force: the setting stays at this value and its row in the Settings window says so. -->
 	<!-- Players get their own choice back on other servers. These five can be forced:      -->
 	<!--   minimap, mapNames, mapCoords, nameplates: true or false                          -->
-	<!--   mapCreatures: off, animals or all                                                -->
+	<!--   mapCreatures: off, animals, npcs or all (npcs needs KitsuneUI_Settings 1.28)     -->
 	<!--                                                                                    -->
 	<!-- default: what a player gets until they change it. Anything they've set stays.      -->
 	<!--   One setting: <default key="palette" value="ember" />                             -->
