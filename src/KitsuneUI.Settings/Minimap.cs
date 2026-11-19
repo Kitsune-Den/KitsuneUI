@@ -19,9 +19,9 @@ using UnityEngine;
 /// outside the circle cleared, and swaps the square glass and ring for round ones. A
 /// strip under the map can show the day and time and your coordinates.
 ///
-/// Creatures (Settings > Map, off by default): dots for animals, or for animals and
-/// zombies, inside the map's view only (never pinned to the edge): red for zombies and
-/// bandits, orange for animals that attack, green for the ones that don't.
+/// Creatures (Settings > Map, off by default): dots for animals, for animals and NPCs,
+/// or for those and zombies, inside the map's view only (never pinned to the edge). The
+/// kinds and colours are KitsuneCreatureDots', which the big map shares.
 /// </summary>
 public class XUiC_KitsuneMinimap : XUiController
 {
@@ -154,10 +154,6 @@ public class XUiC_KitsuneMinimap : XUiController
 
     // ---- Creatures: a pool of dots (ku_dot: white with a dark rim, tinted per kind).
 
-    const int DotSize = 10;
-    static readonly Color Zombie = new Color(0.93f, 0.30f, 0.26f);
-    static readonly Color HostileAnimal = new Color(1f, 0.62f, 0.24f);
-    static readonly Color Animal = new Color(0.50f, 0.85f, 0.45f);
     readonly List<UISprite> dots = new List<UISprite>();
 
     void UpdateCreatures(EntityPlayerLocal player, Vector3 pos, float yaw, int viewBlocks, bool round)
@@ -166,7 +162,7 @@ public class XUiC_KitsuneMinimap : XUiController
         UISprite arrowSprite = arrow?.UiTransform?.GetComponent<UISprite>();
         Transform parent = ViewComponent.UiTransform;
         int used = 0;
-        if ((mode == "animals" || mode == "all") && arrowSprite != null && parent != null && GameManager.Instance?.World != null)
+        if (mode != "off" && arrowSprite != null && parent != null && GameManager.Instance?.World != null)
         {
             Axes(yaw, out Vector2 right, out Vector2 up);
             float blocksToPixels = MapPixels / viewBlocks;
@@ -174,28 +170,11 @@ public class XUiC_KitsuneMinimap : XUiController
             List<Entity> all = GameManager.Instance.World.Entities.list;
             for (int i = 0; i < all.Count; i++)
             {
-                if (!(all[i] is EntityAlive e) || e == player || !e.IsAlive())
+                if (!KitsuneCreatureDots.Shows(all[i], player, mode, out Color color, out int size))
                 {
                     continue;
                 }
-                Color color;
-                if (e is EntityEnemyAnimal)
-                {
-                    color = HostileAnimal;
-                }
-                else if (e is EntityAnimal)
-                {
-                    color = Animal;
-                }
-                else if (e is EntityEnemy && mode == "all")
-                {
-                    color = Zombie;
-                }
-                else
-                {
-                    continue;
-                }
-                Vector3 p = e.position;
+                Vector3 p = all[i].position;
                 Vector2 d = new Vector2(Vector2.Dot(new Vector2(p.x - pos.x, p.z - pos.z), right),
                     Vector2.Dot(new Vector2(p.x - pos.x, p.z - pos.z), up)) * blocksToPixels;
                 if (round ? d.magnitude > half : Mathf.Max(Mathf.Abs(d.x), Mathf.Abs(d.y)) > half)
@@ -210,6 +189,11 @@ public class XUiC_KitsuneMinimap : XUiController
                 // Under the arrow, level with the map markers (which are drawn after, so on top).
                 dot.depth = arrowSprite.depth - 1;
                 dot.color = color;
+                if (dot.width != size)
+                {
+                    dot.width = size;
+                    dot.height = size;
+                }
                 dot.transform.localPosition = new Vector3(Center.x + d.x, Center.y + d.y, 0f);
                 if (!dot.gameObject.activeSelf)
                 {
@@ -235,8 +219,8 @@ public class XUiC_KitsuneMinimap : XUiController
         s.atlas = xui.GetAtlasByName(((Object)arrowSprite.atlas).name, "ku_dot");
         s.spriteName = "ku_dot";
         s.pivot = UIWidget.Pivot.Center;
-        s.width = DotSize;
-        s.height = DotSize;
+        s.width = KitsuneCreatureDots.DotSize;
+        s.height = KitsuneCreatureDots.DotSize;
         return s;
     }
 

@@ -41,7 +41,7 @@ public static class KitsuneSettingsFile
     public const string CombatText = "combatText";        // floating damage and heal numbers
     public const string CustomHue = "customHue";          // hue (degrees) of the custom colour palette
     public const string ActionBar = "actionBar";          // cast bar for reloading, eating and medicine
-    public const string MapCreatures = "mapCreatures";    // dots on the minimap: "off", "animals" or "all"
+    public const string MapCreatures = "mapCreatures";    // dots on the minimap: "off", "animals", "npcs" or "all"
     public const string MapShape = "mapShape";            // "square" or "round"
     public const string MapCoords = "mapCoords";          // your coordinates under the minimap
     public const string MapClock = "mapClock";            // the day and time under the minimap

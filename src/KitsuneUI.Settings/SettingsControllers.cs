@@ -525,7 +525,7 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         buffSweep = Toggle("tglBuffSweep", KitsuneSettingsFile.BuffSweep);
         compareHeld = Toggle("tglCompareHeld", KitsuneSettingsFile.CompareHeld);
         ChoiceRow("btnMapShape_", KitsuneSettingsFile.MapShape, "square", "round");
-        ChoiceRow("btnMapCreatures_", KitsuneSettingsFile.MapCreatures, "off", "animals", "all");
+        ChoiceRow("btnMapCreatures_", KitsuneSettingsFile.MapCreatures, "off", "animals", "npcs", "all");
         ChoiceRow("btnPortrait_", KitsuneSettingsFile.Portrait, "off", "clean", "painted");
         ChoiceRow("btnBagWidth_", KitsuneSettingsFile.BackpackWidth, "normal", "wide", "extra");
         ChoiceRow("btnBeltLayout_", KitsuneSettingsFile.ToolbeltLayout, "stacked", "row");
@@ -1014,7 +1014,7 @@ public class XUiC_KitsuneSettingsWindow : XUiController
             if (locked)
             {
                 string value = KitsuneSettingsFile.Get(key);
-                string word = value == "true" ? "kuOptOn" : value == "animals" ? "kuOptAnimals" : value == "all" ? "kuOptAll" : "kuOptOff";
+                string word = value == "true" ? "kuOptOn" : value == "animals" ? "kuOptAnimals" : value == "npcs" ? "kuOptNpcs" : value == "all" ? "kuOptAll" : "kuOptOff";
                 note.Text = string.Format(Localization.Get("kuPolicySet"), RowLabel(row), Localization.Get(word));
             }
             foreach (XUiView part in parts)

@@ -279,14 +279,16 @@
 						<label depth="4" name="tglMapNamesText" pos="300,-370" width="576" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetMapNames" />
 						<label depth="4" name="kuLockNote" pos="256,-370" width="630" height="34" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuTextMuted]" visible="false" />
 					</rect>
-					<rect name="kuRow_mapCreatures" width="900" height="680">
-						<label depth="3" name="lblMapCreatures" pos="256,-416" width="164" height="30" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetMapCreatures" />
-						<simplebutton name="btnMapCreatures_off" depth="3" pos="424,-398" width="149" height="36" font_size="20" caption_key="kuOptOff" />
-						<simplebutton name="btnMapCreatures_animals" depth="3" pos="579,-398" width="149" height="36" font_size="20" caption_key="kuOptAnimals" />
-						<simplebutton name="btnMapCreatures_all" depth="3" pos="734,-398" width="149" height="36" font_size="20" caption_key="kuOptAll" />
-						<label depth="4" name="kuLockNote" pos="256,-416" width="630" height="34" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuTextMuted]" visible="false" />
-					</rect>
-					<sprite depth="7" name="kuDepVeil" pos="252,-210" width="634" height="228" sprite="ku_round_sm" type="sliced" color="10,12,26,175" globalopacitymod="0" visible="false" />
+					<sprite depth="7" name="kuDepVeil" pos="252,-210" width="634" height="182" sprite="ku_round_sm" type="sliced" color="10,12,26,175" globalopacitymod="0" visible="false" />
+				</rect>
+				<!-- not dimmed with the minimap: these dots are on the big map too -->
+				<rect name="kuRow_mapCreatures" width="900" height="680">
+					<label depth="3" name="lblMapCreatures" pos="256,-416" width="164" height="30" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetMapCreatures" />
+					<simplebutton name="btnMapCreatures_off" depth="3" pos="424,-398" width="110" height="36" font_size="20" caption_key="kuOptOff" />
+					<simplebutton name="btnMapCreatures_animals" depth="3" pos="540,-398" width="110" height="36" font_size="20" caption_key="kuOptAnimals" />
+					<simplebutton name="btnMapCreatures_npcs" depth="3" pos="656,-398" width="110" height="36" font_size="20" caption_key="kuOptNpcs" />
+					<simplebutton name="btnMapCreatures_all" depth="3" pos="772,-398" width="110" height="36" font_size="20" caption_key="kuOptAll" />
+					<label depth="4" name="kuLockNote" pos="256,-416" width="630" height="34" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuTextMuted]" visible="false" />
 				</rect>
 				<label depth="3" name="kuSec_map_UnderMap" pos="256,-450" width="630" height="24" font_size="17" upper_case="true" color="[kuGold]" text_key="kuSecUnderMap" />
 				<sprite depth="2" pos="254,-475" width="630" height="1" sprite="ku_px" type="simple" color="[kuGoldSoft]" />
