@@ -334,29 +334,35 @@
 						<simplebutton name="btnFrameWidth_320" depth="3" pos="579,-306" width="149" height="36" font_size="20" caption_key="kuOptNormal" />
 						<simplebutton name="btnFrameWidth_400" depth="3" pos="734,-306" width="149" height="36" font_size="20" caption_key="kuOptWide" />
 					</rect>
-					<sprite depth="7" name="kuDepVeil" pos="252,-210" width="634" height="136" sprite="ku_round_sm" type="sliced" color="10,12,26,175" globalopacitymod="0" visible="false" />
+					<!-- with stat bars together (Move HUD): food and water as a thin strip or full bars with their values -->
+					<rect name="kuRow_needsBars" width="900" height="680">
+						<label depth="3" name="lblNeedsBars" pos="256,-370" width="164" height="30" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetNeedsBars" />
+						<simplebutton name="btnNeedsBars_thin" depth="3" pos="424,-352" width="227" height="36" font_size="20" caption_key="kuOptThin" />
+						<simplebutton name="btnNeedsBars_thick" depth="3" pos="657,-352" width="227" height="36" font_size="20" caption_key="kuOptThick" />
+					</rect>
+					<sprite depth="7" name="kuDepVeil" pos="252,-210" width="634" height="182" sprite="ku_round_sm" type="sliced" color="10,12,26,175" globalopacitymod="0" visible="false" />
 				</rect>
-				<label depth="3" name="kuSec_frames_Buffs" pos="256,-358" width="630" height="24" font_size="17" upper_case="true" color="[kuGold]" text_key="kuSecBuffs" />
-				<sprite depth="2" pos="254,-383" width="630" height="1" sprite="ku_px" type="simple" color="[kuGoldSoft]" />
+				<label depth="3" name="kuSec_frames_Buffs" pos="256,-404" width="630" height="24" font_size="17" upper_case="true" color="[kuGold]" text_key="kuSecBuffs" />
+				<sprite depth="2" pos="254,-429" width="630" height="1" sprite="ku_px" type="simple" color="[kuGoldSoft]" />
 				<!-- dims while unit frames are off -->
 				<rect name="kuDep_unitFrames" width="900" height="680">
 					<rect name="kuRow_buffSize" width="900" height="680">
-						<label depth="3" name="lblBuffSize" pos="256,-408" width="164" height="30" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetBuffSize" />
-						<simplebutton name="btnBuffSize_75" depth="3" pos="424,-390" width="149" height="36" font_size="20" caption_key="kuOptSmall" />
-						<simplebutton name="btnBuffSize_100" depth="3" pos="579,-390" width="149" height="36" font_size="20" caption_key="kuOptNormal" />
-						<simplebutton name="btnBuffSize_125" depth="3" pos="734,-390" width="149" height="36" font_size="20" caption_key="kuOptLarge" />
+						<label depth="3" name="lblBuffSize" pos="256,-454" width="164" height="30" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetBuffSize" />
+						<simplebutton name="btnBuffSize_75" depth="3" pos="424,-436" width="149" height="36" font_size="20" caption_key="kuOptSmall" />
+						<simplebutton name="btnBuffSize_100" depth="3" pos="579,-436" width="149" height="36" font_size="20" caption_key="kuOptNormal" />
+						<simplebutton name="btnBuffSize_125" depth="3" pos="734,-436" width="149" height="36" font_size="20" caption_key="kuOptLarge" />
 					</rect>
 					<rect name="kuRow_buffCount" width="900" height="680">
-						<label depth="3" name="lblBuffCount" pos="256,-454" width="164" height="30" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetBuffCount" />
-						<simplebutton name="btnBuffCount_4" depth="3" pos="424,-436" width="149" height="36" font_size="22" caption="4" />
-						<simplebutton name="btnBuffCount_6" depth="3" pos="579,-436" width="149" height="36" font_size="22" caption="6" />
-						<simplebutton name="btnBuffCount_8" depth="3" pos="734,-436" width="149" height="36" font_size="22" caption="8" />
+						<label depth="3" name="lblBuffCount" pos="256,-500" width="164" height="30" pivot="left" font_size="24" overflow="shrinkcontent" color="[kuTextMid]" text_key="kuSetBuffCount" />
+						<simplebutton name="btnBuffCount_4" depth="3" pos="424,-482" width="149" height="36" font_size="22" caption="4" />
+						<simplebutton name="btnBuffCount_6" depth="3" pos="579,-482" width="149" height="36" font_size="22" caption="6" />
+						<simplebutton name="btnBuffCount_8" depth="3" pos="734,-482" width="149" height="36" font_size="22" caption="8" />
 					</rect>
-					<sprite depth="7" name="kuDepVeil" pos="252,-386" width="634" height="90" sprite="ku_round_sm" type="sliced" color="10,12,26,175" globalopacitymod="0" visible="false" />
+					<sprite depth="7" name="kuDepVeil" pos="252,-432" width="634" height="90" sprite="ku_round_sm" type="sliced" color="10,12,26,175" globalopacitymod="0" visible="false" />
 				</rect>
 				<rect name="kuRow_buffSweep" width="900" height="680">
-					<togglebutton name="tglBuffSweep" depth="3" pos="254,-480" width="630" height="40" font_size="26" caption="" />
-					<label depth="4" name="tglBuffSweepText" pos="300,-500" width="576" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetBuffSweep" />
+					<togglebutton name="tglBuffSweep" depth="3" pos="254,-526" width="630" height="40" font_size="26" caption="" />
+					<label depth="4" name="tglBuffSweepText" pos="300,-546" width="576" height="34" pivot="left" font_size="26" overflow="shrinkcontent" color="[kuText]" effect="outline" effect_color="0,0,0,160" text_key="kuSetBuffSweep" />
 				</rect>
 			</rect>
 

@@ -363,7 +363,7 @@ public class XUiC_KitsunePlayerFrame : XUiController
         }
     }
 
-    XUiView needsGlass, frameGlass, needsBig, needsHandle, staPiece;
+    XUiView needsGlass, frameGlass, needsBig, needsHandle, staPiece, frameHandle;
     readonly List<XUiView> thinNeeds = new List<XUiView>();
     readonly List<XUiView> thinStamina = new List<XUiView>();
     readonly List<XUiView> needGlasses = new List<XUiView>();
@@ -393,11 +393,14 @@ public class XUiC_KitsunePlayerFrame : XUiController
             // glass piece of their own). The frame's glass tucks up to close the gaps they leave.
             string mode = KitsuneLayout.StatBarsMode;
             bool split = mode != "joined", apart = mode == "each";
+            // Together, food and water can also be full bars with their values (Unit frames >
+            // Food & water: Thick); the frame grows to hold them. Split, they always are.
+            bool thick = !split && KitsuneSettingsFile.Get(KitsuneSettingsFile.NeedsBars) == "thick";
             Show(needsGlass, split && !apart);
-            Show(needsBig, split);
+            Show(needsBig, split || thick);
             foreach (XUiView thin in thinNeeds)
             {
-                Show(thin, !split);
+                Show(thin, !split && !thick);
             }
             foreach (XUiView glass in needGlasses)
             {
@@ -416,10 +419,17 @@ public class XUiC_KitsunePlayerFrame : XUiController
                     needsHandle.Size = new Vector2i(needsHandle.Size.x, split ? 42 : 24);
                 }
             }
-            int frameHeight = apart ? 62 : split ? 68 : 80;
+            int frameHeight = apart ? 62 : split ? 68 : thick ? 100 : 80;
             if (frameGlass != null && frameGlass.Size.y != frameHeight)
             {
                 frameGlass.Size = new Vector2i(frameGlass.Size.x, frameHeight);
+            }
+            // Move HUD's box (a sibling of this rect) reaches the frame's bottom edge.
+            frameHandle = frameHandle ?? Parent?.GetChildById("kuMoveHandle")?.ViewComponent;
+            int handleHeight = 146 + Mathf.Max(0, frameHeight - 80);
+            if (frameHandle != null && frameHandle.Size.y != handleHeight)
+            {
+                frameHandle.Size = new Vector2i(frameHandle.Size.x, handleHeight);
             }
             KitsunePortrait.Tick(xui);
             KitsuneUnitFrames.ShowPortrait(portraitBox, portrait, null, KitsunePortrait.For(player), Color.white);
