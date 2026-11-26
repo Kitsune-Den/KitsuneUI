@@ -445,7 +445,7 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         { "hud", new[] { KitsuneSettingsFile.HordeCountdown, KitsuneSettingsFile.TraderHours, KitsuneSettingsFile.CraftingHud, KitsuneSettingsFile.WorkstationHud, KitsuneSettingsFile.ActionBar, KitsuneSettingsFile.AmmoWarning, KitsuneSettingsFile.AutoFade, KitsuneSettingsFile.TextSize } },
         { "belt", new[] { KitsuneSettingsFile.SlotNumbers, KitsuneSettingsFile.WearWarning, KitsuneSettingsFile.ToolbeltLayout, KitsuneSettingsFile.XpBar, KitsuneSettingsFile.BarText, KitsuneSettingsFile.BarStyle } },
         { "map", new[] { KitsuneSettingsFile.Minimap, KitsuneSettingsFile.MapZoom, KitsuneSettingsFile.MapRotate, KitsuneSettingsFile.MapShape, KitsuneSettingsFile.MapNames, KitsuneSettingsFile.MapCreatures, KitsuneSettingsFile.MapCoords, KitsuneSettingsFile.MapClock } },
-        { "frames", new[] { KitsuneSettingsFile.UnitFrames, KitsuneSettingsFile.PartyFrames, KitsuneSettingsFile.Portrait, KitsuneSettingsFile.FrameWidth, KitsuneSettingsFile.BuffSize, KitsuneSettingsFile.BuffCount, KitsuneSettingsFile.BuffSweep } },
+        { "frames", new[] { KitsuneSettingsFile.UnitFrames, KitsuneSettingsFile.PartyFrames, KitsuneSettingsFile.Portrait, KitsuneSettingsFile.FrameWidth, KitsuneSettingsFile.NeedsBars, KitsuneSettingsFile.BuffSize, KitsuneSettingsFile.BuffCount, KitsuneSettingsFile.BuffSweep } },
         { "combat", new[] { KitsuneSettingsFile.HealthBarAlways, KitsuneSettingsFile.Nameplates, KitsuneSettingsFile.CombatText, KitsuneSettingsFile.BuffTimers, KitsuneSettingsFile.BuffStyle } },
         { "bag", new[] { KitsuneSettingsFile.BackpackAll, KitsuneSettingsFile.BackpackWidth, KitsuneSettingsFile.BagSearch, KitsuneSettingsFile.QualityRings, KitsuneSettingsFile.CompareHeld, KitsuneSettingsFile.SlotBacking } },
         { "trade", new[] { KitsuneSettingsFile.JobTiles, KitsuneSettingsFile.TraderTileSize, KitsuneSettingsFile.JobOrder, KitsuneSettingsFile.HideQuestTier, KitsuneSettingsFile.QuestBars } },
@@ -530,6 +530,7 @@ public class XUiC_KitsuneSettingsWindow : XUiController
         ChoiceRow("btnBagWidth_", KitsuneSettingsFile.BackpackWidth, "normal", "wide", "extra");
         ChoiceRow("btnBeltLayout_", KitsuneSettingsFile.ToolbeltLayout, "stacked", "row");
         ChoiceRow("btnFrameWidth_", KitsuneSettingsFile.FrameWidth, "260", "320", "400");
+        ChoiceRow("btnNeedsBars_", KitsuneSettingsFile.NeedsBars, "thin", "thick");
         ChoiceRow("btnBuffSize_", KitsuneSettingsFile.BuffSize, "75", "100", "125");
         ChoiceRow("btnBuffCount_", KitsuneSettingsFile.BuffCount, "4", "6", "8");
         ChoiceRow("btnBuffStyle_", KitsuneSettingsFile.BuffStyle, "bars", "icons");
