@@ -51,13 +51,13 @@
 
 	<!-- ================================================================ -->
 	<!-- Buff toasts. The list always stacks upward from its origin, so   -->
-	<!-- it's pinned to the screen's bottom left, just above the map and  -->
-	<!-- the vitals, wherever those are dragged. Each toast is a dark     -->
-	<!-- card, a teal ring round the icon and its time left as a line.                -->
+	<!-- it starts in the bottom left, just above the map and the vitals. -->
+	<!-- Its window hangs off the screen's bottom left corner, so a plain -->
+	<!-- pos puts it there; an anchor would pin it and Move HUD couldn't  -->
+	<!-- drag it. Each toast is a dark card, a teal ring round the icon   -->
+	<!-- and its time left as a line.                                     -->
 	<!-- ================================================================ -->
-	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/@pos">54,0</set>
-	<setattribute xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']" name="anchor_bottom">#BottomLeft,0,262</setattribute>
-	<setattribute xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']" name="anchor_top">#BottomLeft,0,262</setattribute>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/@pos">54,262</set>
 
 	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/sprite[@name='Background']/@color">[kuHudFade]</set>
 	<!-- A filledsprite only fills straight (radial logs a warning and does nothing), so the -->
@@ -329,9 +329,10 @@
 			<set xpath="/windows/window[@name='HUDRightStatBars']//rect[@name='kuMoveHandle' and @group='vehicle']/@width">216</set>
 			<set xpath="/windows/window[@name='HUDRightStatBars']//rect[@name='kuMoveHandle' and @group='vehicle']/@height">48</set>
 
-			<!-- The pinned lists can't follow a drag (their anchor puts them back), -->
-			<!-- so their frames go rather than offer a move that does nothing.     -->
-			<remove xpath="/windows/window[@name='HUDLeftStatBars']//ku_move_handle[@group='statBarBuffs']" />
+			<!-- The buff toasts keep Settings' own frame (a piece of their own, as  -->
+			<!-- in the base theme). The pick-up list is pinned by an anchor, which  -->
+			<!-- puts it back after a drag, so its frame goes rather than offer a    -->
+			<!-- move that does nothing.                                             -->
 			<remove xpath="/windows/window[@name='HUDRightStatBars']//rect[@name='kuMoveHandle' and @group='loot']" />
 
 			<!-- Unit frames (Settings > Unit frames): the same vitals colours as -->
