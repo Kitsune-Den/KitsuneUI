@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xml>
+	<Name value="KitsuneUI_Sundown" />
+	<DisplayName value="KitsuneUI Sundown" />
+	<Description value="A late-night skin and a sparse HUD for KitsuneUI: charcoal indigo glass with hot pink and lavender, a rounded map bottom left with thin vitals beside it, weapon top right, ring toasts for buffs and crafting, a magenta column on the main menu and loading screen, and six dusk loading pictures. XML and images only, so EAC stays on. Needs KitsuneUI. The map, crafting and HUD layout extras need KitsuneUI_Settings." />
+	<Website value="https://github.com/Kitsune-Den/KitsuneUI" />
+	<Author value="AdaInTheLab" />
+	<Version value="0.2.0" />
+</xml>

@@ -1,0 +1,15 @@
+<configs>
+
+	<!-- Sundown's look wants the map on and turning, bare bars, and the HUD quiet when idle. These are defaults: -->
+	<!-- anything a player has already set stays. A server's own ui_display.xml replaces  -->
+	<!-- this file, so joining a server without Sundown doesn't get them.                 -->
+	<append xpath="/ui_display_info">
+		<kitsune_policy>
+			<default key="minimap" value="true" />
+			<default key="autoFade" value="true" />
+			<default key="barText" value="none" />
+			<default key="mapRotate" value="true" />
+		</kitsune_policy>
+	</append>
+
+</configs>

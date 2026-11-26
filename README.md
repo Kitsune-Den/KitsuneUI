@@ -50,6 +50,7 @@ The theme is XML and images only. It changes how the game looks, never how it pl
 | `KitsuneUI_Loading` (optional) | Six Kitsunebi night paintings for the loading screen | Works with EAC on |
 | `KitsuneUI_Practice` (optional) | For Kitsune Shugyō: a Practice tab with every practice meter, and practice bars on the skills screen | Small DLL, needs EAC off, needs `KitsuneUI`; does nothing without Kitsune Shugyō |
 | `KitsuneUI_ServerPolicy` (optional) | For server admins: turn off creature dots, coordinates and nameplates on your server, and set a starting look for new players | One XML file on the server; the server and players need `KitsuneUI_Settings` 1.23 or newer |
+| `KitsuneUI_Sundown` (optional) | A late-night skin and a sparse HUD: charcoal indigo glass with hot pink and lavender, the map bottom left with thin vitals beside it, weapon and ammo top right, ring toasts for buffs and crafting, a magenta column on the main menu and loading screen, and six dusk loading pictures | Works with EAC on, needs `KitsuneUI`; the map needs `KitsuneUI_Settings`. On a server, install it on the server and every player's game |
 
 ### Languages
 

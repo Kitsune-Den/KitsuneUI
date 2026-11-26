@@ -13,7 +13,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 DIST = ROOT / "dist"
-MODS = ["KitsuneUI", "KitsuneUI_Toolbelt20", "KitsuneUI_JobPreview", "KitsuneUI_Settings", "KitsuneUI_Loading", "KitsuneUI_Practice", "KitsuneUI_ServerPolicy"]
+MODS = ["KitsuneUI", "KitsuneUI_Toolbelt20", "KitsuneUI_JobPreview", "KitsuneUI_Settings", "KitsuneUI_Loading", "KitsuneUI_Practice", "KitsuneUI_ServerPolicy", "KitsuneUI_Sundown"]
 
 # Must be in the zip, or the mod is broken.
 REQUIRED = {
@@ -24,6 +24,7 @@ REQUIRED = {
     "KitsuneUI_Loading": ["ModInfo.xml", "Config/loadingscreen.xml", "Textures/ku_loading_den.jpg"],
     "KitsuneUI_Practice": ["ModInfo.xml", "KitsuneUI_Practice.dll", "Config/XUi_InGame/windows.xml", "Config/XUi_InGame/xui.xml"],
     "KitsuneUI_ServerPolicy": ["ModInfo.xml", "Config/ui_display.xml"],
+    "KitsuneUI_Sundown": ["ModInfo.xml", "Config/XUi_Common/styles.xml", "Config/XUi_InGame/windows.xml", "UIAtlases/UIAtlas/settings.xml"],
 }
 
 # Never shipped.

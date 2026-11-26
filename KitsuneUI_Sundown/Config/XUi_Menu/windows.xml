@@ -1,0 +1,216 @@
+<configs>
+
+	<!-- ================================================================ -->
+	<!-- Main menu: a 560px column down the left, smoke at the top and    -->
+	<!-- hot magenta at the foot, the logo at its head and the buttons    -->
+	<!-- centred in it in capitals: white when hovered, faded otherwise.  -->
+	<!-- Right of the column the menu video plays untouched.              -->
+	<!-- The column's centre is x 280 on screen; the window sits at 36.   -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='mainMenu']/sprite[@name='kuRail']/@sprite">sd_rail</set>
+	<set xpath="/windows/window[@name='mainMenu']/sprite[@name='kuRail']/@type">simple</set>
+	<set xpath="/windows/window[@name='mainMenu']/sprite[@name='kuRail']/@anchor_left">#cam,0,-5</set>
+	<set xpath="/windows/window[@name='mainMenu']/sprite[@name='kuRail']/@anchor_right">#cam,0,560</set>
+	<set xpath="/windows/window[@name='mainMenu']/sprite[@name='kuRail']/@anchor_bottom">#cam,0,-5</set>
+	<set xpath="/windows/window[@name='mainMenu']/sprite[@name='kuRail']/@anchor_top">#cam,1,5</set>
+	<set xpath="/windows/window[@name='mainMenu']/sprite[@name='kuRailEdge']/@color">[transparent]</set>
+
+	<set xpath="/windows/window[@name='mainMenu']/texture[@name='gameLogo']/@pos">165,-10</set>
+	<set xpath="/windows/window[@name='mainMenu']/texture[@name='gameLogo']/@height">260</set>
+	<set xpath="/windows/window[@name='mainMenu']/grid[@controller='MainMenuButtons']/@pos">244,-388</set>
+	<set xpath="/windows/window[@name='mainMenu']/grid[@controller='MainMenuButtons']/@cell_height">62</set>
+	<set xpath="/windows/window[@name='mainMenu']//mainmenubutton[@name='btnQuit']/@text_color_default">255,255,255,120</set>
+
+	<set xpath="/windows/window[@name='mainMenuPlayerName']/@pos">36,104</set>
+	<set xpath="/windows/window[@name='mainMenuVersion']/@pos">36,140</set>
+	<set xpath="/windows/window[@name='mainMenuVersion']//sprite[@name='kuFootRule']/@color">255,255,255,60</set>
+
+	<!-- ================================================================ -->
+	<!-- Play Game, Options and Editing Tools: vanilla lays a near-black   -->
+	<!-- backdrop (alpha 250) over the whole screen, which hid the menu    -->
+	<!-- video. A light charcoal dim keeps the video in view; the panels   -->
+	<!-- and rows carry their own glass (templates.xml).                   -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='playGamePaging']/fullscreencollider/@color">20,18,28,110</set>
+	<set xpath="/windows/window[@name='optionsPaging']/fullscreencollider/@color">20,18,28,110</set>
+	<set xpath="/windows/window[@name='editingTools']/fullscreencollider/@color">20,18,28,110</set>
+
+	<!-- Options opened from the pause menu has no video behind it, only the world, -->
+	<!-- so it gets a dusk wash instead: indigo with a magenta glow bottom left.     -->
+	<!-- is_world_loaded is a binding every controller answers. globalopacitymod 0   -->
+	<!-- keeps the game's Background opacity option from fading it away.            -->
+	<insertAfter xpath="/windows/window[@name='optionsPaging']/fullscreencollider">
+		<sprite depth="0" name="sdBackdrop" sprite="sd_backdrop" type="simple" color="[white]" globalopacitymod="0" anchor_left="#cam,0,-5" anchor_right="#cam,1,5" anchor_bottom="#cam,0,-5" anchor_top="#cam,1,5" visible="{is_world_loaded}" />
+	</insertAfter>
+
+	<!-- ================================================================ -->
+	<!-- Play Game (docs/mocks/SundownPlayGame.html): the menu video stays -->
+	<!-- in view under smoke at the top and foot, a wash darkening the    -->
+	<!-- left half and a magenta glow rising from the bottom left.        -->
+	<!-- Vanilla's windows sit at the screen centre: the left panel spans -->
+	<!-- x 60 to 910 and the settings panel 920 to 1860, from y 178 down.  -->
+	<!-- ================================================================ -->
+	<insertAfter xpath="/windows/window[@name='playGamePaging']/fullscreencollider">
+		<!-- In a panel of its own like the collider's, so it draws under the other Play Game -->
+		<!-- windows; loose sprites in this window drew over their buttons and text. -->
+		<panel name="sdBackdropPanel" depth="0" pos="-4000,4000" width="8000" height="8000" snap="false">
+			<sprite depth="0" name="sdTopSmoke" sprite="sd_smoke" type="simple" color="[white]" globalopacitymod="0" anchor_left="#cam,0,-5" anchor_right="#cam,1,5" anchor_bottom="#cam,1,-220" anchor_top="#cam,1,5" />
+			<sprite depth="0" name="sdWash" sprite="sd_wash" type="simple" color="[white]" globalopacitymod="0" anchor_left="#cam,0,-5" anchor_right="#cam,0.6,0" anchor_bottom="#cam,0,-5" anchor_top="#cam,1,5" />
+			<sprite depth="0" name="sdGlow" sprite="sd_glow" type="simple" color="[white]" globalopacitymod="0" anchor_left="#cam,0,-5" anchor_right="#cam,0,1000" anchor_bottom="#cam,0,-5" anchor_top="#cam,0,760" />
+			<sprite depth="0" name="sdFootSmoke" sprite="sd_smoke" type="simple" flip="Vertically" color="[white]" globalopacitymod="0" anchor_left="#cam,0,-5" anchor_right="#cam,1,5" anchor_bottom="#cam,0,-5" anchor_top="#cam,0,170" />
+		</panel>
+	</insertAfter>
+
+	<!-- The left panels get a title in the row where the settings tabs sit, -->
+	<!-- led by the pink tick the page title has.                            -->
+	<append xpath="/windows/window[@name='newGame']">
+		<rect name="sdTitle" pos="-900,-20" height="40" depth="3">
+			<sprite name="sdTitleTick" sprite="sd_line" type="sliced" pos="2,0" width="5" height="30" pivot="left" color="255,105,170,255" />
+			<label name="sdTitleText" pos="20,0" height="40" width="600" pivot="left" justify="left" font_size="30" upper_case="true" color="[kuTextBright]" text_key="goGameWorld" />
+		</rect>
+	</append>
+	<append xpath="/windows/window[@name='continueGame']">
+		<rect name="sdTitle" pos="-900,-20" height="40" depth="3">
+			<sprite name="sdTitleTick" sprite="sd_line" type="sliced" pos="2,0" width="5" height="30" pivot="left" color="255,105,170,255" />
+			<label name="sdTitleText" pos="20,0" height="40" width="600" pivot="left" justify="left" font_size="30" upper_case="true" color="[kuTextBright]" text_key="xuiDmSaves" />
+		</rect>
+	</append>
+
+	<!-- New Game rows: the name left in small muted capitals on a faint card, -->
+	<!-- the value in its well on the right.                                   -->
+	<insertBefore xpath="/windows/window[@name='newGame']/rect[@name='leftPanel']//rect[label]/label">
+		<sprite depth="2" name="sdRow" sprite="ku_round_sm" type="sliced" pos="0,-3" width="${parentinnerwidth}" height="44" color="170,150,235,30" />
+	</insertBefore>
+	<set xpath="/windows/window[@name='newGame']/rect[@name='leftPanel']//rect[label]/label/@pos">14,${-Round(parentinnerheight/2,0)-1}</set>
+	<set xpath="/windows/window[@name='newGame']/rect[@name='leftPanel']//rect[label]/label/@justify">left</set>
+	<set xpath="/windows/window[@name='newGame']/rect[@name='leftPanel']//rect[label]/label/@font_size">22</set>
+	<set xpath="/windows/window[@name='newGame']/rect[@name='leftPanel']//rect[label]/label/@color">[kuTextMuted]</set>
+	<setattribute xpath="/windows/window[@name='newGame']/rect[@name='leftPanel']//rect[label]/label" name="upper_case">true</setattribute>
+
+	<!-- Continue Game: the saves get the same glass panel as New Game's world, -->
+	<!-- and the same 10px inset.                                              -->
+	<setattribute xpath="/windows/window[@name='continueGame']/rect[@name='saves']" name="padding">10</setattribute>
+	<set xpath="/windows/window[@name='continueGame']/rect[@name='saves']/@height">654</set>
+	<insertBefore xpath="/windows/window[@name='continueGame']/rect[@name='saves']/rect[@name='searchControls']">
+		<sprite depth="0" name="sdPanel" sprite="ku_panel" type="sliced" color="[white]" ignoreparentpadding="true" pivot="topleft" />
+	</insertBefore>
+
+	<!-- Game settings: pink for the difficulty skull and changed values, small -->
+	<!-- muted capitals over the preset combos, softer description text.       -->
+	<set xpath="/windows/window[@name='newContinueGameSettings']//rect[@name='difficulty']/sprite/@color">255,105,170,255</set>
+	<set xpath="/windows/window[@name='newContinueGameSettings']//rect[@sandbox_values_template]/@sandbox_values_template">[A0A0A0]%0:[-] [FF69AA]%1[-]\n</set>
+	<set xpath="/windows/window[@name='newContinueGameSettings']//rect[@name='combos']/label/@font_size">22</set>
+	<set xpath="/windows/window[@name='newContinueGameSettings']//rect[@name='combos']/label/@color">[kuTextMuted]</set>
+	<setattribute xpath="/windows/window[@name='newContinueGameSettings']//rect[@name='combos']/label" name="upper_case">true</setattribute>
+	<set xpath="/windows/window[@name='newContinueGameSettings']//label[@name='presetDescription']/@font_size">24</set>
+	<set xpath="/windows/window[@name='newContinueGameSettings']//label[@name='presetDescription']/@color">[kuTextMid]</set>
+
+	<!-- Footer and panel buttons: ghost glass with a hairline edge. Start is -->
+	<!-- solid, magenta into hot pink.                                         -->
+	<setattribute xpath="/windows/window[@name='newGame' or @name='continueGame']/rect[@name='buttons']/*[@name!='btnStart'] | /windows/window[@name='newGame' or @name='newContinueGameSettings']//labeledbutton[@name='btnGenerateWorld' or @name='btnSandboxOptions']" name="bg_color_default">20,18,30,150</setattribute>
+	<setattribute xpath="/windows/window[@name='newGame' or @name='continueGame']/rect[@name='buttons']/*[@name!='btnStart'] | /windows/window[@name='newGame' or @name='newContinueGameSettings']//labeledbutton[@name='btnGenerateWorld' or @name='btnSandboxOptions']" name="bg_color_hovered">120,44,104,220</setattribute>
+	<setattribute xpath="/windows/window[@name='newGame' or @name='continueGame']/rect[@name='buttons']/*[@name!='btnStart'] | /windows/window[@name='newGame' or @name='newContinueGameSettings']//labeledbutton[@name='btnGenerateWorld' or @name='btnSandboxOptions']" name="border_color">170,150,235,90</setattribute>
+	<setattribute xpath="/windows/window[@name='newGame' or @name='continueGame']/rect[@name='buttons']/*[@name!='btnStart'] | /windows/window[@name='newGame' or @name='newContinueGameSettings']//labeledbutton[@name='btnGenerateWorld' or @name='btnSandboxOptions']" name="font_color_default">[kuTextBright]</setattribute>
+	<setattribute xpath="/windows/window[@name='newGame' or @name='continueGame']/rect[@name='buttons']/*[@name='btnStart']" name="bg_sprite_default">sd_btn_go</setattribute>
+	<setattribute xpath="/windows/window[@name='newGame' or @name='continueGame']/rect[@name='buttons']/*[@name='btnStart']" name="bg_sprite_hovered">sd_btn_go</setattribute>
+	<setattribute xpath="/windows/window[@name='newGame' or @name='continueGame']/rect[@name='buttons']/*[@name='btnStart']" name="bg_color_default">225,225,225,255</setattribute>
+	<setattribute xpath="/windows/window[@name='newGame' or @name='continueGame']/rect[@name='buttons']/*[@name='btnStart']" name="bg_color_hovered">255,255,255,255</setattribute>
+	<setattribute xpath="/windows/window[@name='newGame' or @name='continueGame']/rect[@name='buttons']/*[@name='btnStart']" name="border_color">255,150,200,255</setattribute>
+
+	<!-- ================================================================ -->
+	<!-- Loading screen, laid out like the pause menu: the same column on -->
+	<!-- the left with the logo at its head, the picture (KitsuneUI's crop) -->
+	<!-- dimmed, and the tip on the right as a big white title over a     -->
+	<!-- pink hairline with its text under it. The pager goes bottom      -->
+	<!-- right, where button hints sit.                                   -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='loadingScreen']/fullscreencollider[@name='pnlBlack']/@color">20,18,28,255</set>
+
+	<set xpath="/windows/window[@name='loadingScreen']/sprite[@name='kuColumnShade']/@sprite">sd_scrim</set>
+	<set xpath="/windows/window[@name='loadingScreen']/sprite[@name='kuColumnShade']/@type">simple</set>
+	<set xpath="/windows/window[@name='loadingScreen']/sprite[@name='kuColumnShade']/@color">[white]</set>
+	<set xpath="/windows/window[@name='loadingScreen']/sprite[@name='kuColumnShade']/@anchor_left">#cam,0,560</set>
+	<set xpath="/windows/window[@name='loadingScreen']/sprite[@name='kuColumnShade']/@anchor_right">#cam,1,5</set>
+	<set xpath="/windows/window[@name='loadingScreen']/sprite[@name='kuColumn']/@sprite">sd_rail</set>
+	<set xpath="/windows/window[@name='loadingScreen']/sprite[@name='kuColumn']/@type">simple</set>
+	<set xpath="/windows/window[@name='loadingScreen']/sprite[@name='kuColumn']/@anchor_left">#cam,0,-5</set>
+	<set xpath="/windows/window[@name='loadingScreen']/sprite[@name='kuColumn']/@anchor_right">#cam,0,560</set>
+	<set xpath="/windows/window[@name='loadingScreen']/sprite[@name='kuColumn']/@anchor_bottom">#cam,0,-5</set>
+	<set xpath="/windows/window[@name='loadingScreen']/sprite[@name='kuColumn']/@anchor_top">#cam,1,5</set>
+	<set xpath="/windows/window[@name='loadingScreen']/sprite[@name='kuColumnEdge']/@color">[transparent]</set>
+	<insertAfter xpath="/windows/window[@name='loadingScreen']/sprite[@name='kuColumnEdge']">
+		<texture depth="6" name="sdLogo" texture="@:Textures/UI/news_logo.png" color="[white]" keepsourceaspectratio="true" anchor_left="#cam,0,120" anchor_right="#cam,0,440" anchor_bottom="#cam,1,-330" anchor_top="#cam,1,-60" />
+	</insertAfter>
+
+	<!-- The tip's "TIP" chip, then the title, the hairline and the text, from x 640. -->
+	<set xpath="/windows/window[@name='loadingScreen']//sprite[@name='kuTipChip']/@color">[transparent]</set>
+	<set xpath="/windows/window[@name='loadingScreen']//sprite[@name='kuTipFlame']/@anchor_left">#cam,0,640</set>
+	<set xpath="/windows/window[@name='loadingScreen']//sprite[@name='kuTipFlame']/@anchor_right">#cam,0,660</set>
+	<set xpath="/windows/window[@name='loadingScreen']//sprite[@name='kuTipFlame']/@anchor_bottom">#cam,0.5,94</set>
+	<set xpath="/windows/window[@name='loadingScreen']//sprite[@name='kuTipFlame']/@anchor_top">#cam,0.5,114</set>
+	<set xpath="/windows/window[@name='loadingScreen']//sprite[@name='kuTipFlame']/@color">[kuAccent]</set>
+	<set xpath="/windows/window[@name='loadingScreen']//label[@name='kuTipLabel']/@anchor_left">#cam,0,668</set>
+	<set xpath="/windows/window[@name='loadingScreen']//label[@name='kuTipLabel']/@anchor_right">#cam,0,900</set>
+	<set xpath="/windows/window[@name='loadingScreen']//label[@name='kuTipLabel']/@anchor_bottom">#cam,0.5,90</set>
+	<set xpath="/windows/window[@name='loadingScreen']//label[@name='kuTipLabel']/@anchor_top">#cam,0.5,118</set>
+	<set xpath="/windows/window[@name='loadingScreen']//label[@name='kuTipLabel']/@justify">left</set>
+	<set xpath="/windows/window[@name='loadingScreen']//label[@name='kuTipLabel']/@pivot">left</set>
+	<set xpath="/windows/window[@name='loadingScreen']//label[@name='kuTipLabel']/@color">[kuAccent]</set>
+
+	<set xpath="/windows/window[@name='loadingScreen']//label[@name='lblTitle']/@anchor_left">#cam,0,640</set>
+	<set xpath="/windows/window[@name='loadingScreen']//label[@name='lblTitle']/@anchor_right">#cam,1,-160</set>
+	<set xpath="/windows/window[@name='loadingScreen']//label[@name='lblTitle']/@anchor_bottom">#cam,0.5,6</set>
+	<set xpath="/windows/window[@name='loadingScreen']//label[@name='lblTitle']/@anchor_top">#cam,0.5,84</set>
+	<set xpath="/windows/window[@name='loadingScreen']//label[@name='lblTitle']/@font_size">64</set>
+	<set xpath="/windows/window[@name='loadingScreen']//label[@name='lblTitle']/@color">[kuTextBright]</set>
+	<set xpath="/windows/window[@name='loadingScreen']//sprite[@name='kuRule']/@anchor_left">#cam,0,640</set>
+	<set xpath="/windows/window[@name='loadingScreen']//sprite[@name='kuRule']/@anchor_right">#cam,0,1320</set>
+	<set xpath="/windows/window[@name='loadingScreen']//sprite[@name='kuRule']/@anchor_bottom">#cam,0.5,-4</set>
+	<set xpath="/windows/window[@name='loadingScreen']//sprite[@name='kuRule']/@anchor_top">#cam,0.5,-2</set>
+	<set xpath="/windows/window[@name='loadingScreen']//sprite[@name='kuRule']/@color">[kuAccent]</set>
+	<set xpath="/windows/window[@name='loadingScreen']//label[@name='lblText']/@anchor_left">#cam,0,640</set>
+	<set xpath="/windows/window[@name='loadingScreen']//label[@name='lblText']/@anchor_right">#cam,1,-160</set>
+	<set xpath="/windows/window[@name='loadingScreen']//label[@name='lblText']/@anchor_bottom">#cam,0,160</set>
+	<set xpath="/windows/window[@name='loadingScreen']//label[@name='lblText']/@anchor_top">#cam,0.5,-24</set>
+	<set xpath="/windows/window[@name='loadingScreen']//label[@name='lblText']/@actions_default_format">[ff69aa]###[-]</set>
+
+	<set xpath="/windows/window[@name='loadingScreen']//label[@name='lblLeft' or @name='lblIndex' or @name='lblRight']/@anchor_bottom">#cam,0,40</set>
+	<set xpath="/windows/window[@name='loadingScreen']//label[@name='lblLeft' or @name='lblIndex' or @name='lblRight']/@anchor_top">#cam,0,86</set>
+	<set xpath="/windows/window[@name='loadingScreen']//label[@name='lblIndex']/@color">[kuTextMid]</set>
+
+
+	<!-- ================================================================ -->
+	<!-- Spawn ("Ready to spawn in the world?", Spawn, Leave game): in    -->
+	<!-- the column under the logo. Vanilla's buttons rect sits 130 above -->
+	<!-- the window, so the window goes at -510 for a header at -380.     -->
+	<!-- After a death it shows in the same spot over the game.           -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='spawnselection']/@anchor">TopLeft</set>
+	<set xpath="/windows/window[@name='spawnselection']/@pos">30,-510</set>
+
+	<!-- ================================================================ -->
+	<!-- Progress ("Loading game data..", "Connecting..."): at the foot   -->
+	<!-- of the column in capitals, no box, so it never covers a title.   -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='progress']/@anchor">BottomLeft</set>
+	<set xpath="/windows/window[@name='progress']/@pos">80,260</set>
+	<remove xpath="/windows/window[@name='progress']/boxshadow" />
+	<set xpath="/windows/window[@name='progress']//label[@name='lblProgress']/@font_size">26</set>
+	<setattribute xpath="/windows/window[@name='progress']//label[@name='lblProgress']" name="upper_case">true</setattribute>
+	<setattribute xpath="/windows/window[@name='progress']//label[@name='lblProgress']" name="color">[kuTextBright]</setattribute>
+
+	<!-- ===== GENERATED by tools/gen_sundown.py: Kitsunebi's literal colours -> Sundown. Do not edit by hand. ===== -->
+	<set xpath="//*[@backcolor='30,84,118,128']/@backcolor">120,44,104,128</set>
+	<set xpath="//*[@bordercolor='111,227,255,255']/@bordercolor">255,105,170,255</set>
+	<set xpath="//*[@color='111,227,255,170']/@color">255,105,170,170</set>
+	<set xpath="//*[@color='111,227,255,200']/@color">255,105,170,200</set>
+	<set xpath="//*[@color='111,227,255,255']/@color">255,105,170,255</set>
+	<set xpath="//*[@color='30,84,118,200']/@color">120,44,104,200</set>
+	<set xpath="//*[@color='30,84,118,235']/@color">120,44,104,235</set>
+	<set xpath="//*[@color='30,84,118,255']/@color">120,44,104,255</set>
+	<set xpath="//*[@color_selected='111,227,255,255']/@color_selected">255,105,170,255</set>
+	<set xpath="//*[@hovercolor='111,227,255,60']/@hovercolor">255,105,170,60</set>
+	<set xpath="//*[@textcolor='{% serverurlhovered ? color(111,227,255,255) : color(255,255,255,255) }']/@textcolor">{% serverurlhovered ? color(255,105,170,255) : color(255,255,255,255) }</set>
+	<!-- ===== END GENERATED ===== -->
+
+</configs>
