@@ -549,6 +549,7 @@ public static class KitsuneBuffStyle
         if (icon != null && icon0 != null)
         {
             icon.transform.localPosition = tiles ? new Vector3(0f, 9f, 0f) : icon0.transform.localPosition;
+            FollowIcon(prefab, t, icon0, icon, tiles);
         }
 
         UILabel text = Part<UILabel>(t, "TextContent"), text0 = Part<UILabel>(prefab, "TextContent");
@@ -573,6 +574,42 @@ public static class KitsuneBuffStyle
         NGUITools.UpdateWidgetCollider(item);
 
         KitsuneBuffSweep.Fit(item);
+    }
+
+    // The game's parts, and Settings' own sweep and ring (KitsuneBuffSweep.Fit places those).
+    static readonly HashSet<string> OwnParts = new HashSet<string>
+    {
+        "Background", "Icon", "BarContent", "TextContent", "kuSweep", "kuDebuffRing"
+    };
+
+    // A theme may add sprites centred on the icon, like a ring round it (KitsuneUI_Sundown's
+    // sdRing). On tiles they follow the icon, sized round the smaller icon with at most 8 to
+    // spare so they clear the time under it; on rows they go back to the template's place.
+    static void FollowIcon(Transform prefab, Transform t, UISprite icon0, UISprite icon, bool tiles)
+    {
+        Vector3 at0 = icon0.transform.localPosition;
+        for (int i = 0; i < t.childCount; i++)
+        {
+            Transform child = t.GetChild(i);
+            UISprite s = child.GetComponent<UISprite>();
+            UISprite s0 = Part<UISprite>(prefab, child.name);
+            if (s == null || s0 == null || OwnParts.Contains(child.name)
+                || (s0.transform.localPosition - at0).sqrMagnitude > 0.25f)
+            {
+                continue;
+            }
+            if (tiles)
+            {
+                int size = IconSize + Mathf.Clamp(s0.width - icon0.width, 0, 8);
+                s.transform.localPosition = icon.transform.localPosition;
+                s.SetDimensions(size, size);
+            }
+            else
+            {
+                s.transform.localPosition = s0.transform.localPosition;
+                s.SetDimensions(s0.width, s0.height);
+            }
+        }
     }
 
     static T Part<T>(Transform parent, string name) where T : Component =>
