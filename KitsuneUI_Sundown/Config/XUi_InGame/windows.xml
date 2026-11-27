@@ -52,13 +52,14 @@
 	<!-- ================================================================ -->
 	<!-- Buff toasts. The list always stacks upward from its origin, so   -->
 	<!-- it starts in the bottom left, just above the map and the vitals, -->
-	<!-- its left edge on the map's (x 24; 54 left it 14 short).          -->
+	<!-- its left edge on the map's with no Move HUD offset (x 124; at 68 -->
+	<!-- the first icon hung off the screen's left edge).                 -->
 	<!-- Its window hangs off the screen's bottom left corner, so a plain -->
 	<!-- pos puts it there; an anchor would pin it and Move HUD couldn't  -->
 	<!-- drag it. Each toast is a dark card, a teal ring round the icon   -->
 	<!-- and its time left as a line.                                     -->
 	<!-- ================================================================ -->
-	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/@pos">68,262</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/@pos">124,262</set>
 
 	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/sprite[@name='Background']/@color">[kuHudFade]</set>
 	<!-- A filledsprite only fills straight (radial logs a warning and does nothing), so the -->
@@ -229,6 +230,12 @@
 		<sprite depth="3" name="sdTabCreative"   sprite="sd_line" type="sliced" color="[kuAccent]" pos="560,-42" width="32" height="4" visible="{# open_window_key == 'Creative' }" />
 	</append>
 
+	<!-- The title bar over workstations, loot and the trader (400 wide,  -->
+	<!-- centred, 9px down): the same smoke band, no hairline.            -->
+	<prepend xpath="/windows/window[@name='windowNonPagingHeader']">
+		<sprite depth="0" name="sdSmoke" sprite="sd_smoke" type="sliced" color="[white]" pos="-1200,9" width="2800" height="150" />
+	</prepend>
+
 	<!-- ================================================================ -->
 	<!-- Crafting list, Inspect, Inventory: white capital titles (the     -->
 	<!-- icons stay pink), category icons and search on bare glass with   -->
@@ -242,6 +249,10 @@
 	<setattribute xpath="/windows/window[@name='windowBackpack']/rect[@name='header']/label[@name='windowName']" name="upper_case">true</setattribute>
 	<setattribute xpath="/windows/window[@name='windowBackpack']/rect[@name='header']/label[@text='{currencyamount}']" name="color">[kuLavender]</setattribute>
 	<set xpath="/windows/window[@name='windowBackpack']/rect[@name='header']/sprite[@name='costIcon']/@color">[kuLavender]</set>
+	<!-- The trader's stock name is a player_name (26, mixed case); it takes the -->
+	<!-- header size and the capitals through the template (templates.xml).     -->
+	<setattribute xpath="/windows/window[@name='windowTrader']/rect[@name='header']/player_name" name="font_size">32</setattribute>
+	<setattribute xpath="/windows/window[@name='windowTrader']/rect[@name='header']/player_name" name="upper_case">true</setattribute>
 
 	<set xpath="/windows/window[@name='windowCraftingList']/rect[@name='content']/rect[@name='categorySelector' or @name='searchControls']/sprite[@sprite='ku_round_sm']/@color">[transparent]</set>
 	<append xpath="/windows/window[@name='windowCraftingList']/rect[@name='content']/rect[@name='searchControls']">

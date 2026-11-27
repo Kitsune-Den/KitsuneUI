@@ -82,6 +82,14 @@
 	<append xpath="/styles/style[@name='paging.window.name']">
 		<style_entry name="color" value="[kuTextBright]" />
 	</append>
+	<!-- The title bar over workstations, loot and the trader gets the    -->
+	<!-- same: no plate, its name in big white capitals on a smoke band.  -->
+	<set xpath="/styles/style[@name='nonpaging.window.background' or @name='nonpaging.window.name.background' or @name='nonpaging.window.name.foreground']/style_entry[@name='color']/@value">[transparent]</set>
+	<set xpath="/styles/style[@name='nonpaging.window.name']/style_entry[@name='font_size']/@value">40</set>
+	<append xpath="/styles/style[@name='nonpaging.window.name']">
+		<style_entry name="color" value="[kuTextBright]" />
+		<style_entry name="upper_case" value="true" />
+	</append>
 
 	<!-- ================================================================ -->
 	<!-- Slots: hover is a hot pink ring, the picked slot a white one.    -->
