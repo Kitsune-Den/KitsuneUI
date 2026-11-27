@@ -24,7 +24,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-from package import MODS
+from package import MODS, UNRELEASED
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -109,7 +109,7 @@ def check_dlls():
 
 
 def check_uncommitted():
-    out = git("status", "--porcelain", "--", *MODS, "src")
+    out = git("status", "--porcelain", "--", *MODS, *UNRELEASED, "src")
     return report("Uncommitted", out.splitlines(), "none in the mod folders or src")
 
 
