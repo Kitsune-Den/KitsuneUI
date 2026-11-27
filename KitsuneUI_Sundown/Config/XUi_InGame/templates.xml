@@ -2,15 +2,17 @@
 
 	<!-- ================================================================ -->
 	<!-- Recipe rows: name left-aligned beside the icon, the icon in a    -->
-	<!-- dark well (kept out of the game's Background opacity, which    -->
-	<!-- would fade it to nothing). Row colours: the KitsuneRows atlas.  -->
+	<!-- faint lavender well with a ring (a dark well didn't show on the -->
+	<!-- dark rows), kept out of the game's Background opacity. A 3px    -->
+	<!-- gap between wells. Row colours: the KitsuneRows atlas.          -->
 	<!-- ================================================================ -->
 	<set xpath="/templates/recipe_entry/rect/label[@name='Name']/@pos">64,-22</set>
 	<set xpath="/templates/recipe_entry/rect/label[@name='Name']/@pivot">left</set>
 	<set xpath="/templates/recipe_entry/rect/label[@name='Name']/@justify">left</set>
 	<set xpath="/templates/recipe_entry/rect/label[@name='Name']/@width">280</set>
 	<insertBefore xpath="/templates/recipe_entry/rect/sprite[@name='Icon']">
-		<sprite depth="4" name="sdIconWell" sprite="ku_slot_fill" type="sliced" color="16,14,26,130" globalopacitymod="0" pos="12,-1" width="44" height="42" />
+		<sprite depth="4" name="sdIconWell" sprite="ku_slot_fill" type="sliced" color="170,150,235,40" globalopacitymod="0" pos="13,-2" width="42" height="40" />
+		<sprite depth="4" name="sdIconRing" sprite="ku_slot_ring" type="sliced" color="170,150,235,110" globalopacitymod="0" pos="13,-2" width="42" height="40" />
 	</insertBefore>
 
 	<!-- ================================================================ -->

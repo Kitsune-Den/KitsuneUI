@@ -35,6 +35,15 @@
 	<set xpath="/windows/window[@name='optionsPaging']/fullscreencollider/@color">20,18,28,110</set>
 	<set xpath="/windows/window[@name='editingTools']/fullscreencollider/@color">20,18,28,110</set>
 
+	<!-- Sandbox Options pops over New Game, but its dim is a panel of its own at  -->
+	<!-- depth 0, under New Game's windows, so their tops showed undimmed above the -->
+	<!-- popup. (Raising that panel's depth dimmed the popup too: opening a window  -->
+	<!-- group reorders the window panels.) A loose sprite draws in the popup's own -->
+	<!-- panel instead: over New Game, under the popup's content.                  -->
+	<insertAfter xpath="/windows/window[@name='sandboxOptions']/fullscreencollider">
+		<sprite depth="0" name="sdScrim" sprite="menu_empty" type="sliced" fillcenter="true" color="12,10,20,235" globalopacitymod="0" anchor_left="#cam,0,-5" anchor_right="#cam,1,5" anchor_bottom="#cam,0,-5" anchor_top="#cam,1,5" />
+	</insertAfter>
+
 	<!-- Options opened from the pause menu has no video behind it, only the world, -->
 	<!-- so it gets a dusk wash instead: indigo with a magenta glow bottom left.     -->
 	<!-- is_world_loaded is a binding every controller answers. globalopacitymod 0   -->

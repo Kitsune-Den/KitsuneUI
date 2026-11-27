@@ -51,13 +51,14 @@
 
 	<!-- ================================================================ -->
 	<!-- Buff toasts. The list always stacks upward from its origin, so   -->
-	<!-- it starts in the bottom left, just above the map and the vitals. -->
+	<!-- it starts in the bottom left, just above the map and the vitals, -->
+	<!-- its left edge on the map's (x 24; 54 left it 14 short).          -->
 	<!-- Its window hangs off the screen's bottom left corner, so a plain -->
 	<!-- pos puts it there; an anchor would pin it and Move HUD couldn't  -->
 	<!-- drag it. Each toast is a dark card, a teal ring round the icon   -->
 	<!-- and its time left as a line.                                     -->
 	<!-- ================================================================ -->
-	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/@pos">54,262</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/@pos">68,262</set>
 
 	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/sprite[@name='Background']/@color">[kuHudFade]</set>
 	<!-- A filledsprite only fills straight (radial logs a warning and does nothing), so the -->
