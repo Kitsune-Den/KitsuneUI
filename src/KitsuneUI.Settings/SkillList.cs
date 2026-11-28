@@ -1,16 +1,35 @@
 using HarmonyLib;
+using UnityEngine;
 
 /// <summary>
 /// The skills list (character window, left side) writes each skill in a status colour:
 /// the game has only two, available and locked. A skill you've fully learned (bought to
 /// its current maximum, or every volume of a book series read) is written in gold, so the
 /// list shows at a glance what's done, what's open and what's locked, like the detail
-/// panel on the right does.
+/// panel on the right does. The colour is the row's learned_color (KitsuneUI_Settings'
+/// templates.xml sets it to [kuGold], so a skin's gold reaches it), through the colour preset.
 /// </summary>
 [HarmonyPatch(typeof(XUiC_SkillEntry), nameof(XUiC_SkillEntry.GetBindingValueInternal))]
 public static class KitsuneSkillListLearned
 {
-    const string Gold = "217,184,115,255";
+    // Kitsunebi's gold, until the template's learned_color is read.
+    internal static Color32 FromTemplate = new Color32(217, 184, 115, 255);
+    static string cached;
+    static Color32 cachedFrom;
+    static string cachedPalette;
+
+    static string LearnedColor()
+    {
+        string paletteName = KitsuneSettingsFile.Get(KitsuneSettingsFile.Palette);
+        if (cached == null || cachedPalette != paletteName || !cachedFrom.Equals(FromTemplate))
+        {
+            Color32 c = KitsunePalette.Get(paletteName).Map(FromTemplate);
+            cached = c.r + "," + c.g + "," + c.b + "," + c.a;
+            cachedFrom = FromTemplate;
+            cachedPalette = paletteName;
+        }
+        return cached;
+    }
 
     static void Postfix(XUiC_SkillEntry __instance, ref string value, string bindingName)
     {
@@ -26,7 +45,7 @@ public static class KitsuneSkillListLearned
         }
         if (Learned(skill, player))
         {
-            value = Gold;
+            value = LearnedColor();
         }
     }
 
@@ -56,5 +75,19 @@ public static class KitsuneSkillListLearned
         int max = pc.MaxLevel;
         int level = pc.Type == ProgressionType.Crafting || pc.IsPerk ? skill.CalculatedLevel(player) : skill.Level;
         return max > 0 && level >= max;
+    }
+}
+
+/// <summary>Reads learned_color off the skill row (vanilla's ParseAttribute doesn't know it).</summary>
+[HarmonyPatch(typeof(XUiC_SkillEntry), nameof(XUiC_SkillEntry.ParseAttribute))]
+public static class KitsuneSkillListLearnedColor
+{
+    static void Postfix(string name, string value, ref bool __result)
+    {
+        if (name == "learned_color")
+        {
+            KitsuneSkillListLearned.FromTemplate = StringParsers.ParseColor32(value);
+            __result = true;
+        }
     }
 }

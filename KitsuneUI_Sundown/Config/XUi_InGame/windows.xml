@@ -1,0 +1,384 @@
+<configs>
+
+	<!-- ================================================================ -->
+	<!-- Vitals: thin flat bars in the bottom left, one 28px step each,   -->
+	<!-- the water row's foot 24 up, level with the map's:                -->
+	<!--                                                                  -->
+	<!--   (o) ========================   stealth   crouched only         -->
+	<!--   (o) ========================   health                          -->
+	<!--   (o) ========================   stamina                         -->
+	<!--   (o) ========================   food                            -->
+	<!--   (o) ========================   water                           -->
+	<!--                                                                  -->
+	<!-- (o) is a 20px dark badge with the stat's icon. A bar is 198x9.   -->
+	<!-- The number sits after the bar and only shows if the player turns -->
+	<!-- bar text back on (Sundown's default is none).                    -->
+	<!-- Vanilla's bottom-left anchor stays; with Settings' map the       -->
+	<!-- column moves right of it (below). Vanilla's hatch, track and     -->
+	<!-- fill keep their bindings.                                        -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@name='hud' and not(@controller)]/@pos">24,156</set>
+
+	<setattribute xpath="/windows/window[@name='HUDLeftStatBars']//rect[@stat_type='Stealth']" name="pos">0,0</setattribute>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@stat_type='Health']/@pos">0,-28</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@stat_type='Stamina']/@pos">0,-56</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@stat_type='Food']/@pos">0,-84</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@stat_type='Water']/@pos">0,-112</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@controller='HUDStatBar']/@width">224</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@controller='HUDStatBar']/@height">20</set>
+
+	<prepend xpath="/windows/window[@name='HUDLeftStatBars']//rect[@controller='HUDStatBar']">
+		<sprite depth="1" name="sdBadge" sprite="sd_disc" width="20" height="20" color="[kuHudFade]" />
+	</prepend>
+
+	<setattribute xpath="/windows/window[@name='HUDLeftStatBars']//rect[@controller='HUDStatBar']/sprite[@name='background' or @name='BarContent']" name="pos">26,-6</setattribute>
+	<setattribute xpath="/windows/window[@name='HUDLeftStatBars']//rect[@controller='HUDStatBar']/sprite[@name='background' or @name='BarContent']" name="width">198</setattribute>
+	<setattribute xpath="/windows/window[@name='HUDLeftStatBars']//rect[@controller='HUDStatBar']/sprite[@name='background' or @name='BarContent']" name="height">9</setattribute>
+	<setattribute xpath="/windows/window[@name='HUDLeftStatBars']//rect[@controller='HUDStatBar']/sprite[(@name='background' and @depth='3') or @name='BarContent']" name="sprite">sd_bar</setattribute>
+	<setattribute xpath="/windows/window[@name='HUDLeftStatBars']//rect[@controller='HUDStatBar']/sprite[@name='background' and @depth='2']" name="sprite">sd_hatch</setattribute>
+
+	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@controller='HUDStatBar']/sprite[@name='Icon']/@size">13,13</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@controller='HUDStatBar']/sprite[@name='Icon']/@pos">10,-10</set>
+	<setattribute xpath="/windows/window[@name='HUDLeftStatBars']//rect[@controller='HUDStatBar']/sprite[@name='Icon']" name="pivot">center</setattribute>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@controller='HUDStatBar']/label[@name='TextContent']/@pos">232,-10</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@controller='HUDStatBar']/label[@name='TextContent']/@font_size">14</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@controller='HUDStatBar']/label[@name='TextContent']/@width">80</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@controller='HUDStatBar']/label[@name='TextContent']/@height">16</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@controller='HUDStatBar']/label[@name='TextContent']/@justify">left</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@controller='HUDStatBar']/label[@name='TextContent']/@color">[kuTextMuted]</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@stat_type='Stamina']/sprite[@name='sprint']/@size">14,14</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@stat_type='Stamina']/sprite[@name='sprint']/@pos">210,-10</set>
+
+	<!-- ================================================================ -->
+	<!-- Buff toasts. The list always stacks upward from its origin, so   -->
+	<!-- it starts in the bottom left, just above the map and the vitals, -->
+	<!-- its left edge on the map's with no Move HUD offset (x 124; at 68 -->
+	<!-- the first icon hung off the screen's left edge).                 -->
+	<!-- Its window hangs off the screen's bottom left corner, so a plain -->
+	<!-- pos puts it there; an anchor would pin it and Move HUD couldn't  -->
+	<!-- drag it. Each toast is a dark card, a teal ring round the icon   -->
+	<!-- and its time left as a line.                                     -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/@pos">124,262</set>
+
+	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/sprite[@name='Background']/@color">[kuHudFade]</set>
+	<!-- A filledsprite only fills straight (radial logs a warning and does nothing), so the -->
+	<!-- time left is a thin line along the card's foot and the ring round the icon is fixed. -->
+	<setattribute xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/filledsprite[@name='BarContent']" name="sprite">sd_line</setattribute>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/filledsprite[@name='BarContent']/@pos">-94,-19</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/filledsprite[@name='BarContent']/@size">188,2</set>
+	<append xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']">
+		<sprite depth="5" name="sdRing" sprite="sd_ring_thin" pos="-73,0" width="36" height="36" pivot="center" color="[kuTeal]" />
+	</append>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/sprite[@name='Icon']/@size">22,22</set>
+	<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/label[@name='TextContent']/@font_size">20</set>
+	<setattribute xpath="/windows/window[@name='HUDLeftStatBars']/rect[@controller='BuffPopoutList']/rect[@name='item']/label[@name='TextContent']" name="upper_case">true</setattribute>
+
+	<!-- ================================================================ -->
+	<!-- Weapon and ammo top right; vehicle fuel and health as two thin   -->
+	<!-- bars under them, badge on the right. Pick-ups stack upward too,  -->
+	<!-- so like the buffs they're pinned to the screen's bottom right.   -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='HUDRightStatBars']/@anchor">TopRight</set>
+	<set xpath="/windows/window[@name='HUDRightStatBars']/grid[@name='hud']/@pos">-212,-20</set>
+	<set xpath="/windows/window[@name='HUDRightStatBars']//rect[@stat_type='ActiveItem']/label[@name='TextContent']/@font_size">30</set>
+
+	<setattribute xpath="/windows/window[@name='HUDRightStatBars']/rect[@controller='CollectedItemList']" name="anchor_bottom">#BottomRight,0,32</setattribute>
+	<setattribute xpath="/windows/window[@name='HUDRightStatBars']/rect[@controller='CollectedItemList']" name="anchor_top">#BottomRight,0,32</setattribute>
+
+	<set xpath="/windows/window[@name='HUDRightStatBars']/rect[@name='hud' and not(@controller)]/@pos">-228,-84</set>
+	<setattribute xpath="/windows/window[@name='HUDRightStatBars']//rect[@stat_type='VehicleFuel']" name="pos">0,0</setattribute>
+	<set xpath="/windows/window[@name='HUDRightStatBars']//rect[@stat_type='VehicleHealth']/@pos">0,-22</set>
+	<set xpath="/windows/window[@name='HUDRightStatBars']//rect[@stat_type='VehicleFuel' or @stat_type='VehicleHealth']/@width">204</set>
+	<set xpath="/windows/window[@name='HUDRightStatBars']//rect[@stat_type='VehicleFuel' or @stat_type='VehicleHealth']/@height">18</set>
+	<prepend xpath="/windows/window[@name='HUDRightStatBars']//rect[@stat_type='VehicleFuel' or @stat_type='VehicleHealth']">
+		<sprite depth="1" name="sdBadge" sprite="sd_disc" pos="186,0" width="18" height="18" color="[kuHudFade]" />
+	</prepend>
+
+	<setattribute xpath="/windows/window[@name='HUDRightStatBars']//rect[@stat_type='VehicleFuel' or @stat_type='VehicleHealth']/sprite[(@name='background' and not(@pos)) or @name='BarContent']" name="pos">0,-5</setattribute>
+	<setattribute xpath="/windows/window[@name='HUDRightStatBars']//rect[@stat_type='VehicleFuel' or @stat_type='VehicleHealth']/sprite[(@name='background' and not(@pos)) or @name='BarContent']" name="width">180</setattribute>
+	<setattribute xpath="/windows/window[@name='HUDRightStatBars']//rect[@stat_type='VehicleFuel' or @stat_type='VehicleHealth']/sprite[(@name='background' and not(@pos)) or @name='BarContent']" name="height">8</setattribute>
+	<setattribute xpath="/windows/window[@name='HUDRightStatBars']//rect[@stat_type='VehicleFuel' or @stat_type='VehicleHealth']/sprite[(@name='background' and @depth='2' and @color='[kuHudTrack]') or @name='BarContent']" name="sprite">sd_bar</setattribute>
+	<set xpath="/windows/window[@name='HUDRightStatBars']//rect[@stat_type='VehicleFuel' or @stat_type='VehicleHealth']/sprite[@name='Icon']/@size">12,12</set>
+	<set xpath="/windows/window[@name='HUDRightStatBars']//rect[@stat_type='VehicleFuel' or @stat_type='VehicleHealth']/sprite[@name='Icon']/@pos">195,-9</set>
+	<set xpath="/windows/window[@name='HUDRightStatBars']//rect[@stat_type='VehicleFuel' or @stat_type='VehicleHealth']/label[@name='TextContent']/@pos">-8,-9</set>
+	<set xpath="/windows/window[@name='HUDRightStatBars']//rect[@stat_type='VehicleFuel' or @stat_type='VehicleHealth']/label[@name='TextContent']/@font_size">14</set>
+	<set xpath="/windows/window[@name='HUDRightStatBars']//rect[@stat_type='VehicleFuel' or @stat_type='VehicleHealth']/label[@name='TextContent']/@width">80</set>
+	<set xpath="/windows/window[@name='HUDRightStatBars']//rect[@stat_type='VehicleFuel' or @stat_type='VehicleHealth']/label[@name='TextContent']/@height">16</set>
+	<set xpath="/windows/window[@name='HUDRightStatBars']//rect[@stat_type='VehicleFuel' or @stat_type='VehicleHealth']/label[@name='TextContent']/@justify">right</set>
+	<set xpath="/windows/window[@name='HUDRightStatBars']//rect[@stat_type='VehicleFuel' or @stat_type='VehicleHealth']/label[@name='TextContent']/@color">[kuTextMuted]</set>
+
+	<!-- ================================================================ -->
+	<!-- Round the crosshair: block health on a thin white ring, throw    -->
+	<!-- power on a rose one. Both windows sit below the centre of the    -->
+	<!-- screen, so the rings are pushed back up onto it. The timed       -->
+	<!-- action dial keeps its place and gets the ring.                   -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='focusedBlockHealth']//sprite[@name='background' or @name='bar']/@pos">0,40</set>
+	<set xpath="/windows/window[@name='windowThrow']//sprite[@name='background' or @name='bar']/@pos">0,60</set>
+	<set xpath="/windows/window[@name='focusedBlockHealth' or @name='windowThrow']//sprite[@name='background' or @name='bar']/@pivot">center</set>
+	<set xpath="/windows/window[@name='focusedBlockHealth' or @name='windowThrow']//sprite[@name='background' or @name='bar']/@width">64</set>
+	<set xpath="/windows/window[@name='focusedBlockHealth' or @name='windowThrow']//sprite[@name='background' or @name='bar']/@height">64</set>
+	<setattribute xpath="/windows/window[@name='focusedBlockHealth' or @name='windowThrow']//sprite[@name='background' or @name='bar']" name="sprite">sd_ring_thin</setattribute>
+	<setattribute xpath="/windows/window[@name='focusedBlockHealth' or @name='windowThrow']//sprite[@name='bar']" name="filldirection">radial360</setattribute>
+	<setattribute xpath="/windows/window[@name='focusedBlockHealth' or @name='windowThrow']//sprite[@name='bar']" name="fillspritepad">false</setattribute>
+	<set xpath="/windows/window[@name='focusedBlockHealth']//sprite[@name='bar']/@color">[kuTextBright]</set>
+	<set xpath="/windows/window[@name='windowThrow']//sprite[@name='bar']/@color">[kuAccent]</set>
+	<set xpath="/windows/window[@name='windowThrow']//sprite[@name='background']/@color">[kuHudTrack]</set>
+
+	<set xpath="/windows/window[@name='windowTimer']//sprite[@name='border']/@sprite">sd_disc</set>
+	<set xpath="/windows/window[@name='windowTimer']//sprite[@name='border']/@color">[kuHudFade]</set>
+	<set xpath="/windows/window[@name='windowTimer']//sprite[@name='background']/@sprite">sd_ring</set>
+	<set xpath="/windows/window[@name='windowTimer']//sprite[@name='background']/@width">58</set>
+	<set xpath="/windows/window[@name='windowTimer']//sprite[@name='background']/@height">58</set>
+	<set xpath="/windows/window[@name='windowTimer']//sprite[@name='background']/@color">[kuTeal]</set>
+	<setattribute xpath="/windows/window[@name='windowTimer']//sprite[@name='background']" name="fillspritepad">false</setattribute>
+
+	<!-- ================================================================ -->
+	<!-- Compass: no plate, just the letters over a hairline with a white -->
+	<!-- tick in the middle. A faint smoke stays behind the letters so    -->
+	<!-- they read on snow. Day and time go small and quiet under it.     -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='windowCompass']/sprite[@sprite='ku_panel_sm' and @depth='0']/@color">255,255,255,40</set>
+	<append xpath="/windows/window[@name='windowCompass']">
+		<sprite depth="9" name="sdCompassLine" sprite="sd_line" pos="50,-40" width="380" height="2" type="sliced" color="246,244,250,150" visible="{show_compass}" />
+	</append>
+	<set xpath="/windows/window[@name='windowCompass']/sprite/label/@font_size">20</set>
+	<setattribute xpath="/windows/window[@name='windowCompass']/sprite/label" name="color">[kuTextMid]</setattribute>
+	<set xpath="/windows/window[@name='windowLocation']//sprite[@name='Background']/@color">255,255,255,60</set>
+
+	<!-- ================================================================ -->
+	<!-- Interaction prompt: the key in rose, the verb in capitals.       -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='interactionPrompt']//label[@name='lblText']/@font_size">26</set>
+	<setattribute xpath="/windows/window[@name='interactionPrompt']//label[@name='lblText']" name="upper_case">true</setattribute>
+	<set xpath="/windows/window[@name='interactionPrompt']//label[@name='lblText']/@actions_default_format">[ff69aa]###[-]</set>
+	<setattribute xpath="/windows/window[@name='interactionPrompt']//label[@name='lblText']" name="width">1200</setattribute>
+	<setattribute xpath="/windows/window[@name='interactionPrompt']//label[@name='lblText']" name="overflow">resizeheight</setattribute>
+
+	<!-- ================================================================ -->
+	<!-- Popup tips ("Your backpack is full", mods' warnings): vanilla    -->
+	<!-- never wraps them, so a long one runs off both sides. Here they   -->
+	<!-- wrap at 1100 and grow upward from the bottom.                    -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='toolTipPopups']/label[@name='lblText']/@overflow">resizeheight</set>
+	<setattribute xpath="/windows/window[@name='toolTipPopups']/label[@name='lblText']" name="width">1100</setattribute>
+	<set xpath="/windows/window[@name='toolTipPopups']/label[@name='lblText']/@font_size">26</set>
+
+	<!-- ================================================================ -->
+	<!-- Esc menu, like the main menu and the loading screen: the 560px   -->
+	<!-- column down the left (smoke at the top, hot magenta at the foot) -->
+	<!-- with the logo at its head, and the buttons under it as capitals  -->
+	<!-- centred in it, white when hovered, faded otherwise, no pill.     -->
+	<!-- Every simplebutton in the grid, so the KitsuneUI and Blood Moon  -->
+	<!-- Music buttons other mods add match too (they load before this).  -->
+	<!-- No #cam in game, so the column hangs off the screen corners.     -->
+	<!-- The button fill is alpha 1, not 0: a fully clear button takes no -->
+	<!-- hover or clicks.                                                 -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='ingameMenu']/sprite[@name='kuShade']/@sprite">sd_rail</set>
+	<set xpath="/windows/window[@name='ingameMenu']/sprite[@name='kuShade']/@color">[white]</set>
+	<setattribute xpath="/windows/window[@name='ingameMenu']/sprite[@name='kuShade']" name="anchor_left">#TopLeft,0,-5</setattribute>
+	<setattribute xpath="/windows/window[@name='ingameMenu']/sprite[@name='kuShade']" name="anchor_right">#TopLeft,0,560</setattribute>
+	<setattribute xpath="/windows/window[@name='ingameMenu']/sprite[@name='kuShade']" name="anchor_top">#TopLeft,0,5</setattribute>
+	<setattribute xpath="/windows/window[@name='ingameMenu']/sprite[@name='kuShade']" name="anchor_bottom">#BottomLeft,0,-5</setattribute>
+	<insertAfter xpath="/windows/window[@name='ingameMenu']/sprite[@name='kuShade']">
+		<texture depth="1" name="sdLogo" texture="@:Textures/UI/news_logo.png" color="[white]" keepsourceaspectratio="true" anchor_left="#TopLeft,0,120" anchor_right="#TopLeft,0,440" anchor_top="#TopLeft,0,-60" anchor_bottom="#TopLeft,0,-330" />
+	</insertAfter>
+
+	<set xpath="/windows/window[@name='ingameMenu']/grid[@name='buttons']/@pos">80,-380</set>
+	<set xpath="/windows/window[@name='ingameMenu']/grid[@name='buttons']/@width">400</set>
+	<set xpath="/windows/window[@name='ingameMenu']/grid[@name='buttons']/@cell_width">400</set>
+	<set xpath="/windows/window[@name='ingameMenu']/grid[@name='buttons']/@cell_height">60</set>
+	<setattribute xpath="/windows/window[@name='ingameMenu']/grid[@name='buttons']//simplebutton" name="width">400</setattribute>
+	<setattribute xpath="/windows/window[@name='ingameMenu']/grid[@name='buttons']//simplebutton" name="height">50</setattribute>
+	<setattribute xpath="/windows/window[@name='ingameMenu']/grid[@name='buttons']//simplebutton" name="font_size">36</setattribute>
+	<setattribute xpath="/windows/window[@name='ingameMenu']/grid[@name='buttons']//simplebutton" name="upper_case">true</setattribute>
+	<setattribute xpath="/windows/window[@name='ingameMenu']/grid[@name='buttons']//simplebutton" name="defaultcolor">0,0,0,1</setattribute>
+	<setattribute xpath="/windows/window[@name='ingameMenu']/grid[@name='buttons']//simplebutton" name="hovercolor">0,0,0,1</setattribute>
+	<setattribute xpath="/windows/window[@name='ingameMenu']/grid[@name='buttons']//simplebutton" name="selectedcolor">0,0,0,1</setattribute>
+	<setattribute xpath="/windows/window[@name='ingameMenu']/grid[@name='buttons']//simplebutton" name="bordercolor">0,0,0,0</setattribute>
+	<setattribute xpath="/windows/window[@name='ingameMenu']/grid[@name='buttons']//simplebutton" name="enabled_font_color">255,255,255,130</setattribute>
+	<setattribute xpath="/windows/window[@name='ingameMenu']/grid[@name='buttons']//simplebutton" name="hovered_font_color">255,255,255,255</setattribute>
+	<setattribute xpath="/windows/window[@name='ingameMenu']/grid[@name='buttons']//simplebutton" name="disabled_font_color">255,255,255,50</setattribute>
+
+	<!-- ================================================================ -->
+	<!-- Section bar (Crafting, Character, Map ...): the plate is gone    -->
+	<!-- (styles.xml). A smoke band darkens the top of the screen, the    -->
+	<!-- icons are faded white, the open one pink with a pink bar under   -->
+	<!-- it, and a lavender hairline runs under the whole bar. The window -->
+	<!-- is 600 wide, centred, 9px down; the band and line run far past   -->
+	<!-- it so they reach the screen edges.                               -->
+	<!-- open_window_key is the open button's name (WindowSelector).      -->
+	<!-- ================================================================ -->
+	<setattribute xpath="/windows/window[@name='windowPagingHeader']/iconbutton" name="color_default">255,255,255,140</setattribute>
+	<setattribute xpath="/windows/window[@name='windowPagingHeader']/iconbutton" name="color_hovered">255,255,255,255</setattribute>
+	<setattribute xpath="/windows/window[@name='windowPagingHeader']/iconbutton" name="color_selected">[kuAccent]</setattribute>
+	<setattribute xpath="/windows/window[@name='windowPagingHeader']/iconbutton" name="hoverscale">1.1</setattribute>
+	<prepend xpath="/windows/window[@name='windowPagingHeader']">
+		<sprite depth="0" name="sdSmoke" sprite="sd_smoke" type="sliced" color="[white]" pos="-1100,9" width="2800" height="150" />
+		<sprite depth="1" name="sdHairline" sprite="sd_line" type="sliced" color="170,150,235,70" pos="-1100,-48" width="2800" height="1" />
+	</prepend>
+	<append xpath="/windows/window[@name='windowPagingHeader']">
+		<sprite depth="3" name="sdTabCrafting"   sprite="sd_line" type="sliced" color="[kuAccent]" pos="15,-42"  width="32" height="4" visible="{# open_window_key == 'Crafting' }" />
+		<sprite depth="3" name="sdTabCharacter"  sprite="sd_line" type="sliced" color="[kuAccent]" pos="60,-42"  width="32" height="4" visible="{# open_window_key == 'Character' }" />
+		<sprite depth="3" name="sdTabMap"        sprite="sd_line" type="sliced" color="[kuAccent]" pos="110,-42" width="32" height="4" visible="{# open_window_key == 'Map' }" />
+		<sprite depth="3" name="sdTabSkills"     sprite="sd_line" type="sliced" color="[kuAccent]" pos="155,-42" width="32" height="4" visible="{# open_window_key == 'Skills' }" />
+		<sprite depth="3" name="sdTabQuests"     sprite="sd_line" type="sliced" color="[kuAccent]" pos="410,-42" width="32" height="4" visible="{# open_window_key == 'Quests' }" />
+		<sprite depth="3" name="sdTabChallenges" sprite="sd_line" type="sliced" color="[kuAccent]" pos="460,-42" width="32" height="4" visible="{# open_window_key == 'Challenges' }" />
+		<sprite depth="3" name="sdTabPlayers"    sprite="sd_line" type="sliced" color="[kuAccent]" pos="510,-42" width="32" height="4" visible="{# open_window_key == 'Players' }" />
+		<sprite depth="3" name="sdTabCreative"   sprite="sd_line" type="sliced" color="[kuAccent]" pos="560,-42" width="32" height="4" visible="{# open_window_key == 'Creative' }" />
+	</append>
+
+	<!-- The title bar over workstations, loot and the trader (400 wide,  -->
+	<!-- centred, 9px down): the same smoke band, no hairline.            -->
+	<prepend xpath="/windows/window[@name='windowNonPagingHeader']">
+		<sprite depth="0" name="sdSmoke" sprite="sd_smoke" type="sliced" color="[white]" pos="-1200,9" width="2800" height="150" />
+	</prepend>
+
+	<!-- ================================================================ -->
+	<!-- Crafting list, Inspect, Inventory: white capital titles (the     -->
+	<!-- icons stay pink), category icons and search on bare glass with   -->
+	<!-- a hairline under the search, rows left-aligned beside the icon   -->
+	<!-- in a dark well. The selected row's magenta sweep and pink bar    -->
+	<!-- are baked into the KitsuneRows atlas (tools/gen_sundown.py).     -->
+	<!-- ================================================================ -->
+	<setattribute xpath="/windows/window[@name='windowCraftingList' or @name='craftingInfoPanel' or @name='emptyInfoPanel' or @name='itemInfoPanel']/rect[@name='header']/label" name="color">[kuTextBright]</setattribute>
+	<setattribute xpath="/windows/window[@name='windowCraftingList' or @name='craftingInfoPanel' or @name='emptyInfoPanel' or @name='itemInfoPanel']/rect[@name='header']/label" name="upper_case">true</setattribute>
+	<setattribute xpath="/windows/window[@name='windowBackpack']/rect[@name='header']/label[@name='windowName']" name="color">[kuTextBright]</setattribute>
+	<setattribute xpath="/windows/window[@name='windowBackpack']/rect[@name='header']/label[@name='windowName']" name="upper_case">true</setattribute>
+	<setattribute xpath="/windows/window[@name='windowBackpack']/rect[@name='header']/label[@text='{currencyamount}']" name="color">[kuLavender]</setattribute>
+	<set xpath="/windows/window[@name='windowBackpack']/rect[@name='header']/sprite[@name='costIcon']/@color">[kuLavender]</set>
+	<!-- The trader's stock name is a player_name (26, mixed case); it takes the -->
+	<!-- header size and the capitals through the template (templates.xml).     -->
+	<setattribute xpath="/windows/window[@name='windowTrader']/rect[@name='header']/player_name" name="font_size">32</setattribute>
+	<setattribute xpath="/windows/window[@name='windowTrader']/rect[@name='header']/player_name" name="upper_case">true</setattribute>
+
+	<set xpath="/windows/window[@name='windowCraftingList']/rect[@name='content']/rect[@name='categorySelector' or @name='searchControls']/sprite[@sprite='ku_round_sm']/@color">[transparent]</set>
+	<append xpath="/windows/window[@name='windowCraftingList']/rect[@name='content']/rect[@name='searchControls']">
+		<sprite depth="3" name="sdSearchLine" sprite="sd_line" type="sliced" color="170,150,235,90" pos="8,-42" width="374" height="1" />
+	</append>
+
+	<!-- ================================================================ -->
+	<!-- Inventory: a thin pink scrollbar on a faint track.               -->
+	<!-- ================================================================ -->
+	<set xpath="/windows/window[@name='windowBackpack']/rect[@name='content']/defaultscrollbar/@thumb_color_inactive">[kuAccentGlow]</set>
+	<set xpath="/windows/window[@name='windowBackpack']/rect[@name='content']/defaultscrollbar/@background_color_active">255,255,255,10</set>
+	<set xpath="/windows/window[@name='windowBackpack']/rect[@name='content']/defaultscrollbar/@background_color_inactive">255,255,255,10</set>
+
+	<!-- ================================================================ -->
+	<!-- With Settings: the map bottom left in indigo glass, the day and  -->
+	<!-- coordinates inside its top edge, crafting progress top left      -->
+	<!-- under the bars, and Move HUD's frames round the new shapes.      -->
+	<!-- Move HUD's default map offset is 15,-7, so the pos here is that  -->
+	<!-- much short of the 24,224 the map lands on.                       -->
+	<!-- ================================================================ -->
+	<conditional>
+		<if cond="mod_loaded('KitsuneUI_Settings')">
+			<set xpath="/windows/window[@name='kuMinimap']/@anchor">BottomLeft</set>
+			<set xpath="/windows/window[@name='kuMinimap']/@pos">9,231</set>
+			<set xpath="/windows/window[@name='kuMinimap']//texture[@name='kuMapTexture']/@color">214,206,255,255</set>
+			<set xpath="/windows/window[@name='kuMinimap']//sprite[@name='kuMapArrow']/@color">[white]</set>
+			<set xpath="/windows/window[@name='kuMinimap']//label[@name='kuMapNorth']/@color">[kuTextMid]</set>
+			<set xpath="/windows/window[@name='kuMinimap']//label[@name='kuMapNorth']/@pos">100,-174</set>
+			<set xpath="/windows/window[@name='kuMinimap']//sprite[@name='kuMapInfoGlass']/@pos">12,-12</set>
+			<set xpath="/windows/window[@name='kuMinimap']//sprite[@name='kuMapInfoGlass']/@width">176</set>
+			<set xpath="/windows/window[@name='kuMinimap']//sprite[@name='kuMapInfoGlass']/@height">22</set>
+			<set xpath="/windows/window[@name='kuMinimap']//label[@name='kuMapInfo']/@pos">100,-23</set>
+			<set xpath="/windows/window[@name='kuMinimap']//label[@name='kuMapInfo']/@font_size">14</set>
+			<set xpath="/windows/window[@name='kuMinimap']//label[@name='kuMapInfo']/@color">[kuTextMid]</set>
+			<set xpath="/windows/window[@name='windowCompass']//label[@name='kuHordeText']/@color">[kuAccent]</set>
+			<set xpath="/windows/window[@name='windowCompass']//label[@name='kuTraderText']/@color">[kuTextMuted]</set>
+			<set xpath="/windows/window[@name='windowCompass']/sprite[@name='kuNeedle']/@color">[white]</set>
+			<set xpath="/windows/window[@name='windowQuestTracker' or @name='windowRecipeTracker']/@pos">-255,-140</set>
+
+			<!-- Crafting: in the top left corner, a teal ring round the icon like a skill toast. -->
+			<set xpath="/windows/window[@name='kuCraftingHud']/@anchor">TopLeft</set>
+			<set xpath="/windows/window[@name='kuCraftingHud']/@pos">20,-24</set>
+			<set xpath="/windows/window[@name='kuCraftingHud']//sprite[@name='kuCraftSlot' or @name='kuCraftTrack' or @name='kuCraftFill']/@pos">4,-4</set>
+			<set xpath="/windows/window[@name='kuCraftingHud']//sprite[@name='kuCraftSlot' or @name='kuCraftTrack' or @name='kuCraftFill']/@width">56</set>
+			<set xpath="/windows/window[@name='kuCraftingHud']//sprite[@name='kuCraftSlot' or @name='kuCraftTrack' or @name='kuCraftFill']/@height">56</set>
+			<set xpath="/windows/window[@name='kuCraftingHud']//sprite[@name='kuCraftSlot']/@sprite">sd_disc</set>
+			<set xpath="/windows/window[@name='kuCraftingHud']//sprite[@name='kuCraftTrack' or @name='kuCraftFill']/@sprite">sd_ring</set>
+			<set xpath="/windows/window[@name='kuCraftingHud']//sprite[@name='kuCraftFill']/@color">[kuTeal]</set>
+			<setattribute xpath="/windows/window[@name='kuCraftingHud']//sprite[@name='kuCraftFill']" name="filldirection">radial360</setattribute>
+			<setattribute xpath="/windows/window[@name='kuCraftingHud']//sprite[@name='kuCraftFill']" name="fillspritepad">false</setattribute>
+			<set xpath="/windows/window[@name='kuCraftingHud']//sprite[@name='kuCraftIcon']/@pos">14,-14</set>
+			<set xpath="/windows/window[@name='kuCraftingHud']//sprite[@name='kuCraftIcon']/@width">36</set>
+			<set xpath="/windows/window[@name='kuCraftingHud']//sprite[@name='kuCraftIcon']/@height">36</set>
+
+			<set xpath="/windows/window[@name='kuActionBar']//sprite[@name='kuActSlot' or @name='kuActTrack' or @name='kuActFill']/@pos">2,-2</set>
+			<set xpath="/windows/window[@name='kuActionBar']//sprite[@name='kuActSlot' or @name='kuActTrack' or @name='kuActFill']/@width">44</set>
+			<set xpath="/windows/window[@name='kuActionBar']//sprite[@name='kuActSlot' or @name='kuActTrack' or @name='kuActFill']/@height">44</set>
+			<set xpath="/windows/window[@name='kuActionBar']//sprite[@name='kuActSlot']/@sprite">sd_disc</set>
+			<set xpath="/windows/window[@name='kuActionBar']//sprite[@name='kuActTrack' or @name='kuActFill']/@sprite">sd_ring</set>
+			<set xpath="/windows/window[@name='kuActionBar']//sprite[@name='kuActFill']/@color">[kuTeal]</set>
+			<setattribute xpath="/windows/window[@name='kuActionBar']//sprite[@name='kuActFill']" name="filldirection">radial360</setattribute>
+			<setattribute xpath="/windows/window[@name='kuActionBar']//sprite[@name='kuActFill']" name="fillspritepad">false</setattribute>
+			<set xpath="/windows/window[@name='kuActionBar']//sprite[@name='kuActIcon']/@pos">12,-12</set>
+			<set xpath="/windows/window[@name='kuActionBar']//sprite[@name='kuActIcon']/@width">24</set>
+			<set xpath="/windows/window[@name='kuActionBar']//sprite[@name='kuActIcon']/@height">24</set>
+			<set xpath="/windows/window[@name='kuActionBar']//label[@name='kuActName']/@pos">50,-13</set>
+			<set xpath="/windows/window[@name='kuActionBar']//label[@name='kuActTime']/@pos">312,-13</set>
+
+			<!-- The vitals column right of the map (which lands at 24..224 across, -->
+			<!-- 24..224 up), 14 clear of it, its foot level with the map's.        -->
+			<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@name='hud' and not(@controller)]/@pos">238,156</set>
+
+			<!-- Move HUD's frames, round the new rows. The vitals frame lives in the  -->
+			<!-- stamina row and reaches up over health; the needs frame lives in food -->
+			<!-- and reaches down over water. The joined frame wraps the column.        -->
+			<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@name='kuMoveHandle' and @group='statBarsVitals']/@pos">-4,32</set>
+			<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@name='kuMoveHandle' and @group='statBarsVitals']/@width">232</set>
+			<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@name='kuMoveHandle' and @group='statBarsVitals']/@height">56</set>
+			<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@name='kuMoveHandle' and @group='statBarsNeeds']/@width">232</set>
+			<set xpath="/windows/window[@name='HUDLeftStatBars']//rect[@name='kuMoveHandle' and @group='statBarsNeeds']/@height">56</set>
+			<set xpath="/windows/window[@name='HUDLeftStatBars']//ku_move_handle[@mode='each']/@width">232</set>
+			<set xpath="/windows/window[@name='HUDLeftStatBars']//ku_move_handle[@mode='each']/@height">28</set>
+			<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@name='kuMoveHandle' and @mode='joined']/@pos">232,162</set>
+			<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@name='kuMoveHandle' and @mode='joined']/@width">300</set>
+			<set xpath="/windows/window[@name='HUDLeftStatBars']/rect[@name='kuMoveHandle' and @mode='joined']/@height">144</set>
+			<set xpath="/windows/window[@name='HUDRightStatBars']//rect[@name='kuMoveHandle' and @group='vehicle']/@width">216</set>
+			<set xpath="/windows/window[@name='HUDRightStatBars']//rect[@name='kuMoveHandle' and @group='vehicle']/@height">48</set>
+
+			<!-- The buff toasts keep Settings' own frame (a piece of their own, as  -->
+			<!-- in the base theme). The pick-up list is pinned by an anchor, which  -->
+			<!-- puts it back after a drag, so its frame goes rather than offer a    -->
+			<!-- move that does nothing.                                             -->
+			<remove xpath="/windows/window[@name='HUDRightStatBars']//rect[@name='kuMoveHandle' and @group='loot']" />
+
+			<!-- Unit frames (Settings > Unit frames): the same vitals colours as -->
+			<!-- the top-left bars, lavender rings and indigo badges.              -->
+			<set xpath="/windows/window[@name='kuPlayerFrame']//sprite[@name='kuPFHpFill']/@color">[kuHealth]</set>
+			<set xpath="/windows/window[@name='kuPlayerFrame']//sprite[@name='kuPFStaFill' or @name='kuPFStaBigFill']/@color">[kuStamina]</set>
+			<set xpath="/windows/window[@name='kuPlayerFrame']//sprite[@name='kuPFFoodFill' or @name='kuPFFoodBigFill']/@color">[kuFood]</set>
+			<set xpath="/windows/window[@name='kuPlayerFrame']//sprite[@name='kuPFWaterFill' or @name='kuPFWaterBigFill']/@color">[kuWater]</set>
+			<set xpath="/windows/window[@name='kuPlayerFrame']//label[@name='kuPFName']/@color">[kuTextBright]</set>
+			<set xpath="/windows/window[@name='kuPlayerFrame']//label[@name='kuPFBadgeLevel']/@color">[kuTextBright]</set>
+			<set xpath="/windows/window[@name='kuPlayerFrame']//sprite[@name='kuPFBadge']/@color">28,26,42,255</set>
+			<set xpath="/windows/window[@name='kuPlayerFrame']//sprite[@name='kuPFPortraitRing' or @name='kuPFBadgeRing']/@color">[kuAccent]</set>
+			<set xpath="/windows/window[@name='kuTargetFrame']//sprite[@name='kuTFHpFill']/@color">[kuHealth]</set>
+			<set xpath="//sprite[@name='kuPFPortraitBg' or @name='kuTFPortraitBg' or @name='kuPartyPortraitBg']/@color">28,26,42,255</set>
+			<set xpath="//sprite[@name='kuPartyHpFill']/@color">[kuHealth]</set>
+		</if>
+	</conditional>
+
+	<!-- ===== GENERATED by tools/gen_sundown.py: Kitsunebi's literal colours -> Sundown. Do not edit by hand. ===== -->
+	<set xpath="//*[@color='12,14,30,235']/@color">28,26,42,235</set>
+	<conditional>
+		<if cond="mod_loaded('KitsuneUI_Settings')">
+			<set xpath="//*[@color='111,227,255,150']/@color">255,105,170,150</set>
+			<set xpath="//*[@color='12,14,30,200']/@color">28,26,42,200</set>
+			<set xpath="//*[@color='12,14,30,220']/@color">28,26,42,220</set>
+			<set xpath="//*[@color='12,14,30,225']/@color">28,26,42,225</set>
+			<set xpath="//*[@color='150,175,255,200']/@color">170,150,235,200</set>
+			<set xpath="//*[@color='150,175,255,22']/@color">170,150,235,22</set>
+			<set xpath="//*[@color='150,175,255,44']/@color">170,150,235,44</set>
+			<set xpath="//*[@color='217,184,115,80']/@color">170,150,235,80</set>
+			<set xpath="//*[@color='30,84,118,120']/@color">120,44,104,120</set>
+			<set xpath="//*[@color='6,8,20,225']/@color">16,14,26,225</set>
+		</if>
+	</conditional>
+	<!-- ===== END GENERATED ===== -->
+
+</configs>

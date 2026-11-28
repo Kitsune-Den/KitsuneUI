@@ -1,5 +1,8 @@
 <configs>
 
+	<!-- Skills list: the colour a fully learned skill is written in (SkillList.cs). -->
+	<setattribute xpath="/templates/skill_entry/rect[@controller='SkillEntry']" name="learned_color">[kuGold]</setattribute>
+
 	<!-- Item slots, added to the shared template (bag, toolbelt, loot, workstations) and -->
 	<!-- hidden until KitsuneUI_Settings shows them:                                       -->
 	<!--   kuWearRing:  toolbelt items under 20% durability (amber) or 5% (red)            -->

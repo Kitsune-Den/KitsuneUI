@@ -1,0 +1,105 @@
+<configs>
+
+	<!-- ================================================================ -->
+	<!-- Sundown's palette: hot pink and lavender on charcoal indigo,     -->
+	<!-- with teal for progress. Text is near white; panels are dark      -->
+	<!-- glass, never bright.                                             -->
+	<!-- ================================================================ -->
+	<set xpath="/styles/global/style_entry[@name='kuAccent']/@value">255,105,170,255</set>
+	<set xpath="/styles/global/style_entry[@name='kuAccentSoft']/@value">255,105,170,64</set>
+	<set xpath="/styles/global/style_entry[@name='kuAccentGlow']/@value">255,105,170,140</set>
+	<set xpath="/styles/global/style_entry[@name='kuGold']/@value">170,150,235,255</set>
+	<set xpath="/styles/global/style_entry[@name='kuGoldSoft']/@value">170,150,235,90</set>
+	<append xpath="/styles/global">
+		<style_entry name="kuTeal" value="80,230,200,255" />
+		<style_entry name="kuLavender" value="170,150,235,255" />
+	</append>
+
+	<set xpath="/styles/global/style_entry[@name='kuText']/@value">246,244,250,255</set>
+	<set xpath="/styles/global/style_entry[@name='kuTextBright']/@value">255,255,255,255</set>
+	<set xpath="/styles/global/style_entry[@name='kuTextMid']/@value">214,210,228,255</set>
+	<set xpath="/styles/global/style_entry[@name='kuTextMuted']/@value">175,170,195,255</set>
+	<set xpath="/styles/global/style_entry[@name='kuIcon']/@value">240,238,248,255</set>
+
+	<set xpath="/styles/global/style_entry[@name='kuEdge']/@value">170,150,235,80</set>
+	<set xpath="/styles/global/style_entry[@name='kuEdgeFaint']/@value">170,150,235,24</set>
+	<set xpath="/styles/global/style_entry[@name='kuSlotWell']/@value">16,14,26,150</set>
+	<set xpath="/styles/global/style_entry[@name='kuCosmeticOwned']/@value">120,44,104,215</set>
+	<set xpath="/styles/global/style_entry[@name='kuCosmeticVeil']/@value">16,14,26,170</set>
+	<set xpath="/styles/global/style_entry[@name='kuCellHeader']/@value">170,150,235,36</set>
+
+	<set xpath="/styles/global/style_entry[@name='kuBtn']/@value">42,40,60,210</set>
+	<set xpath="/styles/global/style_entry[@name='kuBtnHover']/@value">150,60,130,225</set>
+	<set xpath="/styles/global/style_entry[@name='kuBtnDisabled']/@value">42,40,60,110</set>
+	<set xpath="/styles/global/style_entry[@name='kuBtnGood']/@value">28,110,98,225</set>
+	<set xpath="/styles/global/style_entry[@name='kuBtnGoodHover']/@value">44,160,140,240</set>
+	<set xpath="/styles/global/style_entry[@name='kuBtnBad']/@value">124,30,52,225</set>
+	<set xpath="/styles/global/style_entry[@name='kuBtnBadHover']/@value">176,46,74,240</set>
+
+	<set xpath="/styles/global/style_entry[@name='kuHudTrack']/@value">16,14,26,160</set>
+	<set xpath="/styles/global/style_entry[@name='kuHatch']/@value">255,105,170,170</set>
+	<set xpath="/styles/global/style_entry[@name='kuHudFade']/@value">28,26,42,225</set>
+
+	<set xpath="/styles/global/style_entry[@name='kuHealth']/@value">238,140,185,255</set>
+	<set xpath="/styles/global/style_entry[@name='kuStamina']/@value">150,128,236,255</set>
+	<set xpath="/styles/global/style_entry[@name='kuFood']/@value">255,196,96,255</set>
+	<set xpath="/styles/global/style_entry[@name='kuWater']/@value">96,206,250,255</set>
+	<set xpath="/styles/global/style_entry[@name='kuXP']/@value">255,105,170,255</set>
+	<set xpath="/styles/global/style_entry[@name='kuGood']/@value">80,230,200,255</set>
+	<set xpath="/styles/global/style_entry[@name='kuDanger']/@value">255,84,110,255</set>
+
+	<!-- The vanilla greys KitsuneUI already pulled towards navy, pulled on to indigo. -->
+	<set xpath="/styles/global/style_entry[@name='darkestGrey']/@value">14,12,22,255</set>
+	<set xpath="/styles/global/style_entry[@name='darkGrey']/@value">28,26,42,255</set>
+	<set xpath="/styles/global/style_entry[@name='mediumGrey']/@value">52,48,72,255</set>
+	<set xpath="/styles/global/style_entry[@name='lightGrey']/@value">128,122,150,255</set>
+	<set xpath="/styles/global/style_entry[@name='lightestGrey']/@value">175,170,195,255</set>
+	<set xpath="/styles/global/style_entry[@name='borderColor']/@value">10,8,16,255</set>
+	<set xpath="/styles/global/style_entry[@name='mediumGrey_half_alpha']/@value">52,48,72,128</set>
+	<set xpath="/styles/global/style_entry[@name='darkGrey_half_alpha']/@value">28,26,42,128</set>
+	<set xpath="/styles/global/style_entry[@name='labelColor']/@value">246,244,250,255</set>
+	<set xpath="/styles/global/style_entry[@name='iconColor']/@value">240,238,248,255</set>
+	<set xpath="/styles/global/style_entry[@name='selectedColor']/@value">255,105,170,255</set>
+	<set xpath="/styles/global/style_entry[@name='hoverColor']/@value">255,255,255,255</set>
+	<set xpath="/styles/global/style_entry[@name='disabledColor']/@value">128,122,150,255</set>
+	<set xpath="/styles/global/style_entry[@name='disabledLabelColor']/@value">170,164,190,255</set>
+	<!-- Slots past carry capacity: a plum well; empty ones also get pink stripes (templates). -->
+	<set xpath="/styles/global/style_entry[@name='kuSlotLocked']/@value">58,20,48,160</set>
+
+	<!-- ================================================================ -->
+	<!-- Window titles: white capitals (KitsuneUI's are lavender here).  -->
+	<!-- ================================================================ -->
+	<set xpath="/styles/style[@name='header.name' or @name='header.name.shrink' or @name='header.name.iconright']/style_entry[@name='color']/@value">[kuTextBright]</set>
+	<set xpath="/styles/style[@name='header.name' or @name='header.name.shrink' or @name='header.name.iconright']/style_entry[@name='upper_case']/@value">true</set>
+
+	<!-- ================================================================ -->
+	<!-- Section bar over the backpack, map, skills and the rest: no      -->
+	<!-- plate, just the icons over a smoke band (windows.xml), and the   -->
+	<!-- open section's name in big white capitals.                      -->
+	<!-- ================================================================ -->
+	<set xpath="/styles/style[@name='paging.window.background.border' or @name='paging.window.background' or @name='paging.window.name.background' or @name='paging.window.name.foreground']/style_entry[@name='color']/@value">[transparent]</set>
+	<set xpath="/styles/style[@name='paging.window.name']/style_entry[@name='font_size']/@value">40</set>
+	<append xpath="/styles/style[@name='paging.window.name']">
+		<style_entry name="color" value="[kuTextBright]" />
+	</append>
+	<!-- The title bar over workstations, loot and the trader gets the    -->
+	<!-- same: no plate, its name in big white capitals on a smoke band.  -->
+	<set xpath="/styles/style[@name='nonpaging.window.background' or @name='nonpaging.window.name.background' or @name='nonpaging.window.name.foreground']/style_entry[@name='color']/@value">[transparent]</set>
+	<set xpath="/styles/style[@name='nonpaging.window.name']/style_entry[@name='font_size']/@value">40</set>
+	<append xpath="/styles/style[@name='nonpaging.window.name']">
+		<style_entry name="color" value="[kuTextBright]" />
+		<style_entry name="upper_case" value="true" />
+	</append>
+
+	<!-- ================================================================ -->
+	<!-- Slots: hover is a hot pink ring, the picked slot a white one.    -->
+	<!-- ================================================================ -->
+	<set xpath="/styles/style[@name='itemStack' or @name='signStack' or @name='vehicleStack' or @name='itemPartStack']/style_entry[@name='highlight_color']/@value">[kuAccent]</set>
+	<set xpath="/styles/style[@name='itemStack' or @name='signStack' or @name='vehicleStack' or @name='itemPartStack']/style_entry[@name='select_color']/@value">255,255,255,235</set>
+
+	<!-- ===== GENERATED by tools/gen_sundown.py: Kitsunebi's literal colours -> Sundown. Do not edit by hand. ===== -->
+	<set xpath="//*[@value='{% !hasentry ? color(0,0,0,0) : (isselected ? color(111,227,255,255) : (hovered ? color(217,184,115,200) : color(150,175,255,40) ) ) }']/@value">{% !hasentry ? color(0,0,0,0) : (isselected ? color(255,105,170,255) : (hovered ? color(170,150,235,200) : color(170,150,235,40) ) ) }</set>
+	<set xpath="//*[@value='{% !hasentry ? color(0,0,0,0) : (isselected ? color(30,84,118,235) : (hovered ? color(40,60,96,200) : color(0,0,0,0) ) ) }']/@value">{% !hasentry ? color(0,0,0,0) : (isselected ? color(120,44,104,235) : (hovered ? color(66,58,92,200) : color(0,0,0,0) ) ) }</set>
+	<!-- ===== END GENERATED ===== -->
+
+</configs>

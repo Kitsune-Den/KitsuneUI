@@ -1,0 +1,22 @@
+<configs>
+	<!-- Dusk pictures to match the skin, painted with the focal point right of centre -->
+	<!-- because the magenta column covers the left third (tools/gen_sundown_loading.py). -->
+	<!-- They replace whatever came before, KitsuneUI_Loading's included (it loads first). -->
+	<!-- Kitsune Lights Out keeps its own pictures for a world where the sun never rises. -->
+	<!-- A Kitsune Loads pack (Seasons, Xmas, Cats...) can still win: its DLL answers the -->
+	<!-- picture binding itself. Out of season (Xmas and Seasons in late November) this list showed. -->
+
+	<conditional>
+		<if cond="not mod_loaded('KitsuneLightsOut')">
+			<remove xpath="/doc/backgrounds/tex" />
+			<append xpath="/doc/backgrounds">
+				<tex file="@modfolder:Textures/sd_loading_motel.jpg" />
+				<tex file="@modfolder:Textures/sd_loading_highway.jpg" />
+				<tex file="@modfolder:Textures/sd_loading_town.jpg" />
+				<tex file="@modfolder:Textures/sd_loading_forest.jpg" />
+				<tex file="@modfolder:Textures/sd_loading_snow.jpg" />
+				<tex file="@modfolder:Textures/sd_loading_bloodmoon.jpg" />
+			</append>
+		</if>
+	</conditional>
+</configs>

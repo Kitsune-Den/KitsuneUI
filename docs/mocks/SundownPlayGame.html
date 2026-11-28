@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sundown Play Game</title>
+<!-- A design mock of KitsuneUI_Sundown's Play Game screens (New Game and Continue Game) at 1920x1080.
+     Proposal only: the menu video is faked with dark shapes, and the game has only its own font, so the
+     mock uses a condensed sans. Everything shown is XML and atlas sprites over the vanilla windows
+     (newGame, continueGame, newContinueGameSettings, playGamePaging): no new controls. -->
+<style>
+  :root {
+    --pink: rgb(255,105,170); --lav: rgb(170,150,235); --teal: rgb(80,230,200); --peach: rgb(255,196,96);
+    --text: rgb(246,244,250); --mid: rgb(214,210,228); --muted: rgb(175,170,195);
+    --glass: rgba(24,22,36,.88); --glass2: rgba(20,18,30,.82); --well: rgba(12,10,20,.6);
+    --edge: rgba(170,150,235,.16); --hair: rgba(170,150,235,.30);
+  }
+  html, body { margin: 0; height: 100%; background: #08070d; overflow: hidden; }
+  #stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; overflow: hidden;
+    font: 600 22px "Bahnschrift SemiCondensed", "Bahnschrift", "Arial Narrow", Arial, sans-serif; color: var(--text);
+    background:
+      radial-gradient(ellipse 380px 520px at 1450px 760px, rgba(150,40,40,.35), transparent 70%),
+      radial-gradient(ellipse 500px 700px at 1350px 500px, rgba(70,60,40,.45), transparent 70%),
+      linear-gradient(90deg, #0b0a0c 0%, #14120e 40%, #1b1912 70%, #0c0b0a 100%); }
+  .abs { position: absolute; }
+  .caps { text-transform: uppercase; letter-spacing: .04em; }
+
+  /* Backdrop: the menu video stays, under a smoke band at the top, a darker wash on the left where
+     the settings sit, and a smoke band at the foot behind the buttons. */
+  .smoke-top { position: absolute; left: 0; top: 0; width: 1920px; height: 220px;
+    background: linear-gradient(180deg, rgba(14,12,22,.92), rgba(14,12,22,.6) 55%, rgba(14,12,22,0)); }
+  .wash { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px;
+    background: linear-gradient(90deg, rgba(20,18,28,.75), rgba(20,18,28,.35) 60%, rgba(20,18,28,.15)); }
+  .glow { position: absolute; left: -300px; top: 640px; width: 1100px; height: 700px;
+    background: radial-gradient(closest-side, rgba(178,56,168,.38), rgba(178,56,168,0)); }
+  .smoke-foot { position: absolute; left: 0; bottom: 0; width: 1920px; height: 170px;
+    background: linear-gradient(0deg, rgba(14,12,22,.92), rgba(14,12,22,0)); }
+
+  /* Header: the screen name big at the left with a pink tick, the four pages beside it, the settings
+     pages under them; the open one has the pink bar on a lavender hairline. */
+  .title { position: absolute; left: 140px; top: 34px; font-size: 64px; font-weight: 700; letter-spacing: .05em; line-height: 64px; }
+  .title::before { content: ""; position: absolute; left: -26px; top: 10px; width: 6px; height: 46px; background: var(--pink); }
+  .pages { position: absolute; left: 620px; top: 48px; display: flex; gap: 40px; font-size: 30px; }
+  .tab { position: relative; color: rgba(255,255,255,.55); }
+  .tab.on { color: #fff; }
+  .tab.on::after { content: ""; position: absolute; left: -4px; right: -4px; bottom: -16px; height: 4px; background: var(--pink); }
+  .rule { position: absolute; left: 140px; right: 140px; top: 112px; height: 1px; background: var(--hair); }
+  .subpages { position: absolute; top: 136px; display: flex; gap: 34px; font-size: 24px; }
+  .subpages .tab.on::after { bottom: -10px; height: 3px; }
+
+  /* Panels: charcoal glass with no frame, a white caps title, a pink tick and a hairline. */
+  .panel { position: absolute; background: linear-gradient(180deg, var(--glass), var(--glass2)); border-radius: 4px; box-shadow: inset 0 0 0 1px var(--edge); }
+  .ph { position: absolute; left: 0; right: 0; top: 0; height: 56px; }
+  .ph .tick { position: absolute; left: 0; top: 16px; width: 4px; height: 24px; background: var(--pink); }
+  .ph .t { position: absolute; left: 22px; top: 11px; font-size: 30px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; }
+  .ph .meta { position: absolute; right: 20px; top: 17px; font-size: 22px; color: var(--lav); }
+  .ph::after { content: ""; position: absolute; left: 22px; right: 20px; bottom: 0; height: 1px; background: var(--hair); }
+
+  /* Setting rows: one bar per setting, the name left in faded caps, the value in a dark well with pink
+     arrows. Rows alternate a faint lavender; the hovered one gets the magenta fade and pink edge. */
+  .rows { position: absolute; left: 12px; right: 12px; top: 70px; }
+  .r { position: relative; height: 54px; border-radius: 3px; }
+  .r:nth-child(odd) { background: rgba(170,150,235,.05); }
+  .r .n { position: absolute; left: 18px; top: 15px; font-size: 22px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+  .r .v { position: absolute; right: 12px; top: 8px; width: 420px; height: 38px; border-radius: 3px; background: var(--well); box-shadow: inset 0 0 0 1px var(--edge);
+    text-align: center; line-height: 38px; font-size: 26px; }
+  .r .v::before, .r .v::after { position: absolute; top: 0; width: 34px; color: var(--pink); font-size: 18px; }
+  .r .v::before { content: "\25C0"; left: 4px; }
+  .r .v::after { content: "\25B6"; right: 4px; }
+  .r .v.ro { color: var(--muted); }
+  .r .v.ro::before, .r .v.ro::after { content: none; }
+  .r .v.txt::before, .r .v.txt::after { content: none; }
+  .r .v.bad { color: var(--pink); }
+  .r.hov { background: linear-gradient(90deg, rgba(178,56,168,.75), rgba(120,44,104,.3) 70%, rgba(120,44,104,0)); }
+  .r.hov::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--pink); }
+  .r.hov .n { color: #fff; }
+  .gap { height: 18px; }
+
+  /* Difficulty card */
+  .art { position: absolute; left: 22px; top: 76px; width: 180px; height: 180px; border-radius: 4px; overflow: hidden;
+    background: linear-gradient(180deg, #e8b040, #c8342a 60%, #3a1c18); box-shadow: 0 0 0 2px var(--pink), 0 0 26px rgba(255,105,170,.45); }
+  .art b { position: absolute; left: 0; right: 0; top: 8px; text-align: center; font-size: 28px; color: #fff3a0; text-shadow: 0 2px 0 #7a1810; }
+  .skulls { position: absolute; left: 22px; top: 266px; width: 180px; text-align: center; font-size: 26px; color: var(--pink); }
+  .combo-l { position: absolute; left: 230px; font-size: 20px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+  .combo { position: absolute; left: 230px; right: 22px; height: 40px; border-radius: 3px; background: var(--well); box-shadow: inset 0 0 0 1px var(--edge); text-align: center; line-height: 40px; font-size: 26px; }
+  .combo::before, .combo::after { position: absolute; top: 0; width: 34px; color: var(--pink); font-size: 18px; }
+  .combo::before { content: "\25C0"; left: 4px; } .combo::after { content: "\25B6"; right: 4px; }
+  .desc { position: absolute; left: 22px; right: 22px; top: 316px; font-size: 24px; color: var(--mid); font-weight: 500; }
+  .stats { position: absolute; left: 22px; right: 22px; top: 372px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px 16px; }
+  .stat { border-top: 1px solid var(--hair); padding-top: 8px; }
+  .stat i { display: block; font-style: normal; font-size: 18px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+  .stat b { font-size: 30px; color: var(--pink); }
+  .ghostbtn { position: absolute; height: 46px; line-height: 46px; padding: 0 26px; border-radius: 3px; font-size: 24px; letter-spacing: .05em; text-transform: uppercase;
+    box-shadow: inset 0 0 0 1px var(--hair); color: #fff; }
+
+  /* Save list */
+  .search { position: absolute; left: 22px; top: 70px; width: 300px; height: 36px; border-bottom: 1px solid var(--hair); color: var(--muted); font-size: 22px; line-height: 36px; }
+  .search b { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--muted); border-radius: 50%; margin: 0 10px 0 4px; vertical-align: -1px; }
+  .pager { position: absolute; right: 22px; top: 70px; height: 36px; line-height: 36px; font-size: 24px; color: var(--mid); }
+  .pager span { color: var(--pink); margin: 0 10px; }
+  .save { position: relative; height: 84px; border-radius: 3px; margin-bottom: 6px; background: rgba(170,150,235,.05); }
+  .save .th { position: absolute; left: 12px; top: 10px; width: 64px; height: 64px; border-radius: 3px; overflow: hidden; box-shadow: inset 0 0 0 1px var(--edge); }
+  .save .nm { position: absolute; left: 94px; top: 10px; font-size: 30px; font-weight: 700; letter-spacing: .03em; }
+  .save .wd { position: absolute; left: 94px; top: 48px; font-size: 20px; color: var(--muted); }
+  .save .ver { position: absolute; right: 16px; top: 12px; font-size: 22px; color: var(--teal); }
+  .save .ver.old { color: var(--peach); }
+  .save .dt { position: absolute; right: 16px; top: 48px; font-size: 20px; color: var(--muted); }
+  .save.on { background: linear-gradient(90deg, rgba(178,56,168,.85), rgba(120,44,104,.35) 70%, rgba(120,44,104,.08)); }
+  .save.on::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--pink); }
+  .save.on .wd, .save.on .dt { color: rgba(255,255,255,.8); }
+
+  /* Footer: secondary buttons as outlined ghosts on the left, the main one solid on the right. */
+  .btn { position: absolute; top: 984px; height: 54px; line-height: 54px; padding: 0 34px; border-radius: 3px; font-size: 28px; letter-spacing: .06em; text-transform: uppercase;
+    box-shadow: inset 0 0 0 1px var(--hair); background: rgba(20,18,30,.6); color: rgba(255,255,255,.85); }
+  .btn.go { background: linear-gradient(90deg, rgb(178,56,168), rgb(255,105,170)); box-shadow: 0 0 24px rgba(255,105,170,.45); color: #fff; padding: 0 60px; }
+  .btn.dis { color: rgba(255,255,255,.35); }
+  .who { position: absolute; right: 150px; top: 994px; font-size: 26px; color: var(--mid); }
+  .who i { display: inline-block; width: 34px; height: 26px; border-radius: 8px; background: #5865f2; margin-left: 12px; vertical-align: -5px; }
+
+  .note { position: absolute; font: 500 15px "Segoe UI", Arial, sans-serif; color: rgba(255,255,255,.92); background: rgba(10,8,16,.78); padding: 6px 10px; border-radius: 4px; z-index: 5; }
+  .screen { display: none; } .screen.on { display: block; }
+  #switch { position: fixed; right: 12px; top: 12px; z-index: 10; display: flex; gap: 6px; font: 600 14px "Segoe UI", Arial, sans-serif; }
+  #switch button { background: #1a1726; color: #ddd; border: 1px solid #3a3456; border-radius: 4px; padding: 6px 10px; cursor: pointer; }
+  #switch button.on { background: rgb(178,56,168); color: #fff; border-color: rgb(255,105,170); }
+  #switch button.notes { margin-left: 8px; }
+  body.nonotes .note { display: none; }
+</style>
+</head>
+<body>
+<div id="switch">
+  <button data-s="new" class="on">New Game</button><button data-s="cont">Continue Game</button><button class="notes">Hide notes</button>
+</div>
+<div id="stage">
+  <!-- Fake menu video: a dim figure on the right -->
+  <div class="abs" style="left:1180px; top:180px; width:420px; height:900px; border-radius: 200px 200px 0 0; background: radial-gradient(ellipse at 50% 30%, rgba(60,50,40,.7), rgba(20,18,14,.2) 70%);"></div>
+  <div class="abs" style="left:1330px; top:820px; width:160px; height:110px; background: rgba(150,40,40,.45); border-radius: 10px;"></div>
+
+  <div class="wash"></div><div class="glow"></div><div class="smoke-top"></div><div class="smoke-foot"></div>
+
+  <div class="title caps">Play Game</div>
+  <div class="pages caps">
+    <div class="tab">Player Profile</div><div class="tab on" id="tNew">New Game</div><div class="tab" id="tCont">Continue Game</div><div class="tab">Join a Game</div>
+  </div>
+  <div class="rule"></div>
+
+  <!-- ===================== NEW GAME ===================== -->
+  <div class="screen on" id="new">
+    <div class="subpages caps" style="left:140px"><div class="tab on">Basic</div><div class="tab">Server</div><div class="tab">Advanced</div><div class="tab">Multiplayer</div></div>
+
+    <div class="panel" style="left:140px; top:196px; width:760px; height:740px">
+      <div class="ph"><div class="tick"></div><div class="t">World</div><div class="meta">8192 x 8192</div></div>
+      <div class="rows">
+        <div class="r"><div class="n">Game Name</div><div class="v txt bad">DogsTEST</div></div>
+        <div class="gap"></div>
+        <div class="r"><div class="n">Game World Type</div><div class="v">Existing Random World</div></div>
+        <div class="r hov"><div class="n">Game World</div><div class="v">West Xuyofu Territory</div></div>
+        <div class="r"><div class="n">World Size</div><div class="v ro">8192 x 8192</div></div>
+        <div class="r"><div class="n">Chunk Persistence</div><div class="v">Medium</div></div>
+      </div>
+    </div>
+
+    <div class="panel" style="left:930px; top:196px; width:850px; height:740px">
+      <div class="ph"><div class="tick"></div><div class="t">Difficulty</div></div>
+      <div class="art"><b>ADVENTURER</b></div>
+      <div class="skulls">&#9760; x3</div>
+      <div class="combo-l" style="top:84px">Group</div>
+      <div class="combo" style="top:112px">Difficulty</div>
+      <div class="combo-l" style="top:170px">Preset</div>
+      <div class="combo" style="top:198px">Adventurer</div>
+      <div class="desc">Default/Easy: The apocalypse can still be somewhat merciful.</div>
+      <div class="stats">
+        <div class="stat"><i>Ranged Damage</i><b>150%</b></div>
+        <div class="stat"><i>Melee Damage</i><b>150%</b></div>
+        <div class="stat"><i>Player Damage In</i><b>75%</b></div>
+        <div class="stat"><i>AI Smell Mode</i><b>Jog</b></div>
+      </div>
+      <div class="ghostbtn" style="left:22px; bottom:22px">Sandbox Options</div>
+    </div>
+
+    <div class="btn" style="left:140px">Back</div>
+    <div class="btn" style="left:330px">Manage Saves</div>
+    <div class="btn go" style="left:1180px">Start</div>
+  </div>
+
+  <!-- ===================== CONTINUE GAME ===================== -->
+  <div class="screen" id="cont">
+    <div class="subpages caps" style="left:930px"><div class="tab">Basic</div><div class="tab">Server</div><div class="tab">Advanced</div><div class="tab on">Multiplayer</div></div>
+
+    <div class="panel" style="left:140px; top:196px; width:760px; height:740px">
+      <div class="ph"><div class="tick"></div><div class="t">Saves</div><div class="meta">6</div></div>
+      <div class="search"><b></b>Search</div>
+      <div class="pager">&#9664;<span>1 / 1</span>&#9654;</div>
+      <div class="abs" style="left:12px; right:12px; top:122px">
+        <div class="save on"><div class="th" style="background:linear-gradient(135deg,#7a5a3a,#3e6a3a 50%,#dfe8f0 51%)"></div><div class="nm">DogsTEST</div><div class="wd">West Xuyofu Territory &middot; Survival</div><div class="ver">V3.4.0</div><div class="dt">2026-11-26 12:40</div></div>
+        <div class="save"><div class="th" style="background:linear-gradient(135deg,#7a5a3a,#3e6a3a 50%,#dfe8f0 51%)"></div><div class="nm">BeautifulWorld</div><div class="wd">West Xuyofu Territory &middot; Survival</div><div class="ver">V3.4.0</div><div class="dt">2026-11-24 18:07</div></div>
+        <div class="save"><div class="th" style="background:linear-gradient(160deg,#dfe8f0 30%,#3e6a3a 31%,#c8a868)"></div><div class="nm">PU256Test</div><div class="wd">Navezgane &middot; Survival</div><div class="ver">V3.4.0</div><div class="dt">2026-11-24 06:56</div></div>
+        <div class="save"><div class="th" style="background:linear-gradient(160deg,#dfe8f0 30%,#3e6a3a 31%,#c8a868)"></div><div class="nm">ModTest</div><div class="wd">Navezgane &middot; Survival</div><div class="ver">V3.4.0</div><div class="dt">2026-11-06 06:23</div></div>
+        <div class="save"><div class="th" style="background:linear-gradient(160deg,#dfe8f0 30%,#3e6a3a 31%,#c8a868)"></div><div class="nm">PU31Smoke</div><div class="wd">Navezgane &middot; Survival</div><div class="ver">V3.4.0</div><div class="dt">2026-10-23 17:08</div></div>
+        <div class="save"><div class="th" style="background:linear-gradient(135deg,#7a5a3a,#3e6a3a 50%,#dfe8f0 51%)"></div><div class="nm">KitsuneDen</div><div class="wd">West Xuyofu Territory &middot; Survival</div><div class="ver old">V3.3.0</div><div class="dt">2026-10-17 14:58</div></div>
+      </div>
+    </div>
+
+    <div class="panel" style="left:930px; top:196px; width:850px; height:740px">
+      <div class="ph"><div class="tick"></div><div class="t">Multiplayer</div></div>
+      <div class="rows">
+        <div class="r"><div class="n">Player Killing</div><div class="v">Kill Strangers Only</div></div>
+        <div class="r"><div class="n">Claim Size</div><div class="v">41 Blocks</div></div>
+        <div class="r"><div class="n">Claim Deadzone</div><div class="v">30 Blocks</div></div>
+        <div class="r hov"><div class="n">Claim Duration</div><div class="v">7 Days</div></div>
+        <div class="r"><div class="n">Claim Decay Mode</div><div class="v">Slow</div></div>
+        <div class="r"><div class="n">Claim Health Online</div><div class="v">4x</div></div>
+        <div class="r"><div class="n">Claim Health Offline</div><div class="v">4x</div></div>
+        <div class="r"><div class="n">Claim Offline Delay</div><div class="v">0 Minutes</div></div>
+        <div class="r"><div class="n">Bedroll Deadzone</div><div class="v">15 Blocks</div></div>
+        <div class="r"><div class="n">Bedroll Duration</div><div class="v">45 Days</div></div>
+        <div class="r"><div class="n">Party Shared Kill Range</div><div class="v">100 M</div></div>
+      </div>
+    </div>
+
+    <div class="btn" style="left:140px">Back</div>
+    <div class="btn" style="left:330px">Manage Saves</div>
+    <div class="btn" style="left:600px">Delete Save</div>
+    <div class="btn go" style="left:1180px">Start</div>
+  </div>
+
+  <div class="who">NonToxThicc<i></i></div>
+
+  <!-- Callouts (not part of the design) -->
+  <div class="note" style="left:620px; top:6px; width:520px">Header: the screen name big at the left with a pink tick, like the loading screen title. Pages and settings tabs keep the pink bar.</div>
+  <div class="note" style="left:1240px; top:120px; width:540px">Backdrop: the menu video stays, under smoke at the top and foot, a darker wash on the left and a magenta glow bottom left.</div>
+  <div class="note" style="left:200px; top:560px; width:460px">Settings: one bar per row, the name left in faded caps, the value in a dark well with pink arrows. Hover gets the magenta fade and pink edge.</div>
+  <div class="note" style="left:1290px; top:760px; width:460px">Panels: charcoal glass with a titled header (World, Difficulty, Saves) instead of grey frames. Red numbers turn pink.</div>
+  <div class="note" style="left:1240px; top:930px; width:540px">Footer: Back and the other buttons as outlined ghosts; Start is the one solid pink button.</div>
+</div>
+<script>
+  function fit() { const s = Math.min(innerWidth / 1920, innerHeight / 1080); document.getElementById('stage').style.transform = 'scale(' + s + ')'; }
+  addEventListener('resize', fit); fit();
+  document.querySelectorAll('#switch button[data-s]').forEach(b => b.onclick = () => {
+    document.querySelectorAll('#switch button[data-s]').forEach(x => x.classList.toggle('on', x === b));
+    document.querySelectorAll('.screen').forEach(x => x.classList.toggle('on', x.id === b.dataset.s));
+    document.getElementById('tNew').classList.toggle('on', b.dataset.s === 'new');
+    document.getElementById('tCont').classList.toggle('on', b.dataset.s === 'cont');
+  });
+  document.querySelector('#switch .notes').onclick = e => { document.body.classList.toggle('nonotes'); e.target.textContent = document.body.classList.contains('nonotes') ? 'Show notes' : 'Hide notes'; };
+</script>
+</body>
+</html>

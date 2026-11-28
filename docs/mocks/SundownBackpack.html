@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sundown Backpack</title>
+<!-- A design mock of KitsuneUI_Sundown's backpack screen (crafting list, inspect, inventory and
+     the section bar) at 1920x1080. Proposal only: the scene and icons are drawn here, and the game
+     only has its own font, so the mock uses a condensed sans. Only things XML and atlas sprites can
+     do are shown: the inspect text stays the game's own lines. -->
+<style>
+  :root {
+    --pink: rgb(255,105,170); --lav: rgb(170,150,235); --teal: rgb(80,230,200);
+    --text: rgb(246,244,250); --mid: rgb(214,210,228); --muted: rgb(175,170,195);
+    --glass: rgba(24,22,36,.86); --glass2: rgba(20,18,30,.80); --well: rgba(12,10,20,.55);
+    --edge: rgba(170,150,235,.16); --hair: rgba(170,150,235,.30);
+  }
+  html, body { margin: 0; height: 100%; background: #08070d; overflow: hidden; }
+  #stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; overflow: hidden;
+    font: 600 22px "Bahnschrift SemiCondensed", "Bahnschrift", "Arial Narrow", Arial, sans-serif; color: var(--text);
+    background:
+      radial-gradient(ellipse 900px 500px at 75% 15%, rgba(255,255,230,.55), transparent 70%),
+      linear-gradient(180deg, #8fb6d6 0%, #b9d3c4 18%, #6f9a55 34%, #4d7a3a 52%, #9a8a6a 70%, #b8a888 100%); }
+  .abs { position: absolute; }
+  .caps { text-transform: uppercase; letter-spacing: .04em; }
+
+  /* Section bar: a smoke band from the top, icons faded, the open one pink with a bar on a hairline. */
+  .smoke { position: absolute; left: 0; top: 0; width: 1920px; height: 150px;
+    background: linear-gradient(180deg, rgba(14,12,22,.82), rgba(14,12,22,.45) 55%, rgba(14,12,22,0)); }
+  .sections { position: absolute; left: 0; width: 1920px; top: 22px; display: flex; justify-content: center; align-items: flex-end; gap: 30px; }
+  .sec { width: 44px; height: 44px; position: relative; display: grid; place-items: center; }
+  .sec svg { width: 34px; height: 34px; fill: rgba(255,255,255,.55); }
+  .sec.on svg { fill: var(--pink); }
+  .sec.on::after { content: ""; position: absolute; left: 2px; right: 2px; bottom: -14px; height: 4px; background: var(--pink); }
+  .secname { font-size: 44px; font-weight: 700; letter-spacing: .06em; line-height: 44px; padding: 0 18px; color: #fff; }
+  .rule { position: absolute; left: 330px; width: 1260px; top: 80px; height: 1px; background: var(--hair); }
+
+  /* Panels: charcoal glass, square-ish, no header bar; a white caps title with a pink tick and a hairline. */
+  .panel { position: absolute; background: linear-gradient(180deg, var(--glass), var(--glass2)); border-radius: 4px;
+    box-shadow: inset 0 0 0 1px var(--edge); }
+  .ph { position: absolute; left: 0; right: 0; top: 0; height: 52px; }
+  .ph .tick { position: absolute; left: 0; top: 14px; width: 4px; height: 24px; background: var(--pink); }
+  .ph .t { position: absolute; left: 20px; top: 9px; font-size: 30px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; }
+  .ph .meta { position: absolute; right: 18px; top: 15px; font-size: 22px; color: var(--lav); }
+  .ph::after { content: ""; position: absolute; left: 20px; right: 18px; bottom: 0; height: 1px; background: var(--hair); }
+
+  /* Crafting list */
+  .cats { position: absolute; left: 20px; right: 18px; top: 66px; height: 40px; display: flex; justify-content: space-between; }
+  .cat { width: 34px; height: 34px; position: relative; display: grid; place-items: center; }
+  .cat i { width: 26px; height: 26px; border-radius: 5px; background: rgba(255,255,255,.5); }
+  .cat.on i { background: var(--pink); }
+  .cat.on::after { content: ""; position: absolute; left: 3px; right: 3px; bottom: -6px; height: 3px; background: var(--pink); }
+  .search { position: absolute; left: 20px; top: 122px; width: 260px; height: 34px; border-bottom: 1px solid var(--hair); color: var(--muted); font-size: 20px; line-height: 34px; }
+  .search b { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--muted); border-radius: 50%; margin: 0 10px 0 4px; vertical-align: -1px; }
+  .pager { position: absolute; right: 18px; top: 122px; height: 34px; line-height: 34px; font-size: 22px; color: var(--mid); }
+  .pager span { color: var(--pink); margin: 0 10px; }
+  .row { position: absolute; left: 10px; right: 10px; height: 52px; border-radius: 3px; }
+  .row .ic { position: absolute; left: 10px; top: 6px; width: 40px; height: 40px; border-radius: 3px; background: var(--well); }
+  .row .ic u { position: absolute; left: 7px; top: 7px; width: 26px; height: 26px; border-radius: 4px; }
+  .row .n { position: absolute; left: 64px; top: 12px; font-size: 24px; }
+  .row .r { position: absolute; right: 12px; top: 14px; font-size: 19px; color: var(--muted); }
+  .row.on { background: linear-gradient(90deg, rgba(178,56,168,.85), rgba(120,44,104,.35) 70%, rgba(120,44,104,0)); }
+  .row.on::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--pink); }
+  .row.on .r { color: #fff; }
+  .row.hov { background: rgba(170,150,235,.12); }
+  .row.lock .n { color: var(--muted); }
+
+  /* Queue */
+  .q { position: absolute; width: 74px; height: 74px; border-radius: 3px; background: var(--well); box-shadow: inset 0 0 0 1px var(--edge); }
+
+  /* Inspect */
+  .lines { position: absolute; left: 20px; top: 68px; right: 20px; font-size: 23px; line-height: 38px; color: var(--mid); font-weight: 500; }
+
+  /* Inventory */
+  .tools { position: absolute; left: 20px; right: 34px; top: 62px; height: 36px; }
+  .tool { position: absolute; top: 2px; width: 30px; height: 30px; border-radius: 4px; background: rgba(255,255,255,.55); }
+  .grid { position: absolute; left: 20px; top: 110px; display: grid; grid-template-columns: repeat(10, 76px); gap: 4px; }
+  .s { width: 76px; height: 76px; border-radius: 3px; background: var(--well); box-shadow: inset 0 0 0 1px var(--edge); position: relative; }
+  .s u { position: absolute; left: 14px; top: 12px; width: 48px; height: 52px; border-radius: 3px; text-decoration: none; }
+  .s b { position: absolute; right: 6px; bottom: 3px; font-size: 18px; }
+  .s.hov { box-shadow: inset 0 0 0 2px var(--pink); }
+  .s.locked { background: repeating-linear-gradient(135deg, rgba(255,105,170,.20) 0 5px, rgba(255,105,170,.06) 5px 10px), var(--well); box-shadow: inset 0 0 0 1px rgba(255,105,170,.35); }
+  .s.locked::after { content: ""; position: absolute; left: 31px; top: 31px; width: 14px; height: 14px; border-radius: 2px; background: rgba(255,105,170,.55); }
+  .scroll { position: absolute; right: 14px; top: 110px; width: 4px; height: 476px; background: rgba(170,150,235,.15); }
+  .scroll i { display: block; width: 4px; height: 110px; background: var(--pink); }
+  .enc { position: absolute; left: 20px; top: 596px; font-size: 19px; color: var(--muted); }
+  .enc b { color: var(--pink); font-weight: 600; }
+
+  .note { position: absolute; font: 500 15px "Segoe UI", Arial, sans-serif; color: rgba(255,255,255,.92); background: rgba(10,8,16,.7); padding: 6px 10px; border-radius: 4px; }
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <!-- ===== Section bar (windowSelector) ===== -->
+  <div class="smoke"></div>
+  <div class="sections">
+    <div class="sec on"><svg viewBox="0 0 24 24"><path d="M3 20l9-9 2 2-9 9zM12 3l9 9-3 3-9-9z"/></svg></div>
+    <div class="sec"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="5"/><path d="M3 22c0-6 4-9 9-9s9 3 9 9z"/></svg></div>
+    <div class="sec"><svg viewBox="0 0 24 24"><path d="M2 5l7-3 6 3 7-3v17l-7 3-6-3-7 3z"/></svg></div>
+    <div class="sec"><svg viewBox="0 0 24 24"><path d="M12 3l11 6-11 6L1 9zM5 12v5c3 3 11 3 14 0v-5l-7 4z"/></svg></div>
+    <div class="secname caps">Crafting</div>
+    <div class="sec"><svg viewBox="0 0 24 24"><path d="M9 2h6l-1 14h-4zM10 18h4v4h-4z"/></svg></div>
+    <div class="sec"><svg viewBox="0 0 24 24"><path d="M6 2h12v6a6 6 0 01-12 0zM10 15h4v4h3v3H7v-3h3z"/></svg></div>
+    <div class="sec"><svg viewBox="0 0 24 24"><circle cx="7" cy="7" r="3"/><circle cx="17" cy="7" r="3"/><circle cx="12" cy="10" r="3"/><path d="M2 20c0-4 2-7 5-7s5 3 5 7zM12 20c0-4 2-7 5-7s5 3 5 7z"/></svg></div>
+    <div class="sec"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 00-4 13v3h8v-3a7 7 0 00-4-13zM9 20h6v2H9z"/></svg></div>
+  </div>
+  <div class="rule"></div>
+
+  <!-- ===== Crafting list (windowCraftingList) ===== -->
+  <div class="panel" style="left:245px; top:126px; width:440px; height:776px">
+    <div class="ph"><i class="tick"></i><div class="t">Basics</div></div>
+    <div class="cats">
+      <div class="cat on"><i></i></div><div class="cat"><i></i></div><div class="cat"><i></i></div><div class="cat"><i></i></div><div class="cat"><i></i></div>
+      <div class="cat"><i></i></div><div class="cat"><i></i></div><div class="cat"><i></i></div><div class="cat"><i></i></div>
+    </div>
+    <div class="search"><b></b>Search</div>
+    <div class="pager">&#9664;<span>1</span>&#9654;</div>
+
+    <div class="row" style="top:172px"><div class="ic"><u style="background:#d8c39a"></u></div><div class="n">Bandage</div></div>
+    <div class="row on" style="top:226px"><div class="ic"><u style="background:#8a5a32"></u></div><div class="n">Bedroll</div></div>
+    <div class="row" style="top:280px"><div class="ic"><u style="background:#eceaf2"></u></div><div class="n">Building Block</div></div>
+    <div class="row hov" style="top:334px"><div class="ic"><u style="background:#a08a78"></u></div><div class="n">Campfire</div></div>
+    <div class="row" style="top:388px"><div class="ic"><u style="background:#7a5030"></u></div><div class="n">Primitive Bow</div></div>
+    <div class="row" style="top:442px"><div class="ic"><u style="background:#9a6a4a"></u></div><div class="n">Primitive Outfit</div></div>
+    <div class="row" style="top:496px"><div class="ic"><u style="background:#c49a6a"></u></div><div class="n">Raw Meat Bundle</div></div>
+    <div class="row" style="top:550px"><div class="ic"><u style="background:#9a7a5a"></u></div><div class="n">Stone Arrow (Ammo)</div></div>
+    <div class="row" style="top:604px"><div class="ic"><u style="background:#8a8070"></u></div><div class="n">Stone Axe</div></div>
+    <div class="row" style="top:658px"><div class="ic"><u style="background:#e08a30"></u></div><div class="n">Torch</div></div>
+    <div class="row lock" style="top:712px"><div class="ic"><u style="background:#6a5a4a"></u></div><div class="n">Wood Storage Crate</div></div>
+  </div>
+
+  <!-- ===== Crafting queue ===== -->
+  <div class="panel" style="left:245px; top:914px; width:440px; height:110px">
+    <div class="q" style="left:18px; top:18px"></div><div class="q" style="left:102px; top:18px"></div><div class="q" style="left:186px; top:18px"></div>
+    <div class="q" style="left:270px; top:18px"></div><div class="q" style="left:354px; top:18px"></div>
+  </div>
+
+  <!-- ===== Inspect (windowItemInfo, empty) ===== -->
+  <div class="panel" style="left:697px; top:126px; width:850px; height:430px">
+    <div class="ph"><i class="tick"></i><div class="t">Inspect</div></div>
+    <div class="lines">
+      [LEFT CLICK] to inspect an item, recipe or active effect<br>
+      [LEFT CLICK] hold and drag to take a stack<br>
+      [LEFT CLICK] to drop or swap a stack<br>
+      [RIGHT CLICK] hold and drag to take a half stack<br>
+      [RIGHT CLICK] to drop one item at a time<br>
+      [SHIFT CLICK] to move a stack between areas / containers<br>
+      [R] to take everything from a container
+    </div>
+  </div>
+
+  <!-- ===== Inventory (windowBackpack) ===== -->
+  <div class="panel" style="left:697px; top:568px; width:850px; height:456px; overflow:hidden">
+    <div class="ph"><i class="tick"></i><div class="t">Inventory</div><div class="meta">0 &#9679;</div></div>
+  </div>
+  <div class="panel" style="left:697px; top:568px; width:850px; height:456px; background:none; box-shadow:none">
+    <div class="grid" style="top:68px">
+      <div class="s"><u style="background:#d8bf8a"></u><b>3</b></div><div class="s hov"><u style="background:#d8bf8a"></u><b>1</b></div>
+      <div class="s"></div><div class="s"></div><div class="s"></div><div class="s"></div><div class="s"></div><div class="s"></div><div class="s"></div><div class="s"></div>
+      <div class="s"></div><div class="s"></div><div class="s"></div><div class="s"></div><div class="s"></div><div class="s"></div><div class="s"></div><div class="s"></div><div class="s"></div><div class="s"></div>
+      <div class="s"></div><div class="s"></div><div class="s"></div><div class="s"></div><div class="s"></div><div class="s"></div><div class="s"></div><div class="s"></div><div class="s"></div><div class="s"></div>
+      <div class="s"></div><div class="s"></div><div class="s locked"></div><div class="s locked"></div><div class="s locked"></div><div class="s locked"></div><div class="s locked"></div><div class="s locked"></div><div class="s locked"></div><div class="s locked"></div>
+    </div>
+    <div class="scroll" style="top:68px; height:316px"><i></i></div>
+  </div>
+
+  <!-- Callouts (not part of the design) -->
+  <div class="note" style="left:1580px; top:30px; width:300px">Section bar: no pill. Faded icons, the open one pink with a bar on a lavender hairline, its name big in the middle.</div>
+  <div class="note" style="left:1580px; top:140px; width:300px">Panels: darker charcoal glass so text holds over daylight. No filled header bar, just a white caps title, a pink tick and a hairline.</div>
+  <div class="note" style="left:1580px; top:280px; width:300px">Recipes: left aligned, the icon in a dark well. Selected gets a magenta fade and a pink edge, like the menu.</div>
+  <div class="note" style="left:1580px; top:600px; width:300px">Slots: dark wells with a faint edge and a pink ring on hover. Over-capacity slots are pink hatching instead of solid red blocks.</div>
+  <div class="note" style="left:1580px; top:740px; width:300px">Scrollbar: a thin pink line.</div>
+</div>
+<script>
+  function fit() { const s = Math.min(innerWidth / 1920, innerHeight / 1080); document.getElementById('stage').style.transform = 'scale(' + s + ')'; }
+  addEventListener('resize', fit); fit();
+</script>
+</body>
+</html>

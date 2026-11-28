@@ -294,7 +294,7 @@ runs the checks a release needs and fails if any of them fails or couldn't run: 
 python tools/package.py
 ```
 
-writes `dist/<Folder>-<Version>.zip` for each mod, with the mod folder at the zip's root. The version comes from each `ModInfo.xml`.
+writes `dist/<Folder>-<Version>.zip` for each mod, with the mod folder at the zip's root. The version comes from each `ModInfo.xml`. Mods that aren't out yet (`UNRELEASED` in the script) are left out; `--unreleased` zips them too, for testing.
 
 ### Loading pictures
 

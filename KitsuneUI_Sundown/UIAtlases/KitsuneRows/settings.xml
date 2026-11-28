@@ -1,0 +1,4 @@
+<settings>
+	<sprite name="menu_empty" borderleft="4" borderright="4" bordertop="4" borderbottom="4" />
+	<sprite name="ui_game_select_row" borderleft="8" borderright="8" bordertop="8" borderbottom="8" />
+</settings>

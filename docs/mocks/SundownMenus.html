@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sundown Menus</title>
+<style>
+  :root {
+    --pink: rgb(255,105,170);
+    --lav: rgb(170,150,235);
+    --text: rgb(246,244,250);
+    --muted: rgb(175,170,195);
+  }
+  html, body { margin: 0; background: #0d0c14; color: var(--text); font-family: "Segoe UI", Arial, sans-serif; }
+  h2 { font: 600 14px/1 "Segoe UI", Arial, sans-serif; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 24px 16px 8px; }
+  .wrap { padding: 0 16px 32px; }
+  .frame { position: relative; width: 100%; max-width: 1280px; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 6px; }
+  .stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; }
+  /* stand-in for the menu video / loading picture */
+  .scene { position: absolute; inset: 0;
+    background:
+      radial-gradient(60% 50% at 70% 35%, rgba(255,190,140,.35), transparent 70%),
+      radial-gradient(40% 60% at 85% 80%, rgba(40,90,110,.5), transparent 70%),
+      linear-gradient(180deg, #3a3148 0%, #5d4048 45%, #2b2a2e 100%); }
+  .scrim { position: absolute; left: 560px; right: 0; top: 0; bottom: 0;
+    background: linear-gradient(90deg, rgba(20,18,28,.59), rgba(20,18,28,.80)); }
+  .rail { position: absolute; left: 0; top: 0; bottom: 0; width: 560px;
+    background: linear-gradient(180deg, rgba(36,24,48,.59) 0%, rgba(92,44,108,.80) 35%, rgba(178,56,168,.94) 100%); }
+  .logo { position: absolute; left: 201px; top: 50px; width: 158px; height: 260px; border-radius: 4px;
+    background: linear-gradient(160deg, rgba(255,255,255,.18), rgba(255,255,255,.06));
+    display: grid; place-items: center; color: rgba(255,255,255,.6); font-size: 18px; letter-spacing: .2em; text-align: center; }
+  .btns { position: absolute; left: 80px; top: 401px; width: 400px; }
+  .btn { height: 62px; display: grid; place-items: center; font-weight: 800; font-size: 36px; letter-spacing: .04em;
+    text-transform: uppercase; color: rgba(255,255,255,.47); text-shadow: 0 0 2px rgba(0,0,0,.6); }
+  .btn.on { color: #fff; font-size: 38px; }
+  .foot { position: absolute; left: 36px; font-size: 20px; text-transform: uppercase; letter-spacing: .04em; }
+  .rule { position: absolute; left: 36px; bottom: 162px; width: 380px; height: 2px; background: rgba(255,255,255,.24); }
+
+  /* loading */
+  .pic { position: absolute; inset: 0;
+    background:
+      radial-gradient(50% 40% at 60% 40%, rgba(120,170,150,.45), transparent 70%),
+      linear-gradient(180deg, #46506a 0%, #6b5a5e 55%, #2a2b31 100%); }
+  .tipchip { position: absolute; left: 640px; top: 426px; display: flex; gap: 8px; align-items: center;
+    color: var(--pink); font-size: 20px; font-weight: 700; letter-spacing: .08em; }
+  .flame { width: 20px; height: 20px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); background: var(--pink); }
+  .ttl { position: absolute; left: 640px; top: 456px; font-size: 64px; font-weight: 800; text-transform: uppercase; letter-spacing: .02em; }
+  .hair { position: absolute; left: 640px; top: 542px; width: 680px; height: 2px; background: linear-gradient(90deg, var(--pink), rgba(255,105,170,.25)); }
+  .body { position: absolute; left: 640px; top: 564px; width: 1100px; font-size: 28px; line-height: 1.45; }
+  .key { color: var(--pink); font-weight: 700; }
+  .pager { position: absolute; right: 30px; bottom: 40px; display: flex; gap: 28px; font-size: 28px; color: var(--text); }
+  .pager .i { color: rgb(214,210,228); }
+</style>
+</head>
+<body>
+<h2>Main menu</h2>
+<div class="wrap"><div class="frame"><div class="stage">
+  <div class="scene"></div><div class="rail"></div>
+  <div class="logo">GAME<br>LOGO</div>
+  <div class="btns">
+    <div class="btn on">Play Game</div><div class="btn">Options</div><div class="btn">Editing Tools</div>
+    <div class="btn">DLC</div><div class="btn">Credits</div><div class="btn">News</div><div class="btn">Quit</div>
+  </div>
+  <div class="rule"></div>
+  <div class="foot" style="bottom:120px;color:var(--muted)">Version V3.4 (b10)</div>
+  <div class="foot" style="bottom:84px;color:var(--lav)">Player name: Ada</div>
+</div></div></div>
+
+<h2>Loading screen</h2>
+<div class="wrap"><div class="frame"><div class="stage">
+  <div class="pic"></div><div class="scrim"></div><div class="rail"></div>
+  <div class="logo" style="left:120px;top:60px;width:320px;height:270px">GAME<br>LOGO</div>
+  <div class="tipchip"><span class="flame"></span>TIP</div>
+  <div class="ttl">Crafting Queue</div>
+  <div class="hair"></div>
+  <div class="body">Press <span class="key">TAB</span> to open your backpack, then queue up to five recipes. They keep crafting while you do other things, as long as you have the materials.</div>
+  <div class="pager"><span>&#8249;</span><span class="i">3/40</span><span>&#8250;</span></div>
+</div></div></div>
+
+<script>
+  function fit() {
+    document.querySelectorAll('.frame').forEach(f => {
+      f.querySelector('.stage').style.transform = 'scale(' + (f.clientWidth / 1920) + ')';
+    });
+  }
+  addEventListener('resize', fit); fit();
+</script>
+</body>
+</html>

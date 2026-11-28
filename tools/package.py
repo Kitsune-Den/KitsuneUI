@@ -3,7 +3,8 @@
 Each zip holds the mod folder itself at its root, so players unzip it straight
 into their Mods folder. The version comes from the folder's ModInfo.xml.
 
-    python tools/package.py            # writes dist/*.zip
+    python tools/package.py              # writes dist/*.zip for the released mods
+    python tools/package.py --unreleased # and for the ones not out yet, for testing
 """
 
 import re
@@ -14,6 +15,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 DIST = ROOT / "dist"
 MODS = ["KitsuneUI", "KitsuneUI_Toolbelt20", "KitsuneUI_JobPreview", "KitsuneUI_Settings", "KitsuneUI_Loading", "KitsuneUI_Practice", "KitsuneUI_ServerPolicy"]
+# In the repo but not out yet: no release zip unless asked for, and not in the README.
+UNRELEASED = ["KitsuneUI_Sundown"]
 
 # Must be in the zip, or the mod is broken.
 REQUIRED = {
@@ -24,6 +27,7 @@ REQUIRED = {
     "KitsuneUI_Loading": ["ModInfo.xml", "Config/loadingscreen.xml", "Textures/ku_loading_den.jpg"],
     "KitsuneUI_Practice": ["ModInfo.xml", "KitsuneUI_Practice.dll", "Config/XUi_InGame/windows.xml", "Config/XUi_InGame/xui.xml"],
     "KitsuneUI_ServerPolicy": ["ModInfo.xml", "Config/ui_display.xml"],
+    "KitsuneUI_Sundown": ["ModInfo.xml", "Config/XUi_Common/styles.xml", "Config/XUi_InGame/windows.xml", "UIAtlases/UIAtlas/settings.xml"],
 }
 
 # Never shipped.
@@ -58,7 +62,7 @@ def package(name: str) -> Path:
 
 def main():
     DIST.mkdir(exist_ok=True)
-    for name in MODS:
+    for name in MODS + (UNRELEASED if "--unreleased" in sys.argv[1:] else []):
         package(name)
 
 
