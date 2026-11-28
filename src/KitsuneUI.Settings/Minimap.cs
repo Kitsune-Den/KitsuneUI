@@ -482,7 +482,11 @@ public class XUiC_KitsuneMinimap : XUiController
             sprite.color = color;
             Vector3 at = new Vector3(Center.x + d.x, Center.y + d.y, 0f);
             sprite.transform.localPosition = at;
-            sprite.transform.localEulerAngles = new Vector3(0f, 0f, yaw - nav.Rotation.y);
+            // Only markers whose class sets use_rotation (and that follow an entity) point a
+            // real way; NavObject.Rotation is zero for the rest. Those stay upright on screen,
+            // as on the big map, instead of turning with a rotating minimap.
+            bool turns = settings.UseRotation && nav.TrackType == NavObject.TrackTypes.Entity;
+            sprite.transform.localEulerAngles = new Vector3(0f, 0f, turns ? yaw - nav.Rotation.y : 0f);
             if (!sprite.gameObject.activeSelf)
             {
                 sprite.gameObject.SetActive(true);
